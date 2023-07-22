@@ -110,16 +110,11 @@ const menuLinks = computed(() => {
           <NuxtLink :to="Url.TOP"> Cycle Community </NuxtLink>
         </v-toolbar-title>
         <v-spacer />
-       
-        <v-btn
-    nuxt
-    :to="Url.LOGIN"
-    rounded
-    height="40"
-    class="bg-blue text-decoration-none invisible md:visible"
-  >
-  ログイン・新規登録
-  </v-btn>
+
+        <Btn
+        btnValue="ログイン・新規登録"
+        place="LOGIN"
+        />
         <v-app-bar-nav-icon
         variant="outlined"
         height="40"
