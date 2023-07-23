@@ -1,5 +1,7 @@
 <template>
-      <TopHero/>
-      <Feature/>
-      <Use/>
+  <div>
+    <TopHero/>
+    <Feature/>
+    <Use/>
+  </div>
 </template>

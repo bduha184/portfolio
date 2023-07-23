@@ -127,3 +127,10 @@ const menuLinks = computed(() => {
     </v-app-bar>
   </div>
 </template>
+
+
+<style scoped lang="scss">
+.v-app-bar.v-toolbar:not(.v-toolbar--flat) {
+  box-shadow: none;
+}
+</style>

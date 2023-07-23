@@ -1,4 +1,5 @@
 <template>
+  <div class="bg-white">
     <v-container>
      <SectionTitle
      title="HOW TO USE"
@@ -29,6 +30,7 @@
         </v-col>
       </v-row>
     </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
