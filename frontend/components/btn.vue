@@ -4,7 +4,7 @@
     :to="Url.LOGIN"
     rounded
     height="40"
-    class="bg-blue text-decoration-none invisible md:visible"
+    class="bg-blue text-decoration-none  mx-auto"
     :class="setColor == 'orange' ? 'bg-orange text-white' : ''"
   >
   {{ btnValue }}
@@ -22,3 +22,9 @@ const props = defineProps({
 })
 
 </script>
+
+<style scoped>
+.v-btn {
+  line-height: 40px;
+}
+</style>

@@ -114,6 +114,7 @@ const menuLinks = computed(() => {
         <Btn
         btnValue="ログイン・新規登録"
         place="LOGIN"
+        class="invisible sm:visible"
         />
         <v-app-bar-nav-icon
         variant="outlined"
