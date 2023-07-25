@@ -20,7 +20,12 @@
               <v-icon :icon="Icons.HOME"/>
             Googleで登録
           </v-btn>
-
+          <v-btn
+            class="d-block"
+          >
+              <v-icon :icon="Icons.HOME"/>
+            Twitterで登録
+          </v-btn>
         </div>
       <v-form>
         <Btn
