@@ -1,5 +1,4 @@
 <template>
-  <div class="bg-slate-200">
     <v-container>
      <SectionTitle
      title="Features"
@@ -10,7 +9,7 @@
      >CycleCommunityでは、①メンバー募集 ②愛車紹介 ③ルート検索 ④サイクリング情報の4つの機能を集約し</div>
       <v-row v-for="(item,index) in Features"
       :key="index"
-      :class="{'flex-row-reverse':reverse}"
+      :class="index % 2 != 0 ? 'flex-row-reverse' : ''"
       >
         <v-col cols="12" sm="6">
           <v-row>
@@ -38,7 +37,6 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
 </template>
 
 <script setup lang="ts">

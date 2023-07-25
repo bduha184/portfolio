@@ -7,32 +7,32 @@ const router = useRouter();
 export const MenuItems = [
     {
       text: "ホーム",
-      icon: "mdiAccount",
+      icon: Icons.HOME,
       func: () => router.push(Url.TOP),
     },
     {
       text: "マイページ",
-      icon: "mdiAccount",
+      icon: Icons.ACCOUNT,
       func: () => router.push(Url.MEMBER),
     },
     {
       text: "サイクリング募集",
-      icon: "mdiAccount",
+      icon: Icons.RECRUIT,
       func: () => router.push(Url.RECRUIT),
     },
     {
       text: "サイクリング情報",
-      icon: "mdiAccount",
+      icon: Icons.INFORMATION,
       func: () => router.push(Url.INFO),
     },
     {
       text: "みんなの愛車",
-      icon: "mdiAccount",
+      icon: Icons.BICYCLE,
       func: () => router.push(Url.INTRODUCTION),
     },
     {
       text: "ルート検索",
-      icon: "mdiAccount",
+      icon: Icons.MAP,
       func: () => router.push(Url.SEARCH),
     },
     {
