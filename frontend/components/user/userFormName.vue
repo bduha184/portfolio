@@ -1,7 +1,7 @@
 <template>
-  <div class="mb-2">
+  <div class="mb-4">
     <label class="block text-gray-700 text-sm font-bold mb-1">
-      ユーザーネーム
+      ユーザーネーム<span class="text-red text-caption">※</span>
     </label>
     <Field
       name="password"

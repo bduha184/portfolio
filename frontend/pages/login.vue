@@ -5,6 +5,7 @@
       <UserFormName />
       <UserFormPassword />
       <UserFormPasswordConfirm />
+      <UserFormConsent/>
     </template>
   </BeforeLoginFormCard>
 </template>
