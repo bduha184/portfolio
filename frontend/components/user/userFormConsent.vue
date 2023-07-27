@@ -1,30 +1,27 @@
 <template>
-  <v-container fluid>
-    <v-checkbox v-model="checkbox" color="red">
+  <v-container>
+    <v-checkbox v-model="checkbox" color="black">
       <template v-slot:label>
         <div class="text-center">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <NuxtLink
-              class="text-red"
-              :to="Url.TOP"
-              v-on="on"
-              >利用規約</NuxtLink>
+          <v-tooltip location="bottom">
+            <template v-slot:activator="{ props }">
+              <NuxtLink class="text-red" :to="Url.TOP" v-bind="props"
+                >利用規約</NuxtLink
+              >
             </template>
-            利用規約を読む
+            <span> 利用規約が表示されます </span>
           </v-tooltip>
+          <v-tooltip v-bind="props"> </v-tooltip>
           <span>・</span>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <NuxtLink
-              class="text-red"
-              :to="Url.TOP"
-              v-on="on"
-              >プライバシーポリシー</NuxtLink>
+          <v-tooltip location="bottom">
+            <template v-slot:activator="{ props }">
+              <NuxtLink class="text-red" :to="Url.TOP" v-bind="props"
+                >プライバシーポリシー</NuxtLink
+              >
             </template>
-            プライバシーポリシーを読む
+            プライバシーポリシーが表示されます
           </v-tooltip>
-          を確認し、同意しました<span class=" text-red text-caption">※</span>
+          を確認し、同意しました<span class="text-red text-caption">※</span>
         </div>
       </template>
     </v-checkbox>
@@ -32,9 +29,8 @@
 </template>
 
 <script setup lang="ts">
-  import {ref} from 'vue';
-  import {Url} from '@/constants/url';
+import { ref } from "vue";
+import { Url } from "@/constants/url";
 
-  const checkbox = ref(false);
-
+const checkbox = ref(false);
 </script>
