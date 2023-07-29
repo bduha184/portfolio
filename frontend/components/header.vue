@@ -52,7 +52,7 @@ const toggleMenu = () => {
 
         <Btn
         btnValue="ログイン・新規登録"
-        place="LOGIN"
+        place="SIGNIN"
         class="invisible sm:visible"
         />
         <v-app-bar-nav-icon
