@@ -21,14 +21,17 @@
         width="16rem"
         setColor="orange"
         class="my-4 d-block"
+        @click="onSubmit()"
       />
     </Form>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { Form } from "vee-validate";
 import * as Yup from "yup";
+
+
 </script>
 
 <style scoped lang="scss"></style>

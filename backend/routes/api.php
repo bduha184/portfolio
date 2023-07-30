@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\GraphqlController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('articles/{}',[ArticleController::class,'index']);
-Route::get('/graphql',[GraphqlController::class,'index']);
+Route::get('/api/test',[TestController::class,'index']);
