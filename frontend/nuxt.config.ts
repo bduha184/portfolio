@@ -23,6 +23,11 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
   ],
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL,
+    },
+  },
   vite: {
     server: {
       watch: {

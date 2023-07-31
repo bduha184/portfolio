@@ -21,20 +21,30 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { Form } from "vee-validate";
 import * as Yup from "yup";
+import { ref } from "vue";
 
-import {ref} from 'vue';
+const config = useRuntimeConfig();
 
 const data = ref(null);
-
-const onSubmit = async ()  => {
-  const res = await useFetch('http://localhost:8000/api/test');
-
-    data.value = res;
-}
-
+const onSubmit = async () => {
+  await useFetch('/sanctum/csrf-cookie', {
+    method: "get",
+    baseURL: config.baseURL,
+    mode: "cors",
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  }).then(async (res) => {
+    await useFetch("localhost:8000/api/users").then((res) => {
+      data.value = res;
+    });
+  });
+};
 </script>
 
 <style scoped lang="scss"></style>
