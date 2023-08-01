@@ -11,10 +11,11 @@ use App\Models\Article;
 class UserController extends Controller
 {
 
-    public function test(){
+    public function test()
+    {
         $users =  User::all();
 
-        return response($users);
+        return $users;
     }
 
     public function show()
@@ -35,33 +36,32 @@ class UserController extends Controller
     public function followers(string $name)
     {
         $user = User::where('name', $name)->first();
-        if($user){
+        if ($user) {
             $followers = $user->followers->sortByDesc('created_at');
             return response()->json([
                 'followers' => $followers
-            ],Response::HTTP_OK);
+            ], Response::HTTP_OK);
         }
 
         return response()->json(Response::HTTP_NOT_FOUND);
-
     }
 
     public function followees(string $name)
     {
         $user = User::where('name', $name)->first();
 
-        if($user){
+        if ($user) {
             $followees = $user->followees->sortByDesc('created_at');
 
             return response()->json([
                 'followees' => $followees
-            ],Response::HTTP_OK);
+            ], Response::HTTP_OK);
         }
 
         return response()->json(Response::HTTP_NOT_FOUND);
     }
 
-    public function follow(Request $request,string $name)
+    public function follow(Request $request, string $name)
     {
         $user = User::where('name', $name)->first();
 
@@ -70,7 +70,7 @@ class UserController extends Controller
 
         return ['name' => $name];
     }
-    public function unfollow(Request $request,string $name)
+    public function unfollow(Request $request, string $name)
     {
         $user = User::where('name', $name)->first();
 
@@ -82,7 +82,7 @@ class UserController extends Controller
     public function likes($id)
     {
         $user = User::where('id', $id)->first();
-        if($user){
+        if ($user) {
             $likes_articles = $user->likes->all();
             $articleArray = [];
 

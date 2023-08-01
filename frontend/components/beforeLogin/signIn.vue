@@ -18,6 +18,8 @@
       />
     </Form>
     {{ data }}
+
+    <!-- {{ test }} -->
   </div>
 </template>
 
@@ -29,21 +31,12 @@ import { ref } from "vue";
 const config = useRuntimeConfig();
 
 const data = ref(null);
+// const test = await useFetch('https://jsonplaceholder.typicode.com/posts/');
+const res = await useFetch('http://localhost:8000/api/users/');
+console.log(res.data);
 const onSubmit = async () => {
-  await useFetch('/sanctum/csrf-cookie', {
-    method: "get",
-    baseURL: config.baseURL,
-    mode: "cors",
-    headers: {
-      "X-Requested-With": "XMLHttpRequest",
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  }).then(async (res) => {
-    await useFetch("localhost:8000/api/users").then((res) => {
-      data.value = res;
-    });
-  });
+
+ data.value = res;
 };
 </script>
 
