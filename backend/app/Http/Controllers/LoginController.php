@@ -16,21 +16,22 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        // $credentials = $request->validate([
+        //     'name' => 'required',
+        //     // 'password' => 'required'
+        // ]);
 
-        if (Auth::attempt($credentials)) {
-            $user = User::whereEmail($request->email)->first();
+        // if (Auth::attempt($request)) {
+        //     $user = User::whereName($request->name)->first();
 
-            $user->tokens()->delete();
-            // $token = $user->createToken("login:user{$user->id}")->plainTextToken;
+        //     $user->tokens()->delete();
+        //     // $token = $user->createToken("login:user{$user->id}")->plainTextToken;
 
-            return $user;
-        }
+        //     return $user;
+        // }
+        return response('test');
 
-        return response()->json('User Not Found.', Response::HTTP_INTERNAL_SERVER_ERROR);
+        // return response()->json('User Not Found.', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function logout()

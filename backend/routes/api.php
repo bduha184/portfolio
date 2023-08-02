@@ -30,15 +30,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
     Route::put('/articles/{id}/like', [ArticleController::class, 'like']);
     Route::delete('/articles/{id}/unlike', [ArticleController::class, 'unlike']);
+    Route::prefix('login')->name('login.')->group(function() {
+        Route::post('/', [LoginController::class, 'login']);
+        Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
+        Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
+    });
 });
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::prefix('login')->name('login.')->group(function() {
-    Route::post('/', [LoginController::class, 'login']);
-    Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
-    Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
-});
 
 Route::prefix('register')->name('register.')->group(function () {
     Route::get('/{provider}', [RegisterController::class, 'showProviderUserRegistrationForm'])->name('{provider}');

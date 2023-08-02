@@ -3,12 +3,20 @@
 import vuetify from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
-  ssr:false,
+  extends: ["./api"],
+  runtimeConfig: {
+    public: {
+      baseUrl:process.env.BASE_URL,
+      homeUrl: "/",
+      loginUrl: "/login",
+      verificationUrl: "/verify-email",
+    },
+  },
   devtools: { enabled: true },
   build: {
     transpile: ["vuetify"],
   },
-  css: ['@/assets/styles/main.scss'],
+  css: ["@/assets/styles/main.scss"],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -20,14 +28,7 @@ export default defineNuxtConfig({
       config.plugins!.push(vuetify({}));
     },
   },
-  modules: [
-    '@pinia/nuxt',
-  ],
-  runtimeConfig: {
-    public: {
-      baseURL: process.env.BASE_URL,
-    },
-  },
+  modules: ["@pinia/nuxt"],
   vite: {
     server: {
       watch: {
@@ -45,4 +46,4 @@ export default defineNuxtConfig({
       },
     },
   },
-})
+});
