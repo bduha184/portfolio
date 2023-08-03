@@ -1,7 +1,6 @@
 <template>
   <v-btn
     nuxt
-    :to="Url.SIGNIN"
     rounded
     height="40"
     class="bg-blue text-decoration-none  mx-auto"

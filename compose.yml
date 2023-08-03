@@ -38,7 +38,7 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      TZ: "Asia/Tokyo"
+      TZ: 'Asia/Tokyo'
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./backend/infra/db/data:/var/lib/mysql
@@ -62,10 +62,10 @@ services:
       - ./backend/infra/phpmyadmin/sessions:/sessions
 
   mailpit:
-    image: "axllent/mailpit:latest"
+    image: 'axllent/mailpit:latest'
     ports:
-      - "${FORWARD_MAILPIT_PORT}:1025"
-      - "${FORWARD_MAILPIT_DASHBOARD_PORT}:8025"
+        - '${FORWARD_MAILPIT_PORT}:1025'
+        - '${FORWARD_MAILPIT_DASHBOARD_PORT}:8025'
 
   frontend:
     container_name: frontend
@@ -79,9 +79,9 @@ services:
       - 24678:24678
     tty: true
     environment:
-      - HOST=0.0.0.0
-      - port=80
-      - CHOKIDAR_USEPOLLING=true
+    - HOST=0.0.0.0
+    - port=80
+    - CHOKIDAR_USEPOLLING=true
     command: sh -c "pnpm dev"
 volumes:
   nuxt_node_modules:

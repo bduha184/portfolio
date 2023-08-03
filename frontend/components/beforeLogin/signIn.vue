@@ -2,71 +2,55 @@
   <div>
     <ButtonSns />
     <div class="supplement text-center my-4">or</div>
-    <Form>
+    <form method="POST" @submit.prevent="handleLogin">
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <UserFormName @setName="receiveName" :name="name"/>
-      <UserFormPassword @setPass="receivePass" :name="pass"/>
+      <UserFormName @setName="receiveName" :name="name" />
+      <UserFormPassword @setPass="receivePass" :name="pass" />
       <ButtonCommon
         btnValue="ログイン"
         place="MAIN"
         width="16rem"
         setColor="orange"
         class="my-4 d-block"
-        @click="onSubmit(data.name)"
+        type="submit"
       />
-    </Form>
-    {{ data.name }}
-    {{ data.pass}}
-    {{ data.loggedIn }}
-
-    <!-- {{ test }} -->
+    </form>
   </div>
 </template>
 
-<script setup>
-import { Form } from "vee-validate";
+<script setup lang="ts">
+// import { Form } from "vee-validate";
 import * as Yup from "yup";
-import { ref,reactive } from "vue";
+import { ref, reactive } from "vue";
+import {useAuthStore} from "~/stores/useAuthStore";
 
-const config = useRuntimeConfig();
+// const name = ref('user');
+// const pass = ref('password');
 
-const data = reactive({
-  name:String,
-  pass:String,
-  loggedIn:String,
-  url:String,
-});
+const form = ref({
+  name:'user',
+  password:'password'
+})
 
-data.url = config.public.baseURL;
+const auth = useAuthStore();
 
 const receiveName = (setName) => {
-  data.name = setName;
-}
-const receivePass = (setPass) => {
-  data.pass = setPass;
-}
-
-
-
-const onSubmit = async (name) => {
-
-  // await useFetch(config.public.baseURL+'/sanctum/csrf-cookie',{
-  //   credentials: 'include',
-  // }).then(async(res) => {
-    await useFetch(config.public.baseURL+'/api/login',{
-      method:'post',
-      body:name
-  }).then(async(res)=>{
-    data.loggedIn = res;
-    console.log(res);
-  })
-// })
+  form.value.name = setName;
 };
 
+const receivePass = (setPass) => {
+  form.value.pass = setPass;
+};
+
+async function handleLogin() {
+
+  const {error} = await auth.login(form.value);
 
 
+  console.log(error);
+}
 </script>
 
 <style scoped lang="scss"></style>

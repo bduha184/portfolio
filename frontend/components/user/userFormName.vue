@@ -11,7 +11,7 @@
       v-model="name"
     />
     <span class="text-caption">※20文字以内</span>
-    <ErrorMessage class="text-red" name="password" />
+    <ErrorMessage class="text-red" name="name" />
   </div>
 </template>
 <script setup lang="ts">
@@ -19,14 +19,16 @@ import {  Field, ErrorMessage } from 'vee-validate'
 import {ref} from 'vue';
 
 const props = defineProps({
-  name:String,
+  name:String
 })
+
 const name = ref(props.name);
 
-const emits = defineEmits(['setName']);
+const emits=defineEmits(['setName']);
 
-const submit = () => {
+const submit = ()=> {
   emits('setName',name.value);
 }
+
 
 </script>
