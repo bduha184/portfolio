@@ -2,12 +2,12 @@
   <div>
     <ButtonSns />
     <div class="supplement text-center my-4">or</div>
-    <form method="POST" @submit.prevent="handleLogin">
+    <form method="POST" >
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <UserFormName @setName="receiveName" :name="name" />
-      <UserFormPassword @setPass="receivePass" :name="pass" />
+      <UserFormEmail @setEmail="receiveEmail" :name="form.value" />
+      <UserFormPassword @setPass="receivePass" :name="form.value" />
       <ButtonCommon
         btnValue="ログイン"
         place="MAIN"
@@ -15,8 +15,10 @@
         setColor="orange"
         class="my-4 d-block"
         type="submit"
+        @click="handleLogin"
       />
     </form>
+    {{ receive }}
   </div>
 </template>
 
@@ -24,24 +26,27 @@
 // import { Form } from "vee-validate";
 import * as Yup from "yup";
 import { ref, reactive } from "vue";
-import {useAuthStore} from "~/stores/useAuthStore";
+import {useAuthStore} from "../../stores/useAuthStore";
+import { navigateTo } from "nuxt/app";
 
 // const name = ref('user');
 // const pass = ref('password');
 
 const form = ref({
-  name:'user',
+  email:'sample@sample.com',
   password:'password'
 })
 
+const receive = ref();
+
 const auth = useAuthStore();
 
-const receiveName = (setName) => {
-  form.value.name = setName;
+const receiveEmail= (setPass) => {
+  form.value = setPass;
 };
 
 const receivePass = (setPass) => {
-  form.value.pass = setPass;
+  form.value = setPass;
 };
 
 async function handleLogin() {
@@ -50,6 +55,17 @@ async function handleLogin() {
 
 
   console.log(error);
+//   receive.value = error;
+
+// if(auth.isLoggedIn){
+//   console.log('test');
+//   return navigateTo('/auth');
+// }else {
+//   console.log('test');
+//   return navigateTo('/beforeLogin');
+// }
+
+
 }
 </script>
 

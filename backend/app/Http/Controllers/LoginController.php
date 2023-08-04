@@ -29,7 +29,10 @@ class LoginController extends Controller
 
         //     return $user;
         // }
-        return response('test');
+
+        $user =  User::whereEmail($request->email)->first();
+
+        return $user;
 
         // return response()->json('User Not Found.', Response::HTTP_INTERNAL_SERVER_ERROR);
     }

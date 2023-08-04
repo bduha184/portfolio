@@ -22,7 +22,7 @@ const props = defineProps({
   name:String
 })
 
-const name = ref(props.name);
+const name = ref('');
 
 const emits=defineEmits(['setName']);
 

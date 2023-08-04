@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import { useApiFetch } from "../composables/useApiFetch";
+import {computed} from 'vue';
 
 type User = {
   id:number,
@@ -8,14 +9,18 @@ type User = {
 }
 
 type Credentials = {
-  name:string,
-  pass:string
-
+  email:string,
+  password:string
 }
-
 export const useAuthStore = defineStore('auth', () => {
 
   const user = ref<User | null>(null)
+  const isLoggedIn = computed(()=> !!user.value);
+
+  async function fetchUser(){
+    const {data,error} = await useApiFetch("/api/user");
+    user.value = data.value as User;
+  }
 
   async function login(credentials:Credentials) {
     await useApiFetch("/sanctum/csrf-cookie");
@@ -24,13 +29,9 @@ export const useAuthStore = defineStore('auth', () => {
       method:'POST',
       body:credentials
     });
-
-    const {data} = await useApiFetch("/api/user");
-
-    user.value = data.value as User;
-
+    await fetchUser();
     return login;
   }
 
-  return {user,login};
+  return {user,login,isLoggedIn,fetchUser};
 })

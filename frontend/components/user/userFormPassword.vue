@@ -20,7 +20,8 @@ const props = defineProps({
   pass:String,
 })
 
-const pass=ref(props.pass);
+
+const pass=ref('');
 const emits= defineEmits(['setPass']);
 
 const submit = ()=> {
