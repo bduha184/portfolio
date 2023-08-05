@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 class LoginController extends Controller
 {
@@ -16,25 +17,33 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // $credentials = $request->validate([
-        //     'name' => 'required',
-        //     // 'password' => 'required'
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'email' => ['required'],
+            'password' => ['required']
+        ]);
 
-        // if (Auth::attempt($request)) {
-        //     $user = User::whereName($request->name)->first();
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        //     $user->tokens()->delete();
-        //     // $token = $user->createToken("login:user{$user->id}")->plainTextToken;
+        if (!Auth::attempt($request->only(['email','password']))) {
 
-        //     return $user;
-        // }
+            return response()->json([
+                'status'=>false,
+                'message'=>'validation error',
+                'errors'=>$validator->errors()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        $user = User::where('email',$request->email)->first();
+        $user->tokens()->delete();
+        $token = $user->createToken("login:user{$user->id}")->plainTextToken;
+        return response()->json([
+            'status'=>true,
+            'message'=>'User Logged In Successfully',
+            'token'=>$token
+        ], Response::HTTP_OK);
 
-        $user =  User::whereEmail($request->email)->first();
 
-        return $user;
-
-        // return response()->json('User Not Found.', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function logout()

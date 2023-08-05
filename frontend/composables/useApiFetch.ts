@@ -14,7 +14,8 @@ export function useApiFetch<T>(path: string, options: UseFetchOptions<T> = {}) {
     headers = {
       ...headers,
       ...useRequestHeaders(['cookie']),
-      referer:config.public.appURL
+      referer: config.public.appURL
+
     }
   }
 

@@ -6,8 +6,8 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <UserFormEmail @setEmail="receiveEmail" :name="form.value" />
-      <UserFormPassword @setPass="receivePass" :name="form.value" />
+      <UserFormEmail  @setEmail="receiveEmail" :name="form.email" />
+      <UserFormPassword @setPassword="receivePassword" :name="form.password" />
       <ButtonCommon
         btnValue="ログイン"
         place="MAIN"
@@ -15,10 +15,11 @@
         setColor="orange"
         class="my-4 d-block"
         type="submit"
-        @click="handleLogin"
+        @click.prevent="handleLogin"
       />
     </form>
-    {{ receive }}
+    {{ form }}
+    {{ auth }}
   </div>
 </template>
 
@@ -29,41 +30,35 @@ import { ref, reactive } from "vue";
 import {useAuthStore} from "../../stores/useAuthStore";
 import { navigateTo } from "nuxt/app";
 
-// const name = ref('user');
-// const pass = ref('password');
-
 const form = ref({
-  email:'sample@sample.com',
-  password:'password'
+  email:'',
+  password:''
 })
-
-const receive = ref();
 
 const auth = useAuthStore();
 
-const receiveEmail= (setPass) => {
-  form.value = setPass;
+const receiveEmail= (newEmail) => {
+  form.value.email = newEmail;
 };
 
-const receivePass = (setPass) => {
-  form.value = setPass;
+const receivePassword = (newPassword) => {
+  form.value.password = newPassword;
 };
+
 
 async function handleLogin() {
 
   const {error} = await auth.login(form.value);
 
-
   console.log(error);
-//   receive.value = error;
+  if(error.value != null) return navigateTo('beforeLogin');
+  console.log(auth);
+  if(auth.isLoggedIn){
+    return navigateTo('/auth');
+  }else {
+    return navigateTo('/beforeLogin');
+}
 
-// if(auth.isLoggedIn){
-//   console.log('test');
-//   return navigateTo('/auth');
-// }else {
-//   console.log('test');
-//   return navigateTo('/beforeLogin');
-// }
 
 
 }

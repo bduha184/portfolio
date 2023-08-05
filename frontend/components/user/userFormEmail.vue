@@ -3,9 +3,8 @@
     <label class="block text-gray-700 text-sm font-bold mb-2">
       メールアドレス<span class="text-red text-caption">※</span>
     </label>
-    <Field
-      name="email"
-      type="text"
+    <input
+      type="email"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
       v-model="email"
@@ -14,12 +13,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import {  Field, ErrorMessage } from 'vee-validate'
+// import {  Field, ErrorMessage } from 'vee-validate'
 import {ref} from 'vue';
 
 const props = defineProps({
   email:String
 })
+
+
 
 const email = ref('');
 

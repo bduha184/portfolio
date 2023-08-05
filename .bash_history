@@ -14,3 +14,13 @@ cd backend
 php artisan migrate:fresh
 php artisan migrate --seed
 exit
+cd backend
+php arisan migrate:fresh --seed
+php artisan migrate:fresh --seed
+exit
+cd backend
+php artisan migrate:fresh --seed
+php artisan migrate:fresh --seed
+mysql -u myappuser -p
+mysql --user=root --password
+exit
