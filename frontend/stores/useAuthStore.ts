@@ -45,19 +45,20 @@ export const useAuthStore = defineStore(
         body: credentials,
       });
 
-      // await fetchUser();
+      await fetchUser();
 
       return login;
     }
 
     async function register(info: RegistrationInfo) {
+      console.log(info);
       await useApiFetch("/sanctum/csrf-cookie");
 
       const register = await useApiFetch("/api/register", {
         method: "POST",
         body: info,
       });
-      // await fetchUser();
+      await fetchUser();
       return register;
     }
     return { user, login, logout, isLoggedIn, fetchUser, register };

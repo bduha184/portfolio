@@ -18,7 +18,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => ['required'],
+            'email' => ['required','email'],
             'password' => ['required']
         ]);
 
@@ -26,23 +26,23 @@ class LoginController extends Controller
             return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if (!Auth::attempt($request->only(['email','password']))) {
+        if (Auth::attempt($request->only(['email','password']))) {
 
+            $user = User::where('email',$request->email)->first();
+            $user->tokens()->delete();
+            $token = $user->createToken("login:user{$user->id}")->plainTextToken;
             return response()->json([
-                'status'=>false,
-                'message'=>'validation error',
-                'errors'=>$validator->errors()
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                'status'=>true,
+                'message'=>'User Logged In Successfully',
+                'token'=>$token
+            ], Response::HTTP_OK);
         }
-        $user = User::where('email',$request->email)->first();
-        $user->tokens()->delete();
-        $token = $user->createToken("login:user{$user->id}")->plainTextToken;
-        return response()->json([
-            'status'=>true,
-            'message'=>'User Logged In Successfully',
-            'token'=>$token
-        ], Response::HTTP_OK);
 
+        return response()->json([
+            'status'=>false,
+            'message'=>'validation error',
+            'errors'=>$validator->errors()
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
 
     }
 

@@ -16,10 +16,11 @@
         class="my-4 d-block"
         type="submit"
         @click.prevent="handleLogin"
+        :disabled="!checkFilledOut()"
       />
     </form>
     {{ form }}
-    {{ auth }}
+    <!-- {{ auth }} -->
   </div>
 </template>
 
@@ -28,6 +29,7 @@
 import { ref, reactive } from "vue";
 import {useAuthStore} from "../../stores/useAuthStore";
 import { navigateTo } from "nuxt/app";
+import { copyFileSync } from "fs";
 
 const form = ref({
   email:'',
@@ -44,14 +46,37 @@ const receivePassword = (newPassword) => {
   form.value.password = newPassword;
 };
 
+const checkFilledOut = () => {
+
+const fieldArray = [
+  form.value.email,
+  form.value.password,
+]
+
+const fieldErrors = [
+  form.value.email.errors,
+  form.value.password.errors,
+]
+
+
+if(fieldArray.indexOf('') === -1 && Object.values([...fieldErrors]).indexOf('') === -1) {
+  return true;
+}
+
+return false
+}
+
+
 
 async function handleLogin() {
+
+  
 
   const {error} = await auth.login(form.value);
 
   console.log(error);
+  console.log(auth.isLoggedIn);
   if(error.value != null) return navigateTo('beforeLogin');
-  console.log(auth);
   if(auth.isLoggedIn){
     return navigateTo('/auth');
   }else {

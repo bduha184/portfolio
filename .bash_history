@@ -24,3 +24,6 @@ php artisan migrate:fresh --seed
 mysql -u myappuser -p
 mysql --user=root --password
 exit
+cd backend
+php artisan migrate:fresh --seed
+exit

@@ -7,8 +7,8 @@
       @input="submit"
       v-model="password"
     />
-    <p>{{ errors.password }}</p>
-    <span class="text-caption">※８文字以上、半角英数・記号</span>
+    <p v-if="errors.password">{{ errors.password }}</p>
+    <p v-else class="text-caption">※８文字以上、半角英数・記号</p>
   </div>
 </template>
 <script setup lang="ts">
@@ -21,7 +21,8 @@ const props = defineProps({
 const emailSchema = object({
   password: string().
   required('必須項目です').
-  max(20,'20文字以内で入力してください'),
+  min(8,'8文字以上で入力してください').
+  matches(/^[ -~]+$/, "半角英数記号で入力してください。"),
 });
 const { errors, useFieldModel } = useForm({
   validationSchema: emailSchema,

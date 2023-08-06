@@ -11,24 +11,35 @@
       @input="submit"
       v-model="password"
     />
-    <span class="text-caption">※８文字以上、半角英数・記号</span>
-    <ErrorMessage class="text-red" name="password" />
+    <p v-if="errors.password">{{ errors.password }}</p>
+    <p v-else class="text-caption">※８文字以上、半角英数・記号</p>
   </div>
 </template>
 <script setup lang="ts">
-import {  Field, ErrorMessage } from 'vee-validate'
-import {ref} from 'vue';
+import { useForm ,useField } from "vee-validate";
+import {object,string} from "yup";
 
 const props = defineProps({
-  password:String,
-})
+  password: String,
+});
+const emailSchema = object({
+  password: string().
+  required('必須項目です').
+  min(8,'8文字以上で入力してください').
+  matches(/^[ -~]+$/, "半角英数記号で入力してください。"),
+});
+const { errors, useFieldModel } = useForm({
+  validationSchema: emailSchema,
+  initialValues: {
+    password: '',
+  },
+});
 
-
-const password=ref('');
+const password = useFieldModel('password');
 const emits= defineEmits(['setPasswordConfirmation']);
 
 const submit = ()=> {
-  emits('setPasswordConfirmation',password.value)
+  emits('setPasswordConfirmation',password)
 }
 
 </script>

@@ -21,8 +21,10 @@ const props = defineProps({
 });
 const emailSchema = object({
   email: string().
-  required('必須項目です').
-  email('メールアドレスの形式ではありません。'),
+  lowercase().
+  required('メールアドレスは必須項目です').
+  email("正しいメールアドレスを入力してください。")
+
 });
 const { errors, useFieldModel } = useForm({
   validationSchema: emailSchema,
@@ -35,6 +37,6 @@ const email = useFieldModel('email');
 const emits = defineEmits(["setEmail"]);
 
 const submit = () => {
-  emits("setEmail", email);
+  emits("setEmail",email);
 };
 </script>

@@ -21,7 +21,7 @@
         width="16rem"
         setColor="orange"
         class="my-4 d-block"
-        :disabled="isSubmitting"
+        :disabled="!checkFilledOut()"
         @click="handleRegister"
       />
     </form>
@@ -30,7 +30,6 @@
 
 <script setup lang="ts">
 import { useForm} from "vee-validate";
-
 import { useAuthStore } from "../../stores/useAuthStore";
 import {ref} from 'vue';
 import { navigateTo } from "nuxt/app";
@@ -41,7 +40,26 @@ const form = ref({
   password_confirmation:'',
 })
 
-const {isSubmitting} = useForm();
+const checkFilledOut = () => {
+
+  const fieldArray = [
+    form.value.name,
+    form.value.email,
+    form.value.password,
+    form.value.password_confirmation,
+  ]
+  return fieldArray.indexOf('') === -1
+
+}
+
+const { isSubmitting } = useForm({
+  initialValues: {
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+  },
+});
 
 const auth = useAuthStore();
 
@@ -61,13 +79,12 @@ const receivePasswordConfirmation = (setPasswordConfirmation) => {
 
 async function handleRegister() {
 
-  await new Promise((resolve)=>setTimeout(async() => {
-    const {error} = await auth.register(form.value);
-    if(!error.value){
-      navigateTo('/auth');
-    }
-  }, 1000))
-
+  const {error} = await auth.register(form.value);
+  if(!error.value){
+    navigateTo('/auth');
+  }else{
+    navigateTo('/beforeLogin');
+  }
 }
 
 </script>
