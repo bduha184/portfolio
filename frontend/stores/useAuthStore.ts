@@ -45,7 +45,7 @@ export const useAuthStore = defineStore(
         body: credentials,
       });
 
-      await fetchUser();
+      // await fetchUser();
 
       return login;
     }
@@ -57,14 +57,14 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: info,
       });
-      await fetchUser();
+      // await fetchUser();
       return register;
     }
     return { user, login, logout, isLoggedIn, fetchUser, register };
   },
-  {
-    persist: {
-      storage: persistedState.sessionStorage,
-    },
-  }
+  // {
+  //   persist: {
+  //     storage: persistedState.sessionStorage,
+  //   },
+  // }
 );

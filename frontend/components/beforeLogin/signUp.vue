@@ -10,17 +10,18 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <UserFormName @setName="receiveName" :name="form.name"/>
-      <UserFormEmail @setEmail="receiveEmail" :name="form.email"/>
-      <UserFormPassword @setPassword="receivePassword" :name="form.password"/>
-      <UserFormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation"/>
-      <UserFormConsent />
+      <FormName @setName="receiveName" :name="form.name"/>
+      <FormEmail @setEmail="receiveEmail" :name="form.email"/>
+      <FormPassword @setPassword="receivePassword" :name="form.password"/>
+      <FormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation"/>
+      <FormConsent />
       <ButtonCommon
         btnValue="登録"
         place="MAIN"
         width="16rem"
         setColor="orange"
         class="my-4 d-block"
+        :disabled="isSubmitting"
         @click="handleRegister"
       />
     </form>
@@ -28,8 +29,8 @@
 </template>
 
 <script setup lang="ts">
-import { Form } from "vee-validate";
-import * as Yup from "yup";
+import { useForm} from "vee-validate";
+
 import { useAuthStore } from "../../stores/useAuthStore";
 import {ref} from 'vue';
 import { navigateTo } from "nuxt/app";
@@ -39,6 +40,8 @@ const form = ref({
   password:'',
   password_confirmation:'',
 })
+
+const {isSubmitting} = useForm();
 
 const auth = useAuthStore();
 
@@ -58,11 +61,12 @@ const receivePasswordConfirmation = (setPasswordConfirmation) => {
 
 async function handleRegister() {
 
-  const {error} = await auth.register(form.value);
-
-  if(!error.value){
-    navigateTo('/auth');
-  }
+  await new Promise((resolve)=>setTimeout(async() => {
+    const {error} = await auth.register(form.value);
+    if(!error.value){
+      navigateTo('/auth');
+    }
+  }, 1000))
 
 }
 

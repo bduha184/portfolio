@@ -6,8 +6,8 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <UserFormEmail  @setEmail="receiveEmail" :name="form.email" />
-      <UserFormPassword @setPassword="receivePassword" :name="form.password" />
+      <FormEmail  @setEmail="receiveEmail" :name="form.email" />
+      <FormPassword @setPassword="receivePassword" :name="form.password" />
       <ButtonCommon
         btnValue="ログイン"
         place="MAIN"
@@ -24,8 +24,7 @@
 </template>
 
 <script setup lang="ts">
-// import { Form } from "vee-validate";
-import * as Yup from "yup";
+// import {Form as VeeForm} from 'vee-validate'
 import { ref, reactive } from "vue";
 import {useAuthStore} from "../../stores/useAuthStore";
 import { navigateTo } from "nuxt/app";
