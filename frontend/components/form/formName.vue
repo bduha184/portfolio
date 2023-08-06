@@ -10,7 +10,7 @@
       @input="submit"
       v-model="name"
     />
-    <p v-if="errors.name">{{errors.name}}</p>
+    <p v-if="errors.name" class="text-red">{{errors.name}}</p>
     <p v-else class="text-caption">※20文字以内</p>
   </div>
 </template>

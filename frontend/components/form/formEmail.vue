@@ -9,7 +9,7 @@
       @input="submit"
       v-model="email"
     />
-    <p>{{ errors.email }}</p>
+    <p class="text-red">{{ errors.email }}</p>
   </div>
 </template>
 <script setup lang="ts">

@@ -11,7 +11,7 @@
       @input="submit"
       v-model="password"
     />
-    <p v-if="errors.password">{{ errors.password }}</p>
+    <p v-if="errors.password" class="text-red">{{ errors.password }}</p>
     <p v-else class="text-caption">※８文字以上、半角英数・記号</p>
   </div>
 </template>

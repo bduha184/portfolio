@@ -6,7 +6,7 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <FormEmail  @setEmail="receiveEmail" :name="form.email" />
+      <FormName @setName="receiveName" :name="form.name"/>
       <FormPassword @setPassword="receivePassword" :name="form.password" />
       <ButtonCommon
         btnValue="ログイン"
@@ -32,14 +32,14 @@ import { navigateTo } from "nuxt/app";
 import { copyFileSync } from "fs";
 
 const form = ref({
-  email:'',
+  name:'',
   password:''
 })
 
 const auth = useAuthStore();
 
-const receiveEmail= (newEmail) => {
-  form.value.email = newEmail;
+const receiveName= (newName) => {
+  form.value.name = newName;
 };
 
 const receivePassword = (newPassword) => {
@@ -49,12 +49,12 @@ const receivePassword = (newPassword) => {
 const checkFilledOut = () => {
 
 const fieldArray = [
-  form.value.email,
+  form.value.name,
   form.value.password,
 ]
 
 const fieldErrors = [
-  form.value.email.errors,
+  form.value.name.errors,
   form.value.password.errors,
 ]
 
@@ -70,12 +70,11 @@ return false
 
 async function handleLogin() {
 
-  
+
 
   const {error} = await auth.login(form.value);
 
   console.log(error);
-  console.log(auth.isLoggedIn);
   if(error.value != null) return navigateTo('beforeLogin');
   if(auth.isLoggedIn){
     return navigateTo('/auth');
