@@ -63,9 +63,9 @@ export const useAuthStore = defineStore(
     }
     return { user, login, logout, isLoggedIn, fetchUser, register };
   },
-  // {
-  //   persist: {
-  //     storage: persistedState.sessionStorage,
-  //   },
-  // }
+  {
+    persist: {
+      storage: persistedState.sessionStorage,
+    },
+  }
 );

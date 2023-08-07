@@ -14,7 +14,7 @@
       <FormEmail @setEmail="receiveEmail" :name="form.email"/>
       <FormPassword @setPassword="receivePassword" :name="form.password"/>
       <FormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation"/>
-      <FormConsent />
+      <FormConsent @setCheck="receiveCheck" :name="form.check"/>
       <ButtonCommon
         btnValue="登録"
         place="MAIN"
@@ -38,6 +38,7 @@ const form = ref({
   email:'',
   password:'',
   password_confirmation:'',
+  check:''
 })
 
 const checkFilledOut = () => {
@@ -48,9 +49,13 @@ const checkFilledOut = () => {
     form.value.password,
     form.value.password_confirmation,
   ]
-  return fieldArray.indexOf('') === -1
+
+  if(fieldArray.indexOf('') === -1 && form.value.check){
+    return true;
+  }
 
 }
+
 
 const { isSubmitting } = useForm({
   initialValues: {
@@ -77,6 +82,9 @@ const receivePasswordConfirmation = (setPasswordConfirmation) => {
   form.value.password_confirmation = setPasswordConfirmation;
 };
 
+const receiveCheck = (setCheck) => {
+  form.value.check = setCheck;
+};
 async function handleRegister() {
 
   const {error} = await auth.register(form.value);

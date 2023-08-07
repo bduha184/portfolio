@@ -8,7 +8,8 @@
       type="text"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
-      v-model="name"
+      @blur="handleChange"
+      :value="name"
     />
     <p v-if="errors.name" class="text-red">{{errors.name}}</p>
     <p v-else class="text-caption">※20文字以内</p>
@@ -35,6 +36,7 @@ const { errors, useFieldModel } = useForm({
 });
 
 const name = useFieldModel('name');
+const {handleChange}=useField('name');
 const emits=defineEmits(['setName']);
 
 const submit = ()=> {

@@ -9,7 +9,8 @@
       aria-placeholder="パスワードを入力"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
-      v-model="password"
+      @blur="handleChange"
+      :value="password"
     />
     <p v-if="errors.password" class="text-red">{{ errors.password }}</p>
     <p v-else class="text-caption">※８文字以上、半角英数・記号</p>
@@ -25,6 +26,7 @@ const props = defineProps({
 const emailSchema = object({
   password: string().
   required('必須項目です').
+  
   min(8,'8文字以上で入力してください').
   matches(/^[ -~]+$/, "半角英数記号で入力してください。"),
 });
@@ -36,6 +38,7 @@ const { errors, useFieldModel } = useForm({
 });
 
 const password = useFieldModel('password');
+const {handleChange} =useField('password');
 const emits= defineEmits(['setPasswordConfirmation']);
 
 const submit = ()=> {

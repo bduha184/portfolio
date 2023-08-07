@@ -7,7 +7,8 @@
       type="email"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
-      v-model="email"
+      @blur="handleChange"
+      :value="email"
     />
     <p class="text-red">{{ errors.email }}</p>
   </div>
@@ -26,17 +27,20 @@ const emailSchema = object({
   email("正しいメールアドレスを入力してください。")
 
 });
-const { errors, useFieldModel } = useForm({
+const { errors, useFieldModel,meta } = useForm({
   validationSchema: emailSchema,
   initialValues: {
     email: '',
   },
+
 });
 
+
 const email = useFieldModel('email');
+const {handleChange} = useField('email');
 const emits = defineEmits(["setEmail"]);
 
 const submit = () => {
-  emits("setEmail",email);
+  emits("setEmail",email,meta.value);
 };
 </script>

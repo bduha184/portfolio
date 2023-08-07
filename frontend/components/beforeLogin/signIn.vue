@@ -19,8 +19,6 @@
         :disabled="!checkFilledOut()"
       />
     </form>
-    {{ form }}
-    <!-- {{ auth }} -->
   </div>
 </template>
 
@@ -53,13 +51,13 @@ const fieldArray = [
   form.value.password,
 ]
 
-const fieldErrors = [
-  form.value.name.errors,
-  form.value.password.errors,
-]
+// const fieldErrors = [
+//   form.value.name.errors,
+//   form.value.password.errors,
+// ]
 
 
-if(fieldArray.indexOf('') === -1 && Object.values([...fieldErrors]).indexOf('') === -1) {
+if(fieldArray.indexOf('') === -1) {
   return true;
 }
 
