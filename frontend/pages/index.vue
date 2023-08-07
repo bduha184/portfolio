@@ -1,7 +1,7 @@
 <template>
   <div>
-    <TopHero/>
-    <Feature/>
-    <Use/>
+    <WelcomeTopHero/>
+    <WelcomeFeature/>
+    <WelcomeUse/>
   </div>
 </template>

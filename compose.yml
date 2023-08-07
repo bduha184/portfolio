@@ -38,13 +38,17 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      TZ: "Asia/Tokyo"
     volumes:
       - ./backend/infra/db/data:/var/lib/mysql
       - ./backend/infra/db/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - ${DB_PORT}:3306
+      - ${DB_PORT}:3307
+    expose:
+      - 3307
+    command: >
+      --port 3307 &&
+      mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
   phpmyadmin:
     container_name: phpmyadmin
@@ -62,10 +66,10 @@ services:
       - ./backend/infra/phpmyadmin/sessions:/sessions
 
   mailpit:
-    image: 'axllent/mailpit:latest'
+    image: "axllent/mailpit:latest"
     ports:
-        - '${FORWARD_MAILPIT_PORT}:1025'
-        - '${FORWARD_MAILPIT_DASHBOARD_PORT}:8025'
+      - "${FORWARD_MAILPIT_PORT}:1025"
+      - "${FORWARD_MAILPIT_DASHBOARD_PORT}:8025"
 
   frontend:
     container_name: frontend
@@ -75,13 +79,12 @@ services:
       - ./frontend:/frontend:cached
       - nuxt_node_modules:/frontend/node_modules
     ports:
-      - 80:3000
+      - 3000:3000
       - 24678:24678
     tty: true
     environment:
-    - HOST=0.0.0.0
-    - port=80
-    - CHOKIDAR_USEPOLLING=true
-    command: sh -c "pnpm dev"
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+    # command: sh -c "pnpm dev"
 volumes:
   nuxt_node_modules:

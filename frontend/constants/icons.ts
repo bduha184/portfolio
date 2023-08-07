@@ -6,6 +6,8 @@ import {
   mdiInformation,
   mdiMapMarker,
   mdiBicycle,
+  mdiNoteEdit,
+  mdiLoginVariant
 } from "@mdi/js";
 
 
@@ -17,4 +19,6 @@ export const Icons = {
   INFORMATION:mdiInformation,
   MAP:mdiMapMarker,
   BICYCLE:mdiBicycle,
+  REGISTER:mdiNoteEdit,
+  LOGIN:mdiLoginVariant
 }

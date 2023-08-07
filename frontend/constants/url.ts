@@ -6,7 +6,7 @@ export const Url = {
   /** TOP */
   TOP: getFrontUrl('/'),
   /** ログイン */
-  LOGIN: getFrontUrl('/login'),
+  SIGNIN: getFrontUrl('/beforeLogin'),
   /** 会員登録 */
   SIGNUP: getFrontUrl('/signup'),
   /** 会員登録承認 */
