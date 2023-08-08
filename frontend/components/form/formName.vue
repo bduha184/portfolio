@@ -23,7 +23,9 @@ const props = defineProps({
   name: String,
 });
 const emailSchema = object({
-  name: string().
+  name:
+  string().
+  trim().
   required('必須項目です').
   min(3,'3文字以上で入力してください').
   max(20,'20文字以内で入力してください'),

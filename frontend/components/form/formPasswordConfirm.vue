@@ -19,16 +19,18 @@
 <script setup lang="ts">
 import { useForm ,useField } from "vee-validate";
 import {object,string} from "yup";
+import {ref} from 'vue';
 
 const props = defineProps({
   password: String,
 });
 const emailSchema = object({
-  password: string().
+  password:
+  string().
+  trim().
   required('必須項目です').
-  
   min(8,'8文字以上で入力してください').
-  matches(/^[ -~]+$/, "半角英数記号で入力してください。"),
+  matches(/^[ -~]+$/, "半角英数記号で入力してください。")
 });
 const { errors, useFieldModel } = useForm({
   validationSchema: emailSchema,
@@ -36,6 +38,7 @@ const { errors, useFieldModel } = useForm({
     password: '',
   },
 });
+
 
 const password = useFieldModel('password');
 const {handleChange} =useField('password');

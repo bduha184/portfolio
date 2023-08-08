@@ -20,7 +20,9 @@ const props = defineProps({
   password: String,
 });
 const emailSchema = object({
-  password: string().
+  password:
+  string().
+  trim().
   required('必須項目です').
   min(8,'8文字以上で入力してください').
   matches(/^[ -~]+$/, "半角英数記号で入力してください。"),
