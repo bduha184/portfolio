@@ -21,11 +21,12 @@ const props = defineProps({
   email: String,
 });
 const emailSchema = object({
-  email: string().
+  email:
+  string().
+  trim().
   lowercase().
   required('メールアドレスは必須項目です').
   email("正しいメールアドレスを入力してください。")
-
 });
 const { errors, useFieldModel,meta } = useForm({
   validationSchema: emailSchema,

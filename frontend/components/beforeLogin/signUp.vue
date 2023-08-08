@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-import { useForm} from "vee-validate";
 import { useAuthStore } from "../../stores/useAuthStore";
 import {ref} from 'vue';
 import { navigateTo } from "nuxt/app";
@@ -50,24 +49,15 @@ const checkFilledOut = () => {
     form.value.password_confirmation,
   ]
 
+  if(form.value.password != form.value.password_confirmation) return;
+
   if(fieldArray.indexOf('') === -1 && form.value.check){
     return true;
   }
-
 }
 
 
-const { isSubmitting } = useForm({
-  initialValues: {
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-  },
-});
-
 const auth = useAuthStore();
-
 const receiveName= (receiveName) => {
   form.value.name = receiveName;
 };
