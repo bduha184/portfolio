@@ -13,6 +13,7 @@
       :value="password"
     />
     <p v-if="errors.password" class="text-red">{{ errors.password }}</p>
+    <p v-if="!props.confirm" class="text-red">パスワードが異なります</p>
     <p v-else class="text-caption">※８文字以上、半角英数・記号</p>
   </div>
 </template>
@@ -23,6 +24,7 @@ import {ref} from 'vue';
 
 const props = defineProps({
   password: String,
+  confirm:String
 });
 const emailSchema = object({
   password:
