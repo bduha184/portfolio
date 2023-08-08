@@ -13,7 +13,7 @@
       <FormName @setName="receiveName" :name="form.name"/>
       <FormEmail @setEmail="receiveEmail" :name="form.email"/>
       <FormPassword @setPassword="receivePassword" :name="form.password"/>
-      <FormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation"/>
+      <FormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation" :confirm="form.confirm"/>
       <FormConsent @setCheck="receiveCheck" :name="form.check"/>
       <ButtonCommon
         btnValue="登録"
@@ -30,14 +30,16 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../../stores/useAuthStore";
-import {ref} from 'vue';
+import {ref,computed} from 'vue';
 import { navigateTo } from "nuxt/app";
 const form = ref({
   name:'',
   email:'',
   password:'',
   password_confirmation:'',
-  check:''
+  check:'',
+  confirm:false
+
 })
 
 const checkFilledOut = () => {
@@ -49,7 +51,12 @@ const checkFilledOut = () => {
     form.value.password_confirmation,
   ]
 
-  if(form.value.password != form.value.password_confirmation) return;
+  if(form.value.password != form.value.password_confirmation){
+    form.value.confirm = false;
+    return false;
+  }else{
+    form.value.confirm = true;
+  }
 
   if(fieldArray.indexOf('') === -1 && form.value.check){
     return true;
