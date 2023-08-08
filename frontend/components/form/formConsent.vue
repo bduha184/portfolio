@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-checkbox v-model="checkbox" color="black">
+    <v-checkbox @input="submit" v-model="checkbox" color="black">
       <template v-slot:label>
         <div class="text-center">
           <v-tooltip location="bottom">
@@ -29,8 +29,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { Url } from "@/constants/url";
+import { useField } from "vee-validate";
+import {ref} from 'vue';
+
+const {handleChange} = useField('checkbox');
+const emits = defineEmits(["setCheck"]);
 
 const checkbox = ref(false);
+
+
+const submit = () => {
+  emits('setCheck',checkbox.value);
+}
+
 </script>

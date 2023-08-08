@@ -17,5 +17,5 @@ export default defineNuxtPlugin((_nuxtApp) => {
   defineRule('min', min)
   defineRule('email', email)
 
-  setLocale('ja')
+  localize('ja');
 })

@@ -6,29 +6,85 @@
     >
       or
     </div>
-    <Form>
+    <form method="POST">
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <UserFormEmail />
-      <UserFormName />
-      <UserFormPassword />
-      <UserFormPasswordConfirm />
-      <UserFormConsent />
+      <FormName @setName="receiveName" :name="form.name"/>
+      <FormEmail @setEmail="receiveEmail" :name="form.email"/>
+      <FormPassword @setPassword="receivePassword" :name="form.password"/>
+      <FormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation"/>
+      <FormConsent @setCheck="receiveCheck" :name="form.check"/>
       <ButtonCommon
         btnValue="登録"
         place="MAIN"
         width="16rem"
         setColor="orange"
         class="my-4 d-block"
+        :disabled="!checkFilledOut()"
+        @click="handleRegister"
       />
-    </Form>
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Form } from "vee-validate";
-import * as Yup from "yup";
+import { useAuthStore } from "../../stores/useAuthStore";
+import {ref} from 'vue';
+import { navigateTo } from "nuxt/app";
+const form = ref({
+  name:'',
+  email:'',
+  password:'',
+  password_confirmation:'',
+  check:''
+})
+
+const checkFilledOut = () => {
+
+  const fieldArray = [
+    form.value.name,
+    form.value.email,
+    form.value.password,
+    form.value.password_confirmation,
+  ]
+
+  if(form.value.password != form.value.password_confirmation) return;
+
+  if(fieldArray.indexOf('') === -1 && form.value.check){
+    return true;
+  }
+}
+
+
+const auth = useAuthStore();
+const receiveName= (receiveName) => {
+  form.value.name = receiveName;
+};
+
+const receiveEmail = (receiveEmail) => {
+  form.value.email = receiveEmail;
+};
+const receivePassword = (setPassword) => {
+  form.value.password = setPassword;
+};
+const receivePasswordConfirmation = (setPasswordConfirmation) => {
+  form.value.password_confirmation = setPasswordConfirmation;
+};
+
+const receiveCheck = (setCheck) => {
+  form.value.check = setCheck;
+};
+async function handleRegister() {
+
+  const {error} = await auth.register(form.value);
+  if(!error.value){
+    navigateTo('/auth');
+  }else{
+    navigateTo('/beforeLogin');
+  }
+}
+
 </script>
 
 <style scoped lang="scss"></style>
