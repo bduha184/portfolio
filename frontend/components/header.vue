@@ -50,7 +50,7 @@ const toggleMenu = () => {
         </v-toolbar-title>
         <v-spacer />
 
-        <Btn
+        <ButtonCommon
         btnValue="ログイン・新規登録"
         place="SIGNIN"
         class="invisible sm:visible"

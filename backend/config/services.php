@@ -31,12 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // 'google' => [
-    //     'client_id' => '1076463058274-b5hi3e826kc2tpv1iku5ht2o73s58su7.apps.googleusercontent.com',
-    //     'client_secret' => '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',
-    //     'redirect' => 'http://localhost/login/google/callback',
-    //     // 'client_id' => env('GOOGLE_CLIENT_ID'),
-    //     // 'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-    //     // 'redirect' => env('GOOGLE_CALLBACK_URL'),
-    // ],
+    'google' => [
+        'client_id' => '568288110776-5ulso9s8jre98sg4kd7g264uvavqvfvg.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => 'http://localhost:8000/api/login/google/callback',
+        // 'client_id' => env('GOOGLE_CLIENT_ID'),
+        // 'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        // 'redirect' => env('GOOGLE_CALLBACK_URL'),
+    ],
 ];

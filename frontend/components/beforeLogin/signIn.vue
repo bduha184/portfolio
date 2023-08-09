@@ -1,6 +1,25 @@
 <template>
   <div>
-    <ButtonSns />
+    <v-container>
+      <v-row>
+        <v-col>
+          <ButtonSns
+            btnValue="Googleでログイン"
+            img="google"
+            provider="google"
+            action="login"
+            />
+          </v-col>
+          <v-col>
+            <ButtonSns
+            btnValue="Lineでログイン"
+            img="line"
+            provider="line"
+            action="login"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
     <div class="supplement text-center my-4">or</div>
     <form method="POST" >
       <div class="text-caption">

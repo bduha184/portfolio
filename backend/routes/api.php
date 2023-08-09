@@ -37,7 +37,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::prefix('login')->name('login.')->group(function() {
     Route::post('/', [LoginController::class, 'login']);
     Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
-    Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
+    Route::get('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
 });
 
 Route::prefix('register')->name('register.')->group(function () {
