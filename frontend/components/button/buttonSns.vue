@@ -43,7 +43,6 @@ const submit = async(provider) => {
 
   }
 
-
 }
 
 </script>

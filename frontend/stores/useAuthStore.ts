@@ -72,6 +72,16 @@ export const useAuthStore = defineStore(
       return providerLogin;
     }
 
+    async function providerLoginRedirect(provider:Provider){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const providerLoginRedirect = await useApiFetch(`/api/login/${provider}/callback`,{
+        method:'POST'
+      });
+      await fetchUser();
+      return providerLoginRedirect;
+    }
+
     async function providerRegister(provider:Provider){
       await useApiFetch("/sanctum/csrf-cookie");
 
@@ -80,7 +90,7 @@ export const useAuthStore = defineStore(
       });
       return providerRegister;
     }
-    return { user, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister};
+    return { user, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect};
 
 
   },
