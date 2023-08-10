@@ -1,6 +1,24 @@
 <template>
   <div>
-    <ButtonSns />
+    <v-container>
+      <v-row>
+        <v-col>
+          <ButtonSns
+            btnValue="Googleで登録"
+            img="google"
+            provider="google"
+            action="register"
+            />
+          </v-col>
+          <v-col>
+            <ButtonSns
+            btnValue="Lineで登録"
+            img="line"
+            provider="line"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
     <div
       class="text-center my-4 relative before:absolute before:left-0 before:top-50 before:h-[1px] before:w-full before:bg-slate-600 z-0"
     >
@@ -13,7 +31,7 @@
       <FormName @setName="receiveName" :name="form.name"/>
       <FormEmail @setEmail="receiveEmail" :name="form.email"/>
       <FormPassword @setPassword="receivePassword" :name="form.password"/>
-      <FormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation"/>
+      <FormPasswordConfirm @setPasswordConfirmation="receivePasswordConfirmation" :name="form.password_confirmation" :confirm="form.confirm"/>
       <FormConsent @setCheck="receiveCheck" :name="form.check"/>
       <ButtonCommon
         btnValue="登録"
@@ -30,14 +48,16 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../../stores/useAuthStore";
-import {ref} from 'vue';
+import {ref,computed} from 'vue';
 import { navigateTo } from "nuxt/app";
 const form = ref({
   name:'',
   email:'',
   password:'',
   password_confirmation:'',
-  check:''
+  check:'',
+  confirm:false
+
 })
 
 const checkFilledOut = () => {
@@ -49,7 +69,12 @@ const checkFilledOut = () => {
     form.value.password_confirmation,
   ]
 
-  if(form.value.password != form.value.password_confirmation) return;
+  if(form.value.password != form.value.password_confirmation){
+    form.value.confirm = false;
+    return false;
+  }else{
+    form.value.confirm = true;
+  }
 
   if(fieldArray.indexOf('') === -1 && form.value.check){
     return true;

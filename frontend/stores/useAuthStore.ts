@@ -20,6 +20,10 @@ type RegistrationInfo = {
   password_confirmation: string;
 };
 
+type Provider = {
+  provider:string
+}
+
 export const useAuthStore = defineStore(
   "auth",
   () => {
@@ -61,7 +65,34 @@ export const useAuthStore = defineStore(
       await fetchUser();
       return register;
     }
-    return { user, login, logout, isLoggedIn, fetchUser, register };
+    async function providerLogin(provider:Provider){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const providerLogin = await useApiFetch(`/api/login/${provider}`);
+      return providerLogin;
+    }
+
+    async function providerLoginRedirect(provider:Provider){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const providerLoginRedirect = await useApiFetch(`/api/login/${provider}/callback`,{
+        method:'POST'
+      });
+      await fetchUser();
+      return providerLoginRedirect;
+    }
+
+    async function providerRegister(provider:Provider){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const providerRegister = await useApiFetch(`/api/register/${provider}`, {
+        method: "POST",
+      });
+      return providerRegister;
+    }
+    return { user, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect};
+
+
   },
   {
     persist: {
