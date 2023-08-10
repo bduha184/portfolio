@@ -24,6 +24,11 @@ type Provider = {
   provider:string
 }
 
+// type RedirectParams = {
+//   state:String,
+//   code:String,
+// }
+
 export const useAuthStore = defineStore(
   "auth",
   () => {
@@ -72,11 +77,12 @@ export const useAuthStore = defineStore(
       return providerLogin;
     }
 
-    async function providerLoginRedirect(provider:Provider){
+    async function providerLoginRedirect(provider:Provider,params){
       await useApiFetch("/sanctum/csrf-cookie");
 
       const providerLoginRedirect = await useApiFetch(`/api/login/${provider}/callback`,{
-        method:'POST'
+        method:'POST',
+        body:params
       });
       await fetchUser();
       return providerLoginRedirect;
