@@ -20,6 +20,26 @@ type RegistrationInfo = {
   password_confirmation: string;
 };
 
+type Provider = {
+  provider:string
+}
+
+type RedirectParams = {
+  authuser: number;
+  code:string;
+  Prompt:string;
+  scope:string;
+  State:string;
+}
+
+
+type SnsRegister = {
+  name:string,
+  email:string,
+  provider:string,
+  token:string
+}
+
 export const useAuthStore = defineStore(
   "auth",
   () => {
@@ -29,6 +49,17 @@ export const useAuthStore = defineStore(
     async function fetchUser() {
       const { data } = await useApiFetch("/api/user");
       user.value = data.value as User;
+    }
+
+    async function guestLogin(){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const guestLogin = await useApiFetch("/api/login/guestlogin",{
+        method:"POST"
+      });
+      await fetchUser();
+
+      return guestLogin;
     }
 
     async function logout() {
@@ -61,7 +92,37 @@ export const useAuthStore = defineStore(
       await fetchUser();
       return register;
     }
-    return { user, login, logout, isLoggedIn, fetchUser, register };
+    async function providerLogin(provider:Provider){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const providerLogin = await useApiFetch(`/api/login/${provider}`);
+      return providerLogin;
+    }
+
+    async function providerLoginRedirect(provider:Provider,params:RedirectParams){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const providerLoginRedirect = await useApiFetch(`/api/login/${provider}/callback`,{
+        method:'POST',
+        body:params
+      });
+      await fetchUser();
+      return providerLoginRedirect;
+    }
+
+    async function providerRegister(snsRegister:SnsRegister){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const providerRegister = await useApiFetch(`/api/register/${snsRegister.provider}`, {
+        method: "POST",
+        body:snsRegister
+      });
+      await fetchUser();
+      return providerRegister;
+    }
+    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect};
+
+
   },
   {
     persist: {

@@ -1,6 +1,23 @@
 <template>
   <div>
-    <ButtonSns />
+    <v-container>
+      <v-row>
+        <v-col>
+          <ButtonSns
+            btnValue="Googleで登録"
+            img="google"
+            provider="google"
+            />
+          </v-col>
+          <v-col>
+            <ButtonSns
+            btnValue="Lineで登録"
+            img="line"
+            provider="line"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
     <div
       class="text-center my-4 relative before:absolute before:left-0 before:top-50 before:h-[1px] before:w-full before:bg-slate-600 z-0"
     >

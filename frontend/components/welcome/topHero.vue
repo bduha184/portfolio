@@ -39,7 +39,7 @@
             />
             <ButtonCommon
             btnValue="ゲストユーザーとしてログイン"
-            place="MAIN"
+            place="guest"
             setColor="orange"
             width="16rem"
             class="mt-4 d-block d-sm-none"
