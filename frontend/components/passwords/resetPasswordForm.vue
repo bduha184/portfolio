@@ -15,7 +15,7 @@
         :confirm="form.confirm"
       />
       <ButtonCommon
-        btnValue="パスワード再設定"
+        btnValue="登録する"
         place="MAIN"
         width="16rem"
         setColor="orange"
