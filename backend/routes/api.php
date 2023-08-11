@@ -36,6 +36,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::prefix('login')->name('login.')->group(function() {
     Route::post('/', [LoginController::class, 'login']);
+    Route::post('/guestlogin', [LoginController::class, 'guestLogin'])->name('guest');
     Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
     Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
 });

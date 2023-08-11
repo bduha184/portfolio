@@ -14,7 +14,7 @@ import {
 export const Icons = {
   HOME:mdiHome,
   ACCOUNT:mdiAccount,
-  MEMBER:mdiAccountCircle,
+  MYPAGE:mdiAccountCircle,
   RECRUIT:mdiBike,
   INFORMATION:mdiInformation,
   MAP:mdiMapMarker,

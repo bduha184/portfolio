@@ -43,5 +43,4 @@
 import {ref,computed} from 'vue';
 import {Features} from "@/constants/features";
 
-
 </script>

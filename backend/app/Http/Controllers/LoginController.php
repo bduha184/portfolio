@@ -15,6 +15,14 @@ class LoginController extends Controller
 {
     //
 
+    public function guestLogin() {
+        $user = User::find(1);
+        Auth::login($user);
+        return response()->json([
+            'message'=>'User Logged In Successfully'
+        ]);
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -77,9 +85,12 @@ class LoginController extends Controller
         }
 
         return response()->json([
+            'user'=>false,
             'provider' => $provider,
             'email' => $providerUser->getEmail(),
             'token' => $providerUser->token,
         ]);
+
+
     }
 }

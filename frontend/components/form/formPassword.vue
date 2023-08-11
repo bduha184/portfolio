@@ -6,7 +6,7 @@
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
       @blur="handleChange"
-      :value="password"
+      :value="name"
     />
     <p v-if="errors.password" class="text-red">{{ errors.password }}</p>
     <p v-else class="text-caption">※８文字以上、半角英数・記号</p>
@@ -17,7 +17,7 @@ import { useForm ,useField } from "vee-validate";
 import {object,string} from "yup";
 
 const props = defineProps({
-  password: String,
+  name: String,
 });
 const emailSchema = object({
   password:

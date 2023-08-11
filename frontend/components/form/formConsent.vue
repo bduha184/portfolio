@@ -1,46 +1,69 @@
 <template>
   <v-container>
-    <v-checkbox @input="submit" v-model="checkbox" color="black">
-      <template v-slot:label>
-        <div class="text-center">
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <NuxtLink class="text-red" :to="Url.TOP" v-bind="props"
-                >利用規約</NuxtLink
-              >
-            </template>
-            <span> 利用規約が表示されます </span>
-          </v-tooltip>
-          <v-tooltip v-bind="props"> </v-tooltip>
-          <span>・</span>
-          <v-tooltip location="bottom">
-            <template v-slot:activator="{ props }">
-              <NuxtLink class="text-red" :to="Url.TOP" v-bind="props"
-                >プライバシーポリシー</NuxtLink
-              >
-            </template>
-            プライバシーポリシーが表示されます
-          </v-tooltip>
-          を確認し、同意しました<span class="text-red text-caption">※</span>
-        </div>
-      </template>
-    </v-checkbox>
+    <div class="d-flex flex-wrap align-center">
+      <input
+        type="checkbox"
+        class="mr-4"
+        :class="{ active: checked }"
+        v-model="checked"
+        @click="submit"
+        />
+        <RulesTerms />
+      <span>・</span>
+      <RulesPrivacyPolicy />
+      <a href="#" @click.prevent="submit">
+        を確認し、同意しました<span class="text-red text-caption">※</span>
+      </a>
+    </div>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { Url } from "@/constants/url";
 import { useField } from "vee-validate";
-import {ref} from 'vue';
+import { ref } from "vue";
 
-const {handleChange} = useField('checkbox');
+const { handleChange } = useField("checkbox");
 const emits = defineEmits(["setCheck"]);
 
-const checkbox = ref(false);
-
+const checked = ref(false);
 
 const submit = () => {
-  emits('setCheck',checkbox.value);
-}
-
+  checked.value = checked.value ? false : true;
+  emits("setCheck", checked.value);
+};
 </script>
+
+<style lang="scss" scoped>
+input[type="checkbox"] {
+  appearance: none;
+  position: relative;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0104b7;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 0.6;
+    -webkit-transition: all 0.12s, border-color 0.08s;
+    transition: all 0.12s, border-color 0.08s;
+  }
+
+  &:checked {
+    &::before {
+      width: 10px;
+      top: -5px;
+      left: 5px;
+      border-radius: 0;
+      opacity: 1;
+      border-top-color: transparent;
+      border-left-color: transparent;
+      transform:translate(-80%,-40%) rotate(45deg);
+    }
+  }
+}
+</style>
