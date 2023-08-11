@@ -9,6 +9,10 @@ type User = {
   email: string;
 };
 
+type Email = {
+  email:string
+}
+
 type Credentials = {
   email: string;
   password: string;
@@ -38,6 +42,13 @@ type SnsRegister = {
   email:string,
   provider:string,
   token:string
+}
+
+type ResetPassword = {
+  token:any,
+  email:string,
+  password:string,
+  password_confirmation:string,
 }
 
 export const useAuthStore = defineStore(
@@ -120,7 +131,38 @@ export const useAuthStore = defineStore(
       await fetchUser();
       return providerRegister;
     }
-    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect};
+
+
+    async function forgotPassword(email:Email){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const forgotPassword = await useApiFetch('/forgot-password',{
+        method:'POST',
+        body:email
+      })
+
+      await fetchUser();
+      return forgotPassword;
+    }
+
+    async function resetPassword(token:ResetPassword,email:ResetPassword,password:ResetPassword,password_confirmation:ResetPassword){
+
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const resetPassword = await useApiFetch('/reset-password',{
+        method:'POST',
+        body:{
+          token,
+          email,
+          password,
+          password_confirmation
+        }
+      })
+
+      await fetchUser();
+      return resetPassword;
+    }
+    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
 
 
   },
