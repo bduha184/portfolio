@@ -7,10 +7,10 @@
         :class="{ active: checked }"
         v-model="checked"
         @click="submit"
-      />
-      <RulesPrivacyPolicy />
+        />
+        <RulesTerms />
       <span>・</span>
-      <RulesTerms />
+      <RulesPrivacyPolicy />
       <a href="#" @click.prevent="submit">
         を確認し、同意しました<span class="text-red text-caption">※</span>
       </a>

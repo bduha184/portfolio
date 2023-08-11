@@ -1,141 +1,151 @@
 <template>
-    <v-dialog v-model="dialog" width="600px">
-      <template v-slot:activator="{ props }">
-        <div class="text-red"  v-bind="props">利用規約</div>
-      </template>
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">利用規約</span>
-        </v-card-title>
-        <v-card-text>
-          Lorem ipsum dolor sit amet, semper quis, sapien id natoque elit.
-          Nostra urna at, magna at neque sed sed ante imperdiet, dolor mauris
-          cursus velit, velit non, sem nec. Volutpat sem ridiculus placerat leo,
-          augue in, duis erat proin condimentum in a eget, sed fermentum sed
-          vestibulum varius ac, vestibulum volutpat orci ut elit eget tortor.
-          Ultrices nascetur nulla gravida ante arcu. Pharetra rhoncus morbi
-          ipsum, nunc tempor debitis, ipsum pellentesque, vitae id quam ut
-          mauris dui tempor, aptent non. Quisque turpis. Phasellus quis lectus
-          luctus orci eget rhoncus. Amet donec vestibulum mattis commodo, nulla
-          aliquet, nibh praesent, elementum nulla. Sit lacus pharetra tempus
-          magna neque pellentesque, nulla vel erat. Justo ex quisque nulla
-          accusamus venenatis, sed quis. Nibh phasellus gravida metus in, fusce
-          aenean ut erat commodo eros. Ut turpis, dui integer, nonummy pede
-          placeat nec in sit leo. Faucibus porttitor illo taciti odio, amet
-          viverra scelerisque quis quis et tortor, curabitur morbi a. Enim
-          tempor at, rutrum elit condimentum, amet rutrum vitae tempor torquent
-          nunc. Praesent vestibulum integer maxime felis. Neque aenean quia
-          vitae nostra, tempus elit enim id dui, at egestas pulvinar. Integer
-          libero vestibulum, quis blandit scelerisque mattis fermentum nulla,
-          tortor donec vestibulum dolor amet eget, elit nullam. Aliquam leo
-          phasellus aliquam curabitur metus a, nulla justo mattis duis interdum
-          vel, mollis vitae et id, vestibulum erat ridiculus sit pulvinar justo
-          sed. Vehicula convallis, et nulla wisi, amet vestibulum risus, quam ac
-          egestas. Et vitae, nulla gravida erat scelerisque nullam nunc
-          pellentesque, a dictumst cras augue, purus imperdiet non. Varius
-          montes cursus varius vel tortor, nec leo a qui, magni cras, velit vel
-          consectetuer lobortis vel. Nibh erat et wisi felis leo porttitor,
-          sapien nibh sapien pede mi, sed eget porttitor, repellendus arcu ac
-          quis. Luctus vulputate aut est sem magna, placerat accumsan nunc
-          vestibulum ipsum ac auctor, maecenas lorem in ut nec mauris tortor,
-          doloribus varius sem tortor vestibulum mollis, eleifend tortor felis
-          tempus lacus eu eu. Eleifend vel eu, nullam maecenas mauris nec nunc
-          euismod, tortor porta ridiculus potenti, massa tristique nam magna, et
-          wisi placerat et erat ante. Eget pede erat in facilisis, fermentum
-          venenatis sodales. Ac tortor sociis et non animi tristique, rhoncus
-          malesuada, ut arcu volutpat scelerisque sollicitudin, elit curabitur
-          dui pede purus dolor, integer aenean risus taciti nulla eleifend
-          accumsan. At pulvinar diam parturient, interdum mi velit aliquet et a.
-          Arcu at ac placerat eget justo semper, purus sociis curabitur mi ipsum
-          consequat ut, mollis vestibulum, est ante ornare lacus sem. Neque
-          magna mauris, commodo quisque, praesent semper suscipit lobortis nam.
-          Justo malesuada cursus ac nunc litora nunc. Tellus ac, in lobortis
-          nunc, montes lectus purus fermentum. Ac sit wisi. Sodales aliquam, sed
-          vestibulum nullam arcu sit risus arcu, id luctus vitae lorem nibh,
-          integer nec nullam class cursus mi, purus arcu lectus. Vel ante
-          suscipit volutpat potenti mattis sed, wisi eu placerat aliquam erat,
-          lectus morbi lobortis at assumenda. Consequat neque purus ipsum
-          voluptas odio, netus vestibulum ut nec, suspendisse pellentesque nec
-          enim in. Wisi dictum sed semper a, ipsum erat tellus habitasse est,
-          erat sem ornare, vitae quisque ultricies. Dui sed blandit. Tempor et
-          faucibus justo sed luctus, nec vitae vitae. Nunc nibh pede, ipsum
-          vestibulum aenean leo ante ultricies, nam cras quis sed penatibus
-          amet. In mauris a. Integer metus mauris tortor, et rutrum vestibulum
-          ultricies, ut phasellus in ullamcorper ut mollit, eu justo. Cursus
-          pretium venenatis. Cras pellentesque vel sodales accumsan aenean.
-          Feugiat metus sit nec in aliquet amet, porttitor pretium vulputate
-          massa. Consequat ipsum luctus quisque adipiscing libero. Wisi
-          sollicitudin. Eget vitae ac lobortis, lorem natoque vestibulum et,
-          aliquet faucibus at morbi nibh, vel condimentum. Massa unde orci sed
-          id sed, odio donec congue nec praesent amet. Hymenaeos velit lacus,
-          quis vivamus libero tempus duis, eu nisi eu, ipsum at accumsan pede
-          justo morbi donec, massa et libero sit risus neque tortor. Ut sed sed
-          etiam hendrerit dapibus, quis metus suspendisse nibh. Fringilla tempor
-          felis augue magna. Cum arcu a, id vitae. Pellentesque pharetra in cras
-          sociis adipiscing est. Nibh nec mattis at maecenas, nisl orci aliquam
-          nulla justo egestas venenatis, elementum duis vel porta eros, massa
-          vitae, eligendi imperdiet amet. Nec neque luctus suscipit, justo sem
-          praesent, ut nisl quisque, volutpat torquent wisi tellus aliquam
-          reprehenderit, curabitur cras at quis massa porttitor mauris. Eros sed
-          ultrices. Amet dignissim justo urna feugiat mauris litora, etiam
-          accumsan, lobortis a orci suspendisse. Semper ac mauris, varius
-          bibendum pretium, orci urna nunc ullamcorper auctor, saepe sem integer
-          quam, at feugiat egestas duis. Urna ligula ante. Leo elementum
-          nonummy. Sagittis mauris est in ipsum, nulla amet non justo, proin id
-          potenti platea posuere sit ut, nunc sit erat bibendum. Nibh id auctor,
-          ab nulla vivamus ultrices, posuere morbi nunc tellus gravida vivamus.
-          Mauris nec, facilisi quam fermentum, ut mauris integer, orci tellus
-          tempus diam ut in pellentesque. Wisi faucibus tempor et odio leo diam,
-          eleifend quis integer curabitur sit scelerisque ac, mauris consequat
-          luctus quam penatibus fringilla dis, vitae lacus in, est eu ac tempus.
-          Consectetuer amet ipsum amet dui, sed blandit id sed. Tellus integer,
-          dignissim id pede sodales quis, felis dolorem id mauris orci, orci
-          tempus ut. Nullam hymenaeos. Curabitur in a, tortor ut praesent
-          placerat tincidunt interdum, ac dignissim metus nonummy hendrerit
-          wisi, etiam ut. Semper praesent integer fusce, tortor suspendisse,
-          augue ligula orci ante asperiores ullamcorper. In sit per mi sed sed,
-          mi vestibulum mus nam, morbi mauris neque vitae aliquam proin
-          senectus. Ac amet arcu mollis ante congue elementum, inceptos eget
-          optio quam pellentesque quis lobortis, sollicitudin sed vestibulum
-          sollicitudin, lectus parturient nullam, leo orci ligula ultrices. At
-          tincidunt enim, suspendisse est sit sem ac. Amet tellus molestie est
-          purus magna augue, non etiam et in wisi id. Non commodo, metus lorem
-          facilisi lobortis ac velit, montes neque sed risus consectetuer
-          fringilla dolor. Quam justo et integer aliquam, cursus nulla enim
-          orci, nam cursus adipiscing, integer torquent non, fringilla per
-          maecenas. Libero ipsum sed tellus purus et. Duis molestie placerat
-          erat donec ut. Dolor enim erat massa faucibus ultrices in, ante
-          ultricies orci lacus, libero consectetuer mauris magna feugiat neque
-          dapibus, donec pretium et. Aptent dui, aliquam et et amet nostra
-          ligula. Augue curabitur duis dui volutpat, tempus sed ut pede donec.
-          Interdum luctus, lectus nulla aenean elit, id sit magna, vulputate
-          ultrices pellentesque vel id fermentum morbi. Tortor et. Adipiscing
-          augue lorem cum non lacus, rutrum sodales laoreet duis tortor, modi
-          placerat facilisis et malesuada eros ipsum, vehicula tempus. Ac
-          vivamus amet non aliquam venenatis lectus, sociosqu adipiscing
-          consequat nec arcu odio. Blandit orci nec nec, posuere in pretium,
-          enim ut, consectetuer nullam urna, risus vel. Nullam odio vehicula
-          massa sed, etiam sociis mauris, lacus ullamcorper, libero imperdiet
-          non sodales placerat justo vehicula. Nec morbi imperdiet. Fermentum
-          sem libero iaculis bibendum et eros, eget maecenas non nunc, ad
-          pellentesque. Ut nec diam elementum interdum. Elementum vitae tellus
-          lacus vitae, ipsum phasellus, corporis vehicula in ac sed massa
-          vivamus, rutrum elit, ultricies metus volutpat. Semper wisi et,
-          sollicitudin nunc vestibulum, cursus accumsan nunc pede tempus mi
-          ipsum, ligula sed. Non condimentum ac dolor sit. Mollis eu aliquam,
-          vel mattis mollis massa ut dolor ante, tempus lacinia arcu. Urna
-          vestibulum lorem, nulla fermentum, iaculis ut congue ac vivamus. Nam
-          libero orci, pulvinar nulla, enim pellentesque consectetuer leo,
-          feugiat rhoncus rhoncus vel. Magna sociosqu donec, dictum cursus
-          ullamcorper viverra. Ultricies quis orci lorem, suspendisse ut
-          vestibulum integer, purus sed lorem pulvinar habitasse turpis. +
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false"> × </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+  <v-dialog v-model="dialog" width="600px">
+    <template v-slot:activator="{ props }">
+      <div class="text-red" v-bind="props">プライバシーポリシー</div>
+    </template>
+    <v-card class="py-5 px-3">
+      <v-card-title>
+        <h2 class="text-h4 font-weight-bold text-center">プライバシーポリシー</h2>
+      </v-card-title>
+      <v-card-text>
+        <p>CycleCommunity（以下，「当サイト」といいます。）は，本ウェブサイト上で提供するサービス（以下,「本サービス」といいます。）における，ユーザーの個人情報の取扱いについて，以下のとおりプライバシーポリシー（以下，「本ポリシー」といいます。）を定めます。</p>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第1条（個人情報）</h3>
+        <p>「個人情報」とは，個人情報保護法にいう「個人情報」を指すものとし，生存する個人に関する情報であって，当該情報に含まれる氏名，生年月日，住所，電話番号，連絡先その他の記述等により特定の個人を識別できる情報及び容貌，指紋，声紋にかかるデータ，及び健康保険証の保険者番号などの当該情報単体から特定の個人を識別できる情報（個人識別情報）を指します。</p>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第2条（個人情報の収集方法）</h3>
+        <p>当社は，ユーザーが利用登録をする際に氏名，生年月日，住所，電話番号，メールアドレス，銀行口座番号，クレジットカード番号，運転免許証番号などの個人情報をお尋ねすることがあります。また，ユーザーと提携先などとの間でなされたユーザーの個人情報を含む取引記録や決済に関する情報を,当社の提携先（情報提供元，広告主，広告配信先などを含みます。以下，｢提携先｣といいます。）などから収集することがあります。</p>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第3条（個人情報を収集・利用する目的）</h3>
+        <p>当社が個人情報を収集・利用する目的は，以下のとおりです。</p>
+        <ol>
+          <li>当社サービスの提供・運営のため</li>
+          <li>
+            ユーザーからのお問い合わせに回答するため（本人確認を行うことを含む）
+          </li>
+          <li>
+            ユーザーが利用中のサービスの新機能，更新情報，キャンペーン等及び当社が提供する他のサービスの案内のメールを送付するため
+          </li>
+          <li>メンテナンス，重要なお知らせなど必要に応じたご連絡のため</li>
+          <li>
+            利用規約に違反したユーザーや，不正・不当な目的でサービスを利用しようとするユーザーの特定をし，ご利用をお断りするため
+          </li>
+          <li>
+            ユーザーにご自身の登録情報の閲覧や変更，削除，ご利用状況の閲覧を行っていただくため
+          </li>
+          <li>有料サービスにおいて，ユーザーに利用料金を請求するため</li>
+          <li>上記の利用目的に付随する目的</li>
+        </ol>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第4条（利用目的の変更）</h3>
+        <ol>
+          <li>
+            当社は，利用目的が変更前と関連性を有すると合理的に認められる場合に限り，個人情報の利用目的を変更するものとします。
+          </li>
+          <li>
+            利用目的の変更を行った場合には，変更後の目的について，当社所定の方法により，ユーザーに通知し，または本ウェブサイト上に公表するものとします。
+          </li>
+        </ol>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第5条（個人情報の第三者提供）</h3>
+        <ol>
+          <li>当社は，次に掲げる場合を除いて，あらかじめユーザーの同意を得ることなく，第三者に個人情報を提供することはありません。ただし，個人情報保護法その他の法令で認められる場合を除きます。</li>
+            <ol>
+              <li>
+                人の生命，身体または財産の保護のために必要がある場合であって，本人の同意を得ることが困難であるとき
+              </li>
+              <li>
+                公衆衛生の向上または児童の健全な育成の推進のために特に必要がある場合であって，本人の同意を得ることが困難であるとき
+              </li>
+              <li>
+                国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合であって，本人の同意を得ることにより当該事務の遂行に支障を及ぼすおそれがあるとき
+              </li>
+              <li>予め次の事項を告知あるいは公表し，かつ当社が個人情報保護委員会に届出をしたとき</li>
+                <ol>
+                  <li>利用目的に第三者への提供を含むこと</li>
+                  <li>第三者に提供されるデータの項目</li>
+                  <li>第三者への提供の手段または方法</li>
+                  <li>本人の求めに応じて個人情報の第三者への提供を停止すること</li>
+                  <li>本人の求めを受け付ける方法</li>
+                </ol>
+            </ol>
+          <li>前項の定めにかかわらず，次に掲げる場合には，当該情報の提供先は第三者に該当しないものとします。</li>
+            <ol>
+              <li>当社が利用目的の達成に必要な範囲内において個人情報の取扱いの全部または一部を委託する場合</li>
+              <li>合併その他の事由による事業の承継に伴って個人情報が提供される場合</li>
+              <li>個人情報を特定の者との間で共同して利用する場合であって，その旨並びに共同して利用される個人情報の項目，共同して利用する者の範囲，利用する者の利用目的および当該個人情報の管理について責任を有する者の氏名または名称について，あらかじめ本人に通知し，または本人が容易に知り得る状態に置いた場合</li>
+            </ol>
+          </ol>
+
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第6条（個人情報の開示）</h3>
+        <ol>
+          <li>
+            当社は，本人から個人情報の開示を求められたときは，本人に対し，遅滞なくこれを開示します。ただし，開示することにより次のいずれかに該当する場合は，その全部または一部を開示しないこともあり，開示しない決定をした場合には，その旨を遅滞なく通知します。なお，個人情報の開示に際しては，1件あたり1，000円の手数料を申し受けます。
+          </li>
+          <ol>
+            <li>
+              本人または第三者の生命，身体，財産その他の権利利益を害するおそれがある場合
+            </li>
+            <li>
+              当社の業務の適正な実施に著しい支障を及ぼすおそれがある場合
+            </li>
+            <li>その他法令に違反することとなる場合</li>
+          </ol>
+          <li>
+            前項の定めにかかわらず，履歴情報および特性情報などの個人情報以外の情報については，原則として開示いたしません。
+          </li>
+        </ol>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第7条（個人情報の訂正および削除）</h3>
+        <ol>
+          <li>
+            ユーザーは，当社の保有する自己の個人情報が誤った情報である場合には，当社が定める手続きにより，当社に対して個人情報の訂正，追加または削除（以下，「訂正等」といいます。）を請求することができます。
+          </li>
+          <li>
+            当社は，ユーザーから前項の請求を受けてその請求に応じる必要があると判断した場合には，遅滞なく，当該個人情報の訂正等を行うものとします。
+          </li>
+          <li>
+            当社は，前項の規定に基づき訂正等を行った場合，または訂正等を行わない旨の決定をしたときは遅滞なく，これをユーザーに通知します。
+          </li>
+        </ol>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第8条（個人情報の利用停止等）</h3>
+        <ol>
+          <li>
+            当社は，本人から，個人情報が，利用目的の範囲を超えて取り扱われているという理由，または不正の手段により取得されたものであるという理由により，その利用の停止または消去（以下，「利用停止等」といいます。）を求められた場合には，遅滞なく必要な調査を行います。
+          </li>
+
+          <li>
+            前項の調査結果に基づき，その請求に応じる必要があると判断した場合には，遅滞なく，当該個人情報の利用停止等を行います。
+          </li>
+          <li>
+            当社は，前項の規定に基づき利用停止等を行った場合，または利用停止等を行わない旨の決定をしたときは，遅滞なく，これをユーザーに通知します。
+          </li>
+          <li>前2項にかかわらず，利用停止等に多額の費用を有する場合その他利用停止等を行うことが困難な場合であって，ユーザーの権利利益を保護するために必要なこれに代わるべき措置をとれる場合は，この代替策を講じるものとします。</li>
+        </ol>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第9条（プライバシーポリシーの変更）</h3>
+        <ol>
+          <li>
+            本ポリシーの内容は，法令その他本ポリシーに別段の定めのある事項を除いて，ユーザーに通知することなく，変更することができるものとします。
+          </li>
+          <li>
+            当社が別途定める場合を除いて，変更後のプライバシーポリシーは，本ウェブサイトに掲載したときから効力を生じるものとします。
+          </li>
+        </ol>
+        <h3 class="pt-5 pb-4 font-weight-bold text-h6">第10条（お問い合わせ窓口）</h3>
+        <p>
+          本ポリシーに関するお問い合わせは，下記の窓口までお願いいたします。
+        </p>
+        <ul>
+          <li>宛先：Cycle Communityお問い合わせ窓口</li>
+          <li>Eメールアドレス：hoge@hoge.com</li>
+        </ul>
+        <p class="pt-8">以上</p>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="w-100 text-center text-h4"
+          @click="dialog = false"
+        >
+          ×
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -146,3 +156,9 @@ const props = defineProps({
 });
 const dialog = ref(props.name);
 </script>
+
+<style lang="scss">
+ol {
+  list-style: decimal;
+}
+</style>
