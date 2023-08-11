@@ -133,12 +133,12 @@
           <li>宛先：Cycle Communityお問い合わせ窓口</li>
           <li>Eメールアドレス：hoge@hoge.com</li>
         </ul>
-        <p class="pt-8">以上</p>
+        <p class="pt-8 text-right" >以上</p>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="mx-auto">
         <v-spacer></v-spacer>
         <v-btn
-          class="w-100 text-center text-h4"
+          class="text-h4"
           @click="dialog = false"
         >
           ×

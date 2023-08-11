@@ -138,11 +138,11 @@
           <li>本規約の解釈にあたっては，日本法を準拠法とします。</li>
           <li>本サービスに関して紛争が生じた場合には，当サイトの本店所在地を管轄する裁判所を専属的合意管轄とします。</li>
         </ol>
-        <p class="pt-7">以上</p>
+        <p class="pt-7 text-right">以上</p>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="mx-auto">
         <v-btn
-          class="w-100 text-center text-h4"
+          class=" text-center text-h4"
           @click="dialog = false"
         >
           ×
