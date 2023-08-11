@@ -15,6 +15,7 @@
         :disabled="!checkFilledOut()"
         @click.prevent="snsHandleRegister"
       />
+
     </form>
   </div>
 </template>
