@@ -8,7 +8,7 @@
     :class="setColor == 'orange' ? 'bg-orange text-white' : ''"
   >
   {{ btnValue }}
-  </v-btn>
+</v-btn>
 </template>
 
 <script setup lang="ts">

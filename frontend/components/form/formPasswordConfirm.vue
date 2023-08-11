@@ -10,7 +10,7 @@
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
       @blur="handleChange"
-      :value="password"
+      :value="name"
     />
     <p v-if="errors.password" class="text-red">{{ errors.password }}</p>
     <p v-if="!props.confirm" class="text-red">パスワードが異なります</p>
@@ -20,10 +20,9 @@
 <script setup lang="ts">
 import { useForm ,useField } from "vee-validate";
 import {object,string} from "yup";
-import {ref} from 'vue';
 
 const props = defineProps({
-  password: String,
+  name: String,
   confirm:String
 });
 const emailSchema = object({
