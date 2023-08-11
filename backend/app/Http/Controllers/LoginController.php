@@ -77,9 +77,12 @@ class LoginController extends Controller
         }
 
         return response()->json([
+            'user'=>false,
             'provider' => $provider,
             'email' => $providerUser->getEmail(),
             'token' => $providerUser->token,
         ]);
+
+
     }
 }

@@ -24,10 +24,21 @@ type Provider = {
   provider:string
 }
 
-// type RedirectParams = {
-//   state:String,
-//   code:String,
-// }
+type RedirectParams = {
+  authuser: number;
+  code:string;
+  Prompt:string;
+  scope:string;
+  State:string;
+}
+
+
+type SnsRegister = {
+  name:string,
+  email:string,
+  provider:string,
+  token:string
+}
 
 export const useAuthStore = defineStore(
   "auth",
@@ -77,7 +88,7 @@ export const useAuthStore = defineStore(
       return providerLogin;
     }
 
-    async function providerLoginRedirect(provider:Provider,params){
+    async function providerLoginRedirect(provider:Provider,params:RedirectParams){
       await useApiFetch("/sanctum/csrf-cookie");
 
       const providerLoginRedirect = await useApiFetch(`/api/login/${provider}/callback`,{
@@ -88,12 +99,14 @@ export const useAuthStore = defineStore(
       return providerLoginRedirect;
     }
 
-    async function providerRegister(provider:Provider){
+    async function providerRegister(snsRegister:SnsRegister){
       await useApiFetch("/sanctum/csrf-cookie");
 
-      const providerRegister = await useApiFetch(`/api/register/${provider}`, {
+      const providerRegister = await useApiFetch(`/api/register/${snsRegister.provider}`, {
         method: "POST",
+        body:snsRegister
       });
+      await fetchUser();
       return providerRegister;
     }
     return { user, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect};

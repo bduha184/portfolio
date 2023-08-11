@@ -7,7 +7,6 @@
             btnValue="Googleでログイン"
             img="google"
             provider="google"
-            action="login"
             />
           </v-col>
           <v-col>
@@ -15,7 +14,6 @@
             btnValue="Lineでログイン"
             img="line"
             provider="line"
-            action="login"
           />
         </v-col>
       </v-row>

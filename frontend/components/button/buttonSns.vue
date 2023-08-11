@@ -27,21 +27,12 @@ const props = defineProps({
   btnValue:String,
   img:String,
   provider:String,
-  action:String
 })
 
 const submit = async(provider) => {
 
-  if(props.action == 'register'){
-    const registerRes = await auth.providerRegister(provider);
-
-    console.log(registerRes);
-  }else {
-
     const loginRes = await auth.providerLogin(provider);
         window.location.href = loginRes.data.value.redirect_url;
-
-  }
 
 }
 

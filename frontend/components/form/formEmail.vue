@@ -8,7 +8,7 @@
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
       @blur="handleChange"
-      :value="email"
+      :value="name"
     />
     <p class="text-red">{{ errors.email }}</p>
   </div>
@@ -18,8 +18,10 @@ import { useForm ,useField } from "vee-validate";
 import {object,string} from "yup";
 
 const props = defineProps({
-  email: String,
+  name:String
 });
+
+
 const emailSchema = object({
   email:
   string().
@@ -42,6 +44,6 @@ const {handleChange} = useField('email');
 const emits = defineEmits(["setEmail"]);
 
 const submit = () => {
-  emits("setEmail",email,meta.value);
+  emits("setEmail",email);
 };
 </script>

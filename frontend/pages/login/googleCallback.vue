@@ -1,31 +1,40 @@
 <template>
-  <div>
-    認証中
-  </div>
+  <div>認証中</div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useAuthStore } from "../../stores/useAuthStore";
-import {useRoute} from 'vue-router';
+import { useRoute } from "vue-router";
 import { navigateTo } from "nuxt/app";
 const auth = useAuthStore();
 const route = useRoute();
 
-console.log(route);
+const sendToken = async (provider, query) => {
+  const redirectRes = await auth.providerLoginRedirect(provider, query);
 
-const sendToken = async (provider) => {
-    const redirectRes = await auth.providerLoginRedirect(provider,route.query);
-console.log(redirectRes);
 
-if(!redirectRes.status) return navigateTo('/beforeLogin');
+  if (redirectRes.error.value != null) {
+    return navigateTo("/beforeLogin");
+  }
 
-return navigateTo('/auth');
+  if (redirectRes.data.value.user == false) {
+    return navigateTo({
 
+    path:'/beforeLogin/snsRegister',
+      query: {
+        email:redirectRes.data.value.email,
+        provider:redirectRes.data.value.provider,
+        token:redirectRes.data.value.token
+      }
+
+    })
+
+  }
+  return navigateTo("/auth");
 };
 
-onMounted(()=>{
-  sendToken('google');
-})
-
+onMounted(() => {
+  sendToken("google", route.query);
+});
 </script>

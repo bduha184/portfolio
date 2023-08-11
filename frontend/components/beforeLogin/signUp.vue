@@ -7,7 +7,6 @@
             btnValue="Googleで登録"
             img="google"
             provider="google"
-            action="register"
             />
           </v-col>
           <v-col>
