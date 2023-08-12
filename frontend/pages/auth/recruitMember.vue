@@ -50,19 +50,19 @@ const onClick = async () => {
   formData.append('title',items.value.title);
   formData.append('text',items.value.text);
 
-  // console.log(...formData.entries());
-  await useApiFetch("/sanctum/csrf-cookie");
+  console.log(...formData.entries());
+  // await useApiFetch("/sanctum/csrf-cookie");
 
-  const res =  await useApiFetch("/api/recruit/register", {
-    method: "POST",
-    body: {
-      formData,
-    },
-    headers: {
-          'content-type': 'multipart/form-data'
-          }
-  });
+  // const res =  await useApiFetch("/api/recruit/register", {
+  //   method: "POST",
+  //   body: {
+  //     formData,
+  //   },
+  //   headers: {
+  //         'content-type': 'multipart/form-data'
+  //         }
+  // });
 
-  console.log(res);
+  // console.log(res);
 };
 </script>
