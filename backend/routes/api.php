@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RecruitController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -30,6 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
     Route::put('/articles/{id}/like', [ArticleController::class, 'like']);
     Route::delete('/articles/{id}/unlike', [ArticleController::class, 'unlike']);
+
+});
+Route::prefix('recruit')->name('recruit.')->group(function(){
+    Route::post('/register',[RecruitController::class,'store'])->name('register');
 });
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);

@@ -10,6 +10,5 @@ const props = defineProps({
   text:String
 })
 
-const text = ref('test');
 
 </script>

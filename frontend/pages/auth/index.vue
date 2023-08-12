@@ -6,16 +6,21 @@
     >
     ログアウト
     </v-btn>
-    {{ auth }}
+    <NuxtLink :to="Url.AUTHRECRUIT">
+      メンバー募集
+    </NuxtLink>
   </v-container>
 </template>
 <script setup lang="ts">
 import {definePageMeta} from '#imports';
+import {Url} from '../../constants/url';
 import { useAuthStore } from '../../stores/useAuthStore';
 
 definePageMeta({
   middleware: ["auth"]
 })
+
+console.log(Url.AUTHRECRUIT);
 
 const auth = useAuthStore();
 

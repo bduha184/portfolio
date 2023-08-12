@@ -5,11 +5,43 @@
       <FormMultipleSearch/>
       <DisplayTeamCount/>
       <TabsRecruitTab/>
-      <CardsRecruitCard/>
+      <CardsRecruitCard
+      v-for="(item,index ) in items"
+      :key="index"
+      :title="item.title"
+      :text="item.text"
+      />
     </v-container>
   </div>
 </template>
 <script setup lang="ts">
+
+import {ref} from 'vue';
+
+
+const item = ref({
+  title:'',
+  text:''
+})
+
+const items  = [
+  {
+    title:'タイトル１',
+    text:'テキスト１'
+  },
+  {
+    title:'タイトル2',
+    text:'テキスト2'
+  },
+  {
+    title:'タイトル３',
+    text:'テキスト３'
+  },
+  {
+    title:'タイトル４',
+    text:'テキスト４'
+  }
+]
 
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-   <v-container class="bg-white">
+   <div class="bg-white my-5">
       <v-tabs
         v-model="tab"
         fixed-tabs
@@ -14,7 +14,7 @@
       {{ tab.name }}
         </v-tab>
       </v-tabs>
-    </v-container>
+    </div>
 </template>
 
 <script setup lang="ts">

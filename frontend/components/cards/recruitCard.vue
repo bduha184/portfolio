@@ -1,20 +1,37 @@
 <template>
-  <v-card @clikc="onClick">
+  <v-card
+  @clikc="onClick"
+  height="300px"
+  >
    <ImgsCardHeaderImg/>
    <v-card-title class="w-60 text-body-2 text-left ml-auto">
-     <TitleHeadline name="ゆるぽたサークル部"/>
+     <TitleHeadline :title="title"/>
    </v-card-title>
-   <TextRecruitCardText/>
+   <TextRecruitCardText :text="text"/>
   </v-card>
 </template>
 
 <script setup lang="ts">
+import {ref} from 'vue';
+import { StringSchema } from 'yup';
 
+const props = defineProps({
+  title:String,
+  text:String
+})
 
 const onClick = () => {
 
 }
+
+
 </script>
 
 <style lang="scss" scoped>
+.v-card {
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
 </style>
