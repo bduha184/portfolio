@@ -13,10 +13,8 @@ export const Url = {
   SIGNUP_VERIFICATION: getFrontUrl('/signup/verification'),
   /** 投稿詳細 */
   POSTS: getFrontUrl('/posts'),
-  /** マイページ */
-  MYPAGE: getFrontUrl('/auth'),
   /** サイクリング募集 */
-  RECRUIT: getFrontUrl('/recruit'),
+  RECRUIT: getFrontUrl('/recruit/recruitlist'),
   /** サイクリング情報 */
   INFO: getFrontUrl('/info'),
   /** みんなの愛車 */
@@ -25,4 +23,8 @@ export const Url = {
   SEARCH: getFrontUrl('/search'),
   /** パスワードリセット **/
   RESETPASSWORD: getFrontUrl('/passwords/forgotpassword'),
+  /** マイページ */
+  MYPAGE: getFrontUrl('/auth'),
+  /** マイページ（メンバー募集）（ */
+  AUTHRECRUIT: getFrontUrl('/auth/recruitmember'),
 }
