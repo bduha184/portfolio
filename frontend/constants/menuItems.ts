@@ -43,6 +43,6 @@ export const MenuItems = [
     {
       text: "ログイン",
       icon: "mdiAccount",
-      func: () => router.push(Url.LOGIN),
+      func: () => router.push(Url.SIGNIN),
     },
   ]

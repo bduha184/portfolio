@@ -29,11 +29,15 @@
           </v-row>
         </v-col>
         <v-col  cols="12" sm="6">
-          <v-img
+          <img
+          :src="`${item.img}`"
+          alt=""
+          >
+          <!-- <v-img
             :src="`${item.img}`"
             contain
           >
-          </v-img>
+          </v-img> -->
         </v-col>
       </v-row>
     </v-container>

@@ -23,8 +23,12 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <FormName @setName="receiveName" :name="form.name"/>
+      <FormEmail @setName="receiveName" :name="form.email"/>
       <FormPassword @setPassword="receivePassword" :name="form.password" />
+      <NuxtLink
+      class="d-block text-sm text-center"
+      :to="Url.RESETPASSWORD"
+      >パスワードを忘れた方はこちら</NuxtLink>
       <ButtonCommon
         btnValue="ログイン"
         place="MAIN"
@@ -45,34 +49,29 @@ import { ref, reactive } from "vue";
 import {useAuthStore} from "../../stores/useAuthStore";
 import { navigateTo } from "nuxt/app";
 import { copyFileSync } from "fs";
+import {Url} from '../../constants/url';
 
 const form = ref({
-  name:'',
+  email:'',
   password:''
 })
 
 const auth = useAuthStore();
 
-const receiveName= (newName) => {
-  form.value.name = newName;
+const receiveName= (email) => {
+  form.value.email = email;
 };
 
-const receivePassword = (newPassword) => {
-  form.value.password = newPassword;
+const receivePassword = (password) => {
+  form.value.password = password;
 };
 
 const checkFilledOut = () => {
 
 const fieldArray = [
-  form.value.name,
+  form.value.email,
   form.value.password,
 ]
-
-// const fieldErrors = [
-//   form.value.name.errors,
-//   form.value.password.errors,
-// ]
-
 
 if(fieldArray.indexOf('') === -1) {
   return true;

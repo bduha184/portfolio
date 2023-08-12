@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="d-flex flex-wrap align-center">
+    <div class="d-flex flex-wrap align-center justify-center">
       <input
         type="checkbox"
         class="mr-4"
