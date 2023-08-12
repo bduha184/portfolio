@@ -7,7 +7,8 @@ import {
   mdiMapMarker,
   mdiBicycle,
   mdiNoteEdit,
-  mdiLoginVariant
+  mdiLoginVariant,
+  mdiMagnify
 } from "@mdi/js";
 
 
@@ -20,5 +21,6 @@ export const Icons = {
   MAP:mdiMapMarker,
   BICYCLE:mdiBicycle,
   REGISTER:mdiNoteEdit,
-  LOGIN:mdiLoginVariant
+  LOGIN:mdiLoginVariant,
+  SEARCH:mdiMagnify,
 }
