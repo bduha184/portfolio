@@ -33,8 +33,6 @@ class RecruitController extends Controller
     public function store(Request $request,Recruit $recruit)
     {
 
-
-
         $file_header = $request->file('header_img');
         $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
         $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');

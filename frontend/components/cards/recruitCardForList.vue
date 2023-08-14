@@ -1,6 +1,6 @@
 <template>
   <v-card
-  @clikc="onClick"
+  @click="onClick"
   height="300px"
   >
    <ImgsCardHeaderImg
@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { navigateTo } from 'nuxt/app';
 import {ref} from 'vue';
 import { StringSchema } from 'yup';
 
@@ -26,7 +27,7 @@ const props = defineProps({
 })
 
 const onClick = () => {
-
+  return navigateTo('/recruit/recruitdetail');
 }
 
 

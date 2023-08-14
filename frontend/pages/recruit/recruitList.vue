@@ -5,7 +5,7 @@
       <FormMultipleSearch/>
       <DisplayTeamCount/>
       <TabsRecruitTab/>
-      <CardsRecruitCard
+      <CardsRecruitCardForList
       v-for="(item,index ) in datas.items"
       :key="index"
       :header_img_path="item.header_img_path"

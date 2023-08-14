@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('thumbnail_path')->nullable();
             $table->string('title');
             $table->string('text');
+            // $table->unsignedInteger('member');
+            // $table->unsignedInteger('likes');
             $table->timestamps();
         });
     }
