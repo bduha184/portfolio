@@ -31,6 +31,9 @@ export default defineNuxtConfig({
       appURL:process.env.APP_URL
     }
   },
+  plugins: [
+    '~/plugins/lightGallery.client.ts',
+  ],
   vite: {
     server: {
       watch: {

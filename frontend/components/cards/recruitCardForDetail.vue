@@ -1,6 +1,5 @@
 <template>
   <v-card
-  @click="onClick"
   height="300px"
   >
    <ImgsCardHeaderImg
@@ -11,7 +10,6 @@
      <TitleHeadline :title="title"/>
    </v-card-title>
    <TextRecruitCardText :text="text"/>
-   <Gallery/>
   </v-card>
 </template>
 
@@ -27,9 +25,6 @@ const props = defineProps({
   text:String
 })
 
-const onClick = () => {
-  return navigateTo('/recruit/recruitdetail');
-}
 
 
 </script>
