@@ -6,8 +6,10 @@
       <DisplayTeamCount/>
       <TabsRecruitTab/>
       <CardsRecruitCard
-      v-for="(item,index ) in items"
+      v-for="(item,index ) in datas.items"
       :key="index"
+      :header_img_path="item.header_img_path"
+      :thumbnail_path="item.thumbnail_path"
       :title="item.title"
       :text="item.text"
       />
@@ -15,34 +17,22 @@
   </div>
 </template>
 <script setup lang="ts">
+import {ref,onMounted} from 'vue';
+import { useApiFetch } from '../../composables/useApiFetch';
+const datas = ref({
+  items:[]
+});
 
-import {ref} from 'vue';
+const getRecruits = async () => {
+  const res = await useApiFetch('/api/recruit')
+  const data = res.data.value;
 
+  return datas.value.items = data;
+}
 
-const item = ref({
-  title:'',
-  text:''
+onMounted(() => {
+  return getRecruits()
 })
-
-const items  = [
-  {
-    title:'タイトル１',
-    text:'テキスト１'
-  },
-  {
-    title:'タイトル2',
-    text:'テキスト2'
-  },
-  {
-    title:'タイトル３',
-    text:'テキスト３'
-  },
-  {
-    title:'タイトル４',
-    text:'テキスト４'
-  }
-]
-
 </script>
 
 <style lang="scss" scoped>

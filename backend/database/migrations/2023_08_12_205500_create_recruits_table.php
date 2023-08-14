@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('recruits', function (Blueprint $table) {
             $table->id();
-            $table->string('header_img')->nullable();
-            $table->string('thumbnail')->nullable();
+            $table->string('header_img_path')->nullable();
+            $table->string('thumbnail_path')->nullable();
             $table->string('title');
             $table->string('text');
             $table->timestamps();

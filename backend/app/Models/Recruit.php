@@ -11,8 +11,8 @@ class Recruit extends Model
 
 
     protected $fillable = [
-        'header_img',
-        'thumbnail',
+        'header_img_path',
+        // 'thumbnail',
         'title',
         'text',
     ];

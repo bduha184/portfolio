@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRecruitRequest;
 use App\Http\Requests\UpdateRecruitRequest;
 use App\Models\Recruit;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class RecruitController extends Controller
 {
@@ -13,7 +16,7 @@ class RecruitController extends Controller
      */
     public function index()
     {
-        //
+        return Recruit::latest()->get();
     }
 
     /**
@@ -27,17 +30,28 @@ class RecruitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRecruitRequest $request,Recruit $recruit)
+    public function store(Request $request,Recruit $recruit)
     {
 
-        $recruit->fill($request->all())-save();
 
-        // $dir = 'uploads';
 
-        // // sampleディレクトリに画像を保存
-        // $request->file('image')->store('public/' . $dir);
+        $file_header = $request->file('header_img');
+        $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
+        $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');
+        $recruit->header_img_path = $path_header;
+
+        $file_thumbnail = $request->file('thumbnail');
+        $filename_thumbnail = now()->format('YmdHis') . uniqid('', true) . "." . $file_thumbnail->extension();
+        $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
+        $recruit->thumbnail_path = $path_thumbnail;
+
+        $recruit->title = $request->title;
+        $recruit->text = $request->text;
+        $recruit->save();
+
         return response()->json([
-            'request'=>$request
+            'path_header' => $path_header,
+            'path_thumbnail' => $path_thumbnail,
         ]);
     }
 

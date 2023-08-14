@@ -3,7 +3,10 @@
   @clikc="onClick"
   height="300px"
   >
-   <ImgsCardHeaderImg/>
+   <ImgsCardHeaderImg
+   :header_img_path="header_img_path"
+   :thumbnail_path="thumbnail_path"
+   />
    <v-card-title class="w-60 text-body-2 text-left ml-auto">
      <TitleHeadline :title="title"/>
    </v-card-title>
@@ -16,6 +19,8 @@ import {ref} from 'vue';
 import { StringSchema } from 'yup';
 
 const props = defineProps({
+  header_img_path:String,
+  thumbnail_path:String,
   title:String,
   text:String
 })
