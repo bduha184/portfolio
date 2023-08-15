@@ -10,6 +10,8 @@
      <TitleHeadline :title="title"/>
    </v-card-title>
    <TextRecruitCardText :text="text"/>
+   <GalleryLightGallery/>
+   <TeamActivity/>
   </v-card>
 </template>
 

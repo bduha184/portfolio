@@ -1,7 +1,7 @@
 <template>
   <div>
     <TitleHeadline title="ギャラリー"/>
-    <no-ssr>
+    <!-- <no-ssr>
       <LightGallery
         :images="images"
         :index="index"
@@ -17,7 +17,7 @@
           <img :src="thumb">
         </li>
       </ul>
-    </no-ssr>
+    </no-ssr> -->
   </div>
 </template>
 <script setup lang="ts">
