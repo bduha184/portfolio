@@ -35,9 +35,21 @@ const onClick = () => {
 
 <style lang="scss" scoped>
 .v-card {
+  overflow:visible !important;
+  position: relative;
   & + & {
     margin-top: 1rem;
   }
+}
+  .v-avatar {
+    position:absolute !important;
+    bottom:-40px;
+    left:20px;
+    z-index: 10;
+  }
+
+  .v-responsive {
+  position: unset !important;
 }
 
 </style>

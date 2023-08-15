@@ -3,6 +3,7 @@
     <h1>メンバー募集</h1>
     <form enctype="multipart/form-data">
       <label for="header_img">ヘッダー画像</label>
+      <CardsRecruitCardForAdmin/>
       <input type="file" name="header_img" @change="onChange" />
       <label for="thumbnail">サムネイル</label>
       <input type="file"  name="thumbnail" @change="onChange" />
