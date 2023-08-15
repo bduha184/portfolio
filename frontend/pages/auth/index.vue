@@ -9,6 +9,9 @@
     <NuxtLink :to="Url.AUTHRECRUIT">
       メンバー募集
     </NuxtLink>
+    <NuxtLink :to="Url.PROFILE">
+      プロフィール
+    </NuxtLink>
   </v-container>
 </template>
 <script setup lang="ts">

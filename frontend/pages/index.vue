@@ -1,7 +1,7 @@
 <template>
   <div>
     <WelcomeTopHero/>
-    <RecruitRecruitList/>
+    <RecruitList/>
     <!-- <WelcomeFeature/>
     <WelcomeUse/> -->
   </div>
