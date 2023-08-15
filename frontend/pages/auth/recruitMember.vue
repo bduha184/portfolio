@@ -1,13 +1,12 @@
 <template>
-  <div>
+  <v-container>
     <h1 class="text-h6 font-weight-bold text-center">
       メンバー募集の管理ページ
     </h1>
+    <v-card>
     <form>
-      <v-card>
-        <v-card
-        height="100px"
-        class="relative z-0"
+        <div
+        class="relative z-0 h-[100px]"
         >
           <v-img
           :src="items.url_header_img" cover>
@@ -25,15 +24,15 @@
           name="header_img"
           @change="onChange"
           />
-        </v-card>
+        </div>
         <label for="title">タイトル</label>
         <input type="text" v-model="items.title" />
         <label for="text">本文</label>
         <input type="text" v-model="items.text" />
         <v-btn @click="onClick">登録</v-btn>
-      </v-card>
-    </form>
-  </div>
+      </form>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup lang="ts">
@@ -97,7 +96,8 @@ const onClick = async () => {
 
 <style lang="scss" scoped>
 .v-card {
-  overflow:visible !important;
+  overflow: hidden !important;
+  border-radius: 10px;
 }
   .v-avatar {
     position:absolute !important;
