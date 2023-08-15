@@ -25,11 +25,31 @@
           @change="onChange"
           />
         </div>
-        <label for="title">タイトル</label>
-        <input type="text" v-model="items.title" />
-        <label for="text">本文</label>
-        <input type="text" v-model="items.text" />
-        <v-btn @click="onClick">登録</v-btn>
+        <v-card-title class="w-60 text-body-2 text-left ml-auto">
+            <v-text-field
+            variant="outlined"
+            v-model="items.title"
+            label="チーム名"
+            single-line
+            hide-details
+            density="compact"
+            class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
+            />
+        </v-card-title>
+        <v-card-text>
+          <v-textarea
+          single-line
+          hide-details
+          variant="outlined" label="本文" />
+        </v-card-text>
+        <ButtonCommon
+        btnValue="登録"
+        width="16rem"
+        class="my-4 d-block"
+        type="submit"
+        @click.prevent="handleRegister"
+        :disabled="!checkFilledOut()"
+        />
       </form>
     </v-card>
   </v-container>
@@ -73,7 +93,7 @@ const onChange = (e) => {
   }
 };
 
-const onClick = async () => {
+const handleRegister = async () => {
   const formData = new FormData();
 
   formData.append("header_img", items.value.header_img);
@@ -92,6 +112,22 @@ const onClick = async () => {
   filePath.value.header = res.data.value.path_header;
   filePath.value.thumbnail = res.data.value.path_thumbnail;
 };
+
+const checkFilledOut = () => {
+
+const fieldArray = [
+  items.value.title,
+  items.value.text,
+]
+
+if(fieldArray.indexOf('') === -1) {
+  return true;
+}
+
+return false
+}
+
+
 </script>
 
 <style lang="scss" scoped>
