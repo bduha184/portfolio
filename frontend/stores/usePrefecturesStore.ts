@@ -6,7 +6,6 @@ export const usePrefecturesStore = defineStore(
 
     async function fetchPrefectures() {
       const { data } = await useFetch("https://opendata.resas-portal.go.jp/api/v1/prefectures",{
-        
       });
 
       return data;

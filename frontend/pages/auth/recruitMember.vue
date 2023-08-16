@@ -40,7 +40,9 @@
           <v-textarea
           single-line
           hide-details
-          variant="outlined" label="本文" />
+          variant="outlined" label="本文"
+          v-model="items.text"
+          />
         </v-card-text>
         <ButtonCommon
         btnValue="登録"
@@ -61,10 +63,12 @@ import { definePageMeta } from "#imports";
 import { useApiFetch } from "../../composables/useApiFetch";
 import { ref } from "vue";
 
+
 const config = useRuntimeConfig();
 definePageMeta({
   middleware: ["auth"],
 });
+
 
 const items = ref({
   header_img: "",
@@ -92,6 +96,8 @@ const onChange = (e) => {
     items.value.url_thumbnail = URL.createObjectURL(items.value.thumbnail);
   }
 };
+
+
 
 const handleRegister = async () => {
   const formData = new FormData();

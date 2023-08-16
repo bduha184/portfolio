@@ -32,10 +32,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/articles/{id}/like', [ArticleController::class, 'like']);
     Route::delete('/articles/{id}/unlike', [ArticleController::class, 'unlike']);
 
-
-});
-Route::prefix('recruit')->name('recruit.')->group(function(){
-    Route::post('/register',[RecruitController::class,'store'])->name('register');
+    Route::controller(RecruitController::class)->group(function(){
+        Route::prefix('recruit')->name('recruit.')->group(function(){
+        Route::post('/register','store')->name('register');
+        Route::get('/{id}','show')->name('register');
+        });
+    });
 });
 Route::prefix('recruit')->name('recruit.')->group(function(){
     Route::get('/',[RecruitController::class,'index'])->name('register');

@@ -1,3 +1,4 @@
+
 const getFrontUrl = (path: string): string => {
   return ['', path].join('')
 }

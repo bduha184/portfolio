@@ -60,6 +60,8 @@ export const useAuthStore = defineStore(
     async function fetchUser() {
       const { data } = await useApiFetch("/api/user");
       user.value = data.value as User;
+
+      return data
     }
 
     async function guestLogin(){

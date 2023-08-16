@@ -19,25 +19,20 @@
       </v-row>
     </v-container>
     <div class="supplement text-center my-4">or</div>
-    <form method="POST" >
+    <form method="POST">
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <FormEmail @setName="receiveName" :name="form.email"/>
-      <FormPassword @setPassword="receivePassword" :name="form.password" />
-      <NuxtLink
-      class="d-block text-sm text-center"
-      :to="Url.RESETPASSWORD"
-      >パスワードを忘れた方はこちら</NuxtLink>
+      <FormEmail @setEmail="receiveEmail" :name="form.email"/>
+      <FormPassword @setPassword="receivePassword" :name="form.password"/>
       <ButtonCommon
         btnValue="ログイン"
         place="MAIN"
         width="16rem"
         setColor="orange"
         class="my-4 d-block"
-        type="submit"
-        @click.prevent="handleLogin"
         :disabled="!checkFilledOut()"
+        @click="handleLogin"
       />
     </form>
   </div>
@@ -58,7 +53,7 @@ const form = ref({
 
 const auth = useAuthStore();
 
-const receiveName= (email) => {
+const receiveEmail= (email) => {
   form.value.email = email;
 };
 
