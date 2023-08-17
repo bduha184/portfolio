@@ -47,7 +47,10 @@ class RecruitController extends Controller
         $recruit->text = $request->text;
         $recruit->save();
 
+        $id=$recruit->id;
+
         return response()->json([
+            'id'=>$id,
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
         ]);
@@ -56,9 +59,13 @@ class RecruitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Recruit $recruit)
+    public function show($id)
     {
-        //
+        $recruitItem = Recruit::find($id)->get();
+
+        return response()->json([
+            'data'=>$recruitItem,
+        ]);
     }
 
     /**

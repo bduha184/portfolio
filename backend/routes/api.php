@@ -35,12 +35,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(RecruitController::class)->group(function(){
         Route::prefix('recruit')->name('recruit.')->group(function(){
         Route::post('/register','store')->name('register');
-        Route::get('/{id}','show')->name('register');
         });
     });
 });
-Route::prefix('recruit')->name('recruit.')->group(function(){
-    Route::get('/',[RecruitController::class,'index'])->name('register');
+Route::controller(RecruitController::class)->group(function(){
+    Route::prefix('recruit')->name('recruit.')->group(function(){
+    Route::get('/','index')->name('index');
+    Route::get('/{id}','show')->name('show');
+    });
 });
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);

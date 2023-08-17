@@ -6,7 +6,7 @@
       <DisplayTeamCount/>
       <TabsRecruitTab/>
       <CardsRecruitCardForList
-      v-for="(item,index ) in datas.items"
+      v-for="(item,index ) in recruitItems"
       :key="index"
       :header_img_path="item.header_img_path"
       :thumbnail_path="item.thumbnail_path"
@@ -19,20 +19,15 @@
 <script setup lang="ts">
 import {ref,onMounted} from 'vue';
 import { useApiFetch } from '../../composables/useApiFetch';
-const datas = ref({
-  items:[]
-});
+import {useRecruitStore} from '../../stores/useRecruitStore';
 
-const getRecruits = async () => {
-  const res = await useApiFetch('/api/recruit')
-  const data = res.data.value;
+const recruit = useRecruitStore();
+const recruitItems  = recruit.items;
 
-  return datas.value.items = data;
-}
-
-onMounted(() => {
-  return getRecruits()
+onMounted(()=>{
+  recruit.fetchRecruitItems();
 })
+
 </script>
 
 <style lang="scss" scoped>

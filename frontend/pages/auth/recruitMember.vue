@@ -61,30 +61,31 @@
 import { useRuntimeConfig } from "nuxt/app";
 import { definePageMeta } from "#imports";
 import { useApiFetch } from "../../composables/useApiFetch";
-import { ref } from "vue";
-
+import { ref,onMounted } from "vue";
+import { Url } from "../../constants/url";
+import {useRoute} from 'vue-router';
+import {navigateTo} from 'nuxt/app';
+import {useRecruitStore} from '../../stores/useRecruitStore';
 
 const config = useRuntimeConfig();
 definePageMeta({
   middleware: ["auth"],
 });
 
+const recruit = useRecruitStore();
+const route = useRoute();
 
 const items = ref({
   header_img: "",
   thumbnail: "",
   title: "",
   text: "",
+  id:"",
   url_header_img: config.public.appURL+"/images/noimage.jpg",
   url_thumbnail: config.public.appURL+"/images/noimage.jpg",
 });
 
-console.log(config.public.appURL+"/assets/images/noimage.jpg");
-
-const filePath = ref({
-  header: "",
-  thumbnail: "",
-});
+console.log(recruit.getRecruitItem);
 
 const onChange = (e) => {
   const target = e.target.name;
@@ -98,7 +99,6 @@ const onChange = (e) => {
 };
 
 
-
 const handleRegister = async () => {
   const formData = new FormData();
 
@@ -107,16 +107,16 @@ const handleRegister = async () => {
   formData.append("title", items.value.title);
   formData.append("text", items.value.text);
 
-  // console.log(...formData.entries());
+  recruit.registerRecruitItem(formData);
 
-  await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch("/api/recruit/register", {
-    method: "POST",
-    body: formData,
-  });
+  const recruitId = recruit.id;
 
-  filePath.value.header = res.data.value.path_header;
-  filePath.value.thumbnail = res.data.value.path_thumbnail;
+  return navigateTo({
+    path:Url.AUTHRECRUIT,
+    query:{
+      id:recruitId
+    }
+  })
 };
 
 const checkFilledOut = () => {

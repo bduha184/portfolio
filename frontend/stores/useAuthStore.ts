@@ -17,6 +17,7 @@ type Credentials = {
   email: string;
   password: string;
 };
+
 type RegistrationInfo = {
   name: string;
   email: string;

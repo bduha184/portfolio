@@ -14,7 +14,6 @@ class RegisterController extends Controller
 {
     public function register(Request $request) {
 
-
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
             'email' => ['required', 'email'],
@@ -31,7 +30,12 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json('User registration completed', Response::HTTP_OK);
+        $user = User::where('email',$request->email)->first();
+
+        return response()->json([
+            'user'=>$user->id,
+            'User registration completed', Response::HTTP_OK
+        ]);
 
     }
 

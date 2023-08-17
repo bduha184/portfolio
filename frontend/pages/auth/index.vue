@@ -9,12 +9,19 @@
     <NuxtLink :to="{
       path:Url.AUTHRECRUIT,
       query:{
+        user:userId
+      }
+    }"
+    @click.prevent="getRecruitItem"
+    >
+      メンバー募集
+    </NuxtLink>
+    <NuxtLink :to="{
+      path:Url.PROFILE,
+      query:{
         user:user
       }
     }">
-      メンバー募集
-    </NuxtLink>
-    <NuxtLink :to="Url.PROFILE">
       プロフィール
     </NuxtLink>
   </v-container>
@@ -24,29 +31,24 @@ import {definePageMeta} from '#imports';
 import {Url} from '../../constants/url';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { onMounted } from 'vue';
+import { useRecruitStore } from '../../stores/useRecruitStore';
+import {useRoute} from 'vue-router';
 
 definePageMeta({
   middleware: ["auth"]
 })
 
-console.log(Url.AUTHRECRUIT);
+const recruit = useRecruitStore();
+const userId = recruit.id;
+
+const getRecruitItem = () => {
+  recruit.fetchRecruitItem();
+}
 
 const auth = useAuthStore();
 
-const fetchUser = async () => {
-
-  const res = await auth.fetchUser();
-  console.log(res);
-}
-
-onMounted(()=>{
-fetchUser();
-})
-
-
 const handleLogout = async()=> {
   await auth.logout();
-
 
 }
 
