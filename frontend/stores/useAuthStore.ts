@@ -135,7 +135,6 @@ export const useAuthStore = defineStore(
       return providerRegister;
     }
 
-
     async function forgotPassword(email:Email){
       await useApiFetch("/sanctum/csrf-cookie");
 
@@ -166,7 +165,6 @@ export const useAuthStore = defineStore(
       return resetPassword;
     }
     return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
-
 
   },
   {
