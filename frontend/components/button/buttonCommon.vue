@@ -6,6 +6,7 @@
     height="40"
     class="bg-blue text-decoration-none  mx-auto"
     :class="setColor == 'orange' ? 'bg-orange text-white' : ''"
+    @click="submit"
   >
   {{ btnValue }}
 </v-btn>
@@ -15,11 +16,26 @@
 import {ref} from 'vue';
 import { Url } from "@/constants/url";
 
+import { useAuthStore } from '../../stores/useAuthStore';
+import {navigateTo} from 'nuxt/app';
+const auth = useAuthStore();
+
 const props = defineProps({
   btnValue:String,
   place:String,
   setColor:String
 })
+
+
+const submit = async () => {
+
+  if(props.place == 'guest') {
+      const {error} = await auth.guestLogin();
+      console.log(error);
+      return navigateTo('/auth');
+  }
+
+}
 
 </script>
 

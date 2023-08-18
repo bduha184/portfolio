@@ -95,7 +95,7 @@ class ResetPassword extends Notification
         if (static::$createUrlCallback) {
             return call_user_func(static::$createUrlCallback, $notifiable, $this->token);
         }
-        return env('FRONTEND_URL') . '/reset-password/?' . http_build_query([
+        return env('FRONTEND_URL') . '/passwords/resetpassword/?' . http_build_query([
             'token' => $this->token,
             'email' => $notifiable->getEmailForPasswordReset(),
         ]);

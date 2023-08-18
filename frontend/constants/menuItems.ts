@@ -13,7 +13,7 @@ export const MenuItems = [
     {
       text: "マイページ",
       icon: Icons.ACCOUNT,
-      func: () => router.push(Url.MEMBER),
+      func: () => router.push(Url.MYPAGE),
     },
     {
       text: "サイクリング募集",
@@ -43,6 +43,6 @@ export const MenuItems = [
     {
       text: "ログイン",
       icon: "mdiAccount",
-      func: () => router.push(Url.LOGIN),
+      func: () => router.push(Url.SIGNIN),
     },
   ]

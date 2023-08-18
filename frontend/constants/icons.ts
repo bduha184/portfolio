@@ -7,18 +7,20 @@ import {
   mdiMapMarker,
   mdiBicycle,
   mdiNoteEdit,
-  mdiLoginVariant
+  mdiLoginVariant,
+  mdiMagnify
 } from "@mdi/js";
 
 
 export const Icons = {
   HOME:mdiHome,
   ACCOUNT:mdiAccount,
-  MEMBER:mdiAccountCircle,
+  MYPAGE:mdiAccountCircle,
   RECRUIT:mdiBike,
   INFORMATION:mdiInformation,
   MAP:mdiMapMarker,
   BICYCLE:mdiBicycle,
   REGISTER:mdiNoteEdit,
-  LOGIN:mdiLoginVariant
+  LOGIN:mdiLoginVariant,
+  SEARCH:mdiMagnify,
 }

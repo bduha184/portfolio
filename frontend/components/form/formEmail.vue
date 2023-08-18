@@ -30,7 +30,7 @@ const emailSchema = object({
   required('メールアドレスは必須項目です').
   email("正しいメールアドレスを入力してください。")
 });
-const { errors, useFieldModel,meta } = useForm({
+const { errors, useFieldModel } = useForm({
   validationSchema: emailSchema,
   initialValues: {
     email: '',

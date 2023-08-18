@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RecruitController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -30,12 +31,25 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
     Route::put('/articles/{id}/like', [ArticleController::class, 'like']);
     Route::delete('/articles/{id}/unlike', [ArticleController::class, 'unlike']);
+
+    Route::controller(RecruitController::class)->group(function(){
+        Route::prefix('recruit')->name('recruit.')->group(function(){
+        Route::post('/register','store')->name('register');
+        });
+    });
+});
+Route::controller(RecruitController::class)->group(function(){
+    Route::prefix('recruit')->name('recruit.')->group(function(){
+    Route::get('/','index')->name('index');
+    Route::get('/{id}','show')->name('show');
+    });
 });
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::prefix('login')->name('login.')->group(function() {
     Route::post('/', [LoginController::class, 'login']);
+    Route::post('/guestlogin', [LoginController::class, 'guestLogin'])->name('guest');
     Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
     Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
 });

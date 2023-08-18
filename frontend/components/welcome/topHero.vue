@@ -26,11 +26,12 @@
 
         </v-col >
         <v-col cols="12" sm="6">
-          <v-img
+          <!-- <v-img
             src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
             contain
           >
-          </v-img>
+          </v-img> -->
+          <img src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg" alt="">
           <ButtonCommon
             btnValue="さっそく始める"
             place="SIGNIN"
@@ -39,7 +40,7 @@
             />
             <ButtonCommon
             btnValue="ゲストユーザーとしてログイン"
-            place="MAIN"
+            place="guest"
             setColor="orange"
             width="16rem"
             class="mt-4 d-block d-sm-none"

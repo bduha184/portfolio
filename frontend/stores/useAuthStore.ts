@@ -9,10 +9,15 @@ type User = {
   email: string;
 };
 
+type Email = {
+  email:string
+}
+
 type Credentials = {
   email: string;
   password: string;
 };
+
 type RegistrationInfo = {
   name: string;
   email: string;
@@ -40,6 +45,13 @@ type SnsRegister = {
   token:string
 }
 
+type ResetPassword = {
+  token:any,
+  email:string,
+  password:string,
+  password_confirmation:string,
+}
+
 export const useAuthStore = defineStore(
   "auth",
   () => {
@@ -49,6 +61,19 @@ export const useAuthStore = defineStore(
     async function fetchUser() {
       const { data } = await useApiFetch("/api/user");
       user.value = data.value as User;
+
+      return data
+    }
+
+    async function guestLogin(){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const guestLogin = await useApiFetch("/api/login/guestlogin",{
+        method:"POST"
+      });
+      await fetchUser();
+
+      return guestLogin;
     }
 
     async function logout() {
@@ -109,8 +134,37 @@ export const useAuthStore = defineStore(
       await fetchUser();
       return providerRegister;
     }
-    return { user, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect};
 
+    async function forgotPassword(email:Email){
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const forgotPassword = await useApiFetch('/forgot-password',{
+        method:'POST',
+        body:email
+      })
+
+      await fetchUser();
+      return forgotPassword;
+    }
+
+    async function resetPassword(token:ResetPassword,email:ResetPassword,password:ResetPassword,password_confirmation:ResetPassword){
+
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const resetPassword = await useApiFetch('/reset-password',{
+        method:'POST',
+        body:{
+          token,
+          email,
+          password,
+          password_confirmation
+        }
+      })
+
+      await fetchUser();
+      return resetPassword;
+    }
+    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
 
   },
   {
