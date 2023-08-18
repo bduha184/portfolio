@@ -6,22 +6,12 @@
     >
     ログアウト
     </v-btn>
-    <NuxtLink :to="{
-      path:Url.AUTHRECRUIT,
-      query:{
-        user:userId
-      }
-    }"
-    @click.prevent="getRecruitItem"
+    <NuxtLink :to="Url.AUTHRECRUIT"
+    @click="getRecruitItem"
     >
       メンバー募集
     </NuxtLink>
-    <NuxtLink :to="{
-      path:Url.PROFILE,
-      query:{
-        user:user
-      }
-    }">
+    <NuxtLink :to="Url.PROFILE">
       プロフィール
     </NuxtLink>
   </v-container>
@@ -30,20 +20,10 @@
 import {definePageMeta} from '#imports';
 import {Url} from '../../constants/url';
 import { useAuthStore } from '../../stores/useAuthStore';
-import { onMounted } from 'vue';
-import { useRecruitStore } from '../../stores/useRecruitStore';
-import {useRoute} from 'vue-router';
 
 definePageMeta({
   middleware: ["auth"]
 })
-
-const recruit = useRecruitStore();
-const userId = recruit.id;
-
-const getRecruitItem = () => {
-  recruit.fetchRecruitItem();
-}
 
 const auth = useAuthStore();
 

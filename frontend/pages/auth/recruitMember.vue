@@ -9,9 +9,9 @@
         class="relative z-0 h-[100px]"
         >
           <v-img
-          :src="items.url_header_img" cover>
+          :src="recruit.getRecruitHeaderUrl" cover>
             <v-avatar size="80">
-              <v-img :src="items.url_thumbnail" cover />
+              <v-img :src="recruit.getRecruitThumbnailUrl" cover />
               <v-file-input
               variant="solo"
               name="thumbnail"
@@ -28,7 +28,7 @@
         <v-card-title class="w-60 text-body-2 text-left ml-auto">
             <v-text-field
             variant="outlined"
-            v-model="items.title"
+            v-model="recruit.title"
             label="チーム名"
             single-line
             hide-details
@@ -41,16 +41,25 @@
           single-line
           hide-details
           variant="outlined" label="本文"
-          v-model="items.text"
+          v-model="recruit.text"
           />
         </v-card-text>
         <ButtonCommon
         btnValue="登録"
         width="16rem"
         class="my-4 d-block"
-        type="submit"
-        @click.prevent="handleRegister"
+        @click="handleRegister"
         :disabled="!checkFilledOut()"
+        v-if="!recruit.getRecruitItemId"
+        />
+        <ButtonCommon
+        btnValue="更新"
+        width="16rem"
+        setColor="orange"
+        class="my-4 d-block"
+        @click="handleUpdate"
+        :disabled="!checkFilledOut()"
+        v-if="recruit.getRecruitItemId"
         />
       </form>
     </v-card>
@@ -66,35 +75,24 @@ import { Url } from "../../constants/url";
 import {useRoute} from 'vue-router';
 import {navigateTo} from 'nuxt/app';
 import {useRecruitStore} from '../../stores/useRecruitStore';
+import { useAuthStore } from "../../stores/useAuthStore";
 
-const config = useRuntimeConfig();
 definePageMeta({
   middleware: ["auth"],
 });
 
+const auth = useAuthStore();
+const user = auth.user;
 const recruit = useRecruitStore();
-const route = useRoute();
-
-const items = ref({
-  header_img: "",
-  thumbnail: "",
-  title: "",
-  text: "",
-  id:"",
-  url_header_img: config.public.appURL+"/images/noimage.jpg",
-  url_thumbnail: config.public.appURL+"/images/noimage.jpg",
-});
-
-console.log(recruit.getRecruitItem);
 
 const onChange = (e) => {
   const target = e.target.name;
   if (target == "header_img") {
-    items.value.header_img = e.target.files[0];
-    items.value.url_header_img = URL.createObjectURL(items.value.header_img);
+    recruit.header_img = e.target.files[0];
+    recruit.url_header_img = URL.createObjectURL(recruit.header_img);
   } else {
-    items.value.thumbnail = e.target.files[0];
-    items.value.url_thumbnail = URL.createObjectURL(items.value.thumbnail);
+    recruit.thumbnail = e.target.files[0];
+    recruit.url_thumbnail = URL.createObjectURL(recruit.thumbnail);
   }
 };
 
@@ -102,28 +100,27 @@ const onChange = (e) => {
 const handleRegister = async () => {
   const formData = new FormData();
 
-  formData.append("header_img", items.value.header_img);
-  formData.append("thumbnail", items.value.thumbnail);
-  formData.append("title", items.value.title);
-  formData.append("text", items.value.text);
+  formData.append("header_img", recruit.getRecruitHeaderImg);
+  formData.append("thumbnail", recruit.getRecruitThumbnail);
+  formData.append("title", recruit.getRecruitTitle);
+  formData.append("text", recruit.getRecruitText);
 
-  recruit.registerRecruitItem(formData);
+  await recruit.registerRecruitItem(formData);
 
-  const recruitId = recruit.id;
-
-  return navigateTo({
-    path:Url.AUTHRECRUIT,
-    query:{
-      id:recruitId
-    }
-  })
+  return navigateTo(Url.AUTHRECRUIT);
 };
+
+onMounted(async ()=>{
+    await recruit.fetchRecruitItem(user.id);
+
+    console.log(recruit.getRecruitItem);
+})
 
 const checkFilledOut = () => {
 
 const fieldArray = [
-  items.value.title,
-  items.value.text,
+  recruit.getRecruitTitle,
+  recruit.getRecruitText
 ]
 
 if(fieldArray.indexOf('') === -1) {
@@ -132,7 +129,6 @@ if(fieldArray.indexOf('') === -1) {
 
 return false
 }
-
 
 </script>
 

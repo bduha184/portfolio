@@ -103,13 +103,11 @@ async function handleRegister() {
 
   const res = await auth.register(form.value);
 
+  console.log(res.data.value);
+  console.log(auth.user);
+
   if(res.error.value == null){
-    navigateTo({
-    path:'/auth',
-    query:{
-      user:res.data.value.user
-    }
-  });
+    navigateTo('/auth');
   }else{
     navigateTo('/beforeLogin');
   }

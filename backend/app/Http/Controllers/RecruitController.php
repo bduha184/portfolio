@@ -32,7 +32,6 @@ class RecruitController extends Controller
      */
     public function store(Request $request,Recruit $recruit)
     {
-
         $file_header = $request->file('header_img');
         $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
         $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');
@@ -45,12 +44,10 @@ class RecruitController extends Controller
 
         $recruit->title = $request->title;
         $recruit->text = $request->text;
+        $recruit->user_id = Auth::id();
         $recruit->save();
 
-        $id=$recruit->id;
-
         return response()->json([
-            'id'=>$id,
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
         ]);
@@ -61,7 +58,7 @@ class RecruitController extends Controller
      */
     public function show($id)
     {
-        $recruitItem = Recruit::find($id)->get();
+        $recruitItem = Recruit::where('user_id',$id)->get();
 
         return response()->json([
             'data'=>$recruitItem,
