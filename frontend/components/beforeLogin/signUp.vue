@@ -101,8 +101,12 @@ const receiveCheck = (setCheck) => {
 };
 async function handleRegister() {
 
-  const {error} = await auth.register(form.value);
-  if(!error.value){
+  const res = await auth.register(form.value);
+
+  console.log(res.data.value);
+  console.log(auth.user);
+
+  if(res.error.value == null){
     navigateTo('/auth');
   }else{
     navigateTo('/beforeLogin');

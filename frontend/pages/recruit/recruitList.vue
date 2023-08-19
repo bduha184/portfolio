@@ -5,9 +5,11 @@
       <FormMultipleSearch/>
       <DisplayTeamCount/>
       <TabsRecruitTab/>
-      <CardsRecruitCard
-      v-for="(item,index ) in items"
+      <CardsRecruitCardForList
+      v-for="(item,index ) in recruitItems"
       :key="index"
+      :header_img_path="item.header_img_path"
+      :thumbnail_path="item.thumbnail_path"
       :title="item.title"
       :text="item.text"
       />
@@ -15,33 +17,16 @@
   </div>
 </template>
 <script setup lang="ts">
+import {ref,onMounted} from 'vue';
+import { useApiFetch } from '../../composables/useApiFetch';
+import {useRecruitStore} from '../../stores/useRecruitStore';
 
-import {ref} from 'vue';
+const recruit = useRecruitStore();
+const recruitItems  = recruit.items;
 
-
-const item = ref({
-  title:'',
-  text:''
+onMounted(()=>{
+  recruit.fetchRecruitItems();
 })
-
-const items  = [
-  {
-    title:'タイトル１',
-    text:'テキスト１'
-  },
-  {
-    title:'タイトル2',
-    text:'テキスト2'
-  },
-  {
-    title:'タイトル３',
-    text:'テキスト３'
-  },
-  {
-    title:'タイトル４',
-    text:'テキスト４'
-  }
-]
 
 </script>
 

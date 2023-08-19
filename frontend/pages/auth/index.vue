@@ -6,8 +6,12 @@
     >
     ログアウト
     </v-btn>
-    <NuxtLink :to="Url.AUTHRECRUIT">
+    <NuxtLink :to="Url.AUTHRECRUIT"
+    >
       メンバー募集
+    </NuxtLink>
+    <NuxtLink :to="Url.PROFILE">
+      プロフィール
     </NuxtLink>
   </v-container>
 </template>
@@ -20,13 +24,10 @@ definePageMeta({
   middleware: ["auth"]
 })
 
-console.log(Url.AUTHRECRUIT);
-
 const auth = useAuthStore();
 
 const handleLogout = async()=> {
   await auth.logout();
-
 
 }
 

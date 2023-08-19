@@ -1,9 +1,12 @@
 <template>
   <v-card
-  @clikc="onClick"
+  @click="onClick"
   height="300px"
   >
-   <ImgsCardHeaderImg/>
+   <ImgsCardHeaderImg
+   :header_img_path="header_img_path"
+   :thumbnail_path="thumbnail_path"
+   />
    <v-card-title class="w-60 text-body-2 text-left ml-auto">
      <TitleHeadline :title="title"/>
    </v-card-title>
@@ -12,16 +15,19 @@
 </template>
 
 <script setup lang="ts">
+import { navigateTo } from 'nuxt/app';
 import {ref} from 'vue';
 import { StringSchema } from 'yup';
 
 const props = defineProps({
+  header_img_path:String,
+  thumbnail_path:String,
   title:String,
   text:String
 })
 
 const onClick = () => {
-
+  return navigateTo('/recruit/recruitdetail');
 }
 
 
@@ -29,12 +35,24 @@ const onClick = () => {
 
 <style lang="scss" scoped>
 .v-card {
+  overflow:visible !important;
+  position: relative;
   & + & {
     margin-top: 1rem;
   }
 
 
   
+}
+  .v-avatar {
+    position:absolute !important;
+    bottom:-40px;
+    left:20px;
+    z-index: 10;
+  }
+
+  .v-responsive {
+  position: unset !important;
 }
 
 </style>

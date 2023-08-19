@@ -4,9 +4,8 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RecruitController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 /*
@@ -24,40 +23,34 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::put('/user/{name}/follow', [UserController::class, 'follow']);
-    Route::delete('/user/{name}/follow', [UserController::class, 'unfollow']);
-    Route::post('/articles', [ArticleController::class, 'store']);
-    Route::put('/articles/{id}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
-    Route::put('/articles/{id}/like', [ArticleController::class, 'like']);
-    Route::delete('/articles/{id}/unlike', [ArticleController::class, 'unlike']);
 
+    Route::controller(RecruitController::class)->group(function(){
+        Route::prefix('recruit')->name('recruit.')->group(function(){
+        Route::post('/register','store');
+        Route::put('/{id}','update');
+        Route::delete('/{id}','destroy');
+        });
+    });
 });
-Route::prefix('recruit')->name('recruit.')->group(function(){
-    Route::post('/register',[RecruitController::class,'store'])->name('register');
+Route::controller(RecruitController::class)->group(function(){
+    Route::prefix('recruit')->name('recruit.')->group(function(){
+    Route::get('/','index')->name('index');
+    Route::get('/{id}','show')->name('show');
+    });
 });
-Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::prefix('login')->name('login.')->group(function() {
-    Route::post('/', [LoginController::class, 'login']);
+    Route::post('/', [LoginController::class, 'login'])->name('login');
     Route::post('/guestlogin', [LoginController::class, 'guestLogin'])->name('guest');
     Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
     Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
 });
 
-Route::prefix('register')->name('register.')->group(function () {
-    Route::get('/{provider}', [RegisterController::class, 'showProviderUserRegistrationForm'])->name('{provider}');
-    Route::post('/{provider}', [RegisterController::class, 'registerProviderUser'])->name('{provider}');
+Route::controller(UserController::class)->group(function(){
+    Route::prefix('register')->name('register.')->group(function () {
+        Route::post('/', 'register');
+        Route::get('/{provider}', 'showProviderUserRegistrationForm')->name('{provider}');
+        Route::post('/{provider}', 'registerProviderUser')->name('{provider}');
+    });
 });
-
-Route::get('/articles/{page}', [ArticleController::class, 'index']);
-// Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/articles/{id}/likes', [ArticleController::class, 'likes']);
-
-Route::get('/user', [UserController::class, 'test']);
-Route::get('/user/{name}/followers', [UserController::class, 'followers']);
-Route::get('/user/{name}/followees', [UserController::class, 'followees']);
-Route::get('/user/{id}/likes', [UserController::class, 'likes']);
-
-Route::get('/tags/{name}', [TagController::class, 'show']);

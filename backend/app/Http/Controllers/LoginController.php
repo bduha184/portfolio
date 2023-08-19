@@ -26,7 +26,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => ['required','max:20'],
+            'email' => ['required','max:20'],
             'password' => ['required']
         ]);
 
@@ -34,9 +34,9 @@ class LoginController extends Controller
             return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if (Auth::attempt($request->only(['name','password']))) {
+        if (Auth::attempt($request->only(['email','password']))) {
 
-            $user = User::where('name',$request->name)->first();
+            $user = User::where('email',$request->email)->first();
             $user->tokens()->delete();
             $token = $user->createToken("login:user{$user->id}")->plainTextToken;
             return response()->json([
@@ -51,6 +51,8 @@ class LoginController extends Controller
             'message'=>'validation error',
             'errors'=>$validator->errors()
         ], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+
 
     }
 

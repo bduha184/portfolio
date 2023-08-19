@@ -52,7 +52,7 @@ type ResetPassword = {
 }
 
 export const useAuthStore = defineStore(
-  "auth",
+"auth",
   () => {
     const user = ref<User | null>(null);
     const isLoggedIn = computed(() => user.value !== null);
@@ -60,6 +60,8 @@ export const useAuthStore = defineStore(
     async function fetchUser() {
       const { data } = await useApiFetch("/api/user");
       user.value = data.value as User;
+
+      return data
     }
 
     async function guestLogin(){
@@ -93,14 +95,15 @@ export const useAuthStore = defineStore(
     }
 
     async function register(info: RegistrationInfo) {
-      console.log(info);
       await useApiFetch("/sanctum/csrf-cookie");
 
       const register = await useApiFetch("/api/register", {
         method: "POST",
         body: info,
       });
-      await fetchUser();
+
+      user.value=register.data.value;
+
       return register;
     }
     async function providerLogin(provider:Provider){

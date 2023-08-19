@@ -1,3 +1,4 @@
+
 const getFrontUrl = (path: string): string => {
   return ['', path].join('')
 }
@@ -27,4 +28,6 @@ export const Url = {
   MYPAGE: getFrontUrl('/auth'),
   /** マイページ（メンバー募集）（ */
   AUTHRECRUIT: getFrontUrl('/auth/recruitmember'),
+  /** マイページ（プロフィール）（ */
+  PROFILE: getFrontUrl('/auth/profile'),
 }

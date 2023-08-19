@@ -6,17 +6,64 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
 use App\Models\Article;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
 
-    public function test()
-    {
-        $users =  User::all();
 
-        return $users;
+    public function register(Request $request) {
+
+        $request->validate([
+            'name' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+            'password_confirmation' => ['required']
+        ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        // }
+        User::create([
+            'name' =>  $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $user = User::where('email',$request->email)->first();
+
+        return response()->json([
+            'user'=>$user,
+            'User registration completed', Response::HTTP_OK
+        ]);
+
     }
+
+    public function registerProviderUser(Request $request, string $provider)
+    {
+
+        $request->validate([
+            'name' => ['required', 'string', 'alpha_num', 'min:3', 'max:16', 'unique:users'],
+            'token' => ['required', 'string'],
+        ]);
+
+        $token = $request->token;
+
+        $providerUser = Socialite::driver($provider)->userFromToken($token);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $providerUser->getEmail(),
+            'password' => null,
+        ]);
+
+        Auth::login($user, true);
+
+        return response()->json([
+            'user'=>$user
+        ]);
+    }
+
 
     public function show()
     {
