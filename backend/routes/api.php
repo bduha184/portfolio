@@ -23,17 +23,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::put('/user/{name}/follow', [UserController::class, 'follow']);
-    Route::delete('/user/{name}/follow', [UserController::class, 'unfollow']);
-    Route::post('/articles', [ArticleController::class, 'store']);
-    Route::put('/articles/{id}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
-    Route::put('/articles/{id}/like', [ArticleController::class, 'like']);
-    Route::delete('/articles/{id}/unlike', [ArticleController::class, 'unlike']);
 
     Route::controller(RecruitController::class)->group(function(){
         Route::prefix('recruit')->name('recruit.')->group(function(){
-        Route::post('/register','store')->name('register');
+        Route::post('/register','store');
+        Route::put('/{id}','update');
+        Route::delete('/{id}','destroy');
         });
     });
 });
@@ -46,7 +41,7 @@ Route::controller(RecruitController::class)->group(function(){
 Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::prefix('login')->name('login.')->group(function() {
-    Route::post('/', [LoginController::class, 'login']);
+    Route::post('/', [LoginController::class, 'login'])->name('login');
     Route::post('/guestlogin', [LoginController::class, 'guestLogin'])->name('guest');
     Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
     Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
@@ -58,16 +53,4 @@ Route::controller(UserController::class)->group(function(){
         Route::get('/{provider}', 'showProviderUserRegistrationForm')->name('{provider}');
         Route::post('/{provider}', 'registerProviderUser')->name('{provider}');
     });
-    Route::prefix('user')->name('user.')->group(function(){
-        Route::get('/user/{name}/followers',  'followers');
-        Route::get('/user/{name}/followees', 'followees');
-        Route::get('/user/{id}/likes','likes');
-    });
 });
-
-Route::get('/articles/{page}', [ArticleController::class, 'index']);
-// Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/articles/{id}/likes', [ArticleController::class, 'likes']);
-
-
-Route::get('/tags/{name}', [TagController::class, 'show']);

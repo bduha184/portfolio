@@ -5,7 +5,7 @@
     rounded
     height="40"
     class="bg-blue text-decoration-none  mx-auto"
-    :class="setColor == 'orange' ? 'bg-orange text-white' : ''"
+    :class="setColor == 'orange' ? 'bg-orange text-white':''"
     @click="submit"
   >
   {{ btnValue }}

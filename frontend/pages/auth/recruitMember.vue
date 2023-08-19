@@ -61,6 +61,14 @@
         :disabled="!checkFilledOut()"
         v-if="recruit.getRecruitItemId"
         />
+        <ButtonCommon
+        btnValue="削除"
+        width="16rem"
+        setColor="red"
+        class="my-4 d-block"
+        @click="handleDelete"
+        v-if="recruit.getRecruitItemId"
+        />
       </form>
     </v-card>
   </v-container>
@@ -82,7 +90,7 @@ definePageMeta({
 });
 
 const auth = useAuthStore();
-const user = auth.user;
+
 const recruit = useRecruitStore();
 
 const onChange = (e) => {
@@ -110,10 +118,33 @@ const handleRegister = async () => {
   return navigateTo(Url.AUTHRECRUIT);
 };
 
+const handleUpdate = async () => {
+  // console.log(recruit.getRecruitHeaderImg);
+  // console.log(recruit.getRecruitThumbnail);
+  // console.log(recruit.getRecruitTitle);
+  // console.log(recruit.getRecruitText);
+  const formData = new FormData();
+
+  formData.append("header_img", recruit.getRecruitHeaderImg);
+  formData.append("thumbnail", recruit.getRecruitThumbnail);
+  formData.append("title", recruit.getRecruitTitle);
+  formData.append("text", recruit.getRecruitText);
+
+  const id = recruit.getRecruitItemId;
+  await recruit.updateRecruitItem(formData,id);
+
+  return navigateTo(Url.AUTHRECRUIT);
+};
+const handleDelete = async()=> {
+  await recruit.deleteRecruitItem(recruit.id);
+}
+
+
+
 onMounted(async ()=>{
+  const user = auth.user;
     await recruit.fetchRecruitItem(user.id);
 
-    console.log(recruit.getRecruitItem);
 })
 
 const checkFilledOut = () => {

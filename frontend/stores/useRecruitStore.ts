@@ -41,18 +41,49 @@ export const useRecruitStore = defineStore( "recruit",{
 
       async fetchRecruitItem(itemId) {
         const res = await useApiFetch(`/api/recruit/${itemId}`);
-        this.item = res.data.value;
+        this.id = res.data.value.data.id;
+        this.url_header_img = config.public.baseURL + '/storage/' +res.data.value.data.header_img_path;
+        this.url_thumbnail=config.public.baseURL + '/storage/' + res.data.value.data.thumbnail_path;
+        this.title = res.data.value.data.title;
+        this.text = res.data.value.data.text;
       },
 
       async registerRecruitItem(data) {
+        // console.log(...data.entries());
         await useApiFetch("/sanctum/csrf-cookie");
         const res = await useApiFetch("/api/recruit/register", {
           method: "POST",
           body: data,
         });
+        console.log(res.data.value);
 
         this.path_header = res.data.value.path_header;
         this.path_thumbnail = res.data.value.path_thumbnail;
       },
+      async updateRecruitItem(data,itemId) {
+        console.log(...data.entries());
+        console.log(itemId);
+        await useApiFetch("/sanctum/csrf-cookie");
+        const res = await useApiFetch(`/api/recruit/${itemId}`, {
+          method: "POST",
+          body: data,
+          headers:{
+            'X-HTTP-Method-Override' : 'PUT'
+          }
+        });
+
+        console.log(res.data.value);
+
+        // this.path_header = res.data.value.path_header;
+        // this.path_thumbnail = res.data.value.path_thumbnail;
+      },
+      async deleteRecruitItem(id) {
+        await useApiFetch("/sanctum/csrf-cookie");
+        const res = await useApiFetch(`/api/recruit/${id}`,{
+          method:'DELETE'
+        })
+
+        console.log(res);
+      }
     },
   });

@@ -7,7 +7,6 @@
     ログアウト
     </v-btn>
     <NuxtLink :to="Url.AUTHRECRUIT"
-    @click="getRecruitItem"
     >
       メンバー募集
     </NuxtLink>

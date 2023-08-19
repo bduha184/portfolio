@@ -1,4 +1,9 @@
-import Vue from 'vue';
-import VueLightGallery from 'vue-light-gallery';
+import { useAuthStore } from "../stores/useAuthStore";
 
-Vue.use(VueLightGallery);
+export default defineNuxtPlugin(async (nuxtApp)=> {
+  // const auth = useAuthStore();
+
+  // if(!auth.isLoggedIn) {
+  //   await auth.fetchUser();
+  // }
+})
