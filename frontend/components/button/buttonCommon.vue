@@ -1,11 +1,10 @@
 <template>
   <v-btn
     nuxt
-    :to="Url.SIGNIN"
     rounded
     height="40"
     class="bg-blue text-decoration-none  mx-auto"
-    :class="setColor == 'orange' ? 'bg-orange text-white' : ''"
+    :class="setColor == 'orange' ? 'bg-orange text-white':''"
     @click="submit"
   >
   {{ btnValue }}
@@ -15,7 +14,6 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import { Url } from "@/constants/url";
-
 import { useAuthStore } from '../../stores/useAuthStore';
 import {navigateTo} from 'nuxt/app';
 const auth = useAuthStore();
@@ -25,7 +23,6 @@ const props = defineProps({
   place:String,
   setColor:String
 })
-
 
 const submit = async () => {
 
