@@ -161,10 +161,6 @@ if(fieldArray.indexOf('') === -1) {
 return false
 }
 
-
-
-
-
 </script>
 
 <style lang="scss" scoped>
