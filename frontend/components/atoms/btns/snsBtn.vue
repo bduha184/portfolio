@@ -2,32 +2,37 @@
   <v-btn
     variant="outlined"
     rounded="0"
-    class="d-block mx-auto border-2 border-indigo-500 w-[250px]"
-    @click="submit(provider)"
+    @click="onClick"
   >
     <v-img
       contain
-      :src="`../../assets/images/${img}.png`"
-      class="mr-auto"
+      :src="`${config.public.appURL}/_nuxt/assets/images/${provider}.png`"
       width="20"
       height="20"
     />
-    {{ btnValue }}
+    <slot/>
   </v-btn>
 </template>
 
 
 <script setup lang="ts">
-import { Url } from '../../constants/url';
-import { useAuthStore } from '../../stores/useAuthStore';
+import { useAuthStore } from '../../../stores/useAuthStore';
+import {useRuntimeConfig} from 'nuxt/app';
 
 const auth = useAuthStore();
-
+const config = useRuntimeConfig();
 const props = defineProps({
-  btnValue:String,
-  img:String,
-  provider:String,
+  provider:{
+    type:String,
+    default:undefined
+  }
 })
+
+const emits = defineEmits(['click']);
+
+const onClick = () => {
+  emits('click');
+}
 
 const submit = async(provider) => {
 

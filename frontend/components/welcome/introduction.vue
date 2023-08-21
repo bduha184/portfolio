@@ -26,12 +26,11 @@
 
         </v-col >
         <v-col cols="12" sm="6">
-          <!-- <v-img
+          <v-img
             src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
             contain
           >
-          </v-img> -->
-          <img src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg" alt="">
+          </v-img>
           <ButtonCommon
             btnValue="さっそく始める"
             place="SIGNIN"

@@ -4,72 +4,7 @@
       メンバー募集の管理ページ
     </h1>
     <v-card>
-    <form>
-        <div
-        class="relative z-0 h-[100px]"
-        >
-          <v-img
-          :src="recruit.getRecruitHeaderUrl" cover>
-            <v-avatar size="80">
-              <v-img :src="recruit.getRecruitThumbnailUrl" cover />
-              <v-file-input
-              variant="solo"
-              name="thumbnail"
-              @change="onChange"
-              />
-            </v-avatar>
-          </v-img>
-          <v-file-input
-          variant="solo"
-          name="header_img"
-          @change="onChange"
-          />
-        </div>
-        <v-card-title class="w-60 text-body-2 text-left ml-auto">
-            <v-text-field
-            variant="outlined"
-            v-model="recruit.title"
-            label="チーム名"
-            single-line
-            hide-details
-            density="compact"
-            class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
-            />
-        </v-card-title>
-        <v-card-text>
-          <v-textarea
-          single-line
-          hide-details
-          variant="outlined" label="本文"
-          v-model="recruit.text"
-          />
-        </v-card-text>
-        <ButtonCommon
-        btnValue="登録"
-        width="16rem"
-        class="my-4 d-block"
-        @click="handleRegister"
-        :disabled="!checkFilledOut()"
-        v-if="!recruit.getRecruitItemId"
-        />
-        <ButtonCommon
-        btnValue="更新"
-        width="16rem"
-        setColor="orange"
-        class="my-4 d-block"
-        @click="handleUpdate"
-        :disabled="!checkFilledOut()"
-        v-if="recruit.getRecruitItemId"
-        />
-        <ButtonCommon
-        btnValue="削除"
-        width="16rem"
-        setColor="red"
-        class="my-4 d-block"
-        @click="handleDelete"
-        v-if="recruit.getRecruitItemId"
-        />
-      </form>
+      <ControllerRecruit/>
     </v-card>
   </v-container>
 </template>
@@ -77,13 +12,13 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
 import { definePageMeta } from "#imports";
-import { useApiFetch } from "../../composables/useApiFetch";
+import { useApiFetch } from "../../../composables/useApiFetch";
 import { ref,onMounted } from "vue";
-import { Url } from "../../constants/url";
+import { Url } from "../../../constants/url";
 import {useRoute} from 'vue-router';
 import {navigateTo} from 'nuxt/app';
-import {useRecruitStore} from '../../stores/useRecruitStore';
-import { useAuthStore } from "../../stores/useAuthStore";
+import {useRecruitStore} from '../../../stores/useRecruitStore';
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 definePageMeta({
   middleware: ["auth"],

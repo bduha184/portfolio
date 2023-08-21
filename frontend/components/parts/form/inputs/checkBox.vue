@@ -1,37 +1,29 @@
 <template>
-  <v-container>
-    <div class="d-flex flex-wrap align-center justify-center">
-      <input
-        type="checkbox"
-        class="mr-4"
-        :class="{ active: checked }"
-        v-model="checked"
-        @click="submit"
-        />
-        <RulesTerms />
-      <span>・</span>
-      <RulesPrivacyPolicy />
-      <a href="#" @click.prevent="submit">
-        を確認し、同意しました<span class="text-red text-caption">※</span>
-      </a>
-    </div>
-  </v-container>
+  <input
+    type="checkbox"
+    :class="{ active: checked }"
+    v-model="checked"
+    @click="onChange"
+  />
 </template>
 
-<script setup lang="ts">
-import { useField } from "vee-validate";
-import { ref } from "vue";
+<script setup>
+const props = defineProps({
+  value:{
+    type:Boolean,
+    default:false
+  }
+})
+const emits = defineEmits(["check"]);
 
-const { handleChange } = useField("checkbox");
-const emits = defineEmits(["setCheck"]);
+const checked = ref(props.value);
 
-const checked = ref(false);
-
-const submit = () => {
+const onChange = () => {
   checked.value = checked.value ? false : true;
-  emits("setCheck", checked.value);
+  emits("check", checked.value);
 };
 </script>
+
 
 <style lang="scss" scoped>
 input[type="checkbox"] {
