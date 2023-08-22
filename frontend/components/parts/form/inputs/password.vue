@@ -5,7 +5,6 @@
       type="password"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
-      @blur="handleChange"
       :value="name"
     />
     <p v-if="errors.password" class="text-red">{{ errors.password }}</p>

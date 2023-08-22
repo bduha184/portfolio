@@ -29,30 +29,32 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <MoleculesInputsText
-      type="text"
-      label="ユーザーネーム"
-      @setName="receiveName"
-      :val="form.name"
+      <MoleculesInput
+        type="text"
+        label="ユーザーネーム"
+        @emitInput="receiveName"
+        :val="form.name"
       />
-      {{ form.name }}
-      <MoleculesInputsText
-      type="email"
-      label="メールアドレス"
-      @setEmail="receiveEmail"
-      :name="form.email"
+      <MoleculesInput
+        type="email"
+        label="メールアドレス"
+        @emitInput="receiveEmail"
+        :val="form.email"
       />
-      <PartsFormInputsPassword
-        @setPassword="receivePassword"
-        :name="form.password"
+      <MoleculesInput
+        type="password"
+        label="パスワード"
+        @emitInput="receivePassword"
+        :val="form.password"
       />
-      <PartsFormInputsPasswordConfirmation
-        @setPasswordConfirmation="receivePasswordConfirmation"
-        :name="form.password_confirmation"
+      <MoleculesInput
+        type="password"
+        label="パスワード（確認）"
+        @emitInput="receivePasswordConfirmation"
+        :val="form.password_confirmation"
         :confirm="form.confirm"
       />
-      <PartsCheckBoxFormConsent @setCheck="receiveCheck" :name="form.check" />
-      <PartsConcent @check="check" :value="value"/>
+      <MoleculesConcent @emitInput="check" :val="form.check" />
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
@@ -66,9 +68,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { provide,ref, computed } from "vue";
+import { ref, computed } from "vue";
 import { navigateTo } from "nuxt/app";
 const form = ref({
   name: "",
@@ -80,8 +82,9 @@ const form = ref({
 });
 
 
+
 const check = (value) => {
-  form.value.check = value
+  form.value.check = value;
 };
 
 const checkFilledOut = () => {
@@ -105,8 +108,8 @@ const checkFilledOut = () => {
 };
 
 const auth = useAuthStore();
-const receiveName = (receiveName) => {
-  form.value.name = receiveName;
+const receiveName = (val) => {
+  form.value.name = val;
 };
 
 const receiveEmail = (receiveEmail) => {
