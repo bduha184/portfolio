@@ -29,17 +29,30 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <PartsFormInputsEmail @setEmail="receiveEmail" :name="form.email"/>
-      <PartsFormInputsPassword @setPassword="receivePassword" :name="form.password"/>
-      <PartsBtnsBaseBtn
+
+        <MoleculesInput
+        type="email"
+        label="メールアドレス"
+        @emitInput="receiveEmail"
+        :val="form.email"
+        class="mb-4"
+        />
+        <MoleculesInput
+        type="password"
+        label="パスワード"
+        @emitInput="receivePassword"
+        :val="form.password"
+        class="mb-4"
+        />
+      <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
         class="my-4 d-block"
         :disabled="!checkFilledOut()"
         @click="handleLogin"
       >
-      ログイン
-    </PartsBtnsBaseBtn>
+        ログイン
+      </AtomsBtnsBaseBtn>
     </form>
   </div>
 </template>
@@ -71,8 +84,8 @@ const auth = useAuthStore();
 const receiveEmail = (receiveEmail) => {
   form.value.email = receiveEmail;
 };
-const receivePassword = (setPassword) => {
-  form.value.password = setPassword;
+const receivePassword = (receivePassword) => {
+  form.value.password = receivePassword;
 };
 async function handleLogin() {
 

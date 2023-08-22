@@ -4,7 +4,7 @@
       name="name"
       :type="type"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      @input="submit"
+      @blur="submit"
       :value="val"
     />
   </div>
@@ -59,8 +59,8 @@ input[type="checkbox"] {
   &:checked {
     &::before {
       width: 10px;
-      top: -5px;
-      left: 5px;
+      top: 5px;
+      left: 15px;
       border-radius: 0;
       opacity: 1;
       border-top-color: transparent;

@@ -9,8 +9,9 @@
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       @input="submit"
       @blur="handleChange"
-      :value="name"
+      :value="val"
     />
+    {{ errors }}
     <p v-if="errors.name" class="text-red">{{errors.name}}</p>
     <p v-else class="text-caption">※20文字以内</p>
   </div>
@@ -20,7 +21,7 @@ import { useForm ,useField } from "vee-validate";
 import {object,string} from "yup";
 
 const props = defineProps({
-  name: String,
+  val: String,
 });
 const emailSchema = object({
   name:
@@ -30,19 +31,16 @@ const emailSchema = object({
   min(3,'3文字以上で入力してください').
   max(20,'20文字以内で入力してください'),
 });
-const { errors, useFieldModel } = useForm({
+const { errors } = useForm({
   validationSchema: emailSchema,
-  initialValues: {
-    name: '',
-  },
 });
 
-const name = useFieldModel('name');
-const {handleChange}=useField('name');
-const emits=defineEmits(['setName']);
+// const val = useFieldModel('name');
+const {value:val,handleChange}=useField('name');
+const emits=defineEmits(['emitInput']);
 
 const submit = ()=> {
-  emits('setName',name);
+  emits('emitInput',val);
 }
 
 

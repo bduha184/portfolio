@@ -34,27 +34,31 @@
         label="ユーザーネーム"
         @emitInput="receiveName"
         :val="form.name"
-      />
-      <MoleculesInput
+        class="mb-4"
+        />
+        <MoleculesInput
         type="email"
         label="メールアドレス"
         @emitInput="receiveEmail"
         :val="form.email"
-      />
-      <MoleculesInput
+        class="mb-4"
+        />
+        <MoleculesInput
         type="password"
         label="パスワード"
         @emitInput="receivePassword"
         :val="form.password"
-      />
-      <MoleculesInput
+        class="mb-4"
+        />
+        <MoleculesInput
         type="password"
         label="パスワード（確認）"
         @emitInput="receivePasswordConfirmation"
         :val="form.password_confirmation"
         :confirm="form.confirm"
-      />
-      <MoleculesConcent @emitInput="check" :val="form.check" />
+        class="mb-4"
+        />
+        <MoleculesConcent @emitInput="receiveCheck" :val="form.check" />
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
@@ -78,7 +82,7 @@ const form = ref({
   password: "",
   password_confirmation: "",
   check: "",
-  confirm: false,
+  confirm: true,
 });
 
 

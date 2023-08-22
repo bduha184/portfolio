@@ -2,7 +2,7 @@ import {object,string} from "yup";
 
 export const formSchema = {
   EMAIL:object({
-    name:
+    val:
     string().
     trim().
     lowercase().
@@ -10,7 +10,7 @@ export const formSchema = {
     email("正しいメールアドレスを入力してください。")
   }),
   NAME:object({
-    name:
+    val:
     string().
     trim().
     required('必須項目です').
@@ -18,7 +18,7 @@ export const formSchema = {
     max(20,'20文字以内で入力してください'),
   }),
   PASSWORD:object({
-    password:
+    val:
     string().
     trim().
     required('必須項目です').
