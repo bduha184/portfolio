@@ -7,9 +7,9 @@
       @emitInput="check"
       :val="value"
       />
-      <PartsRulesTerms />
+      <MoleculesRulesTerms />
       <span>・</span>
-      <PartsRulesPrivacyPolicy />
+      <MoleculesPrivacyPolicy />
         を確認し、同意しました<span class="text-red text-caption">※</span>
     </div>
   </v-container>

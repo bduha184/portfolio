@@ -4,7 +4,7 @@
       メンバー募集の管理ページ
     </h1>
     <v-card>
-      <ControllerRecruit/>
+      <OrganismsRecruit/>
     </v-card>
   </v-container>
 </template>

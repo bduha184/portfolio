@@ -1,17 +1,23 @@
 <template>
   <form>
     <div class="relative z-0 h-[100px]">
-      <PartsImgsRecruitCardHeaderImg>
-        <PartsImgsRecruitThumbnail />
-      </PartsImgsRecruitCardHeaderImg>
+      <AtomsImgsCardHeaderImg
+        @emitInput = 'receiveImg'
+        :path="recruit.url_header_img"
+      >
+        <AtomsImgsThumbnail
+        @emitInput = 'receiveImg'
+        :path="recruit.url_thumbnail"
+        />
+      </AtomsImgsCardHeaderImg>
     </div>
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <PartsFormTextFieldsTitle label="チーム名" />
+      <AtomsTextFieldsTitle label="チーム名"/>
     </v-card-title>
     <v-card-text>
-      <PartsFormTextAreasBody label="本文" />
+      <AtomsTextAreasBody label="本文" />
     </v-card-text>
-    <PartsBtnsBaseBtn
+    <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block"
       @click="handleRegister"
@@ -19,8 +25,8 @@
       v-if="!recruit.getRecruitItemId"
     >
       登録
-    </PartsBtnsBaseBtn>
-    <PartsBtnsBaseBtn
+    </AtomsBtnsBaseBtn>
+    <AtomsBtnsBaseBtn
       width="16rem"
       setColor="orange"
       class="my-4 d-block"
@@ -29,8 +35,8 @@
       v-if="recruit.getRecruitItemId"
     >
       更新
-    </PartsBtnsBaseBtn>
-    <PartsBtnsBaseBtn
+    </AtomsBtnsBaseBtn>
+    <AtomsBtnsBaseBtn
       width="16rem"
       setColor="red"
       class="my-4 d-block"
@@ -38,7 +44,7 @@
       v-if="recruit.getRecruitItemId"
     >
       削除
-    </PartsBtnsBaseBtn>
+    </AtomsBtnsBaseBtn>
   </form>
 </template>
 
@@ -61,17 +67,6 @@ const auth = useAuthStore();
 
 const recruit = useRecruitStore();
 
-const onChange = (e) => {
-  const target = e.target.name;
-  if (target == "header_img") {
-    recruit.header_img = e.target.files[0];
-    recruit.url_header_img = URL.createObjectURL(recruit.header_img);
-  } else {
-    recruit.thumbnail = e.target.files[0];
-    recruit.url_thumbnail = URL.createObjectURL(recruit.thumbnail);
-  }
-};
-
 const handleRegister = async () => {
   const formData = new FormData();
 
@@ -86,10 +81,6 @@ const handleRegister = async () => {
 };
 
 const handleUpdate = async () => {
-  // console.log(recruit.getRecruitHeaderImg);
-  // console.log(recruit.getRecruitThumbnail);
-  // console.log(recruit.getRecruitTitle);
-  // console.log(recruit.getRecruitText);
   const formData = new FormData();
 
   formData.append("header_img", recruit.getRecruitHeaderImg);
@@ -108,7 +99,9 @@ const handleDelete = async () => {
 
 onMounted(async () => {
   const user = auth.user;
-  await recruit.fetchRecruitItem(user.id);
+  if(user.id){
+    await recruit.fetchRecruitItem(user.id);
+  }
 });
 
 const checkFilledOut = () => {
@@ -123,6 +116,17 @@ const checkFilledOut = () => {
 
   return false;
 };
+
+const receiveImg = (val) => {
+    if (val.name == "header_img") {
+      recruit.header_img = val.files[0];
+      recruit.url_header_img = URL.createObjectURL(recruit.header_img);
+    } else {
+      recruit.thumbnail = val.files[0];
+      recruit.url_thumbnail = URL.createObjectURL(recruit.thumbnail);
+    }
+}
+
 </script>
 
 <style lang="scss" scoped>

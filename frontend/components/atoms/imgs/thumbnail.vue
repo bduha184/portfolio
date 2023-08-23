@@ -1,19 +1,20 @@
 <template>
   <v-avatar size="80">
-    <v-img :src="recruit.getRecruitThumbnailUrl" cover />
-    <v-file-input variant="solo" name="thumbnail" @change="onChange" />
+    <v-img :src="path" cover />
+    <v-file-input variant="solo" @change="onChange" />
   </v-avatar>
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig } from "nuxt/app";
-import {useRecruitStore} from '../../../../stores/useRecruitStore';
-
-const config = useRuntimeConfig();
-const recruit = useRecruitStore();
 const props = defineProps({
-  thumbnail_path: String,
+  path: String,
 });
+const emits = defineEmits(['emitInput']);
+
+const onChange = (e) => {
+  emits('emitInput',e.target);
+}
+
 </script>
 
 <style lang="scss" scoped>
