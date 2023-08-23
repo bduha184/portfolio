@@ -6,13 +6,17 @@
         :path="recruit.url_header_img"
       >
         <AtomsImgsThumbnail
-        @emitInput = 'receiveImg'
+        @emitInput = 'receiveThumbnail'
         :path="recruit.url_thumbnail"
         />
       </AtomsImgsCardHeaderImg>
     </div>
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextFieldsTitle label="チーム名"/>
+      <AtomsTextFieldsTitle
+      class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
+      label="チーム名"
+      @emitInput="receiveTeamName"
+      />
     </v-card-title>
     <v-card-text>
       <AtomsTextAreasBody label="本文" />
@@ -118,13 +122,16 @@ const checkFilledOut = () => {
 };
 
 const receiveImg = (val) => {
-    if (val.name == "header_img") {
       recruit.header_img = val.files[0];
       recruit.url_header_img = URL.createObjectURL(recruit.header_img);
-    } else {
+}
+
+const receiveThumbnail = (val) => {
       recruit.thumbnail = val.files[0];
       recruit.url_thumbnail = URL.createObjectURL(recruit.thumbnail);
-    }
+}
+const receiveTeamName = (val) =>{
+  recruit.title = val.value;
 }
 
 </script>

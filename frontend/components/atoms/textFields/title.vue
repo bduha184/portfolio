@@ -5,7 +5,8 @@
     single-line
     hide-details
     density="compact"
-    class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
+    @change="onChange"
+    :value="title"
   />
 </template>
 
@@ -15,9 +16,17 @@ const props = defineProps({
   label:{
     type:String,
     default:''
+  },
+  title:{
+    type:String,
+    default:''
   }
 })
 
-const emits = defineEmits([''])
+const emits = defineEmits(['emitInput'])
+
+const onChange = (e)=>{
+  emits('emitInput',e.target);
+}
 
 </script>
