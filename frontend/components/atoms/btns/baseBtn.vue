@@ -2,43 +2,33 @@
   <v-btn
     rounded
     height="40"
-    class="bg-blue text-decoration-none  mx-auto"
+    class="bg-blue text-decoration-none"
     :to="to"
     :class="setColor == 'orange' ? 'bg-orange text-white':''"
-    @click="submit"
+    @click="onClick"
   >
   <slot/>
 </v-btn>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
-import { Url } from "@/constants/url";
-import { useAuthStore } from '../../../stores/useAuthStore';
-import {navigateTo} from 'nuxt/app';
-const auth = useAuthStore();
-
 const props = defineProps({
     to:{
       type:String,
-      default:undefined
+      default:''
   },
-  btnValue:String,
-  place:String,
-  setColor:String
-})
-console.log(props.to)
-
-
-const submit = async () => {
-
-  if(props.place == 'guest') {
-      const {error} = await auth.guestLogin();
-      console.log(error);
-      return navigateTo('/auth');
+  setColor:{
+    type:String,
+    default:''
   }
+})
 
+const emits = defineEmits(['emitClick'])
+
+const onClick = (e) => {
+emits('emitClick',e.target);
 }
+
 
 </script>
 

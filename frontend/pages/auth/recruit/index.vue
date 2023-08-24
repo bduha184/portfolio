@@ -78,7 +78,9 @@ const handleDelete = async()=> {
 
 onMounted(async ()=>{
   const user = auth.user;
+  if(user.id){
     await recruit.fetchRecruitItem(user.id);
+  }
 
 })
 

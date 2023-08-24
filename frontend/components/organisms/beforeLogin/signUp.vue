@@ -62,9 +62,9 @@
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
-        class="my-4 d-block"
-        :disabled="!checkFilledOut()"
-        @click="handleRegister"
+        class="my-4 d-block mx-auto"
+        :disabled="!checkFilledOut"
+        @emitClick="handleRegister"
       >
         登録
       </AtomsBtnsBaseBtn>
@@ -82,16 +82,12 @@ const form = ref({
   password: "",
   password_confirmation: "",
   check: "",
-  confirm: true,
+  confirm: false,
+  errors:'',
 });
 
 
-
-const check = (value) => {
-  form.value.check = value;
-};
-
-const checkFilledOut = () => {
+const checkFilledOut = computed(()=>{
   const fieldArray = [
     form.value.name,
     form.value.email,
@@ -99,31 +95,35 @@ const checkFilledOut = () => {
     form.value.password_confirmation,
   ];
 
+  const errors = Object.keys(form.value.errors).length;
+
   if (form.value.password != form.value.password_confirmation) {
     form.value.confirm = false;
-    return false;
   } else {
     form.value.confirm = true;
   }
 
-  if (fieldArray.indexOf("") === -1 && form.value.check) {
-    return true;
-  }
-};
+  if (fieldArray.indexOf("") === -1 && form.value.check && errors == 0) {return true}
+
+});
 
 const auth = useAuthStore();
 const receiveName = (val) => {
-  form.value.name = val;
+  form.value.name = val.val;
+  form.value.errors = val.errors;
 };
 
-const receiveEmail = (receiveEmail) => {
-  form.value.email = receiveEmail;
+const receiveEmail = (val) => {
+  form.value.email = val.val;
+  form.value.errors = val.errors;
 };
-const receivePassword = (setPassword) => {
-  form.value.password = setPassword;
+const receivePassword = (val) => {
+  form.value.password = val.val;
+  form.value.errors = val.errors;
 };
-const receivePasswordConfirmation = (setPasswordConfirmation) => {
-  form.value.password_confirmation = setPasswordConfirmation;
+const receivePasswordConfirmation = (val) => {
+  form.value.password_confirmation = val.val;
+  form.value.errors = val.errors;
 };
 
 const receiveCheck = (setCheck) => {

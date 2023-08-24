@@ -5,7 +5,7 @@
     single-line
     hide-details
     density="compact"
-    @change="onChange"
+    @input="onChange"
     :value="title"
   />
 </template>

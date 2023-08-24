@@ -25,6 +25,7 @@ const recruit = useRecruitStore();
 const recruitItems  = recruit.items;
 
 onMounted(()=>{
+  
   recruit.fetchRecruitItems();
 })
 

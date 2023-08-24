@@ -5,21 +5,19 @@
       type="checkbox"
       class="pr-2"
       @emitInput="check"
+      @input="check"
       :val="value"
       />
       <MoleculesRulesTerms />
       <span>・</span>
-      <MoleculesPrivacyPolicy />
+      <MoleculesRulesPrivacyPolicy />
         を確認し、同意しました<span class="text-red text-caption">※</span>
     </div>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { useField } from "vee-validate";
 import { ref } from "vue";
-
-const { handleChange } = useField("checkbox");
 
 const props = defineProps({
   value:{

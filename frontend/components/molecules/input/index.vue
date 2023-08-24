@@ -8,7 +8,7 @@
       :val="val"
       @emitInput="receive"
       @blur="handleChange"
-      @input="submit"
+      @change="submit"
     />
     <p v-if="errors.val" class="text-red">{{ errors.val }}</p>
     <p v-else class="text-caption">
@@ -20,9 +20,6 @@
 </template>
 <script setup lang="ts">
 import { useForm, useField } from "vee-validate";
-import { ref, computed, onMounted } from "vue";
-import { object, string } from "yup";
-
 import { formSchema } from "../../../constants/formSchema";
 
 const props = defineProps({
@@ -68,6 +65,6 @@ const receive = (receiveVal) => {
 const emit = defineEmits(["emitInput"]);
 
 const submit = () => {
-  emit("emitInput", val);
+  emit("emitInput", {val,errors,confirm});
 };
 </script>

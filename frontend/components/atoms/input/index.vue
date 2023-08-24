@@ -11,10 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
-// import {inject} from 'vue';
-// const type = inject('type');
-
 const props = defineProps({
   type:{
     type:String,

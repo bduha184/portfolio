@@ -16,10 +16,15 @@
       class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
       label="チーム名"
       @emitInput="receiveTeamName"
+      :title="recruit.title"
       />
     </v-card-title>
     <v-card-text>
-      <AtomsTextAreasBody label="本文" />
+      <AtomsTextAreasBody
+      label="本文"
+      @emitInput="receiveTeamIntroduce"
+      :body="recruit.text"
+      />
     </v-card-text>
     <AtomsBtnsBaseBtn
       width="16rem"
@@ -64,7 +69,7 @@ import { useRecruitStore } from "../../../stores/useRecruitStore";
 import { useAuthStore } from "../../../stores/useAuthStore";
 
 definePageMeta({
-  middleware: ["auth"],
+  middleware: ["auth"]
 });
 
 const auth = useAuthStore();
@@ -108,6 +113,7 @@ onMounted(async () => {
   }
 });
 
+const test = ref();
 const checkFilledOut = () => {
   const fieldArray = [
     recruit.getRecruitTitle,
@@ -132,6 +138,9 @@ const receiveThumbnail = (val) => {
 }
 const receiveTeamName = (val) =>{
   recruit.title = val.value;
+}
+const receiveTeamIntroduce = (val) =>{
+  recruit.text = val.value;
 }
 
 </script>

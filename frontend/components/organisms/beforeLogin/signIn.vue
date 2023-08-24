@@ -47,9 +47,9 @@
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
-        class="my-4 d-block"
+        class="my-4 d-block mx-auto"
         :disabled="!checkFilledOut()"
-        @click="handleLogin"
+        @emitClick="handleLogin"
       >
         ログイン
       </AtomsBtnsBaseBtn>
@@ -64,9 +64,17 @@ import { navigateTo } from "nuxt/app";
 const form = ref({
   email:'',
   password:'',
-
+  errors:''
 })
 
+const receiveEmail = (val) => {
+  form.value.email = val.val;
+  form.value.errors = val.errors;
+};
+const receivePassword = (val) => {
+  form.value.password = val.val;
+  form.value.errors = val.errors;
+};
 const checkFilledOut = () => {
 
   const fieldArray = [
@@ -74,19 +82,15 @@ const checkFilledOut = () => {
     form.value.password,
   ]
 
-  if(fieldArray.indexOf('') === -1){
+  const errors = Object.keys(form.value.errors).length;
+
+  if(fieldArray.indexOf('') === -1 && errors == 0){
     return true;
   }
 }
 
 
 const auth = useAuthStore();
-const receiveEmail = (receiveEmail) => {
-  form.value.email = receiveEmail;
-};
-const receivePassword = (receivePassword) => {
-  form.value.password = receivePassword;
-};
 async function handleLogin() {
 
   const res = await auth.login(form.value);
