@@ -3,10 +3,13 @@
   @click="onClick"
   height="300px"
   >
-   <ImgsCardHeaderImg
-   :header_img_path="header_img_path"
-   :thumbnail_path="thumbnail_path"
-   />
+   <AtomsImgsCardHeaderImg
+   :path="header_img_path"
+   >
+  <AtomsImgsThumbnail
+  :path="thumbnail_path"
+  />
+  </AtomsImgsCardHeaderImg>
    <v-card-title class="w-60 text-body-2 text-left ml-auto">
      <TitleHeadline :title="title"/>
    </v-card-title>
@@ -40,6 +43,9 @@ const onClick = () => {
   & + & {
     margin-top: 1rem;
   }
+
+
+
 }
   .v-avatar {
     position:absolute !important;

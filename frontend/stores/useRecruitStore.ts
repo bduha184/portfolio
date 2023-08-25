@@ -39,8 +39,9 @@ export const useRecruitStore = defineStore( "recruit",{
         this.items.push(...recruitItems);
       },
 
-      async fetchRecruitItem(itemId) {
-        const res = await useApiFetch(`/api/recruit/${itemId}`);
+      async fetchRecruitItem(userId) {
+        const res = await useApiFetch(`/api/recruit/${userId}`);
+        console.log(res);
         this.id = res.data.value.data.id;
         this.url_header_img = config.public.baseURL + '/storage/' +res.data.value.data.header_img_path;
         this.url_thumbnail=config.public.baseURL + '/storage/' + res.data.value.data.thumbnail_path;
