@@ -12,16 +12,17 @@
       </AtomsImgsCardHeaderImg>
     </div>
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextFieldsTitle
+      <AtomsInput
       class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
-      label="チーム名"
+      placeholder="チーム名"
+      type="text"
       @emitInput="receiveTeamName"
-      :title="recruit.getRecruitTitle"
+      :val="recruit.getRecruitTitle"
       />
     </v-card-title>
     <v-card-text>
-      <AtomsTextAreasBody
-      label="本文"
+      <AtomsTextAreas
+      placeholder="本文"
       @emitInput="receiveTeamIntroduce"
       :body="recruit.getRecruitText"
       />

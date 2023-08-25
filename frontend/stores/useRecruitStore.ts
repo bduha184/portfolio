@@ -75,8 +75,8 @@ export const useRecruitStore = defineStore( "recruit",{
 
         console.log(res.data.value);
 
-        // this.path_header = res.data.value.path_header;
-        // this.path_thumbnail = res.data.value.path_thumbnail;
+        this.path_header = res.data.value.path_header;
+        this.path_thumbnail = res.data.value.path_thumbnail;
       },
       async deleteRecruitItem(id) {
         await useApiFetch("/sanctum/csrf-cookie");
