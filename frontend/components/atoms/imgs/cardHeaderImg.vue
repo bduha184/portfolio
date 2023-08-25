@@ -6,11 +6,11 @@
 </template>
 
 <script setup lang="ts">
-
-
 const props = defineProps({
   path: String,
 });
+
+console.log(props.path);
 
 const emits  =  defineEmits(['emitInput'])
 

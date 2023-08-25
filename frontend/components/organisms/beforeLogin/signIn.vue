@@ -48,7 +48,7 @@
         width="16rem"
         setColor="orange"
         class="my-4 d-block mx-auto"
-        :disabled="!checkFilledOut()"
+        :disabled="!checkFilledOut"
         @emitClick="handleLogin"
       >
         ログイン
@@ -75,7 +75,7 @@ const receivePassword = (val) => {
   form.value.password = val.val;
   form.value.errors = val.errors;
 };
-const checkFilledOut = () => {
+const checkFilledOut = computed(() => {
 
   const fieldArray = [
     form.value.email,
@@ -87,7 +87,7 @@ const checkFilledOut = () => {
   if(fieldArray.indexOf('') === -1 && errors == 0){
     return true;
   }
-}
+})
 
 
 const auth = useAuthStore();

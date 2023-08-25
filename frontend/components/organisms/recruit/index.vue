@@ -3,11 +3,11 @@
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
         @emitInput = 'receiveImg'
-        :path="recruit.url_header_img"
+        :path="recruit.getRecruitHeaderUrl"
       >
         <AtomsImgsThumbnail
         @emitInput = 'receiveThumbnail'
-        :path="recruit.url_thumbnail"
+        :path="recruit.getRecruitThumbnailUrl"
         />
       </AtomsImgsCardHeaderImg>
     </div>
@@ -16,19 +16,19 @@
       class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
       label="チーム名"
       @emitInput="receiveTeamName"
-      :title="recruit.title"
+      :title="recruit.getRecruitTitle"
       />
     </v-card-title>
     <v-card-text>
       <AtomsTextAreasBody
       label="本文"
       @emitInput="receiveTeamIntroduce"
-      :body="recruit.text"
+      :body="recruit.getRecruitText"
       />
     </v-card-text>
     <AtomsBtnsBaseBtn
       width="16rem"
-      class="my-4 d-block"
+      class="my-4 d-block mx-auto"
       @click="handleRegister"
       :disabled="!checkFilledOut()"
       v-if="!recruit.getRecruitItemId"
@@ -38,7 +38,7 @@
     <AtomsBtnsBaseBtn
       width="16rem"
       setColor="orange"
-      class="my-4 d-block"
+      class="my-4 d-block  mx-auto"
       @click="handleUpdate"
       :disabled="!checkFilledOut()"
       v-if="recruit.getRecruitItemId"
@@ -48,7 +48,7 @@
     <AtomsBtnsBaseBtn
       width="16rem"
       setColor="red"
-      class="my-4 d-block"
+      class="my-4 d-block mx-auto"
       @click="handleDelete"
       v-if="recruit.getRecruitItemId"
     >
@@ -59,7 +59,6 @@
 
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
-import { definePageMeta } from "#imports";
 import { useApiFetch } from "../../../composables/useApiFetch";
 import { ref, onMounted } from "vue";
 import { Url } from "../../../constants/url";
@@ -68,9 +67,6 @@ import { navigateTo } from "nuxt/app";
 import { useRecruitStore } from "../../../stores/useRecruitStore";
 import { useAuthStore } from "../../../stores/useAuthStore";
 
-definePageMeta({
-  middleware: ["auth"]
-});
 
 const auth = useAuthStore();
 
