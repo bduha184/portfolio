@@ -13,7 +13,8 @@
       :title="item.title"
       :text="item.text"
       />
-    </v-container>
+    </v-container>1
+    {{ recruitItems }}
   </div>
 </template>
 <script setup lang="ts">
@@ -22,9 +23,10 @@ import { useApiFetch } from '../../composables/useApiFetch';
 import {useRecruitStore} from '../../stores/useRecruitStore';
 
 const recruit = useRecruitStore();
-const recruitItems  = recruit.items;
+const recruitItems  = recruit.getRecruitItems;
 
 onMounted(()=>{
+
   recruit.fetchRecruitItems();
 })
 
