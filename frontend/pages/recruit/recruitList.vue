@@ -5,7 +5,7 @@
       <FormMultipleSearch/>
       <DisplayTeamCount/>
       <TabsRecruitTab/>
-      <CardsRecruitCardForList
+      <OrganismsCardsRecruitCardForList
       v-for="(item,index ) in recruitItems"
       :key="index"
       :header_img_path="item.header_img_path"
@@ -13,8 +13,7 @@
       :title="item.title"
       :text="item.text"
       />
-    </v-container>1
-    {{ recruitItems }}
+    </v-container>
   </div>
 </template>
 <script setup lang="ts">
