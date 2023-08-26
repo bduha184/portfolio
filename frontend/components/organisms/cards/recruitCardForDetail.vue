@@ -1,13 +1,24 @@
 <template>
-  <v-card>
-   <ImgsCardHeaderImg
-   :header_img_path="header_img_path"
-   :thumbnail_path="thumbnail_path"
-   />
+   <v-card  height="300px">
+    <div class="relative z-0 h-[100px]">
+      <AtomsImgsCardHeaderImg
+        :disabled="false"
+        :path="header_img_path"
+      >
+        <AtomsImgsThumbnail
+          :disabled="false"
+          :path="thumbnail_path"
+        />
+      </AtomsImgsCardHeaderImg>
+    </div>
    <v-card-title class="w-60 text-body-2 text-left ml-auto">
-     <TitleHeadline :title="title"/>
+     <AtomsDecorationHeadline>
+      {{ title }}
+     </AtomsDecorationHeadline>
    </v-card-title>
-   <TextRecruitCardText :text="text"/>
+   <v-card-text>
+      {{ text }}
+    </v-card-text>
    <GalleryLightGallery/>
    <TeamActivity/>
    <div>
@@ -21,9 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { navigateTo } from 'nuxt/app';
-import {ref} from 'vue';
-import { StringSchema } from 'yup';
+import { useRuntimeConfig } from 'nuxt/app';
 
 const props = defineProps({
   header_img_path:String,
@@ -32,6 +41,10 @@ const props = defineProps({
   title:String,
   text:String
 })
+
+console.log(props.header_img_path);
+
+const config = useRuntimeConfig();
 
 
 
@@ -42,9 +55,6 @@ const props = defineProps({
   & + & {
     margin-top: 1rem;
   }
-}
-.v-card {
-  overflow:visible !important;
 }
   .v-avatar {
     position:absolute !important;

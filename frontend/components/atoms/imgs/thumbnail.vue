@@ -1,14 +1,24 @@
 <template>
   <v-avatar size="80">
     <v-img :src="path" cover />
-    <v-file-input variant="solo" @change="onChange" />
+    <v-file-input
+    v-if="disabled ? 'disabled' : ''"
+    variant="solo" @change="onChange" />
   </v-avatar>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-  path: String,
+  path: {
+    type:String,
+    default:''
+  },
+  disabled:{
+    type:Boolean,
+    default:true
+  }
 });
+
 const emits = defineEmits(['emitInput']);
 
 const onChange = (e) => {

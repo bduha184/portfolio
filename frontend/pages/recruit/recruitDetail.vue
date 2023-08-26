@@ -1,13 +1,12 @@
 <template>
   <div class="p-4">
     <v-container class="bg-white">
-      <CardsRecruitCardForDetail
-      v-for="(item,index ) in datas.items"
-      :key="index"
-      :header_img_path="item.header_img_path"
-      :thumbnail_path="item.thumbnail_path"
-      :title="item.title"
-      :text="item.text"
+      <OrganismsCardsRecruitCardForDetail
+      :header_img_path="recruit.getRecruitHeaderUrl"
+      :thumbnail_path="recruit.getRecruitThumbnailUrl"
+      :prof_thumbnail_path="test"
+      :title="recruit.getRecruitTitle"
+      :text="recruit.getRecruitText"
       />
     </v-container>
   </div>
@@ -15,19 +14,15 @@
 <script setup lang="ts">
 import {ref,onMounted} from 'vue';
 import { useApiFetch } from '../../composables/useApiFetch';
-const datas = ref({
-  items:[]
-});
+import { useAuthStore } from '../../stores/useAuthStore';
+import { useRecruitStore } from '../../stores/useRecruitStore';
 
-const getRecruits = async () => {
-  const res = await useApiFetch('/api/recruit')
-  const data = res.data.value;
 
-  return datas.value.items = data;
-}
-
+const auth = useAuthStore();
+const recruit = useRecruitStore();
 onMounted(() => {
-  return getRecruits()
+  const userId = auth.user.id;
+  recruit.fetchRecruitItem(userId);
 })
 </script>
 

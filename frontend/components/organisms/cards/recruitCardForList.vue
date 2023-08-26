@@ -1,80 +1,60 @@
 <template>
-  <v-card
-  @click="onClick"
-  height="300px"
-  >
-  <div class="relative z-0 h-[100px]">
+  <v-card @click="onClick" height="300px">
+    <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
-        @emitInput = 'receiveImg'
-        :path="recruit.getRecruitHeaderUrl"
+        :disabled="false"
+        :path="config.public.baseURL + '/storage/' + header_img_path"
       >
         <AtomsImgsThumbnail
-        @emitInput = 'receiveThumbnail'
-        :path="recruit.getRecruitThumbnailUrl"
+          :disabled="false"
+          :path="config.public.baseURL + '/storage/' + thumbnail_path"
         />
       </AtomsImgsCardHeaderImg>
     </div>
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsInput
-      class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
-      placeholder="チーム名"
-      type="text"
-      @emitInput="receiveTeamName"
-      :val="recruit.getRecruitTitle"
-      />
+      <AtomsDecorationHeadline>
+        {{ title }}
+      </AtomsDecorationHeadline>
     </v-card-title>
     <v-card-text>
-      <AtomsTextAreas
-      placeholder="本文"
-      @emitInput="receiveTeamIntroduce"
-      :body="recruit.getRecruitText"
-      />
+      {{ text }}
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { navigateTo,useRuntimeConfig } from 'nuxt/app';
-import { useRecruitStore } from '../../../stores/useRecruitStore';
+import { useRuntimeConfig } from "nuxt/app";
+import { navigateTo } from "nuxt/app";
 
 const props = defineProps({
-  header_img_path:String,
-  thumbnail_path:String,
-  title:String,
-  text:String
-})
-
-const recruit = useRecruitStore();
+  header_img_path: String,
+  thumbnail_path: String,
+  title: String,
+  text: String,
+});
 
 const config = useRuntimeConfig();
 
 const onClick = () => {
-  return navigateTo('/recruit/recruitdetail');
-}
-
-
+  return navigateTo("/recruit/recruitdetail");
+};
 </script>
 
 <style lang="scss" scoped>
 .v-card {
-  overflow:visible !important;
   position: relative;
   & + & {
     margin-top: 1rem;
   }
-
-
-
 }
-  .v-avatar {
-    position:absolute !important;
-    bottom:-40px;
-    left:20px;
-    z-index: 10;
-  }
+.v-avatar {
+  position: absolute !important;
+  bottom: -40px;
+  left: 20px;
+  z-index: 10;
+}
 
-  .v-responsive {
+.v-responsive {
   position: unset !important;
 }
-
 </style>

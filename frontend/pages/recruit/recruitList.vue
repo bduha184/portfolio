@@ -3,8 +3,11 @@
     <v-container class="bg-white">
       <FormKeywordsSearch/>
       <FormMultipleSearch/>
-      <DisplayTeamCount/>
-      <TabsRecruitTab/>
+      <MoleculesCountsTeamCount
+      class="mt-4"
+      :val="recruit.getRecruitItemCount"
+      />
+      <OrganismsTabsRecruitTab/>
       <OrganismsCardsRecruitCardForList
       v-for="(item,index ) in recruitItems"
       :key="index"
@@ -25,7 +28,7 @@ const recruit = useRecruitStore();
 const recruitItems  = recruit.getRecruitItems;
 
 onMounted(()=>{
-
+  recruit.items.length =0;
   recruit.fetchRecruitItems();
 })
 

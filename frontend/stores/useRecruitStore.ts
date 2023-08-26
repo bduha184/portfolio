@@ -9,6 +9,7 @@ export const useRecruitStore = defineStore( "recruit",{
     state: () => ({
       items: [],
       item: "",
+      itemCount:0,
       path_header: "",
       path_thumbnail: "",
       id: "",
@@ -20,6 +21,7 @@ export const useRecruitStore = defineStore( "recruit",{
       url_thumbnail: config.public.appURL + "/images/noimage.jpg",
     }),
     getters: {
+      getRecruitItemCount:(state)=>state.itemCount,
       getRecruitItems: (state) => state.items,
       getRecruitItem: (state) => state.item,
       getRecruitPathHeader: (state) => state.path_header,
@@ -37,14 +39,16 @@ export const useRecruitStore = defineStore( "recruit",{
         const res = await useApiFetch("/api/recruit/");
         const recruitItems = res.data.value;
         this.items.push(...recruitItems);
+        this.itemCount = res.data.value.length;
+        console.log(res);
       },
 
       async fetchRecruitItem(userId) {
         const res = await useApiFetch(`/api/recruit/${userId}`);
         console.log(res);
         this.id = res.data.value.data.id;
-        this.url_header_img = config.public.baseURL + '/storage/' +res.data.value.data.header_img_path;
-        this.url_thumbnail=config.public.baseURL + '/storage/' + res.data.value.data.thumbnail_path;
+        this.url_header_img = config.public.baseURL + '/storage/'+ res.data.value.data.header_img_path;
+        this.url_thumbnail= config.public.baseURL + '/storage/'+ res.data.value.data.thumbnail_path;
         this.title = res.data.value.data.title;
         this.text = res.data.value.data.text;
       },

@@ -27,10 +27,11 @@ const props = defineProps({
   },
 })
 
+
 const emit = defineEmits(['emitInput']);
 
 const submit = (e) => {
-  emit('emitInput',e.target.value);
+  emit('emitInput',e.target);
 }
 
 </script>

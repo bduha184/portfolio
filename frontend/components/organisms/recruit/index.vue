@@ -4,7 +4,7 @@
       <AtomsImgsCardHeaderImg
         @emitInput = 'receiveImg'
         :path="recruit.getRecruitHeaderUrl"
-      >
+        >
         <AtomsImgsThumbnail
         @emitInput = 'receiveThumbnail'
         :path="recruit.getRecruitThumbnailUrl"
@@ -110,7 +110,6 @@ onMounted(async () => {
   }
 });
 
-const test = ref();
 const checkFilledOut = () => {
   const fieldArray = [
     recruit.getRecruitTitle,
