@@ -40,13 +40,12 @@ export const useRecruitStore = defineStore( "recruit",{
         const recruitItems = res.data.value;
         this.items.push(...recruitItems);
         this.itemCount = res.data.value.length;
-        console.log(res);
       },
 
-      async fetchRecruitItem(userId) {
-        const res = await useApiFetch(`/api/recruit/${userId}`);
-        console.log(res);
-        this.id = res.data.value.data.id;
+      async fetchRecruitItem(id) {
+        const res = await useApiFetch(`/api/recruit/${id}`);
+        // console.log(res);
+        // this.id = res.data.value.data.id;
         this.url_header_img = config.public.baseURL + '/storage/'+ res.data.value.data.header_img_path;
         this.url_thumbnail= config.public.baseURL + '/storage/'+ res.data.value.data.thumbnail_path;
         this.title = res.data.value.data.title;
@@ -60,14 +59,16 @@ export const useRecruitStore = defineStore( "recruit",{
           method: "POST",
           body: data,
         });
-        console.log(res.data.value);
 
+        // console.log(res);
+        this.id = res.data.value.itemId;
         this.path_header = res.data.value.path_header;
         this.path_thumbnail = res.data.value.path_thumbnail;
+
       },
       async updateRecruitItem(data,itemId) {
-        console.log(...data.entries());
-        console.log(itemId);
+        // console.log(...data.entries());
+        // console.log(itemId);
         await useApiFetch("/sanctum/csrf-cookie");
         const res = await useApiFetch(`/api/recruit/${itemId}`, {
           method: "POST",

@@ -62,7 +62,7 @@ async function snsHandleRegister() {
   if(error.value == null){
     navigateTo('/auth');
   }else{
-    navigateTo('/beforeLogin');
+    navigateTo('/beforelogin');
   }
 }
 

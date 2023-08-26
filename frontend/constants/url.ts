@@ -1,7 +1,7 @@
-
 const getFrontUrl = (path: string): string => {
   return ['', path].join('')
 }
+
 
 export const Url = {
   /** TOP */
@@ -25,9 +25,9 @@ export const Url = {
   /** パスワードリセット **/
   RESETPASSWORD: getFrontUrl('/passwords/forgotpassword'),
   /** マイページ */
-  MYPAGE: getFrontUrl('/auth'),
+  MYPAGE: getFrontUrl('/auth/user'),
   /** マイページ（メンバー募集）（ */
-  AUTHRECRUIT: getFrontUrl('/auth/recruit/'),
+  AUTHRECRUIT: getFrontUrl('/auth/user/recruit'),
   /** マイページ（プロフィール）（ */
   PROFILE: getFrontUrl('/auth/profile'),
 }

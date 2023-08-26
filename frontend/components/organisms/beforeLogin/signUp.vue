@@ -76,12 +76,13 @@
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { ref, computed } from "vue";
 import { navigateTo } from "nuxt/app";
+import {Url} from '../../../constants/url';
 const form = ref({
   name: "",
   email: "",
   password: "",
   password_confirmation: "",
-  check: "",
+  check: false,
   confirm: false,
   errors:'',
 });
@@ -102,8 +103,11 @@ const checkFilledOut = computed(()=>{
   } else {
     form.value.confirm = true;
   }
-
-  if (fieldArray.indexOf("") === -1 && form.value.check && errors == 0) {return true}
+  if (fieldArray.indexOf("") === -1 && form.value.check && errors == 0) {
+    return true
+  }else{
+    return false
+  }
 
 });
 
@@ -132,10 +136,12 @@ const receiveCheck = (setCheck) => {
 async function handleRegister() {
   const res = await auth.register(form.value);
 
+  console.log(res);
+
   if (res.error.value == null) {
-    navigateTo("/auth");
+    navigateTo('/auth/user');
   } else {
-    navigateTo("/beforeLogin");
+    navigateTo(Url.SIGNUP);
   }
 }
 </script>

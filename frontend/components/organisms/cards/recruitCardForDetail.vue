@@ -11,7 +11,7 @@
         />
       </AtomsImgsCardHeaderImg>
     </div>
-   <v-card-title class="w-60 text-body-2 text-left ml-auto">
+   <v-card-title class="text-body-2 pl-20">
      <AtomsDecorationHeadline>
       {{ title }}
      </AtomsDecorationHeadline>
@@ -21,10 +21,21 @@
     </v-card-text>
    <GalleryLightGallery/>
    <TeamActivity/>
-   <div>
-   <ButtonCommon btnValue="このチームに参加する"/>
-   <ButtonCommon btnValue="このチームに質問する" setColor="orange"/>
-   </div>
+   <v-container class="text-center">
+    <v-row>
+      <v-col>
+        <AtomsBtnsBaseBtn
+        >
+         このチームに参加する
+       </AtomsBtnsBaseBtn>
+      </v-col>
+      <v-col>
+        <AtomsBtnsBaseBtn setColor="orange">
+         このチームに質問する
+       </AtomsBtnsBaseBtn>
+      </v-col>
+    </v-row>
+   </v-container>
    <RecruitProfile
    :prof_thumbnail_path="prof_thumbnail_path"
    />

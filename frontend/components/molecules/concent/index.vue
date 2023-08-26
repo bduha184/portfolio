@@ -5,8 +5,7 @@
       type="checkbox"
       class="pr-2"
       @emitInput="check"
-      @input="check"
-      :val="value"
+      :val="val"
       />
       <MoleculesRulesTerms />
       <span>・</span>
@@ -20,18 +19,15 @@
 import { ref } from "vue";
 
 const props = defineProps({
-  value:{
-    type:Boolean,
-    default:false
-  }
+  val:Boolean,
+
 })
 
 const emits = defineEmits(["emitInput"]);
-
 const checked = ref(false);
 
-const check = () => {
-  checked.value = checked.value ? false : true;
+const check = (val) => {
+  checked.value = JSON.parse(val.value) ? false : true;
   emits("emitInput", checked.value);
 };
 </script>

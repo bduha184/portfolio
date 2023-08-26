@@ -18,7 +18,7 @@ const props = defineProps({
     default:''
   },
   val:{
-    type:String,
+    type:[String,Boolean],
     default:''
   },
   placeholder:{

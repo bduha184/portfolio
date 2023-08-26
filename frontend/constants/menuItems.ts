@@ -1,6 +1,5 @@
-import {Url} from '@/constants/url';
-import { useRouter } from "nuxt/app";
-import {Icons} from '@/constants/icons';
+import {Url} from './url';
+import {Icons} from './icons';
 
 const router = useRouter();
 

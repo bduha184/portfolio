@@ -59,18 +59,17 @@
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig } from "nuxt/app";
+import { useRuntimeConfig,navigateTo } from "nuxt/app";
 import { useApiFetch } from "../../../composables/useApiFetch";
 import { ref, onMounted } from "vue";
 import { Url } from "../../../constants/url";
-import { useRoute } from "vue-router";
-import { navigateTo } from "nuxt/app";
 import { useRecruitStore } from "../../../stores/useRecruitStore";
 import { useAuthStore } from "../../../stores/useAuthStore";
-
+import { onBeforeRouteUpdate } from "vue-router";
+import {useRoute} from 'vue-router';
 
 const auth = useAuthStore();
-
+const router = useRoute();
 const recruit = useRecruitStore();
 
 const handleRegister = async () => {
@@ -83,9 +82,14 @@ const handleRegister = async () => {
 
   await recruit.registerRecruitItem(formData);
 
-  return navigateTo(Url.AUTHRECRUIT);
-};
+  return navigateTo({
+    path:'/auth/user/recruit',
+    query:{
+      id:recruit.getRecruitItemId
+    }
+  })
 
+}
 const handleUpdate = async () => {
   const formData = new FormData();
 
@@ -97,17 +101,14 @@ const handleUpdate = async () => {
   const id = recruit.getRecruitItemId;
   await recruit.updateRecruitItem(formData, id);
 
-  return navigateTo(Url.AUTHRECRUIT);
 };
 const handleDelete = async () => {
   await recruit.deleteRecruitItem(recruit.id);
 };
 
 onMounted(async () => {
-  const user = auth.user;
-  if(user.id){
-    await recruit.fetchRecruitItem(user.id);
-  }
+  const itemId = recruit.getRecruitItemId;
+    await recruit.fetchRecruitItem(itemId);
 });
 
 const checkFilledOut = () => {

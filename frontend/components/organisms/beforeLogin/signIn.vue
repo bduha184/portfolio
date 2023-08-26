@@ -61,6 +61,10 @@
 import { useAuthStore } from "../../../stores/useAuthStore";
 import {ref,computed} from 'vue';
 import { navigateTo } from "nuxt/app";
+import {useRouter} from 'vue-router';
+import {Url} from '../../../constants/url';
+
+const router = useRouter();
 const form = ref({
   email:'',
   password:'',
@@ -95,10 +99,10 @@ async function handleLogin() {
 
   const res = await auth.login(form.value);
 
-  if(res.error.value == null){
-    navigateTo('/auth');
-  }else{
-    navigateTo('/beforeLogin');
+   if (res.error.value == null) {
+    navigateTo('/auth/user');
+  } else {
+    navigateTo(Url.SIGNUP);
   }
 }
 

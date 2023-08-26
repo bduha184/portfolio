@@ -48,6 +48,7 @@ class RecruitController extends Controller
         $recruit->save();
 
         return response()->json([
+            'itemId'=>$recruit->id,
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
         ]);
@@ -58,7 +59,7 @@ class RecruitController extends Controller
      */
     public function show($id)
     {
-        $recruitItem = Recruit::where('user_id',$id)->first();
+        $recruitItem = Recruit::where('id',$id)->first();
 
         return response()->json([
             'data'=>$recruitItem,

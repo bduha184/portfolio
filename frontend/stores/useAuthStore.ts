@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { useApiFetch } from "../composables/useApiFetch";
 import { computed } from "vue";
-import { RefSymbol } from "@vue/reactivity";
+
 
 type User = {
   id: number;
@@ -78,7 +78,7 @@ export const useAuthStore = defineStore(
     async function logout() {
       await useApiFetch("/api/logout", { method: "POST" });
       user.value = null;
-      navigateTo("/beforeLogin");
+      navigateTo("/beforelogin");
     }
 
     async function login(credentials: Credentials) {
@@ -88,6 +88,8 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: credentials,
       });
+      // user.value
+
 
       await fetchUser();
 
