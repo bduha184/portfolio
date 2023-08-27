@@ -11,7 +11,8 @@
         />
       </AtomsImgsCardHeaderImg>
     </div>
-    <v-card-title class=" text-body-2">
+
+    <v-card-title class="text-body-2">
       <AtomsDecorationHeadline>
         {{ title }}
       </AtomsDecorationHeadline>
@@ -25,29 +26,36 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
 import { navigateTo } from "nuxt/app";
-import {useRoute} from 'vue-router'
 import { useRecruitStore } from "../../../stores/useRecruitStore";
 
 const props = defineProps({
-  header_img_path: String,
-  thumbnail_path: String,
-  title: String,
-  text: String,
+  header_img_path: {
+    type: String,
+    default: "",
+  },
+  thumbnail_path: {
+    type: String,
+    default: "",
+  },
+  title: {
+    type: String,
+    default: "",
+  },
+  text: {
+    type: String,
+    default: "",
+  },
+  id: {
+    type: Number,
+    default: "",
+  },
 });
-const router = useRoute();
-console.log(router.params);
-
 const recruit = useRecruitStore();
 
 const config = useRuntimeConfig();
 
 const onClick = () => {
-  return navigateTo({
-    path:"/recruit/recruitdetail",
-    query:{
-      id:recruit.getRecruitItemId
-    }
-  })
+  return navigateTo(`/recruit/recruitdetail/${props.id}`);
 };
 </script>
 

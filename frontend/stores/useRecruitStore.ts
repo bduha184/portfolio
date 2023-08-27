@@ -60,7 +60,7 @@ export const useRecruitStore = defineStore( "recruit",{
           body: data,
         });
 
-        // console.log(res);
+        console.log(res);
         this.id = res.data.value.itemId;
         this.path_header = res.data.value.path_header;
         this.path_thumbnail = res.data.value.path_thumbnail;

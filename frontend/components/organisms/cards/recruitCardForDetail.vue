@@ -3,11 +3,11 @@
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
         :disabled="false"
-        :path="header_img_path"
+        :path="recruit.getRecruitHeaderUrl"
       >
         <AtomsImgsThumbnail
           :disabled="false"
-          :path="thumbnail_path"
+          :path="recruit.getRecruitThumbnailUrl"
         />
       </AtomsImgsCardHeaderImg>
     </div>
@@ -43,20 +43,16 @@
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig } from 'nuxt/app';
+import {onMounted} from 'vue';
+import { useRecruitStore } from '../../../stores/useRecruitStore';
+import {useRoute} from 'vue-router';
 
-const props = defineProps({
-  header_img_path:String,
-  thumbnail_path:String,
-  prof_thumbnail_path:String,
-  title:String,
-  text:String
+const router = useRoute();
+const recruit = useRecruitStore();
+onMounted(() => {
+  const itemId = router.params.id;
+  recruit.fetchRecruitItem(itemId);
 })
-
-console.log(props.header_img_path);
-
-const config = useRuntimeConfig();
-
 
 
 </script>

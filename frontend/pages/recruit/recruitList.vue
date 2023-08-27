@@ -9,19 +9,19 @@
       />
       <OrganismsTabsRecruitTab/>
       <OrganismsCardsRecruitCardForList
-      v-for="(item,index ) in recruitItems"
-      :key="index"
+      v-for="(item,id ) in recruitItems"
+      :key="id"
       :header_img_path="item.header_img_path"
       :thumbnail_path="item.thumbnail_path"
       :title="item.title"
       :text="item.text"
+      :id="item.id"
       />
     </v-container>
   </div>
 </template>
 <script setup lang="ts">
-import {ref,onMounted} from 'vue';
-import { useApiFetch } from '../../composables/useApiFetch';
+import {onMounted} from 'vue';
 import {useRecruitStore} from '../../stores/useRecruitStore';
 
 const recruit = useRecruitStore();
