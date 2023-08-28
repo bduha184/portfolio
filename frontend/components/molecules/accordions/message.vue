@@ -52,11 +52,9 @@ const receiveBody = (val) => {
 const checkFilledOut = computed(() => {
   const field = form.value;
 
-  if(field) {
-    return true;
-  }else{
-    return false;
-  }
+  if(!field) return false;
+
+  return true;
 
 });
 
