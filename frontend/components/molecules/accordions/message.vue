@@ -14,6 +14,7 @@
       <AtomsBtnsBaseBtn
       :disabled="!checkFilledOut"
       :setColor="setColor"
+      @emitClick="receiveClick"
       >
        {{ text }}
        </AtomsBtnsBaseBtn>
@@ -45,10 +46,6 @@ const props = defineProps({
 
 const form = ref();
 
-const receiveBody = (val) => {
-  form.value = val.value
-}
-
 const checkFilledOut = computed(() => {
   const field = form.value;
 
@@ -58,6 +55,16 @@ const checkFilledOut = computed(() => {
 
 });
 
+const emits=defineEmits();
+
+const receiveBody=(val)=> {
+  form.value = val.value;
+  emits('emitInput',form.value);
+}
+
+const receiveClick=()=> {
+  emits('emitClick');
+}
 
 </script>
 

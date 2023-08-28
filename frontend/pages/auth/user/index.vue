@@ -1,19 +1,34 @@
 <template>
   <v-container>
     <h1>LoggedIn</h1>
+    <v-row>
+      <v-col cols="6">
+        <NuxtLink :to="Url.AUTHRECRUIT"
+        >
+          メンバー募集
+        </NuxtLink>
+      </v-col>
+      <v-col cols="6">
+        <NuxtLink :to="Url.PROFILE">
+          プロフィール
+        </NuxtLink>
+      </v-col>
+      <v-col cols="6">
+        <NuxtLink :to="Url.REQUEST">
+          チーム参加希望
+        </NuxtLink>
+      </v-col>
+      <v-col cols="6">
+        <NuxtLink :to="Url.PROFILE">
+          質問BOX
+        </NuxtLink>
+      </v-col>
+    </v-row>
     <v-btn
     @click="handleLogout"
     >
     ログアウト
     </v-btn>
-    <NuxtLink :to="Url.AUTHRECRUIT"
-    >
-      メンバー募集
-    </NuxtLink>
-    <NuxtLink :to="Url.PROFILE">
-      プロフィール
-    </NuxtLink>
-    {{ $route }}
   </v-container>
 </template>
 <script setup lang="ts">
