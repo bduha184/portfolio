@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
-
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 class MessageController extends Controller
 {
     /**
@@ -13,7 +15,12 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+         return Message::latest()->get();
+
+        // return response()->json([
+        //     'messages'=>$messages,
+        // ]);
+
     }
 
     /**
@@ -27,9 +34,17 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMessageRequest $request)
+    public function store(Request $request,Message $message)
     {
-        //
+
+        $message->comments=$request->comment;
+        $message->user_id = Auth::id();
+        $message->save();
+
+        return response()->json([
+            'message'=>Response::HTTP_OK
+
+        ]);
     }
 
     /**

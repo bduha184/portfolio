@@ -33,6 +33,8 @@
           <MoleculesAccordionsMessage
             class="text-center"
             :toggle="toggleRequest"
+            @emitInput="receiveBody"
+            @emitClick="receiveClick"
             placeholder="伝えたい内容、参加したい理由、等を記載してください"
             text="メッセージを送信する"
           >
@@ -61,17 +63,23 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../../../stores/useAuthStore";
+import { useMessageStore } from "../../../stores/useMessageStore";
 import { ref, onMounted } from "vue";
 import { useRecruitStore } from "../../../stores/useRecruitStore";
 import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
+const message = useMessageStore();
 const router = useRoute();
 const recruit = useRecruitStore();
 onMounted(() => {
   const itemId = router.params.id;
   recruit.fetchRecruitItem(itemId);
 });
+
+const form = ref({
+  comment:''
+})
 
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
@@ -90,6 +98,15 @@ const questionToTeam = () => {
     toggleQuestion.value = !toggleQuestion.value;
   }
 };
+const receiveBody=(val)=> {
+  form.value.comment = val;
+}
+
+const receiveClick=async()=>{
+  await message.registerMessage(form.value);
+
+}
+
 </script>
 
 <style lang="scss" scoped>
