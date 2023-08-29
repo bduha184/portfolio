@@ -15,8 +15,9 @@ export const useMessageStore = defineStore( "message",{
       getMessage: (state) => state.message,
     },
     actions: {
-      async fetchMessages() {
-        const res = await useApiFetch("/api/message/");
+      async fetchMessages(userId) {
+        const res = await useApiFetch(`/api/message/${userId}`);
+        console.log(res.data.value);
         const messages = res.data.value;
         this.messages.push(...messages);
       },
@@ -32,13 +33,14 @@ export const useMessageStore = defineStore( "message",{
       // },
 
       async registerMessage(data) {
+        console.log(data);
         await useApiFetch("/sanctum/csrf-cookie");
         const res = await useApiFetch("/api/message/register", {
           method: "POST",
           body: data,
         });
 
-        console.log(res);
+        // console.log(res);
         // this.id = res.data.value.;
 
       },

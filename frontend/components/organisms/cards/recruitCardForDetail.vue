@@ -56,6 +56,7 @@
           </MoleculesAccordionsMessage>
         </v-col>
       </v-row>
+      {{ form }}
     </v-container>
     <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
   </v-card>
@@ -72,14 +73,19 @@ const auth = useAuthStore();
 const message = useMessageStore();
 const router = useRoute();
 const recruit = useRecruitStore();
-onMounted(() => {
-  const itemId = router.params.id;
-  recruit.fetchRecruitItem(itemId);
-});
+
 
 const form = ref({
-  comment:''
+  comments:'',
+  parent_id:'',
 })
+onMounted(async () => {
+  const itemId = router.params.id;
+  await recruit.fetchRecruitItem(itemId);
+  form.value.parent_id = recruit.getRecruitUserId;
+});
+
+
 
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
@@ -99,7 +105,7 @@ const questionToTeam = () => {
   }
 };
 const receiveBody=(val)=> {
-  form.value.comment = val;
+  form.value.comments = val;
 }
 
 const receiveClick=async()=>{

@@ -31,5 +31,5 @@ export const Url = {
   /** マイページ（プロフィール）（ */
   PROFILE: getFrontUrl('/auth/profile'),
   /** マイページ（メッセージ_参加希望）（ */
-  REQUEST: getFrontUrl('/auth/user/messages/requests'),
+  REQUEST: getFrontUrl('/auth/user/messages/requests/list'),
 }
