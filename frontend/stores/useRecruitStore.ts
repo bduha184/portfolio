@@ -12,7 +12,8 @@ export const useRecruitStore = defineStore( "recruit",{
       itemCount:0,
       path_header: "",
       path_thumbnail: "",
-      id: "",
+      item_id: "",
+      user_id:'',
       header_img: "",
       thumbnail: "",
       title: "",
@@ -26,7 +27,8 @@ export const useRecruitStore = defineStore( "recruit",{
       getRecruitItem: (state) => state.item,
       getRecruitPathHeader: (state) => state.path_header,
       getRecruitPathThumbnail: (state) => state.thumbnail,
-      getRecruitItemId: (state) => state.id,
+      getRecruitItemId: (state) => state.item_id,
+      getRecruitUserId: (state) => state.user_id,
       getRecruitHeaderImg: (state) => state.header_img,
       getRecruitThumbnail: (state) => state.thumbnail,
       getRecruitTitle: (state) => state.title,
@@ -45,11 +47,13 @@ export const useRecruitStore = defineStore( "recruit",{
       async fetchRecruitItem(id) {
         const res = await useApiFetch(`/api/recruit/${id}`);
         // console.log(res);
-        // this.id = res.data.value.data.id;
-        this.url_header_img = config.public.baseURL + '/storage/'+ res.data.value.data.header_img_path;
-        this.url_thumbnail= config.public.baseURL + '/storage/'+ res.data.value.data.thumbnail_path;
-        this.title = res.data.value.data.title;
-        this.text = res.data.value.data.text;
+        const val = res.data.value;
+        this.item_id = val.data.id;
+        this.url_header_img = config.public.baseURL + '/storage/'+ val.data.header_img_path;
+        this.url_thumbnail= config.public.baseURL + '/storage/'+ val.data.thumbnail_path;
+        this.title = val.data.title;
+        this.text = val.data.text;
+        this.user_id = val.data.user_id;
       },
 
       async registerRecruitItem(data) {
@@ -60,8 +64,8 @@ export const useRecruitStore = defineStore( "recruit",{
           body: data,
         });
 
-        console.log(res);
-        this.id = res.data.value.itemId;
+        // console.log(res);
+        this.item_id = res.data.value.itemId;
         this.path_header = res.data.value.path_header;
         this.path_thumbnail = res.data.value.path_thumbnail;
 

@@ -15,7 +15,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-         return Message::latest()->get();
+
 
         // return response()->json([
         //     'messages'=>$messages,
@@ -37,11 +37,12 @@ class MessageController extends Controller
     public function store(Request $request,Message $message)
     {
 
-        $message->comments=$request->comment;
-        $message->user_id = Auth::id();
+        $message->fill($request->all());
+        $message->user_id=Auth::id();
         $message->save();
 
         return response()->json([
+
             'message'=>Response::HTTP_OK
 
         ]);
@@ -50,9 +51,10 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show(Message $message,$id)
     {
-        //
+
+        return $message->where('parent_id','=',$id)->latest()->get();
     }
 
     /**

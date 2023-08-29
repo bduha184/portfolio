@@ -1,20 +1,49 @@
 <template>
-  <v-container>
-    <v-card  height="300px">
-    <div class="relative z-0 h-[100px]">
-      <AtomsImgsCardHeaderImg
-        :disabled="false"
-        :path="recruit.getRecruitHeaderUrl"
-      >
-        <AtomsImgsThumbnail
-          :disabled="false"
-          :path="recruit.getRecruitThumbnailUrl"
+  <div>
+    参加希望
+    <v-card class="mx-auto">
+      <v-list>
+        <v-list-item
+        v-for="(message, index) in messages"
+          prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
+          rounded="shaped"
+          title="name"
+          :key="index"
+          :subtitle="message.comments"
+          @click="onClick(message.user_id)"
         />
-      </AtomsImgsCardHeaderImg>
-    </div>
-    <v-form>
-
-    </v-form>
-  </v-card>
-</v-container>
+      </v-list>
+    </v-card>
+  </div>
 </template>
+
+<script setup lang="ts">
+import { useMessageStore } from "../../../stores/useMessageStore";
+import { onMounted } from "vue";
+import { navigateTo } from "nuxt/app";
+import {useAuthStore} from "../../../stores/useAuthStore";
+
+const message = useMessageStore();
+const auth = useAuthStore();
+const messages = message.getMessages;
+
+const onClick = (id) =>{
+  return navigateTo(`/auth/user/messages/requests/${id}`)
+}
+
+onMounted(async () => {
+  message.messages.length = 0;
+  const authId = auth.user.id;
+  await message.fetchMessages(authId);
+});
+
+
+</script>
+
+<style lang=scss scoped>
+.v-list-item {
+  & + & {
+    margin-top: 0.5rem;
+  }
+}
+</style>

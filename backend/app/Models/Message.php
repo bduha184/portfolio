@@ -11,7 +11,8 @@ class Message extends Model
     use HasFactory;
 
     protected $fillable = [
-        'comments'
+        'comments',
+        'parent_id'
     ];
     public function users():BelongsTo{
         return $this->belongsTo(User::class);
