@@ -6,12 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Mail\BareMail;
 use App\Notifications\ResetPassword;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 // use App\Notifications\ResetPasswordNotification;
 
@@ -57,6 +57,10 @@ class User extends Authenticatable
 
     public function recruits():HasOne{
         return $this->hasOne(Recruit::class);
+    }
+
+    public function messages():HasMany{
+        return $this->hasMany(Message::class);
     }
 
     public function likes():BelongsToMany{

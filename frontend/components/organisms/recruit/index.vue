@@ -103,7 +103,8 @@ const handleUpdate = async () => {
 
 };
 const handleDelete = async () => {
-  await recruit.deleteRecruitItem(recruit.id);
+  const id = recruit.getRecruitItemId;
+  await recruit.deleteRecruitItem(id);
 };
 
 onMounted(async () => {

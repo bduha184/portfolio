@@ -29,5 +29,7 @@ export const Url = {
   /** マイページ（メンバー募集）（ */
   AUTHRECRUIT: getFrontUrl('/auth/user/recruit'),
   /** マイページ（プロフィール）（ */
-  PROFILE: getFrontUrl('/auth/profile'),
+  PROFILE: getFrontUrl('/auth/user/profile'),
+  /** マイページ（メッセージ_参加希望）（ */
+  REQUEST: getFrontUrl('/auth/user/messages/requests/list'),
 }
