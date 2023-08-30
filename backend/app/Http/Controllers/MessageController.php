@@ -59,8 +59,8 @@ class MessageController extends Controller
 
 
         $messages->each(function($message){
-            $message->
-        })
+            // $message->
+        });
         // collect($request->tags)->each(function ($tagName) use ($article) {
         //     $tag = Tag::updateOrCreate(['name' => $tagName]);
         //     $article->tags()->attach($tag);
