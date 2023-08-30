@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecruitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TagController;
@@ -32,6 +33,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{id}','destroy');
         });
     });
+    Route::controller(ProfileController::class)->group(function(){
+        Route::prefix('profile')->name('profile.')->group(function(){
+        Route::post('/register','store');
+        Route::put('/{id}','update');
+        Route::delete('/{id}','destroy');
+        });
+    });
 
     Route::controller(MessageController::class)->group(function(){
         Route::prefix('message')->name('message.')->group(function(){
@@ -41,6 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::controller(RecruitController::class)->group(function(){
     Route::prefix('recruit')->name('recruit.')->group(function(){
+    Route::get('/','index')->name('index');
+    Route::get('/{id}','show')->name('show');
+    });
+});
+Route::controller(ProfileController::class)->group(function(){
+    Route::prefix('profile')->name('profile.')->group(function(){
     Route::get('/','index')->name('index');
     Route::get('/{id}','show')->name('show');
     });

@@ -104,7 +104,7 @@ export const useAuthStore = defineStore(
         body: info,
       });
 
-      user.value=register.data.value;
+      user.value=register.data.value.user;
 
       return register;
     }
