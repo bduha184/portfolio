@@ -18,8 +18,8 @@ export const useMessageStore = defineStore( "message",{
       async fetchMessages(userId) {
         const res = await useApiFetch(`/api/message/${userId}`);
         console.log(res.data.value);
-        const messages = res.data.value;
-        this.messages.push(...messages);
+        // const messages = res.data.value;
+        // this.messages.push(...messages);
       },
 
       // async fetchRecruitItem(id) {

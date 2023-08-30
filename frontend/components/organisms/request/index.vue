@@ -12,6 +12,7 @@
           :subtitle="message.comments"
           @click="onClick(message.user_id)"
         />
+        {{ messages }}
       </v-list>
     </v-card>
   </div>
