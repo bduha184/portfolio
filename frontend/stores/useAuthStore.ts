@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useApiFetch } from "../composables/useApiFetch";
 import { computed } from "vue";
 
 
@@ -78,7 +77,7 @@ export const useAuthStore = defineStore(
     async function logout() {
       await useApiFetch("/api/logout", { method: "POST" });
       user.value = null;
-      navigateTo("/beforelogin");
+      return navigateTo("/beforelogin");
     }
 
     async function login(credentials: Credentials) {
@@ -88,10 +87,9 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: credentials,
       });
-      // user.value
+      user.value = login.data.value.status;
 
-
-      await fetchUser();
+      // await fetchUser();
 
       return login;
     }
@@ -168,8 +166,6 @@ export const useAuthStore = defineStore(
       return resetPassword;
     }
     return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
-
-
   },
   {
     persist: {

@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
 import { navigateTo } from "nuxt/app";
-import { useRecruitStore } from "../../../stores/useRecruitStore";
 
 const props = defineProps({
   header_img_path: {
@@ -50,8 +49,6 @@ const props = defineProps({
     default: "",
   },
 });
-const recruit = useRecruitStore();
-
 const config = useRuntimeConfig();
 
 const onClick = () => {

@@ -100,7 +100,7 @@ async function handleLogin() {
   const res = await auth.login(form.value);
 
    if (res.error.value == null) {
-    navigateTo('/auth/user');
+    navigateTo(Url.MYPAGE);
   } else {
     navigateTo(Url.SIGNUP);
   }

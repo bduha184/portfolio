@@ -66,24 +66,17 @@
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { useMessageStore } from "../../../stores/useMessageStore";
 import { ref, onMounted } from "vue";
-import { useRecruitStore } from "../../../stores/useRecruitStore";
 import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
 const message = useMessageStore();
 const router = useRoute();
-const recruit = useRecruitStore();
 
 
 const form = ref({
   comments:'',
   parent_id:'',
 })
-onMounted(async () => {
-  const itemId = router.params.id;
-  await recruit.fetchRecruitItem(itemId);
-  form.value.parent_id = recruit.getRecruitUserId;
-});
 
 
 
@@ -112,6 +105,11 @@ const receiveClick=async()=>{
   await message.registerMessage(form.value);
 
 }
+onMounted(async () => {
+  const itemId = router.params.id;
+  await recruit.fetchRecruitItem(itemId);
+  form.value.parent_id = recruit.getRecruitUserId;
+});
 
 </script>
 

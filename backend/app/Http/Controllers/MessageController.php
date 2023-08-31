@@ -44,9 +44,7 @@ class MessageController extends Controller
         $message->save();
 
         return response()->json([
-
             'message'=>Response::HTTP_OK
-
         ]);
     }
 

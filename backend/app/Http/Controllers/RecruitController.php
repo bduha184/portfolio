@@ -114,7 +114,7 @@ class RecruitController extends Controller
         if ($recruit) {
             $recruit->delete();
             return response()->json([
-                'message' => 'update successfully'
+                'message' => 'delete successfully'
             ], Response::HTTP_OK);
         } else {
             return response()->json([

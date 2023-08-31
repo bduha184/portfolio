@@ -5,14 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import {usePrefecturesStore} from '../../stores/usePrefecturesStore';
 const props = defineProps({
   name:String
 })
 
-const prefectures = usePrefecturesStore();
-
-console.log(prefectures);
 </script>
 
 <style lang="scss" scoped>
