@@ -3,21 +3,21 @@
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
         :disabled="false"
-        :path="recruit.getRecruitHeaderUrl"
+        :path="recruitItems.url_header_img"
       >
         <AtomsImgsThumbnail
           :disabled="false"
-          :path="recruit.getRecruitThumbnailUrl"
+          :path="recruitItems.url_thumbnail"
         />
       </AtomsImgsCardHeaderImg>
     </div>
     <v-card-title class="text-body-2 pl-20">
       <AtomsDecorationHeadline>
-        {{ recruit.getRecruitTitle }}
+        {{ recruitItems.title }}
       </AtomsDecorationHeadline>
     </v-card-title>
     <v-card-text>
-      {{ recruit.getRecruitText }}
+      {{ recruitItems.text }}
     </v-card-text>
     <GalleryLightGallery />
     <TeamActivity />
@@ -56,7 +56,6 @@
           </MoleculesAccordionsMessage>
         </v-col>
       </v-row>
-      {{ form }}
     </v-container>
     <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
   </v-card>
@@ -64,21 +63,33 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { useMessageStore } from "../../../stores/useMessageStore";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useRuntimeConfig } from "nuxt/app";
 
 const auth = useAuthStore();
-const message = useMessageStore();
 const router = useRoute();
+const config = useRuntimeConfig();
 
 
-const form = ref({
-  comments:'',
-  parent_id:'',
-})
+const recruitItems = ref({
+  items: [],
+  item: "",
+  itemCount: 0,
+  path_header: "",
+  path_thumbnail: "",
+  item_id: "",
+  user_id: "",
+  header_img: "",
+  thumbnail: "",
+  title: "",
+  text: "",
+  url_header_img: config.public.appURL + "/images/noimage.jpg",
+  url_thumbnail: config.public.appURL + "/images/noimage.jpg",
+});
 
 
+const comments = ref('');
 
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
@@ -98,17 +109,34 @@ const questionToTeam = () => {
   }
 };
 const receiveBody=(val)=> {
-  form.value.comments = val;
+  comments.value = val;
 }
 
 const receiveClick=async()=>{
-  await message.registerMessage(form.value);
 
+    await useApiFetch("/sanctum/csrf-cookie");
+    const res = await useApiFetch("/api/message/register", {
+      method: "POST",
+      body: {
+        'comments':comments.value,
+        'parent_id':recruitItems.value.user_id
+      }
+    })
+
+    console.log(res.data);
 }
 onMounted(async () => {
   const itemId = router.params.id;
-  await recruit.fetchRecruitItem(itemId);
-  form.value.parent_id = recruit.getRecruitUserId;
+  if(itemId){
+    const res = await useApiFetch(`/api/recruit/${itemId}`);
+    const val = res.data.value;
+    recruitItems.value.item_id = val.data.id;
+    recruitItems.value.url_header_img =config.public.baseURL + "/storage/" + val.data.header_img_path;
+    recruitItems.value.url_thumbnail =config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+    recruitItems.value.title = val.data.title;
+    recruitItems.value.text = val.data.text;
+    recruitItems.value.user_id = val.data.user_id;
+  }
 });
 
 </script>

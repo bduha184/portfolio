@@ -109,7 +109,7 @@ class RecruitController extends Controller
      */
     public function destroy($id)
     {
-        $recruit = Recruit::find($id)->first();
+        $recruit = Recruit::where('id',$id)->first();
 
         if ($recruit) {
             $recruit->delete();
@@ -121,5 +121,9 @@ class RecruitController extends Controller
                 'message' => 'Article not found'
             ], Response::HTTP_NOT_FOUND);
         }
+
+        // return response()->json([
+        //     'item'=>$recruit
+        // ]);
     }
 }

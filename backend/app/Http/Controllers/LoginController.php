@@ -40,8 +40,7 @@ class LoginController extends Controller
             $user->tokens()->delete();
             $token = $user->createToken("login:user{$user->id}")->plainTextToken;
             return response()->json([
-                'userId'=>$user->id,
-                'status'=>true,
+                'user'=>$user,
                 'message'=>'User Logged In Successfully',
                 'token'=>$token
             ], Response::HTTP_OK);

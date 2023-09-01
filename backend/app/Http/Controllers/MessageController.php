@@ -56,9 +56,9 @@ class MessageController extends Controller
         $messages = Message::where('parent_id',$id)->latest()->get();
 
 
-        $messages->each(function($message){
-            // $message->
-        });
+        // $messages->each(function($message){
+        //     // $message->
+        // });
         // collect($request->tags)->each(function ($tagName) use ($article) {
         //     $tag = Tag::updateOrCreate(['name' => $tagName]);
         //     $article->tags()->attach($tag);

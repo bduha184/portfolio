@@ -87,7 +87,7 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: credentials,
       });
-      user.value = login.data.value.status;
+      user.value = login.data.value.user;
 
       // await fetchUser();
 

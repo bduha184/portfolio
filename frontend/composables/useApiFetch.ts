@@ -24,6 +24,7 @@ export function useApiFetch<T>(path: string, options: UseFetchOptions<T> = {}) {
     watch: false,
     ...options,
     headers: {
+      Accept: "application/json",
       ...headers,
       ...options?.headers
     },

@@ -7,7 +7,7 @@
         v-for="(message, index) in messages"
           prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
           rounded="shaped"
-          title="name"
+          :title="message.name"
           :key="index"
           :subtitle="message.comments"
           @click="onClick(message.user_id)"
@@ -19,23 +19,24 @@
 </template>
 
 <script setup lang="ts">
-import { useMessageStore } from "../../../stores/useMessageStore";
-import { onMounted } from "vue";
+import { onMounted,ref } from "vue";
 import { navigateTo } from "nuxt/app";
 import {useAuthStore} from "../../../stores/useAuthStore";
 
-const message = useMessageStore();
 const auth = useAuthStore();
-const messages = message.getMessages;
+
+const messages = ref([]);
 
 const onClick = (id) =>{
   return navigateTo(`/auth/user/messages/requests/${id}`)
 }
 
 onMounted(async () => {
-  message.messages.length = 0;
+  messages.value.length = 0;
   const authId = auth.user.id;
-  await message.fetchMessages(authId);
+  const res = await useApiFetch(`/api/message/${authId}`);
+  // console.log(res);
+  messages.value.push(...res.data.value.messages);
 });
 
 

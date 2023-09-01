@@ -55,19 +55,21 @@
     >
       削除
     </AtomsBtnsBaseBtn>
+
+    {{ auth }}
   </form>
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig, navigateTo } from "nuxt/app";
+import { useRuntimeConfig, navigateTo,useRoute, clearNuxtData } from "nuxt/app";
 import { useApiFetch } from "~/composables/useApiFetch";
 import { ref, onMounted } from "vue";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
-import { useRoute } from "vue-router";
+// import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
-const router = useRoute();
+
 const config = useRuntimeConfig();
 
 const recruitItems = ref({
@@ -113,6 +115,7 @@ const handleRegister = async () => {
     },
   });
 };
+console.log(Object.assign(recruitItems.value))
 const handleUpdate = async () => {
   const formData = new FormData();
 
@@ -130,21 +133,23 @@ const handleUpdate = async () => {
       "X-HTTP-Method-Override": "PUT",
     },
   });
+
+  console.log(res);
   recruitItems.value.path_header = res.data.value.path_header;
   recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
 };
+
+console.log(Object.assign(recruitItems.value))
 const handleDelete = async () => {
   await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+  await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
     method: "DELETE",
+    key:'deleteItem',
   });
 
-  console.log(res);
-
-  // return navigateTo({
-  //   path: "/auth/user/recruit",
-  // });
-  // console.log(res);
+  return navigateTo({
+    path: "/auth/user/recruit",
+  });
 };
 
 const checkFilledOut = () => {
@@ -178,12 +183,12 @@ const receiveTeamIntroduce = (val) => {
 };
 
 onMounted(async () => {
-  const itemId=recruitItems.value.item_id
-  console.log(itemId);
-
+  const router = useRoute();
+  const itemId=router.query.id;
   if(itemId){
     const res = await useApiFetch(`/api/recruit/${itemId}`);
     const val = res.data.value;
+    console.log(res.data);
     recruitItems.value.item_id = val.data.id;
     recruitItems.value.url_header_img =config.public.baseURL + "/storage/" + val.data.header_img_path;
     recruitItems.value.url_thumbnail =config.public.baseURL + "/storage/" + val.data.thumbnail_path;
