@@ -62,6 +62,7 @@ Route::controller(ProfileController::class)->group(function(){
 
 Route::controller(MessageController::class)->group(function(){
     Route::prefix('message')->name('message.')->group(function(){
+        Route::get('/','index');
         Route::get('/{id}','show');
     });
 });

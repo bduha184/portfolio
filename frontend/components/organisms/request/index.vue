@@ -5,36 +5,35 @@
       <v-list>
         <v-list-item
         v-for="(message, index) in messages"
-          prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
+          :prepend-avatar="config.public.baseURL+'/storage/'+message.thumbnail_path"
           rounded="shaped"
           :title="message.name"
           :key="index"
           :subtitle="message.comments"
-          @click="onClick(message.user_id)"
+          @click="onClick(message.sender_id)"
         />
-        {{ messages }}
       </v-list>
     </v-card>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useRuntimeConfig } from "nuxt/app";
 import { onMounted,ref } from "vue";
+import {Url} from '../../../constants/url';
 import { navigateTo } from "nuxt/app";
 import {useAuthStore} from "../../../stores/useAuthStore";
 
 const auth = useAuthStore();
-
+const config = useRuntimeConfig();
 const messages = ref([]);
 
 const onClick = (id) =>{
-  return navigateTo(`/auth/user/messages/requests/${id}`)
+  return navigateTo(`${Url.REQUESTS}/${id}`)
 }
 
 onMounted(async () => {
-  messages.value.length = 0;
-  const authId = auth.user.id;
-  const res = await useApiFetch(`/api/message/${authId}`);
+  const res = await useApiFetch(`/api/message/`);
   // console.log(res);
   messages.value.push(...res.data.value.messages);
 });

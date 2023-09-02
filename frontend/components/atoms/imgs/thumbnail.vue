@@ -1,5 +1,8 @@
 <template>
-  <v-avatar size="80">
+  <v-avatar
+  size="80"
+  color="white"
+  >
     <v-img :src="path" cover />
     <v-file-input
     v-if="disabled ? 'disabled' : ''"

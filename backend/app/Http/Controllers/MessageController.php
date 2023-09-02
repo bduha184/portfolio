@@ -15,13 +15,13 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Message $message)
     {
+        $results = $message->getUserInfoById();
 
-
-        // return response()->json([
-        //     'messages'=>$messages,
-        // ]);
+        return response()->json([
+            'messages'=>$results,
+        ]);
 
     }
 
@@ -39,9 +39,7 @@ class MessageController extends Controller
     public function store(Request $request,Message $message)
     {
 
-        $message->fill($request->all());
-        $message->user_id=Auth::id();
-        $message->save();
+        $message->fill($request->all())->save();
 
         return response()->json([
             'message'=>Response::HTTP_OK
@@ -51,27 +49,14 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Message $message,$id)
     {
-        $messages = Message::where('parent_id',$id)->latest()->get();
+        $results = $message->getUserInfoById();
 
-
-        // $messages->each(function($message){
-        //     // $message->
-        // });
-        // collect($request->tags)->each(function ($tagName) use ($article) {
-        //     $tag = Tag::updateOrCreate(['name' => $tagName]);
-        //     $article->tags()->attach($tag);
-        // });
-
-        $sender_id = Message::where('parent_id',$id)->first()->user_id;
-        $sender_name = User::find($sender_id)->name;
-        $thumbnail = Profile::where('user_id',$sender_id)->first()->thumbnail_path;
+        $userInfo = $results->where('sender_id',$id)->first();
 
         return response()->json([
-            'messages'=>$messages,
-            'sender_name'=>$sender_name,
-            'thumbnail'=>$thumbnail
+            'data'=>$userInfo,
         ]);
     }
 

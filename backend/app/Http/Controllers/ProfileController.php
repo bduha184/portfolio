@@ -43,6 +43,7 @@ class ProfileController extends Controller
         $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
         $profile->thumbnail_path = $path_thumbnail;
 
+        $profile->title = $request->title;
         $profile->text = $request->text;
         $profile->user_id = Auth::id();
         $profile->save();

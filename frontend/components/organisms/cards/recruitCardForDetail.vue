@@ -119,11 +119,12 @@ const receiveClick=async()=>{
       method: "POST",
       body: {
         'comments':comments.value,
-        'parent_id':recruitItems.value.user_id
+        'receiver_id':recruitItems.value.user_id,
+        'sender_id':auth.user.id
       }
     })
 
-    console.log(res.data);
+    // console.log(res.data);
 }
 onMounted(async () => {
   const itemId = router.params.id;

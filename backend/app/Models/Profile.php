@@ -13,6 +13,7 @@ class Profile extends Model
     protected $fillable=[
         'header_img_path',
         'thumbnail_path',
+        'title',
         'text',
     ];
 

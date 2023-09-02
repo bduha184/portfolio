@@ -139,7 +139,7 @@ async function handleRegister() {
   console.log(res);
 
   if (res.error.value == null) {
-    navigateTo('/auth/user');
+    navigateTo(Url.MYPAGE);
   } else {
     navigateTo(Url.SIGNUP);
   }

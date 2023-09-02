@@ -2,25 +2,25 @@
   <form>
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
-        @emitInput = 'receiveImg'
-        :path="profile.getProfileHeaderUrl"
-        >
+        @emitInput="receiveImg"
+        :path="form.url_header_img"
+      >
         <AtomsImgsThumbnail
-        @emitInput = 'receiveThumbnail'
-        :path="profile.getProfileThumbnailUrl"
+          @emitInput="receiveThumbnail"
+          :path="form.url_thumbnail"
         />
       </AtomsImgsCardHeaderImg>
     </div>
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-     <AtomsDecorationHeadline>
-      {{ auth.user.name }}
-     </AtomsDecorationHeadline>
+      <AtomsDecorationHeadline>
+        {{ auth.user.name }}
+      </AtomsDecorationHeadline>
     </v-card-title>
     <v-card-text>
       <AtomsTextAreas
-      placeholder="本文"
-      @emitInput="receiveTeamIntroduce"
-      :body="profile.getProfileText"
+        placeholder="本文"
+        @emitInput="receiveTeamIntroduce"
+        :body="form.text"
       />
     </v-card-text>
     <AtomsBtnsBaseBtn
@@ -28,26 +28,26 @@
       class="my-4 d-block mx-auto"
       @click="handleRegister"
       :disabled="!checkFilledOut()"
-      v-if="!profile.getProfileItemId"
+      v-if="!form.item_id"
     >
       登録
     </AtomsBtnsBaseBtn>
     <AtomsBtnsBaseBtn
       width="16rem"
       setColor="orange"
-      class="my-4 d-block  mx-auto"
+      class="my-4 d-block mx-auto"
       @click="handleUpdate"
       :disabled="!checkFilledOut()"
-      v-if="profile.getProfileItemId"
-    >
+      v-if="form.item_id"
+      >
       更新
     </AtomsBtnsBaseBtn>
     <AtomsBtnsBaseBtn
-      width="16rem"
-      setColor="red"
-      class="my-4 d-block mx-auto"
-      @click="handleDelete"
-      v-if="profile.getProfileItemId"
+    width="16rem"
+    setColor="red"
+    class="my-4 d-block mx-auto"
+    @click="handleDelete"
+    v-if="form.item_id"
     >
       削除
     </AtomsBtnsBaseBtn>
@@ -55,68 +55,107 @@
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig,navigateTo } from "nuxt/app";
+import { useRuntimeConfig, navigateTo } from "nuxt/app";
 import { useApiFetch } from "../../../composables/useApiFetch";
 import { ref, onMounted } from "vue";
 import { Url } from "../../../constants/url";
-import {useProfileStore} from '../../../stores/useProfileStore';
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { onBeforeRouteUpdate } from "vue-router";
-import {useRoute} from 'vue-router';
+import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
-
+const config = useRuntimeConfig();
 const router = useRoute();
-const profile = useProfileStore();
+
+const form = ref({
+  items: [],
+  item: "",
+  itemCount: 0,
+  path_header: "",
+  path_thumbnail: "",
+  item_id: 0,
+  user_id: 0,
+  header_img: "",
+  thumbnail: "",
+  title: auth.user.name,
+  text: "",
+  url_header_img: config.public.appURL + "/images/noimage.jpg",
+  url_thumbnail: config.public.appURL + "/images/noimage.jpg",
+});
 
 const handleRegister = async () => {
   const formData = new FormData();
 
-  formData.append("header_img", profile.getProfileHeaderImg);
-  formData.append("thumbnail", profile.getProfileThumbnail);
-  formData.append("text", profile.getProfileText);
+  formData.append("header_img", form.value.header_img);
+  formData.append("thumbnail", form.value.thumbnail);
+  formData.append("title", form.value.title);
+  formData.append("text", form.value.text);
 
-  await profile.registerProfileItem(formData);
+  // console.log(...data.entries());
+  await useApiFetch("/sanctum/csrf-cookie");
+  const res = await useApiFetch("/api/profile/register", {
+    method: "POST",
+    body: formData,
+  });
+
+  console.log(res);
+  form.value.item_id = res.data.value.itemId;
+  form.value.path_header = res.data.value.path_header;
+  form.value.path_thumbnail = res.data.value.path_thumbnail;
 
   return navigateTo({
-    path:'/auth/user/profile',
-    query:{
-      id:profile.getProfileItemId
-    }
-  })
-
-}
-
+    path: Url.PROFILE,
+    query: {
+      id: form.value.item_id,
+    },
+  });
+};
 
 const handleUpdate = async () => {
   const formData = new FormData();
 
-  formData.append("header_img", profile.getProfileHeaderImg);
-  formData.append("thumbnail", profile.getProfileThumbnail);
-  formData.append("text", profile.getProfileText);
 
-  const id = profile.getProfileItemId;
-  await profile.updateProfileItem(formData, id);
+  formData.append("header_img", form.value.header_img);
+  formData.append("thumbnail", form.value.thumbnail);
+  formData.append("text", form.value.text);
 
+  const itemId = form.value.item_id;
+        await useApiFetch("/sanctum/csrf-cookie");
+        const res = await useApiFetch(`/api/profile/${itemId}`, {
+          method: "POST",
+          body: formData,
+          headers:{
+            'X-HTTP-Method-Override' : 'PUT'
+          }
+        });
+
+        form.value.path_header = res.data.value.path_header;
+        form.value.path_thumbnail = res.data.value.path_thumbnail;
 };
 const handleDelete = async () => {
-  const id = profile.getProfileItemId;
-  await profile.deleteProfileItem(id);
+  const itemId = form.value.item_id;
+  await useApiFetch("/sanctum/csrf-cookie");
+      const res = await useApiFetch(`/api/profile/${itemId}`,{
+        method:'DELETE'
+      })
+      console.log(res);
 };
 
 onMounted(async () => {
-  const itemId = profile.getProfileItemId;
-  if(itemId!=0){
-
-    await profile.fetchProfileItem(itemId);
+  const itemId = form.value.item_id;
+  if (itemId != 0) {
+    const res = await useApiFetch(`/api/profile/${itemId}`);
+        // console.log(res);
+        const val = res.data.value;
+        form.value.item_id = val.data.id;
+        form.value.url_header_img = config.public.baseURL + '/storage/'+ val.data.header_img_path;
+        form.value.url_thumbnail= config.public.baseURL + '/storage/'+ val.data.thumbnail_path;
+        form.value.text = val.data.text;
+        form.value.user_id = val.data.user_id;
   }
 });
 
-
 const checkFilledOut = () => {
-  const fieldArray = [
-    profile.getProfileText
-  ];
+  const fieldArray = [form.value];
 
   if (fieldArray.indexOf("") === -1) {
     return true;
@@ -126,18 +165,17 @@ const checkFilledOut = () => {
 };
 
 const receiveImg = (val) => {
-      profile.header_img = val.files[0];
-      profile.url_header_img = URL.createObjectURL(profile.header_img);
-}
+  form.value.header_img = val.files[0];
+  form.value.url_header_img = URL.createObjectURL(form.value.header_img);
+};
 
 const receiveThumbnail = (val) => {
-      profile.thumbnail = val.files[0];
-      profile.url_thumbnail = URL.createObjectURL(profile.thumbnail);
-}
-const receiveTeamIntroduce = (val) =>{
-  profile.text = val.value;
-}
-
+  form.value.thumbnail = val.files[0];
+  form.value.url_thumbnail = URL.createObjectURL(form.value.thumbnail);
+};
+const receiveTeamIntroduce = (val) => {
+  form.value.text = val.value;
+};
 </script>
 
 <style lang="scss" scoped>
