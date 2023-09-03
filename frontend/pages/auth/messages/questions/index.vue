@@ -1,5 +1,12 @@
 <template>
-  <div>
-    質問BOX
-  </div>
+  <v-container>
+    <OrganismsQuestion
+
+    />
+  </v-container>
 </template>
+
+<scritp setup lang="ts">
+
+
+</scritp>

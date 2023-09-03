@@ -19,8 +19,12 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@vee-validate/nuxt',
-    "@invictus.codes/nuxt-vuetify"
   ],
+  hooks: {
+    "vite:extendConfig": (config) => {
+      config.plugins!.push(vuetify({}));
+    },
+  },
   runtimeConfig:{
     public:{
       baseURL:process.env.BASE_URL,

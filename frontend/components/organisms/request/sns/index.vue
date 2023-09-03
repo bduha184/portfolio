@@ -74,10 +74,10 @@ const receiveClick = async () => {
 
 onMounted(async () => {
   const senderId = router.params.id;
-  const res = await useApiFetch(`/api/message/${senderId}`);
+  const res = await useApiFetch(`/api/message/sns/${senderId}`);
   const val = res.data.value;
   messages.value.push(...val.data);
-  console.log(res);
+  // console.log(res);
 });
 </script>
 

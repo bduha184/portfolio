@@ -15,15 +15,14 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Message $message)
+    public function index(Message $message,$dist)
     {
         $auth_id = Auth::id();
-        $results = $message->getUserInfoById($auth_id);
+        $results = $message->getUserInfoById($auth_id,$dist);
 
         return response()->json([
             'messages'=>$results,
         ]);
-
     }
 
     /**
