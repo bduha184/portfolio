@@ -6,11 +6,12 @@
           <v-list-item
             v-for="(message, index) in messages"
             :key="index"
-            :prepend-avatar="config.public.baseURL + '/storage/' + message.thumbnail_path"
+            :prepend-avatar="message.sender_id == auth.user.id ? '' : config.public.baseURL + '/storage/' + message.thumbnail_path"
             rounded="shaped"
-            :title="message.title"
+            :title="message.sender_id == auth.user.id ? '' : message.title"
             :subtitle="message.comments"
             class="ml-auto"
+            :class="message.sender_id == auth.user.id ? 'right' : ''"
           />
         </v-list>
       </v-card>
@@ -54,22 +55,25 @@ const receiveInput= (val)=> {
 
 const receiveClick = async () => {
 
+    const data = {
+     'comments': authMessage.value,
+     'sender_id':auth.user.id,
+     'receiver_id':router.params.id,
+     'distinction':'all'
+    }
+
     await useApiFetch("/sanctum/csrf-cookie");
     const res = await useApiFetch("/api/message/register", {
     method: "POST",
-    body: {
-     'comments': authMessage.value,
-     'sender_id':auth.user.id,
-     'receiver_id':router.params.id
-    }
+    body: data
   });
 
-  // const senderId = auth.user.id;
-  // const messages = await useApiFetch(`/api/message/${senderId}`);
-  // const val = messages.data.value;
+  const senderId = auth.user.id;
+  const messages = await useApiFetch(`/api/message/${senderId}`);
+  const val = messages.data.value;
 
   // console.log(val);
-  // return navigateTo(Url.REQUESTS+`/${router.params.id}`)
+  return navigateTo(Url.REQUESTS+`/${router.params.id}`)
 }
 
 onMounted(async () => {
@@ -88,13 +92,21 @@ onMounted(async () => {
       margin-top: 0.5rem;
     }
 
-    &-title {
-      font-size: 0.8rem !important;
+    &.right {
+      display: flex;
+      flex-direction: row-reverse;
     }
+
+    &-prepend{
+      align-self: flex-start;
+    }
+
     &-subtitle {
       overflow: visible;
       -webkit-line-clamp: unset;
+      border:1px solid #333 !important;
     }
   }
 }
+
 </style>

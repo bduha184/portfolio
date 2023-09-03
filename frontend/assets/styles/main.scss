@@ -15,7 +15,13 @@
 .v-overlay-scroll-blocked {
   position:unset !important;
 }
+.v-list-item-title {
+  font-size: 0.8rem !important;
+  }
 
+  .v-list-item-subtitle {
+    opacity: 1 !important;
+  }
 // .v-main {
 //   position: relative;
 //   z-index: 0;
