@@ -9,6 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@invictus.codes/nuxt-vuetify": "^0.3.0",
     "@mdi/font": "^7.2.96",
     "@mdi/js": "^7.2.96",
     "@nuxt/devtools": "latest",
@@ -18,9 +19,7 @@
     "autoprefixer": "^10.4.14",
     "nuxt": "^3.6.5",
     "postcss": "^8.4.27",
-    "tailwindcss": "^3.3.3",
-    "vite-plugin-vuetify": "^1.0.2",
-    "vuetify": "^3.3.9"
+    "tailwindcss": "^3.3.3"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",

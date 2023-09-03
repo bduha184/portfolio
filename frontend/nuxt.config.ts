@@ -15,15 +15,11 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  hooks: {
-    "vite:extendConfig": (config) => {
-      config.plugins!.push(vuetify({}));
-    },
-  },
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@vee-validate/nuxt',
+    "@invictus.codes/nuxt-vuetify"
   ],
   runtimeConfig:{
     public:{

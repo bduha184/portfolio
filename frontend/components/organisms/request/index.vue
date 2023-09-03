@@ -41,7 +41,7 @@ onMounted(async () => {
 
 </script>
 
-<style lang=scss scoped>
+<style lang="scss" scoped>
 .v-list-item {
   & + & {
     margin-top: 0.5rem;

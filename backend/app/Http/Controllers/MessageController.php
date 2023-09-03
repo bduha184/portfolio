@@ -17,7 +17,8 @@ class MessageController extends Controller
      */
     public function index(Message $message)
     {
-        $results = $message->getUserInfoById();
+        $auth_id = Auth::id();
+        $results = $message->getUserInfoById($auth_id);
 
         return response()->json([
             'messages'=>$results,
@@ -51,15 +52,14 @@ class MessageController extends Controller
      */
     public function show(Message $message,$id)
     {
-        $results = $message->getUserInfoById();
 
-        $userInfo = $results->where('sender_id',$id)->first();
+        $auth_id = Auth::id();
+        $results = $message->getSnsMessageById($id,$auth_id);
 
         return response()->json([
-            'data'=>$userInfo,
+            'data'=>$results,
         ]);
     }
-
     /**
      * Show the form for editing the specified resource.
      */

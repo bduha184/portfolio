@@ -22,7 +22,7 @@ export const MenuItems = [
     {
       text: "サイクリング情報",
       icon: Icons.INFORMATION,
-      func: () => router.push(Url.INFO),
+      func: () => router.push(Url.CYCLINGINFO),
     },
     {
       text: "みんなの愛車",
