@@ -19,6 +19,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@vee-validate/nuxt',
+    '@vueuse/nuxt',
   ],
   hooks: {
     "vite:extendConfig": (config) => {

@@ -15,6 +15,9 @@
           />
         </v-list>
       </v-card>
+      <div>
+        <div>pos: {{x}}, {{y}}</div>
+    </div>
     </v-container>
     <v-form class="fixed bottom-0 w-100 bg-grey-lighten-3">
         <v-container>
@@ -40,6 +43,7 @@
 <script setup lang="ts">
 import { useRuntimeConfig, navigateTo, useRoute } from "nuxt/app";
 import { onMounted, ref } from "vue";
+import { useMouse } from '@vueuse/core';
 import { useAuthStore } from "../../../../stores/useAuthStore";
 import {Url} from '../../../../constants/url';
 
@@ -75,7 +79,7 @@ const receiveClick = async () => {
   // console.log(val);
   return navigateTo(Url.REQUESTS+`/${router.params.id}`)
 }
-
+const { x, y } = useMouse();
 onMounted(async () => {
   const senderId = router.params.id;
   const res = await useApiFetch(`/api/message/sns/${senderId}`);
@@ -89,7 +93,7 @@ onMounted(async () => {
 .v-list {
   &-item {
     & + & {
-      margin-top: 0.5rem;
+      margin-top: 1rem;
     }
 
     &.right {
@@ -97,11 +101,16 @@ onMounted(async () => {
       flex-direction: row-reverse;
     }
 
+    &__content{
+      border:1px solid #333 !important;
+    }
+
     &-prepend{
       align-self: flex-start;
     }
 
     &-subtitle {
+      background: red;
       overflow: visible;
       -webkit-line-clamp: unset;
       border:1px solid #333 !important;

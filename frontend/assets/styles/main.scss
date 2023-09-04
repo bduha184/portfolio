@@ -17,10 +17,15 @@
 }
 .v-list-item-title {
   font-size: 0.8rem !important;
+  overflow: visible;
+  text-overflow: unset;
   }
 
   .v-list-item-subtitle {
     opacity: 1 !important;
+  }
+  .v-list-item--one-line .v-list-item-subtitle {
+    -webkit-line-clamp: unset !important;
   }
 // .v-main {
 //   position: relative;
