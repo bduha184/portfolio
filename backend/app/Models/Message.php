@@ -15,15 +15,27 @@ class Message extends Model
     protected $fillable = [
         'comments',
         'receiver_id',
-        'sender_id'
+        'sender_id',
+        'distinction',
     ];
     public function users():BelongsTo{
         return $this->belongsTo(User::class);
     }
 
-    public function getUserInfoById(){
+    public function getUserInfoById($auth_id,$dist){
         return DB::table('messages')
+        ->where('distinction','=',$dist)
+        ->where('receiver_id','=',$auth_id)
+        ->where('sender_id','!=',$auth_id)
         ->join('users','messages.sender_id','=','users.id')
+        ->join('profiles','messages.sender_id','=','profiles.user_id')
+        ->get();
+    }
+
+    public function getSnsMessageById($sender_id,$receiver_id){
+        return DB::table('messages')
+        ->where('sender_id','=',$sender_id)
+        ->orWhere('sender_id','=',$receiver_id)
         ->join('profiles','messages.sender_id','=','profiles.user_id')
         ->get();
     }

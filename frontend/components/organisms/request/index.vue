@@ -33,15 +33,16 @@ const onClick = (id) =>{
 }
 
 onMounted(async () => {
-  const res = await useApiFetch(`/api/message/`);
-  // console.log(res);
+  const dist = 'join';
+  const res = await useApiFetch(`/api/message/${dist}`);
+  // console.log(res.data.value);
   messages.value.push(...res.data.value.messages);
 });
 
 
 </script>
 
-<style lang=scss scoped>
+<style lang="scss" scoped>
 .v-list-item {
   & + & {
     margin-top: 0.5rem;

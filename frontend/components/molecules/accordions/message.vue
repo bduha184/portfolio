@@ -27,7 +27,7 @@
 import {ref,computed} from 'vue';
 const props = defineProps({
   toggle: {
-    type: String,
+    type: Boolean,
     default: false,
   },
   setColor:{

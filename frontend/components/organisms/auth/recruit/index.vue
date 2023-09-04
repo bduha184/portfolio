@@ -67,6 +67,7 @@ import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
+const router = useRoute();
 
 const config = useRuntimeConfig();
 
@@ -181,8 +182,8 @@ const receiveTeamIntroduce = (val) => {
 };
 
 onMounted(async () => {
-  const router = useRoute();
   const itemId=router.query.id;
+  console.log(itemId);
   if(itemId){
     const res = await useApiFetch(`/api/recruit/${itemId}`);
     const val = res.data.value;

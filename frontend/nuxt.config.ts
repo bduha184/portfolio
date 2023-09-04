@@ -15,16 +15,17 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  modules: [
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@vee-validate/nuxt',
+    '@vueuse/nuxt',
+  ],
   hooks: {
     "vite:extendConfig": (config) => {
       config.plugins!.push(vuetify({}));
     },
   },
-  modules: [
-    '@pinia/nuxt',
-    '@pinia-plugin-persistedstate/nuxt',
-    '@vee-validate/nuxt',
-  ],
   runtimeConfig:{
     public:{
       baseURL:process.env.BASE_URL,

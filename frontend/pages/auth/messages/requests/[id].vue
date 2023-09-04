@@ -1,5 +1,5 @@
 <template>
   <div>
-   <OrganismsRequestDetail/>
+   <OrganismsRequestSns />
   </div>
 </template>

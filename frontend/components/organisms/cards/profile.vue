@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card >
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
         :disabled="false"
