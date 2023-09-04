@@ -1,24 +1,36 @@
 <template>
-   <div>
-    <!-- サムネイル -->
-    <div class="thumbnail-list">
-      <v-img :src="path"
-         class="thumbnail-list__img"
-         v-for="(path, index) of thumb_image_paths"
-         @click="activeImgIndex = index"
-      />
+  <div>
+    <VueGallery :images="data.images" :index="data.index" @close="data.index = null"></VueGallery>
+    <div
+      class="image"
+      v-for="(image, imageIndex) in data.images"
+      :key="imageIndex"
+      @click="data.index = imageIndex"
+      :style="{ backgroundImage: 'url(' + image + ')', width: '300px', height: '200px' }"
+    ></div>
   </div>
-  <!-- /サムネイル -->
-
-  <!-- 画像モーダル -->
-  <LightGallery
-    :images="image_paths"
-    :index="activeFileIndex"
-    :disable-scroll="true"
-    @close="activeImgIndex = null"
-  />
-  <!-- /画像モーダル -->
 </template>
 
 <script setup>
+  import VueGallery from 'vue-gallery';
+import {ref} from 'vue';
+const data= ref({
+  images:[
+'https://picsum.photos/500/300?image=1',
+'https://picsum.photos/500/300?image=2',
+],
+index:null
+})
+
 </script>
+
+<style scoped>
+  .image {
+    float: left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border: 1px solid #ebebeb;
+    margin: 5px;
+  }
+</style>

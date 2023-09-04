@@ -1853,6 +1853,11 @@ bl@^4.0.3:
     inherits "^2.0.4"
     readable-stream "^3.4.0"
 
+blueimp-gallery@^2.33.0:
+  version "2.44.0"
+  resolved "https://registry.yarnpkg.com/blueimp-gallery/-/blueimp-gallery-2.44.0.tgz#607908feb69897eef06e56f0d00d68e921498d45"
+  integrity sha512-msLsEV/7hpOokS/MimNbbrIv1lFnNe/45HeLJUvHUfuJklbPRiodXYSBs0Ibwe05un5bFRryQmmzhUZBiFaZmg==
+
 boolbase@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/boolbase/-/boolbase-1.0.0.tgz"
@@ -5055,6 +5060,11 @@ openapi-typescript@^6.2.8:
     undici "^5.22.1"
     yargs-parser "^21.1.1"
 
+opencollective-postinstall@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
+  integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
+
 p-limit@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
@@ -7045,10 +7055,13 @@ vue-devtools-stub@^0.1.0:
   resolved "https://registry.npmjs.org/vue-devtools-stub/-/vue-devtools-stub-0.1.0.tgz"
   integrity sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==
 
-vue-light-gallery@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/vue-light-gallery/-/vue-light-gallery-1.0.1.tgz#9416121b6940d0874b0ee6d9a48cfb7a7903d9a9"
-  integrity sha512-xNKNZ3upRIHgIeFIOQ+3RZcHsr3CwZvSFq3SqcsZ2rBWlHqc9IsVpWlpD2EOJyy7ovgODTC8C2rfaiRchQ2GOA==
+vue-gallery@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/vue-gallery/-/vue-gallery-2.0.5.tgz#8f3ebae3676b3d359098ea13e04213482b2446fe"
+  integrity sha512-kNJhDYNGRm56iDdfaZemhvCiFqqdpVV/1FYosnVBWw78nayoB8dcOKp51g1N0gmL7u45y8nn9KFL/V6rKI1Few==
+  dependencies:
+    blueimp-gallery "^2.33.0"
+    opencollective-postinstall "^2.0.2"
 
 vue-router@^4.0.3, vue-router@^4.2.4:
   version "4.2.4"
