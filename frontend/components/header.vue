@@ -30,7 +30,7 @@ const toggleMenu = () => {
           v-for="(item, i) in MenuItems"
           :key="i"
           :value="item"
-          active-color="primary"
+          color="primary"
           @click="item.func"
         >
           <Icon :name="item.icon"/>

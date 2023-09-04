@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import { useApiFetch } from "../composables/useApiFetch";
 import { computed } from "vue";
-import { RefSymbol } from "@vue/reactivity";
+
 
 type User = {
   id: number;
@@ -52,7 +51,7 @@ type ResetPassword = {
 }
 
 export const useAuthStore = defineStore(
-  "auth",
+"auth",
   () => {
     const user = ref<User | null>(null);
     const isLoggedIn = computed(() => user.value !== null);
@@ -60,6 +59,8 @@ export const useAuthStore = defineStore(
     async function fetchUser() {
       const { data } = await useApiFetch("/api/user");
       user.value = data.value as User;
+
+      return data
     }
 
     async function guestLogin(){
@@ -76,7 +77,7 @@ export const useAuthStore = defineStore(
     async function logout() {
       await useApiFetch("/api/logout", { method: "POST" });
       user.value = null;
-      navigateTo("/beforeLogin");
+      return navigateTo("/beforelogin");
     }
 
     async function login(credentials: Credentials) {
@@ -86,21 +87,23 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: credentials,
       });
+      user.value = login.data.value.user;
 
-      await fetchUser();
+      // await fetchUser();
 
       return login;
     }
 
     async function register(info: RegistrationInfo) {
-      console.log(info);
       await useApiFetch("/sanctum/csrf-cookie");
 
       const register = await useApiFetch("/api/register", {
         method: "POST",
         body: info,
       });
-      await fetchUser();
+
+      user.value=register.data.value.user;
+
       return register;
     }
     async function providerLogin(provider:Provider){
@@ -163,8 +166,6 @@ export const useAuthStore = defineStore(
       return resetPassword;
     }
     return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
-
-
   },
   {
     persist: {

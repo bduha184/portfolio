@@ -1,6 +1,5 @@
-import {Url} from '@/constants/url';
-import { useRouter } from "nuxt/app";
-import {Icons} from '@/constants/icons';
+import {Url} from './url';
+import {Icons} from './icons';
 
 const router = useRouter();
 
@@ -23,7 +22,7 @@ export const MenuItems = [
     {
       text: "サイクリング情報",
       icon: Icons.INFORMATION,
-      func: () => router.push(Url.INFO),
+      func: () => router.push(Url.CYCLINGINFO),
     },
     {
       text: "みんなの愛車",
