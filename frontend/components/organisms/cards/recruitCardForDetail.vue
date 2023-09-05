@@ -13,7 +13,7 @@
           {{ recruitItems.text }}
         </v-card-text>
         <OrganismsGallery />
-        <TeamActivity />
+        <OrganismsTeamActivity/>
         <v-container class="text-center">
           <v-row>
             <v-col>
