@@ -27,6 +27,18 @@
         :body="recruitItems.text"
       />
     </v-card-text>
+    <v-container>
+      <AtomsDecorationHeadline>
+        ギャラリー
+      </AtomsDecorationHeadline>
+      <OrganismsDrugAndDrop
+      @emitImages="receiveImages"
+      />
+      <OrganismsGallery
+
+      />
+    </v-container>
+    {{ images }}
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
@@ -70,6 +82,8 @@ const auth = useAuthStore();
 const router = useRoute();
 
 const config = useRuntimeConfig();
+
+const images = ref();
 
 const recruitItems = ref({
   items: [],
@@ -160,6 +174,10 @@ const checkFilledOut = () => {
 
   return false;
 };
+
+const receiveImages = (val)=> {
+  images.value = URL.createObjectURL(val.name);
+}
 
 const receiveImg = (val) => {
   recruitItems.value.header_img = val.files[0];

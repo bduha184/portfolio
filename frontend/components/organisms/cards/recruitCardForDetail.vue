@@ -12,7 +12,9 @@
         <v-card-text>
           {{ recruitItems.text }}
         </v-card-text>
-        <OrganismsGallery />
+        <OrganismsGallery
+        :images="getGalleryImages"
+        />
         <OrganismsTeamActivity/>
         <v-container class="text-center">
           <v-row>
@@ -126,6 +128,11 @@ const receiveClick = async (val) => {
     body: data
   });
 };
+
+const getGalleryImages=()=>{
+
+}
+
 onMounted(async () => {
   const itemId = router.params.id;
   if (itemId) {

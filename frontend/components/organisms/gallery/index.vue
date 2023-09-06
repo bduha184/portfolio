@@ -4,14 +4,14 @@
     <AtomsDecorationHeadline>
       ギャラリー
     </AtomsDecorationHeadline>
-    <VueGallery :images="data.images" :index="data.index" @close="data.index = null"></VueGallery>
+    <VueGallery :images="props.images" :index="index" @close="index = null"></VueGallery>
     <v-row>
       <v-col
       cols="4"
       class="image"
-          v-for="(image, imageIndex) in data.images"
+          v-for="(image, imageIndex) in props.images"
           :key="imageIndex"
-          @click="data.index = imageIndex"
+          @click="index = imageIndex"
 
       >
       <v-img
@@ -25,24 +25,14 @@
 <script setup>
   import VueGallery from 'vue-gallery';
 import {ref} from 'vue';
-const data= ref({
-  images:[
-'https://picsum.photos/500/300?image=1',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-'https://picsum.photos/500/300?image=2',
-],
-index:null
+
+const props =  defineProps({
+  images:{
+    type:Array,
+    default:[]
+  }
 })
+const index = ref(null);
 
 </script>
 
