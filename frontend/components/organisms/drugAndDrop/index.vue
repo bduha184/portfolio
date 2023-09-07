@@ -35,6 +35,7 @@
         type="file"
         :accept="props.accept"
         @change="onFileSelectChange"
+        multiple
     >
   </div>
 </template>
@@ -103,14 +104,14 @@ const onFileDropped = (e: DragEvent) => {
       return
     }
 
-    if (!e.dataTransfer) {
+    if (!e.target) {
       return
     }
 
     if (e.dataTransfer.files.length === 0) {
       return
     }
-    const file = e.dataTransfer.files[0]
+    const file = e.dataTransfer.files;
     selectedFile.value = file
     emits("emitImages", file)
 }

@@ -35,10 +35,10 @@
       @emitImages="receiveImages"
       />
       <OrganismsGallery
-
+      :images="images"
+      @emitClick="receiveClick"
       />
     </v-container>
-    {{ images }}
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import { useRuntimeConfig, navigateTo,useRoute, clearNuxtData } from "nuxt/app";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onMounted } from "vue";
+import { ref, onMounted,computed } from "vue";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
@@ -83,7 +83,10 @@ const router = useRoute();
 
 const config = useRuntimeConfig();
 
-const images = ref();
+const images = ref({
+  name:[],
+  path:[]
+});
 
 const recruitItems = ref({
   items: [],
@@ -101,22 +104,31 @@ const recruitItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-
 const handleRegister = async () => {
   const formData = new FormData();
+  const imageData = new FormData();
 
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
 
+  images.value.forEach((image,i)=>{
+    imageData.append('image_path',image);Ú
+  })
+
   await useApiFetch("/sanctum/csrf-cookie");
   const res = await useApiFetch("/api/recruit/register", {
     method: "POST",
     body: formData,
   });
+  const resImage = await useApiFetch("/api/images/register",{
+    method: "POST",
+    body: ImageData,
+  })
 
-  console.log(res);
+  console.log('formData',res);
+  console.log('imageData',resImage);
   recruitItems.value.item_id = res.data.value.itemId;
   recruitItems.value.path_header = res.data.value.path_header;
   recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
@@ -128,7 +140,6 @@ const handleRegister = async () => {
     },
   });
 };
-console.log(Object.assign(recruitItems.value))
 const handleUpdate = async () => {
   const formData = new FormData();
 
@@ -147,12 +158,11 @@ const handleUpdate = async () => {
     },
   });
 
-  console.log(res);
+  // console.log(res);
   recruitItems.value.path_header = res.data.value.path_header;
   recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
 };
 
-console.log(Object.assign(recruitItems.value))
 const handleDelete = async () => {
   await useApiFetch("/sanctum/csrf-cookie");
   await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
@@ -175,8 +185,17 @@ const checkFilledOut = () => {
   return false;
 };
 
+
 const receiveImages = (val)=> {
-  images.value = URL.createObjectURL(val.name);
+  Array.from(val).map((data)=>{
+   let image = window.URL.createObjectURL(data);
+   images.value.push(image);
+  })
+}
+
+const receiveClick = (val)=> {
+  // console.log(val);
+  images.value.splice(val,1);
 }
 
 const receiveImg = (val) => {
@@ -184,13 +203,15 @@ const receiveImg = (val) => {
   recruitItems.value.url_header_img = URL.createObjectURL(
     recruitItems.value.header_img
   );
+  URL.revokeObjectURL(recruitItems.value.header_img);
 };
 
 const receiveThumbnail = (val) => {
   recruitItems.value.thumbnail = val.files[0];
   recruitItems.value.url_thumbnail = URL.createObjectURL(
     recruitItems.value.thumbnail
-  );
+    );
+    URL.revokeObjectURL(recruitItems.value.thumbnail);
 };
 const receiveTeamName = (val) => {
   recruitItems.value.title = val.value;
@@ -201,7 +222,6 @@ const receiveTeamIntroduce = (val) => {
 
 onMounted(async () => {
   const itemId=router.query.id;
-  console.log(itemId);
   if(itemId){
     const res = await useApiFetch(`/api/recruit/${itemId}`);
     const val = res.data.value;
@@ -213,6 +233,7 @@ onMounted(async () => {
     recruitItems.value.text = val.data.text;
     recruitItems.value.user_id = val.data.user_id;
   }
+
 });
 </script>
 

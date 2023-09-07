@@ -12,7 +12,7 @@
         <v-card-text>
           {{ recruitItems.text }}
         </v-card-text>
-        <OrganismsGallery
+        <OrganismsGalleryModal
         :images="getGalleryImages"
         />
         <OrganismsTeamActivity/>

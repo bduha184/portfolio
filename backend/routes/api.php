@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
@@ -43,6 +44,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(MessageController::class)->group(function(){
         Route::prefix('message')->name('message.')->group(function(){
+            Route::post('/register','store');
+        });
+    });
+    Route::controller(ImagesController::class)->group(function(){
+        Route::prefix('images')->name('images.')->group(function(){
             Route::post('/register','store');
         });
     });

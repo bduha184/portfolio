@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreImagesRequest;
 use App\Http\Requests\UpdateImagesRequest;
 use App\Models\Images;
+use Illuminate\Support\Facades\Auth;
 
 class ImagesController extends Controller
 {
@@ -30,10 +31,12 @@ class ImagesController extends Controller
     public function store(StoreImagesRequest $request)
     {
 
+        $user_id = Auth::id();
 
 
         return response()->json([
-            'request'=>$request
+            'user_id'=>$user_id,
+            'image_path'=>$request->image_path,
         ]);
     }
 
