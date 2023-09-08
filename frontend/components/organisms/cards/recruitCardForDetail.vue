@@ -4,58 +4,56 @@
       :path_header="recruitItems.url_header_img"
       :path_thumbnail="recruitItems.url_thumbnail"
     >
-        <v-card-title class="text-body-2 pl-20">
-          <AtomsDecorationHeadline>
-            {{ recruitItems.title }}
-          </AtomsDecorationHeadline>
-        </v-card-title>
-        <v-card-text>
-          {{ recruitItems.text }}
-        </v-card-text>
-        <OrganismsGalleryModal
-        :images="getGalleryImages"
-        />
-        <OrganismsTeamActivity/>
-        <v-container class="text-center">
-          <v-row>
-            <v-col>
-              <MoleculesBeforeLoginModal
-                @emitClick="requestJoinTeam"
-                :toggle="toggleRequest"
-              >
-                このチームに参加する
-              </MoleculesBeforeLoginModal>
-              <MoleculesAccordionsMessage
-                class="text-center"
-                :toggle="toggleRequest"
-                @emitInput="receiveBody"
-                @emitClick="receiveClick('join')"
-                placeholder="伝えたい内容、参加したい理由、等を記載してください"
-                text="メッセージを送信する"
-              >
-              </MoleculesAccordionsMessage>
-            </v-col>
-            <v-col>
-              <MoleculesBeforeLoginModal
-                @emitClick="questionToTeam"
-                :toggle="toggleQuestion"
-                setColor="orange"
-                >このチームに質問する</MoleculesBeforeLoginModal
-              >
-              <MoleculesAccordionsMessage
-                class="text-center"
-                setColor="orange"
-                :toggle="toggleQuestion"
-                @emitInput="receiveBody"
-                @emitClick="receiveClick('que')"
-                placeholder="質問内容を記載してください"
-                text="質問内容を送信する"
-              >
-              </MoleculesAccordionsMessage>
-            </v-col>
-          </v-row>
-        </v-container>
-        <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
+      <v-card-title class="text-body-2 pl-20">
+        <AtomsDecorationHeadline>
+          {{ recruitItems.title }}
+        </AtomsDecorationHeadline>
+      </v-card-title>
+      <v-card-text>
+        {{ recruitItems.text }}
+      </v-card-text>
+      <OrganismsGalleryModal :images="images" />
+      <OrganismsTeamActivity />
+      <v-container class="text-center">
+        <v-row>
+          <v-col>
+            <MoleculesBeforeLoginModal
+              @emitClick="requestJoinTeam"
+              :toggle="toggleRequest"
+            >
+              このチームに参加する
+            </MoleculesBeforeLoginModal>
+            <MoleculesAccordionsMessage
+              class="text-center"
+              :toggle="toggleRequest"
+              @emitInput="receiveBody"
+              @emitClick="receiveClick('join')"
+              placeholder="伝えたい内容、参加したい理由、等を記載してください"
+              text="メッセージを送信する"
+            >
+            </MoleculesAccordionsMessage>
+          </v-col>
+          <v-col>
+            <MoleculesBeforeLoginModal
+              @emitClick="questionToTeam"
+              :toggle="toggleQuestion"
+              setColor="orange"
+              >このチームに質問する</MoleculesBeforeLoginModal
+            >
+            <MoleculesAccordionsMessage
+              class="text-center"
+              setColor="orange"
+              :toggle="toggleQuestion"
+              @emitInput="receiveBody"
+              @emitClick="receiveClick('que')"
+              placeholder="質問内容を記載してください"
+              text="質問内容を送信する"
+            >
+            </MoleculesAccordionsMessage>
+          </v-col>
+        </v-row>
+      </v-container>
+      <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
     </OrganismsCardsProfile>
   </div>
 </template>
@@ -86,6 +84,8 @@ const recruitItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
+const images = ref([]);
+
 const comments = ref("");
 
 const toggleRequest = ref(false);
@@ -110,42 +110,47 @@ const receiveBody = (val) => {
 };
 
 const receiveClick = async (val) => {
-
-  const dist = val=='join' ? 'join' : 'que';
-
+  const dist = val == "join" ? "join" : "que";
 
   const data = {
-    'comments': comments.value,
-    'receiver_id': recruitItems.value.user_id,
-    'sender_id': auth.user.id,
-    'distinction':dist
-  }
+    comments: comments.value,
+    receiver_id: recruitItems.value.user_id,
+    sender_id: auth.user.id,
+    distinction: dist,
+  };
 
   console.log(data);
   await useApiFetch("/sanctum/csrf-cookie");
   const res = await useApiFetch("/api/message/register", {
     method: "POST",
-    body: data
+    body: data,
   });
 };
 
-const getGalleryImages=()=>{
-
-}
 
 onMounted(async () => {
   const itemId = router.params.id;
   if (itemId) {
-    const res = await useApiFetch(`/api/recruit/${itemId}`);
-    const val = res.data.value;
-    recruitItems.value.item_id = val.data.id;
-    recruitItems.value.url_header_img =
-      config.public.baseURL + "/storage/" + val.data.header_img_path;
-    recruitItems.value.url_thumbnail =
-      config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-    recruitItems.value.title = val.data.title;
-    recruitItems.value.text = val.data.text;
-    recruitItems.value.user_id = val.data.user_id;
+    await Promise.all([
+      useApiFetch(`/api/recruit/${itemId}`),
+      useApiFetch(`/api/images/${itemId}`),
+    ]).then((resItems)=>{
+
+      resItems.forEach(item=>{
+        const val = item.data.value;
+        console.log(val);
+        if(val == 'data'){
+          recruitItems.value.item_id = val.data.id;
+          recruitItems.value.url_header_img = config.public.baseURL + "/storage/" + val.data.header_img_path;
+          recruitItems.value.url_thumbnail = config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+          recruitItems.value.title = val.data.title;
+          recruitItems.value.text = val.data.text;
+          recruitItems.value.user_id = val.data.user_id;
+        }else{
+          images.value.push(config.public.baseURL + "/storage/" + val.images);
+        }
+      })
+    })
   }
 });
 </script>

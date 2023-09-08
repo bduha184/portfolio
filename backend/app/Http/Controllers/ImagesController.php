@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreImagesRequest;
 use App\Http\Requests\UpdateImagesRequest;
 use App\Models\Images;
+use App\Models\Recruit;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-
 class ImagesController extends Controller
 {
     /**
@@ -28,24 +30,35 @@ class ImagesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreImagesRequest $request)
+    public function store(Request $request,Images $images)
     {
 
-        $user_id = Auth::id();
 
+        $file = $request->file('image_path');
+        $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+        $image_path = $file->storeAs('uploaded/', $filename, 'public');
+        $images->image_path = $image_path;
+
+        $images->user_id = Auth::id();
+        $images->save();
 
         return response()->json([
-            'user_id'=>$user_id,
-            'image_path'=>$request->image_path,
+            'image_path'=>$images->image_path,
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Images $images)
+    public function show(Images $images,$id)
     {
-        //
+        $recruit  = Recruit::find($id)->first();
+        $user_id=$recruit->user_id;
+        $get_images = $images->where('user_id',$user_id)->first();
+
+        return response()->json([
+            'images'=>$get_images->image_path,
+        ]);
     }
 
     /**

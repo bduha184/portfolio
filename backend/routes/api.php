@@ -55,8 +55,13 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::controller(RecruitController::class)->group(function(){
     Route::prefix('recruit')->name('recruit.')->group(function(){
-    Route::get('/','index')->name('index');
-    Route::get('/{id}','show')->name('show');
+        Route::get('/','index')->name('index');
+        Route::get('/{id}','show')->name('show');
+    });
+});
+Route::controller(ImagesController::class)->group(function(){
+    Route::prefix('images')->name('images.')->group(function(){
+        Route::get('/{id}','show');
     });
 });
 Route::controller(ProfileController::class)->group(function(){

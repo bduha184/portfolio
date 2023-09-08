@@ -17,6 +17,7 @@
         </v-img>
         {{ index }}
       </v-col>
+      {{ images }}
     </v-row>
   </v-container>
 </template>

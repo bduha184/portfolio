@@ -21,7 +21,6 @@
         />
       </v-col>
     </v-row>
-    {{ index }}
   </v-container>
 </template>
 

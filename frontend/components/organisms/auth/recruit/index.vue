@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form >
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
         @emitInput="receiveImg"
@@ -28,22 +28,14 @@
       />
     </v-card-text>
     <v-container>
-      <AtomsDecorationHeadline>
-        ギャラリー
-      </AtomsDecorationHeadline>
-      <OrganismsDrugAndDrop
-      @emitImages="receiveImages"
-      />
-      <OrganismsGallery
-      :images="images"
-      @emitClick="receiveClick"
-      />
+      <AtomsDecorationHeadline> ギャラリー </AtomsDecorationHeadline>
+      <OrganismsDrugAndDrop @emitImages="receiveImages" />
+      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
       @click="handleRegister"
-      :disabled="!checkFilledOut()"
       v-if="!recruitItems.item_id"
     >
       登録
@@ -71,9 +63,14 @@
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig, navigateTo,useRoute, clearNuxtData } from "nuxt/app";
+import {
+  useRuntimeConfig,
+  navigateTo,
+  useRoute,
+  clearNuxtData,
+} from "nuxt/app";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onMounted,computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
@@ -83,10 +80,8 @@ const router = useRoute();
 
 const config = useRuntimeConfig();
 
-const images = ref({
-  name:[],
-  path:[]
-});
+const postImages = ref([]);
+const displayImages = ref([]);
 
 const recruitItems = ref({
   items: [],
@@ -106,32 +101,38 @@ const recruitItems = ref({
 
 const handleRegister = async () => {
   const formData = new FormData();
-  const imageData = new FormData();
 
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
 
-  images.value.forEach((image,i)=>{
-    imageData.append('image_path',image);Ú
-  })
+  const imageData = new FormData();
+  postImages.value.forEach((image) => {
+    imageData.append("image_path", image);
+  });
+  // console.log(...formData.entries());
+  // console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch("/api/recruit/register", {
-    method: "POST",
-    body: formData,
-  });
-  const resImage = await useApiFetch("/api/images/register",{
-    method: "POST",
-    body: ImageData,
+  await Promise.all([
+    useApiFetch("/api/recruit/register", {
+      method: "POST",
+      body: formData,
+    }),
+    useApiFetch("/api/images/register", {
+      method: "POST",
+      body: imageData,
+    }),
+  ]).then((res)=>{
+    console.log("all", res);
+
   })
 
-  console.log('formData',res);
-  console.log('imageData',resImage);
-  recruitItems.value.item_id = res.data.value.itemId;
-  recruitItems.value.path_header = res.data.value.path_header;
-  recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
+  // console.log("imageData", resImage);
+  // recruitItems.value.item_id = res.data.value.itemId;
+  // recruitItems.value.path_header = res.data.value.path_header;
+  // recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
 
   return navigateTo({
     path: Url.AUTHRECRUIT,
@@ -167,11 +168,11 @@ const handleDelete = async () => {
   await useApiFetch("/sanctum/csrf-cookie");
   await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
     method: "DELETE",
-    key:'deleteItem',
+    key: "deleteItem",
   });
 
   return navigateTo({
-    path:Url.AUTHRECRUIT,
+    path: Url.AUTHRECRUIT,
   });
 };
 
@@ -185,33 +186,34 @@ const checkFilledOut = () => {
   return false;
 };
 
+const receiveImages = (val) => {
+  Array.from(val).map((data) => {
+    postImages.value.push(data);
+    let image = window.URL.createObjectURL(data);
+    displayImages.value.push(image);
+  });
+};
 
-const receiveImages = (val)=> {
-  Array.from(val).map((data)=>{
-   let image = window.URL.createObjectURL(data);
-   images.value.push(image);
-  })
-}
-
-const receiveClick = (val)=> {
+const receiveClick = (val) => {
   // console.log(val);
-  images.value.splice(val,1);
-}
+  displayImages.value.splice(val, 1);
+};
 
 const receiveImg = (val) => {
+  console.log(val.files[0]);
   recruitItems.value.header_img = val.files[0];
   recruitItems.value.url_header_img = URL.createObjectURL(
     recruitItems.value.header_img
   );
-  URL.revokeObjectURL(recruitItems.value.header_img);
+  // URL.revokeObjectURL(recruitItems.value.header_img);
 };
 
 const receiveThumbnail = (val) => {
   recruitItems.value.thumbnail = val.files[0];
   recruitItems.value.url_thumbnail = URL.createObjectURL(
     recruitItems.value.thumbnail
-    );
-    URL.revokeObjectURL(recruitItems.value.thumbnail);
+  );
+  // URL.revokeObjectURL(recruitItems.value.thumbnail);
 };
 const receiveTeamName = (val) => {
   recruitItems.value.title = val.value;
@@ -221,19 +223,20 @@ const receiveTeamIntroduce = (val) => {
 };
 
 onMounted(async () => {
-  const itemId=router.query.id;
-  if(itemId){
+  const itemId = router.query.id;
+  if (itemId) {
     const res = await useApiFetch(`/api/recruit/${itemId}`);
     const val = res.data.value;
     console.log(res.data);
     recruitItems.value.item_id = val.data.id;
-    recruitItems.value.url_header_img =config.public.baseURL + "/storage/" + val.data.header_img_path;
-    recruitItems.value.url_thumbnail =config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+    recruitItems.value.url_header_img =
+      config.public.baseURL + "/storage/" + val.data.header_img_path;
+    recruitItems.value.url_thumbnail =
+      config.public.baseURL + "/storage/" + val.data.thumbnail_path;
     recruitItems.value.title = val.data.title;
     recruitItems.value.text = val.data.text;
     recruitItems.value.user_id = val.data.user_id;
   }
-
 });
 </script>
 
