@@ -9,8 +9,7 @@
         </NuxtLink>
       </v-col>
       <v-col cols="6">
-        <NuxtLink :to="Url.AUTHRECRUIT"
-        >
+        <NuxtLink :to="Url.AUTHRECRUIT+'/'+ auth.user.id">
           メンバー募集
         </NuxtLink>
       </v-col>

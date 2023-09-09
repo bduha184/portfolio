@@ -74,7 +74,7 @@ const toggleMenu = () => {
   box-shadow: none;
 }
 
-header {
-  z-index: 0 !important;
-}
+// header {
+//   z-index: 0 !important;
+// }
 </style>

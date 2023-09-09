@@ -58,9 +58,16 @@ class RecruitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Recruit $recruit,$id)
     {
-        $recruitItem = Recruit::where('id',$id)->first();
+        $user_id=Auth::id();
+
+        if($id==$user_id){
+            $recruitItem=$recruit->where('user_id',$id)->first();
+        }else{
+
+            $recruitItem = $recruit->find($id)->first();
+        }
 
         return response()->json([
             'data'=>$recruitItem,

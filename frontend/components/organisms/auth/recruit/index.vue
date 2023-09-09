@@ -70,7 +70,7 @@ import {
   clearNuxtData,
 } from "nuxt/app";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onMounted, computed } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
@@ -195,7 +195,6 @@ const receiveImages = (val) => {
 };
 
 const receiveClick = (val) => {
-  // console.log(val);
   displayImages.value.splice(val, 1);
 };
 
@@ -222,20 +221,29 @@ const receiveTeamIntroduce = (val) => {
   recruitItems.value.text = val.value;
 };
 
-onMounted(async () => {
-  const itemId = router.query.id;
-  if (itemId) {
-    const res = await useApiFetch(`/api/recruit/${itemId}`);
-    const val = res.data.value;
-    console.log(res.data);
-    recruitItems.value.item_id = val.data.id;
-    recruitItems.value.url_header_img =
-      config.public.baseURL + "/storage/" + val.data.header_img_path;
-    recruitItems.value.url_thumbnail =
-      config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-    recruitItems.value.title = val.data.title;
-    recruitItems.value.text = val.data.text;
-    recruitItems.value.user_id = val.data.user_id;
+onBeforeMount(async () => {
+  const userId = router.params.id;
+  if (userId) {
+    await Promise.all([
+    useApiFetch(`/api/recruit/${userId}`),
+    useApiFetch(`/api/images/${userId}`),
+    ]).then(responses=>{
+      responses.forEach(res => {
+        const val = res.data.value;
+        if(val.data){
+          recruitItems.value.item_id = val.data.id;
+          recruitItems.value.url_header_img = config.public.baseURL + "/storage/" + val.data.header_img_path;
+          recruitItems.value.url_thumbnail = config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+          recruitItems.value.title = val.data.title;
+          recruitItems.value.text = val.data.text;
+          recruitItems.value.user_id = val.data.user_id;
+        }else{
+          val.images.forEach(image=>{
+            displayImages.value.push(config.public.baseURL + "/storage/" + image.image_path);
+          })
+        }
+      });
+    })
   }
 });
 </script>

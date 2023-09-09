@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { ref, onMounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { useRuntimeConfig } from "nuxt/app";
 
@@ -128,18 +128,18 @@ const receiveClick = async (val) => {
 };
 
 
-onMounted(async () => {
+onBeforeMount(async () => {
   const itemId = router.params.id;
   if (itemId) {
     await Promise.all([
       useApiFetch(`/api/recruit/${itemId}`),
       useApiFetch(`/api/images/${itemId}`),
     ]).then((resItems)=>{
-
       resItems.forEach(item=>{
+
         const val = item.data.value;
-        console.log(val);
-        if(val == 'data'){
+        // console.log(val);
+        if(val.data){
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img = config.public.baseURL + "/storage/" + val.data.header_img_path;
           recruitItems.value.url_thumbnail = config.public.baseURL + "/storage/" + val.data.thumbnail_path;
@@ -147,7 +147,9 @@ onMounted(async () => {
           recruitItems.value.text = val.data.text;
           recruitItems.value.user_id = val.data.user_id;
         }else{
-          images.value.push(config.public.baseURL + "/storage/" + val.images);
+          val.images.forEach(image=>{
+              images.value.push(config.public.baseURL + "/storage/" + image.image_path);
+          })
         }
       })
     })

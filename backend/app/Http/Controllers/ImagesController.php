@@ -52,12 +52,16 @@ class ImagesController extends Controller
      */
     public function show(Images $images,$id)
     {
-        $recruit  = Recruit::find($id)->first();
-        $user_id=$recruit->user_id;
-        $get_images = $images->where('user_id',$user_id)->first();
+        $user_id = Auth::id();
+        if($id != $user_id){
+            $recruit  = Recruit::find($id)->first();
+            $user_id=$recruit->user_id;
+        }
+        $get_images = $images->where('user_id',$user_id)->get();
 
         return response()->json([
-            'images'=>$get_images->image_path,
+            'images'=>$get_images,
+            'user_id'=>$user_id
         ]);
     }
 

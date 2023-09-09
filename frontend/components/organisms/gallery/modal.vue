@@ -60,4 +60,8 @@ const deleteImage = () => {
 .image {
   padding: 0.2rem !important;
 }
+
+.blueimp-gallery {
+  background: rgba(0,0,0,.85);
+}
 </style>
