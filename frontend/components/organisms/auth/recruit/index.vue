@@ -136,9 +136,9 @@ const handleRegister = async () => {
 
   return navigateTo({
     path: Url.AUTHRECRUIT,
-    query: {
-      id: recruitItems.value.item_id,
-    },
+    query:{
+      id:auth.user.id,
+    }
   });
 };
 const handleUpdate = async () => {
@@ -149,31 +149,59 @@ const handleUpdate = async () => {
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
 
-  await useApiFetch("/sanctum/csrf-cookie");
+  const imageData = new FormData();
+  postImages.value.forEach((image) => {
+    imageData.append("image_path", image);
+  });
+  // console.log(...formData.entries());
+  // console.log(...imageData.entries());
 
-  const res = await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-    method: "POST",
-    body: formData,
-    headers: {
+  await useApiFetch("/sanctum/csrf-cookie");
+  await Promise.all([
+    useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+      method: "POST",
+      body: formData,
+      headers: {
       "X-HTTP-Method-Override": "PUT",
     },
-  });
+    }),
+    useApiFetch(`/api/images/${auth.user.id}`, {
+      method: "POST",
+      body: imageData,
+      headers: {
+      "X-HTTP-Method-Override": "PUT",
+    },
+    }),
+  ]).then((res)=>{
+    console.log("all", res);
+
+  })
 
   // console.log(res);
-  recruitItems.value.path_header = res.data.value.path_header;
-  recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
+  // recruitItems.value.path_header = res.data.value.path_header;
+  // recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
 };
 
 const handleDelete = async () => {
   await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-    method: "DELETE",
-    key: "deleteItem",
-  });
+  await Promise.all([
+    await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+      method: "DELETE",
+      // key: "deleteItem",
+    }),
+    await useApiFetch(`/api/images/${auth.user.id}`, {
+      method: "DELETE",
+    }),
+  ]).then(res=>{
+    console.log(res);
+  })
 
-  return navigateTo({
-    path: Url.AUTHRECRUIT,
-  });
+  // return navigateTo({
+  //   path: Url.AUTHRECRUIT,
+  //   query:{
+  //     id:auth.user.id,
+  //   }
+  // });
 };
 
 const checkFilledOut = () => {
@@ -222,7 +250,7 @@ const receiveTeamIntroduce = (val) => {
 };
 
 onBeforeMount(async () => {
-  const userId = router.params.id;
+  const userId = router.query.id;
   if (userId) {
     await Promise.all([
     useApiFetch(`/api/recruit/${userId}`),
@@ -238,9 +266,11 @@ onBeforeMount(async () => {
           recruitItems.value.text = val.data.text;
           recruitItems.value.user_id = val.data.user_id;
         }else{
-          val.images.forEach(image=>{
-            displayImages.value.push(config.public.baseURL + "/storage/" + image.image_path);
-          })
+          if(val.images){
+            val.images.forEach(image=>{
+              displayImages.value.push(config.public.baseURL + "/storage/" + image.image_path);
+            })
+          }
         }
       });
     })

@@ -9,6 +9,7 @@ use App\Models\Recruit;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+
 class ImagesController extends Controller
 {
     /**
@@ -76,16 +77,43 @@ class ImagesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateImagesRequest $request, Images $images)
+    public function update(UpdateImagesRequest $request, Images $images,$id)
     {
-        //
+        $file = $request->file('image_path');
+        $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+        $image_path = $file->storeAs('uploaded/', $filename, 'public');
+        $images->image_path = $image_path;
+
+        $images->user_id = Auth::id();
+        $images->save();
+
+        return response()->json([
+            'image_path'=>$images->image_path,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Images $images)
+    public function destroy(Images $images,$id)
     {
-        //
+        $images = $images->where('user_id',$id)->get();
+
+        if ($images) {
+
+            $images->each(function($image){
+                $image->delete();
+            });
+            return response()->json([
+                'message' => 'delete successfully'
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                'message' => 'Images not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        return response()->json([
+            'images'=>$images
+        ]);
     }
 }
