@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ImagesController::class)->group(function(){
         Route::prefix('images')->name('images.')->group(function(){
             Route::post('/register','store');
-            Route::put('/{id}','store');
+            Route::put('/{id}','update');
             Route::delete('/{id}','destroy');
         });
     });

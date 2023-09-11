@@ -9,12 +9,7 @@
         </NuxtLink>
       </v-col>
       <v-col cols="6">
-        <NuxtLink :to="{
-          name:'auth-recruit',
-          query:{
-            id:auth.user.id
-          }
-        }">
+        <NuxtLink :to="Url.AUTHRECRUIT">
           メンバー募集
         </NuxtLink>
       </v-col>

@@ -59,6 +59,7 @@
     >
       削除
     </AtomsBtnsBaseBtn>
+    {{postImages}}
   </form>
 </template>
 
@@ -129,18 +130,10 @@ const handleRegister = async () => {
 
   })
 
-  // console.log("imageData", resImage);
-  // recruitItems.value.item_id = res.data.value.itemId;
-  // recruitItems.value.path_header = res.data.value.path_header;
-  // recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
-
-  return navigateTo({
-    path: Url.AUTHRECRUIT,
-    query:{
-      id:auth.user.id,
-    }
-  });
+  // return navigateTo(Url.AUTHRECRUIT);
 };
+console.log(recruitItems.value.header_img);
+
 const handleUpdate = async () => {
   const formData = new FormData();
 
@@ -153,33 +146,24 @@ const handleUpdate = async () => {
   postImages.value.forEach((image) => {
     imageData.append("image_path", image);
   });
-  // console.log(...formData.entries());
-  // console.log(...imageData.entries());
+
+  console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
     useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-      method: "POST",
+      method: "PUT",
       body: formData,
-      headers: {
-      "X-HTTP-Method-Override": "PUT",
-    },
     }),
     useApiFetch(`/api/images/${auth.user.id}`, {
-      method: "POST",
+      method: "PUT",
       body: imageData,
-      headers: {
-      "X-HTTP-Method-Override": "PUT",
-    },
     }),
   ]).then((res)=>{
     console.log("all", res);
 
   })
-
-  // console.log(res);
-  // recruitItems.value.path_header = res.data.value.path_header;
-  // recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
+  // return navigateTo(Url.AUTHRECRUIT);
 };
 
 const handleDelete = async () => {
@@ -187,7 +171,6 @@ const handleDelete = async () => {
   await Promise.all([
     await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
       method: "DELETE",
-      // key: "deleteItem",
     }),
     await useApiFetch(`/api/images/${auth.user.id}`, {
       method: "DELETE",
@@ -196,12 +179,7 @@ const handleDelete = async () => {
     console.log(res);
   })
 
-  // return navigateTo({
-  //   path: Url.AUTHRECRUIT,
-  //   query:{
-  //     id:auth.user.id,
-  //   }
-  // });
+  return navigateTo(Url.AUTHRECRUIT);
 };
 
 const checkFilledOut = () => {
@@ -227,7 +205,7 @@ const receiveClick = (val) => {
 };
 
 const receiveImg = (val) => {
-  console.log(val.files[0]);
+  // console.log(val.files[0]);
   recruitItems.value.header_img = val.files[0];
   recruitItems.value.url_header_img = URL.createObjectURL(
     recruitItems.value.header_img
@@ -250,7 +228,7 @@ const receiveTeamIntroduce = (val) => {
 };
 
 onBeforeMount(async () => {
-  const userId = router.query.id;
+  const userId = auth.user.id;
   if (userId) {
     await Promise.all([
     useApiFetch(`/api/recruit/${userId}`),
@@ -268,6 +246,7 @@ onBeforeMount(async () => {
         }else{
           if(val.images){
             val.images.forEach(image=>{
+              postImages.value.push(image);
               displayImages.value.push(config.public.baseURL + "/storage/" + image.image_path);
             })
           }

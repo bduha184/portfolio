@@ -34,17 +34,25 @@ class ImagesController extends Controller
     public function store(Request $request,Images $images)
     {
 
-
-        $file = $request->file('image_path');
-        $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-        $image_path = $file->storeAs('uploaded/', $filename, 'public');
-        $images->image_path = $image_path;
-
-        $images->user_id = Auth::id();
-        $images->save();
+        $data = $request->session()->all();
+        $data_id = $request->session()->get('id');
+        $users = $request->session()->get('users', array());
+        $imagesArray = [];
+        $files=$request->file('image_path');
+        foreach($files as $file){
+            $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+            $image_path = $file->storeAs('uploaded/', $filename, 'public');
+            array_push($imagesArray,$image_path);
+        }
+        // $images->image_path = $imagesArray;
+        // $images->user_id = Auth::id();
+        // $images->save();
 
         return response()->json([
-            'image_path'=>$images->image_path,
+            'image_path'=>$imagesArray,
+            'data'=>$data,
+            'data_id'=>$data_id,
+            'users'=>$users
         ]);
     }
 
@@ -77,18 +85,22 @@ class ImagesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateImagesRequest $request, Images $images,$id)
+    public function update(Request $request, Images $images,$id)
     {
-        $file = $request->file('image_path');
-        $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-        $image_path = $file->storeAs('uploaded/', $filename, 'public');
-        $images->image_path = $image_path;
+        $images = $images->where('user_id',$id)->first();
+        $files = $request->file('image_path');
+        // foreach($files as $file){
+        //     $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+        //     $image_path = $file->storeAs('uploaded/', $filename, 'public');
+        //     $images->image_path = $image_path;
+        // }
 
-        $images->user_id = Auth::id();
-        $images->save();
+
+        // $images->save();
 
         return response()->json([
-            'image_path'=>$images->image_path,
+            'images'=>$images,
+            'files'=>$files,
         ]);
     }
 
