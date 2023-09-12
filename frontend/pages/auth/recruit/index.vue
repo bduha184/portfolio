@@ -14,4 +14,5 @@ import { definePageMeta } from "#imports";
 definePageMeta({
   middleware: ["auth"],
 });
+
 </script>

@@ -34,25 +34,21 @@ class ImagesController extends Controller
     public function store(Request $request,Images $images)
     {
 
-        $data = $request->session()->all();
-        $data_id = $request->session()->get('id');
-        $users = $request->session()->get('users', array());
-        $imagesArray = [];
         $files=$request->file('image_path');
         foreach($files as $file){
             $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
             $image_path = $file->storeAs('uploaded/', $filename, 'public');
-            array_push($imagesArray,$image_path);
+            $images->image_path = $image_path;
+            $images->user_id = Auth::id();
+            $images->save();
         }
         // $images->image_path = $imagesArray;
         // $images->user_id = Auth::id();
-        // $images->save();
 
         return response()->json([
-            'image_path'=>$imagesArray,
-            'data'=>$data,
-            'data_id'=>$data_id,
-            'users'=>$users
+            // 'files'=>$files,
+            // 'message'=>'image saved successfully'
+            // 'image_path'=>$imagesArray,
         ]);
     }
 

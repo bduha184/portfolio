@@ -127,6 +127,7 @@ const handleRegister = async () => {
     }),
   ]).then((res)=>{
     console.log("all", res);
+    console.log(res[1].data.value.files);
 
   })
 
