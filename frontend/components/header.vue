@@ -73,4 +73,8 @@ const toggleMenu = () => {
 .v-app-bar.v-toolbar:not(.v-toolbar--flat) {
   box-shadow: none;
 }
+
+// header {
+//   z-index: 0 !important;
+// }
 </style>

@@ -21,14 +21,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 
 const recruitItems = ref({
   items: [],
   itemCount: 0,
 });
 
-onMounted(async () => {
+onBeforeMount(async () => {
   const res = await useApiFetch("/api/recruit/");
   const items = res.data.value;
   recruitItems.value.items.push(...items);

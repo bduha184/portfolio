@@ -60,7 +60,7 @@ export const useAuthStore = defineStore(
       const { data } = await useApiFetch("/api/user");
       user.value = data.value as User;
 
-      return data
+      return data.value
     }
 
     async function guestLogin(){
@@ -168,8 +168,6 @@ export const useAuthStore = defineStore(
     return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
   },
   {
-    persist: {
-      storage: persistedState.sessionStorage,
-    },
+    persist: true,
   }
 );

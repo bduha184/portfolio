@@ -9,8 +9,7 @@
         </NuxtLink>
       </v-col>
       <v-col cols="6">
-        <NuxtLink :to="Url.AUTHRECRUIT"
-        >
+        <NuxtLink :to="Url.AUTHRECRUIT">
           メンバー募集
         </NuxtLink>
       </v-col>
@@ -33,7 +32,8 @@
   </v-container>
 </template>
 <script setup lang="ts">
-import {definePageMeta} from '#imports';
+import {definePageMeta,navigateTo} from '#imports';
+import {onMounted} from 'vue';
 import {Url} from '../../constants/url';
 import { useAuthStore } from '../../stores/useAuthStore';
 
@@ -45,7 +45,14 @@ const auth = useAuthStore();
 
 const handleLogout = async()=> {
   await auth.logout();
-
 }
+
+// onMounted(async()=>{
+//     const res = await auth.fetchUser();
+//     console.log(res);
+//     if(res==null){
+//       return navigateTo(Url.SIGNIN);
+//     }
+//   })
 
 </script>
