@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form >
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
         @emitInput="receiveImg"
@@ -27,11 +27,15 @@
         :body="recruitItems.text"
       />
     </v-card-text>
+    <v-container>
+      <AtomsDecorationHeadline> ギャラリー </AtomsDecorationHeadline>
+      <OrganismsDrugAndDrop @emitImages="receiveImages" />
+      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
+    </v-container>
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
       @click="handleRegister"
-      :disabled="!checkFilledOut()"
       v-if="!recruitItems.item_id"
     >
       登録
@@ -55,13 +59,19 @@
     >
       削除
     </AtomsBtnsBaseBtn>
+    {{postImages}}
   </form>
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig, navigateTo,useRoute, clearNuxtData } from "nuxt/app";
+import {
+  useRuntimeConfig,
+  navigateTo,
+  useRoute,
+  clearNuxtData,
+} from "nuxt/app";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onMounted } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
@@ -70,6 +80,9 @@ const auth = useAuthStore();
 const router = useRoute();
 
 const config = useRuntimeConfig();
+
+const postImages = ref([]);
+const displayImages = ref([]);
 
 const recruitItems = ref({
   items: [],
@@ -87,7 +100,6 @@ const recruitItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-
 const handleRegister = async () => {
   const formData = new FormData();
 
@@ -96,25 +108,33 @@ const handleRegister = async () => {
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
 
+  const imageData = new FormData();
+  postImages.value.forEach((image) => {
+    imageData.append("image_path", image);
+  });
+  // console.log(...formData.entries());
+  // console.log(...imageData.entries());
+
   await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch("/api/recruit/register", {
-    method: "POST",
-    body: formData,
-  });
+  await Promise.all([
+    useApiFetch("/api/recruit/register", {
+      method: "POST",
+      body: formData,
+    }),
+    useApiFetch("/api/images/register", {
+      method: "POST",
+      body: imageData,
+    }),
+  ]).then((res)=>{
+    console.log("all", res);
+    console.log(res[1].data.value.files);
 
-  console.log(res);
-  recruitItems.value.item_id = res.data.value.itemId;
-  recruitItems.value.path_header = res.data.value.path_header;
-  recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
+  })
 
-  return navigateTo({
-    path: Url.AUTHRECRUIT,
-    query: {
-      id: recruitItems.value.item_id,
-    },
-  });
+  // return navigateTo(Url.AUTHRECRUIT);
 };
-console.log(Object.assign(recruitItems.value))
+console.log(recruitItems.value.header_img);
+
 const handleUpdate = async () => {
   const formData = new FormData();
 
@@ -123,32 +143,44 @@ const handleUpdate = async () => {
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
 
-  await useApiFetch("/sanctum/csrf-cookie");
-
-  const res = await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-    method: "POST",
-    body: formData,
-    headers: {
-      "X-HTTP-Method-Override": "PUT",
-    },
+  const imageData = new FormData();
+  postImages.value.forEach((image) => {
+    imageData.append("image_path", image);
   });
 
-  console.log(res);
-  recruitItems.value.path_header = res.data.value.path_header;
-  recruitItems.value.path_thumbnail = res.data.value.path_thumbnail;
+  console.log(...imageData.entries());
+
+  await useApiFetch("/sanctum/csrf-cookie");
+  await Promise.all([
+    useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+      method: "PUT",
+      body: formData,
+    }),
+    useApiFetch(`/api/images/${auth.user.id}`, {
+      method: "PUT",
+      body: imageData,
+    }),
+  ]).then((res)=>{
+    console.log("all", res);
+
+  })
+  // return navigateTo(Url.AUTHRECRUIT);
 };
 
-console.log(Object.assign(recruitItems.value))
 const handleDelete = async () => {
   await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-    method: "DELETE",
-    key:'deleteItem',
-  });
+  await Promise.all([
+    await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+      method: "DELETE",
+    }),
+    await useApiFetch(`/api/images/${auth.user.id}`, {
+      method: "DELETE",
+    }),
+  ]).then(res=>{
+    console.log(res);
+  })
 
-  return navigateTo({
-    path:Url.AUTHRECRUIT,
-  });
+  return navigateTo(Url.AUTHRECRUIT);
 };
 
 const checkFilledOut = () => {
@@ -161,11 +193,25 @@ const checkFilledOut = () => {
   return false;
 };
 
+const receiveImages = (val) => {
+  Array.from(val).map((data) => {
+    postImages.value.push(data);
+    let image = window.URL.createObjectURL(data);
+    displayImages.value.push(image);
+  });
+};
+
+const receiveClick = (val) => {
+  displayImages.value.splice(val, 1);
+};
+
 const receiveImg = (val) => {
+  // console.log(val.files[0]);
   recruitItems.value.header_img = val.files[0];
   recruitItems.value.url_header_img = URL.createObjectURL(
     recruitItems.value.header_img
   );
+  // URL.revokeObjectURL(recruitItems.value.header_img);
 };
 
 const receiveThumbnail = (val) => {
@@ -173,6 +219,7 @@ const receiveThumbnail = (val) => {
   recruitItems.value.url_thumbnail = URL.createObjectURL(
     recruitItems.value.thumbnail
   );
+  // URL.revokeObjectURL(recruitItems.value.thumbnail);
 };
 const receiveTeamName = (val) => {
   recruitItems.value.title = val.value;
@@ -181,19 +228,32 @@ const receiveTeamIntroduce = (val) => {
   recruitItems.value.text = val.value;
 };
 
-onMounted(async () => {
-  const itemId=router.query.id;
-  console.log(itemId);
-  if(itemId){
-    const res = await useApiFetch(`/api/recruit/${itemId}`);
-    const val = res.data.value;
-    console.log(res.data);
-    recruitItems.value.item_id = val.data.id;
-    recruitItems.value.url_header_img =config.public.baseURL + "/storage/" + val.data.header_img_path;
-    recruitItems.value.url_thumbnail =config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-    recruitItems.value.title = val.data.title;
-    recruitItems.value.text = val.data.text;
-    recruitItems.value.user_id = val.data.user_id;
+onBeforeMount(async () => {
+  const userId = auth.user.id;
+  if (userId) {
+    await Promise.all([
+    useApiFetch(`/api/recruit/${userId}`),
+    useApiFetch(`/api/images/${userId}`),
+    ]).then(responses=>{
+      responses.forEach(res => {
+        const val = res.data.value;
+        if(val.data){
+          recruitItems.value.item_id = val.data.id;
+          recruitItems.value.url_header_img = config.public.baseURL + "/storage/" + val.data.header_img_path;
+          recruitItems.value.url_thumbnail = config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+          recruitItems.value.title = val.data.title;
+          recruitItems.value.text = val.data.text;
+          recruitItems.value.user_id = val.data.user_id;
+        }else{
+          if(val.images){
+            val.images.forEach(image=>{
+              postImages.value.push(image);
+              displayImages.value.push(config.public.baseURL + "/storage/" + image.image_path);
+            })
+          }
+        }
+      });
+    })
   }
 });
 </script>

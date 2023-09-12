@@ -4,7 +4,9 @@ import {Url} from "../constants/url";
 export default defineNuxtRouteMiddleware(async(to,from)=> {
   const auth = useAuthStore();
 
-  if (!auth.isLoggedIn) {
-    return navigateTo(Url.SIGNUP);
+  const res = await auth.fetchUser();
+  if(res==null){
+    return navigateTo(Url.SIGNIN);
   }
+
 })
