@@ -59,7 +59,6 @@
     >
       削除
     </AtomsBtnsBaseBtn>
-    {{postImages}}
   </form>
 </template>
 
@@ -110,7 +109,7 @@ const handleRegister = async () => {
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
-    imageData.append("image_path", image);
+    imageData.append("images[]", image);
   });
   // console.log(...formData.entries());
   // console.log(...imageData.entries());
@@ -126,8 +125,8 @@ const handleRegister = async () => {
       body: imageData,
     }),
   ]).then((res)=>{
-    console.log("all", res);
-    console.log(res[1].data.value.files);
+    // console.log("all", res);
+    console.log(res[0].data.value);
 
   })
 
@@ -229,6 +228,7 @@ const receiveTeamIntroduce = (val) => {
 };
 
 onBeforeMount(async () => {
+
   const userId = auth.user.id;
   if (userId) {
     await Promise.all([
@@ -248,7 +248,7 @@ onBeforeMount(async () => {
           if(val.images){
             val.images.forEach(image=>{
               postImages.value.push(image);
-              displayImages.value.push(config.public.baseURL + "/storage/" + image.image_path);
+              displayImages.value.push(config.public.baseURL + "/storage/" + image);
             })
           }
         }

@@ -148,7 +148,7 @@ onBeforeMount(async () => {
           recruitItems.value.user_id = val.data.user_id;
         }else{
           val.images.forEach(image=>{
-              images.value.push(config.public.baseURL + "/storage/" + image.image_path);
+              images.value.push(config.public.baseURL + "/storage/" + image);
           })
         }
       })

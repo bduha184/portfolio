@@ -47,12 +47,4 @@ const handleLogout = async()=> {
   await auth.logout();
 }
 
-// onMounted(async()=>{
-//     const res = await auth.fetchUser();
-//     console.log(res);
-//     if(res==null){
-//       return navigateTo(Url.SIGNIN);
-//     }
-//   })
-
 </script>

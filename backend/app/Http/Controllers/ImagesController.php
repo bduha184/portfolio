@@ -34,21 +34,22 @@ class ImagesController extends Controller
     public function store(Request $request,Images $images)
     {
 
-        $files=$request->file('image_path');
-        foreach($files as $file){
-            $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-            $image_path = $file->storeAs('uploaded/', $filename, 'public');
-            $images->image_path = $image_path;
+        $files=$request['images'];
+
+        if($images != null){
+            foreach($files as $file){
+                $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+                $image_path = $file->storeAs('uploaded/', $filename, 'public');
+                $image_paths[]=$image_path;
+            };
+            $images->image_path = serialize($image_paths);
             $images->user_id = Auth::id();
             $images->save();
         }
-        // $images->image_path = $imagesArray;
-        // $images->user_id = Auth::id();
 
         return response()->json([
-            // 'files'=>$files,
             // 'message'=>'image saved successfully'
-            // 'image_path'=>$imagesArray,
+            'image_path'=>$image_paths,
         ]);
     }
 
@@ -62,11 +63,11 @@ class ImagesController extends Controller
             $recruit  = Recruit::find($id)->first();
             $user_id=$recruit->user_id;
         }
-        $get_images = $images->where('user_id',$user_id)->get();
-
+        $get_image_info = $images->where('user_id',$user_id)->first();
+        $get_serialize_images = unserialize($get_image_info->image_path);
+        $get_images = $get_serialize_images;
         return response()->json([
             'images'=>$get_images,
-            'user_id'=>$user_id
         ]);
     }
 
