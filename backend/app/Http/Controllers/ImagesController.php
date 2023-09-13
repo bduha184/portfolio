@@ -86,7 +86,7 @@ class ImagesController extends Controller
     {
         $images = $images->where('user_id',$id)->first();
         $files=$request['images'];
-        $image_paths=[];
+        $image_paths=unserialize($images->image_path);
 
         if($files != null){
             foreach($files as $file){
