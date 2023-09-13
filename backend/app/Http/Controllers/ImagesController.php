@@ -84,17 +84,18 @@ class ImagesController extends Controller
      */
     public function update(Request $request, Images $images,$id)
     {
+        $images = $images->where('user_id',$id)->first();
         $files=$request['images'];
+        $image_paths=[];
 
         if($files != null){
             foreach($files as $file){
-                if(!is_search('uploaded',$file)){
+                if(strpos($file,'uploaded') !==  false){
+                    array_push($image_paths,$file);
+                }else{
                     $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
                     $image_path = $file->storeAs('uploaded/', $filename, 'public');
-                    $image_paths[]=$image_path;
-
-                }else{
-                    $image_paths[]=$file;
+                    array_push($image_paths,$image_path);
                 }
             };
             $images->image_path = serialize($image_paths);
@@ -103,8 +104,8 @@ class ImagesController extends Controller
         }
 
         return response()->json([
-            // 'message'=>'image saved successfully'
-            'image_path'=>$image_paths,
+            'message'=>'image saved successfully',
+            'images'=>$files
         ]);
     }
 

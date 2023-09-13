@@ -1,5 +1,5 @@
 <template>
-  <form >
+  <form>
     <div class="relative z-0 h-[100px]">
       <AtomsImgsCardHeaderImg
         @emitInput="receiveImg"
@@ -124,10 +124,10 @@ const handleRegister = async () => {
       method: "POST",
       body: imageData,
     }),
-  ]).then((res)=>{
+  ]).then((res) => {
     // console.log("all", res);
     console.log(res[0].data.value);
-  })
+  });
 
   // return navigateTo(Url.AUTHRECRUIT);
 };
@@ -146,23 +146,28 @@ const handleUpdate = async () => {
     imageData.append("images[]", image);
   });
 
-  // console.log(...imageData.entries());
+  console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
-    useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-      method: "PUT",
+    useApiFetch(`/api/recruit/${auth.user.id}`, {
+      method: "POST",
       body: formData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
     }),
     useApiFetch(`/api/images/${auth.user.id}`, {
-      method: "PUT",
+      method: "POST",
       body: imageData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
     }),
-  ]).then((res)=>{
+  ]).then((res) => {
     console.log("all", res);
-
-  })
-  // return navigateTo(Url.AUTHRECRUIT);
+  });
+  return navigateTo(Url.AUTHRECRUIT);
 };
 
 const handleDelete = async () => {
@@ -174,9 +179,9 @@ const handleDelete = async () => {
     await useApiFetch(`/api/images/${auth.user.id}`, {
       method: "DELETE",
     }),
-  ]).then(res=>{
+  ]).then((res) => {
     console.log(res);
-  })
+  });
 
   return navigateTo(Url.AUTHRECRUIT);
 };
@@ -201,6 +206,7 @@ const receiveImages = (val) => {
 
 const receiveClick = (val) => {
   displayImages.value.splice(val, 1);
+  postImages.value.splice(val, 1);
 };
 
 const receiveImg = (val) => {
@@ -227,32 +233,35 @@ const receiveTeamIntroduce = (val) => {
 };
 
 onBeforeMount(async () => {
-
   const userId = auth.user.id;
   if (userId) {
     await Promise.all([
-    useApiFetch(`/api/recruit/${userId}`),
-    useApiFetch(`/api/images/${userId}`),
-    ]).then(responses=>{
-      responses.forEach(res => {
+      useApiFetch(`/api/recruit/${userId}`),
+      useApiFetch(`/api/images/${userId}`),
+    ]).then((responses) => {
+      responses.forEach((res) => {
         const val = res.data.value;
-        if(val.data){
+        if (val.data) {
           recruitItems.value.item_id = val.data.id;
-          recruitItems.value.url_header_img = config.public.baseURL + "/storage/" + val.data.header_img_path;
-          recruitItems.value.url_thumbnail = config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+          recruitItems.value.url_header_img =
+            config.public.baseURL + "/storage/" + val.data.header_img_path;
+          recruitItems.value.url_thumbnail =
+            config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
           recruitItems.value.user_id = val.data.user_id;
-        }else{
-          if(val.images){
-            val.images.forEach(image=>{
+        } else {
+          if (val.images) {
+            val.images.forEach((image) => {
               postImages.value.push(image);
-              displayImages.value.push(config.public.baseURL + "/storage/" + image);
-            })
+              displayImages.value.push(
+                config.public.baseURL + "/storage/" + image
+              );
+            });
           }
         }
       });
-    })
+    });
   }
 });
 </script>
