@@ -36,7 +36,7 @@ class ImagesController extends Controller
 
         $files=$request['images'];
 
-        if($images != null){
+        if($files != null){
             foreach($files as $file){
                 $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
                 $image_path = $file->storeAs('uploaded/', $filename, 'public');
@@ -64,8 +64,8 @@ class ImagesController extends Controller
             $user_id=$recruit->user_id;
         }
         $get_image_info = $images->where('user_id',$user_id)->first();
-        $get_serialize_images = unserialize($get_image_info->image_path);
-        $get_images = $get_serialize_images;
+        $get_serialize_images = $get_image_info->image_path;
+        $get_images = unserialize($get_serialize_images);
         return response()->json([
             'images'=>$get_images,
         ]);
@@ -84,20 +84,27 @@ class ImagesController extends Controller
      */
     public function update(Request $request, Images $images,$id)
     {
-        $images = $images->where('user_id',$id)->first();
-        $files = $request->file('image_path');
-        // foreach($files as $file){
-        //     $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-        //     $image_path = $file->storeAs('uploaded/', $filename, 'public');
-        //     $images->image_path = $image_path;
-        // }
+        $files=$request['images'];
 
+        if($files != null){
+            foreach($files as $file){
+                if(!is_search('uploaded',$file)){
+                    $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+                    $image_path = $file->storeAs('uploaded/', $filename, 'public');
+                    $image_paths[]=$image_path;
 
-        // $images->save();
+                }else{
+                    $image_paths[]=$file;
+                }
+            };
+            $images->image_path = serialize($image_paths);
+            $images->user_id = Auth::id();
+            $images->save();
+        }
 
         return response()->json([
-            'images'=>$images,
-            'files'=>$files,
+            // 'message'=>'image saved successfully'
+            'image_path'=>$image_paths,
         ]);
     }
 

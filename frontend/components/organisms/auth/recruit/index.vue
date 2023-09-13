@@ -127,7 +127,6 @@ const handleRegister = async () => {
   ]).then((res)=>{
     // console.log("all", res);
     console.log(res[0].data.value);
-
   })
 
   // return navigateTo(Url.AUTHRECRUIT);
@@ -144,10 +143,10 @@ const handleUpdate = async () => {
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
-    imageData.append("image_path", image);
+    imageData.append("images[]", image);
   });
 
-  console.log(...imageData.entries());
+  // console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
