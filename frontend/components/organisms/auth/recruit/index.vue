@@ -112,7 +112,7 @@ const handleRegister = async () => {
     imageData.append("images[]", image);
   });
   // console.log(...formData.entries());
-  // console.log(...imageData.entries());
+  console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
@@ -145,18 +145,19 @@ const handleUpdate = async () => {
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
+  // imageData.append('test','test');
 
   console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
-    useApiFetch(`/api/recruit/${auth.user.id}`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }),
+    // useApiFetch(`/api/recruit/${auth.user.id}`, {
+    //   method: "POST",
+    //   body: formData,
+    //   headers: {
+    //     "X-HTTP-Method-Override": "PUT",
+    //   },
+    // }),
     useApiFetch(`/api/images/${auth.user.id}`, {
       method: "POST",
       body: imageData,

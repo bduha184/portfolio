@@ -9,6 +9,7 @@ use App\Models\Recruit;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends Controller
 {
@@ -48,8 +49,8 @@ class ImagesController extends Controller
         }
 
         return response()->json([
-            // 'message'=>'image saved successfully'
-            'image_path'=>$image_paths,
+            'message'=>'image saved successfully'
+            // 'image_path'=>$image_paths,
         ]);
     }
 
@@ -85,27 +86,29 @@ class ImagesController extends Controller
     public function update(Request $request, Images $images,$id)
     {
         $images = $images->where('user_id',$id)->first();
-        $files=$request['images'];
-        $image_paths=unserialize($images->image_path);
+        $files = $request['images'];
+        // $image_paths=unserialize($images->image_path);
+        // $image_paths=[];
 
-        if($files != null){
-            foreach($files as $file){
-                if(strpos($file,'uploaded') !==  false){
-                    array_push($image_paths,$file);
-                }else{
-                    $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-                    $image_path = $file->storeAs('uploaded/', $filename, 'public');
-                    array_push($image_paths,$image_path);
-                }
-            };
-            $images->image_path = serialize($image_paths);
-            $images->user_id = Auth::id();
-            $images->save();
-        }
+        // if($files != null){
+        //     foreach($files as $file){
+        //         if(strpos($file,'uploaded') ===  false){
+        //             $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+        //             $image_path = $file->storeAs('uploaded/', $filename, 'public');
+        //             array_push($image_paths,$image_path);
+        //         }else{
+        //             array_push($image_paths,$file);
+        //         }
+        //     };
+
+        //     $images->image_path = serialize($image_paths);
+        //     $images->user_id = Auth::id();
+        //     $images->save();
+        // }
 
         return response()->json([
             'message'=>'image saved successfully',
-            'images'=>$files
+            'files'=>$files,
         ]);
     }
 
@@ -114,13 +117,16 @@ class ImagesController extends Controller
      */
     public function destroy(Images $images,$id)
     {
-        $images = $images->where('user_id',$id)->get();
+        $image_info = $images->where('user_id',$id)->first();
+        $image_paths = unserialize($image_info->image_path);
 
-        if ($images) {
+        if ($image_info) {
 
-            $images->each(function($image){
-                $image->delete();
-            });
+            foreach($image_paths as $path){
+                Storage::disk('public')->delete($path);
+            }
+
+            $image_info->delete();
             return response()->json([
                 'message' => 'delete successfully'
             ], Response::HTTP_OK);
@@ -129,8 +135,5 @@ class ImagesController extends Controller
                 'message' => 'Images not found'
             ], Response::HTTP_NOT_FOUND);
         }
-        return response()->json([
-            'images'=>$images
-        ]);
     }
 }
