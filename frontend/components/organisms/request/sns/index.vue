@@ -16,7 +16,6 @@
         </v-list>
       </v-card>
       <div>
-        <div>pos: {{x}}, {{y}}</div>
     </div>
     </v-container>
     <v-form class="fixed bottom-0 w-100 bg-grey-lighten-3">
@@ -37,6 +36,7 @@
           </v-row>
         </v-container>
       </v-form>
+
   </div>
 </template>
 
@@ -79,13 +79,12 @@ const receiveClick = async () => {
   // console.log(val);
   return navigateTo(Url.REQUESTS+`/${router.params.id}`)
 }
-const { x, y } = useMouse();
 onMounted(async () => {
   const senderId = router.params.id;
   const res = await useApiFetch(`/api/message/sns/${senderId}`);
   const val = res.data.value;
   messages.value.push(...val.data);
-  // console.log(res);
+  console.log(res);
 });
 </script>
 

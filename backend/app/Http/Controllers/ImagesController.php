@@ -127,6 +127,7 @@ class ImagesController extends Controller
             }
 
             $image_info->delete();
+            $images->save();
             return response()->json([
                 'message' => 'delete successfully'
             ], Response::HTTP_OK);
