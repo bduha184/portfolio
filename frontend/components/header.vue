@@ -48,7 +48,6 @@ const toggleMenu = () => {
           v-for="(item, i) in MenuItems"
           :key="i"
           :value="item"
-          color="primary"
           @click="item.func"
           :prependIcon="item.icon"
         >
@@ -69,11 +68,6 @@ const toggleMenu = () => {
   box-shadow: none;
 }
 
-.v-list-item__prepend > .v-badge .v-icon,
-.v-list-item__prepend > .v-icon
- {
-  opacity: 1 !important;
-}
 // header {
 //   z-index: 0 !important;
 // }

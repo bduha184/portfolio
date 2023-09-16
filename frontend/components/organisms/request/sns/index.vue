@@ -97,19 +97,56 @@ onMounted(async () => {
     &.right {
       display: flex;
       flex-direction: row-reverse;
+
+      &:deep(.v-list-item-subtitle){
+
+        &::before{
+          content: none;
+        }
+        &::after {
+        border-radius: 0 20px 20px 10px/0 20px 20px 1px;
+        box-shadow: inset 3px -15px 0 -5px #2196f3;
+        right: -8px;
+      }
+      }
     }
 
     &-prepend {
       align-self: flex-start;
     }
 
+    &:deep(.v-list-item__content) {
+      overflow: visible;
+    }
+
     &:deep(.v-list-item-subtitle) {
       overflow: visible;
       -webkit-line-clamp: unset;
-      border: 1px solid #333 !important;
+      // border: 1px solid #333 !important;
       padding: 10px 15px;
       border-radius: 20px;
       line-height: 1;
+      background: #2196f3;
+      color: #fff;
+      position: relative;
+      z-index: 0;
+
+      &::before,
+      &::after{
+        content: "";
+        display: block;
+        width: 18px;
+        height: 20px;
+        position: absolute;
+        z-index: -1;
+        top: -5px;
+      }
+
+      &::before {
+        border-radius: 20px 0px 10px 20px/20px 0 1px 20px;
+        box-shadow: -3px -15px 0 -5px #2196f3 inset;
+        left: -8px;
+      }
     }
   }
 }

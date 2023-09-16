@@ -8,25 +8,23 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 
 export default defineNuxtPlugin(nuxtApp => {
   const vuetify = createVuetify({
-    ssr: true,
+    ssr: false,
     components,
     directives,
     theme: {
       themes: {
         light: {
-          colors: {
+          colors:{
+            background: '#eaeaea',
+            surface: '#FFFFFF',
             primary: '#fff',
-            background: '#ddd',
-            error: '#d63031',
-            info: '#0984e3',
-            secondary: '#EDF2F7',
-            success: '#00cec9',
-            surface: '#fff',
-            warning: '#2d3436',
-          },
-          dark: false,
-          variables: {},
-        },
+            secondary: '#ff9800',
+            error: '#ef4444',
+            info: '#2196F3',
+            success: '#22c55e',
+            warning: '#f59e0b',
+          }
+        }
       },
     },
     icons: {
