@@ -1459,13 +1459,6 @@
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.3.4.tgz"
   integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
 
-"@vuetify/cli-plugin-utils@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@vuetify/cli-plugin-utils/-/cli-plugin-utils-0.0.6.tgz#843b1f3124e0548f862070998bd2a0eee82b7298"
-  integrity sha512-g/gPeMsQoOIjiA3mmiWYIOu4wr5L6hcwAZRD6QrDFWot51YtTGJvqUIYMXO3EGmC6a744NSDVdoapPDgiDPakw==
-  dependencies:
-    semver "^7.1.2"
-
 "@vuetify/loader-shared@^1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@vuetify/loader-shared/-/loader-shared-1.7.1.tgz#0f63a3d41b6df29a2db1ff438aa1819b237c37a3"
@@ -1473,13 +1466,6 @@
   dependencies:
     find-cache-dir "^3.3.2"
     upath "^2.0.1"
-
-"@vuetify/vue-cli-plugin-preset-base@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@vuetify/vue-cli-plugin-preset-base/-/vue-cli-plugin-preset-base-0.3.2.tgz#3bfbfd09d0662141b7ba5cda29145c237a9d79aa"
-  integrity sha512-lZwjCua+JFP8OgNdtgMIbmblCvL4QZJpIzrgDw3VcT8B7JqO4IBvrnrMazw4LH6y9i/R7LrwMsL4ijee0A+xxw==
-  dependencies:
-    "@vuetify/cli-plugin-utils" "^0.0.6"
 
 "@vueuse/core@10.4.1", "@vueuse/core@^10.4.1":
   version "10.4.1"
@@ -6117,7 +6103,7 @@ semver@^6.0.0, semver@^6.3.1:
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
-semver@^7.0.0, semver@^7.1.1, semver@^7.1.2, semver@^7.3.4, semver@^7.3.5, semver@^7.5.0, semver@^7.5.3, semver@^7.5.4:
+semver@^7.0.0, semver@^7.1.1, semver@^7.3.4, semver@^7.3.5, semver@^7.5.0, semver@^7.5.3, semver@^7.5.4:
   version "7.5.4"
   resolved "https://registry.npmjs.org/semver/-/semver-7.5.4.tgz"
   integrity sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==

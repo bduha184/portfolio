@@ -3,6 +3,8 @@
   variant="text"
   :icon="Icons.NAVI"
     height="40"
+    width="40"
+    color="info"
     class="text-decoration-none rotate-90"
     :to="to"
     @click="onClick"
@@ -34,6 +36,7 @@ emits('emitClick',e.target);
 
 <style scoped>
 .v-btn {
-  line-height: 40px;
+  line-height: 1;
+  font-size: 25px;
 }
 </style>

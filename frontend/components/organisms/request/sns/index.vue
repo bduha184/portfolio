@@ -32,7 +32,9 @@
             />
           </v-col>
           <v-col cols="2">
-            <AtomsBtnsArrowBtn @emitClick="receiveClick" />
+            <AtomsBtnsArrowBtn
+            @emitClick="receiveClick"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -91,7 +93,7 @@ onMounted(async () => {
 .v-list {
   &-item {
     & + & {
-      margin-top: 1rem;
+      margin-top: 0.5rem;
     }
 
     &.right {
@@ -149,5 +151,9 @@ onMounted(async () => {
       }
     }
   }
+}
+
+.v-icon-svg{
+
 }
 </style>

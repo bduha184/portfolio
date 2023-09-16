@@ -41,7 +41,6 @@ const toggleMenu = () => {
       bottom
       temporary
       location="right"
-      class="pt-15"
     >
       <v-list>
         <v-list-item
@@ -49,13 +48,18 @@ const toggleMenu = () => {
           :key="i"
           :value="item"
           @click="item.func"
-          :prependIcon="item.icon"
         >
-          <v-list-item-avatar>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-avatar>
+            <AtomsIcons
+            :name="item.icon"
+            />
           <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
+            <v-list-item-title
+            class="pl-2"
+            >
+              <AtomsDecorationHeadline>
+                {{ item.text }}
+              </AtomsDecorationHeadline>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -66,6 +70,14 @@ const toggleMenu = () => {
 <style scoped lang="scss">
 .v-app-bar.v-toolbar:not(.v-toolbar--flat) {
   box-shadow: none;
+}
+
+.v-list {
+
+  &:deep(.v-list-item__content){
+    display: flex;
+  align-items: center;
+  }
 }
 
 // header {
