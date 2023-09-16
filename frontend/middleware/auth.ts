@@ -1,9 +1,12 @@
 import { useAuthStore } from "../stores/useAuthStore"
+import {Url} from "../constants/url";
 
 export default defineNuxtRouteMiddleware(async(to,from)=> {
   const auth = useAuthStore();
 
-  if (!auth.isLoggedIn) {
-    return navigateTo("/beforeLogin", {replace: true});
+  const res = await auth.fetchUser();
+  if(res==null){
+    return navigateTo(Url.SIGNIN);
   }
+
 })

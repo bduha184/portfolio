@@ -60,7 +60,7 @@ const { errors } = useForm({
 const { value: val, handleChange } = useField("val");
 
 const receive = (receiveVal) => {
-  val.value = receiveVal;
+  val.value = receiveVal.value;
 };
 const emit = defineEmits(["emitInput"]);
 

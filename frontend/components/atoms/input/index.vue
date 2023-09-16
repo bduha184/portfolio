@@ -4,8 +4,9 @@
       name="name"
       :type="type"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      @blur="submit"
+      @input="submit"
       :value="val"
+      :placeholder="placeholder"
     />
   </div>
 </template>
@@ -17,15 +18,20 @@ const props = defineProps({
     default:''
   },
   val:{
+    type:[String,Boolean],
+    default:''
+  },
+  placeholder:{
     type:String,
     default:''
-  }
+  },
 })
+
 
 const emit = defineEmits(['emitInput']);
 
 const submit = (e) => {
-  emit('emitInput',e.target.value);
+  emit('emitInput',e.target);
 }
 
 </script>

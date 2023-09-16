@@ -1,9 +1,34 @@
-
 const getFrontUrl = (path: string): string => {
   return ['', path].join('')
 }
 
+
 export const Url = {
+  /**----------------------**/
+  /**-------LoggedIn-------**/
+  /**----------------------**/
+  /** マイページ */
+  MYPAGE: getFrontUrl('/auth'),
+  /** マイページ（メンバー募集）（ */
+  AUTHRECRUIT: getFrontUrl('/auth/recruit'),
+  /** マイページ（プロフィール）（ */
+  PROFILE: getFrontUrl('/auth/profile'),
+  /** マイページ（メッセージ）（ */
+  MESSAGES: getFrontUrl('/auth/messages'),
+  /** マイページ（メッセージ_参加希望）（ */
+  REQUESTS: getFrontUrl('/auth/messages/requests'),
+  /** マイページ（メッセージ_質問BOX）（ */
+  QUESTIONS: getFrontUrl('/auth/messages/questions'),
+  /** マイページ（チーム）（ */
+  TEAMS: getFrontUrl('/auth/teams'),
+  /** マイページ（マイチーム）（ */
+  MYTEAM: getFrontUrl('/auth/teams/myteam'),
+  /** マイページ（所属チーム一覧）（ */
+  AFFILIATION: getFrontUrl('/auth/teams/list'),
+
+  /**----------------------**/
+  /**------BeforeLogin-----**/
+  /**----------------------**/
   /** TOP */
   TOP: getFrontUrl('/'),
   /** ログイン */
@@ -24,10 +49,7 @@ export const Url = {
   SEARCH: getFrontUrl('/search'),
   /** パスワードリセット **/
   RESETPASSWORD: getFrontUrl('/passwords/forgotpassword'),
-  /** マイページ */
-  MYPAGE: getFrontUrl('/auth'),
-  /** マイページ（メンバー募集）（ */
-  AUTHRECRUIT: getFrontUrl('/auth/recruit/'),
-  /** マイページ（プロフィール）（ */
-  PROFILE: getFrontUrl('/auth/profile'),
+  /** パスワードリセット **/
+  CYCLINGINFO: getFrontUrl('/cyclinginfo'),
+
 }

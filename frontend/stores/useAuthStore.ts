@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import { useApiFetch } from "../composables/useApiFetch";
 import { computed } from "vue";
-import { RefSymbol } from "@vue/reactivity";
+
 
 type User = {
   id: number;
@@ -61,7 +60,7 @@ export const useAuthStore = defineStore(
       const { data } = await useApiFetch("/api/user");
       user.value = data.value as User;
 
-      return data
+      return data.value
     }
 
     async function guestLogin(){
@@ -78,7 +77,7 @@ export const useAuthStore = defineStore(
     async function logout() {
       await useApiFetch("/api/logout", { method: "POST" });
       user.value = null;
-      navigateTo("/beforeLogin");
+      return navigateTo("/beforelogin");
     }
 
     async function login(credentials: Credentials) {
@@ -88,8 +87,9 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: credentials,
       });
+      user.value = login.data.value.user;
 
-      await fetchUser();
+      // await fetchUser();
 
       return login;
     }
@@ -102,7 +102,7 @@ export const useAuthStore = defineStore(
         body: info,
       });
 
-      user.value=register.data.value;
+      user.value=register.data.value.user;
 
       return register;
     }
@@ -166,12 +166,8 @@ export const useAuthStore = defineStore(
       return resetPassword;
     }
     return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
-
-
   },
   {
-    persist: {
-      storage: persistedState.sessionStorage,
-    },
+    persist: true,
   }
 );

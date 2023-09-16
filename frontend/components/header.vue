@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {  reactive } from "vue";
+import { reactive } from "vue";
 import { Url } from "@/constants/url";
 import { MenuItems } from "@/constants/menuItems";
 
@@ -11,39 +11,10 @@ const state = reactive({
 const toggleMenu = () => {
   state.drawer = !state.drawer;
 };
-
-
 </script>
-
 
 <template>
   <div>
-    <v-navigation-drawer
-      v-model="state.drawer"
-      bottom
-      temporary
-      location="right"
-      class="pt-15"
-    >
-      <v-list density="compact" nav>
-        <v-list-item
-          v-for="(item, i) in MenuItems"
-          :key="i"
-          :value="item"
-          active-color="primary"
-          @click="item.func"
-        >
-          <Icon :name="item.icon"/>
-          <v-list-item-title
-          align="center"
-            class="d-inline-block pl-2 ml-2 relative before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-orange-600 z-100"
-            >
-            {{ item.text }}
-            </v-list-item-title
-          >
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-app-bar class="overflow-visible px-2" prominent
       ><v-container class="d-flex align-center">
         <v-toolbar-title class="text-red font-weight-bold">
@@ -52,25 +23,64 @@ const toggleMenu = () => {
         <v-spacer />
 
         <ButtonCommon
-        btnValue="ログイン・新規登録"
-        place="SIGNIN"
-        class="invisible sm:visible"
+          btnValue="ログイン・新規登録"
+          place="SIGNIN"
+          class="invisible sm:visible"
         />
         <v-app-bar-nav-icon
-        variant="outlined"
-        height="40"
-        width="40"
-        class="visible ml-4"
-        @click.stop="toggleMenu"
+          variant="outlined"
+          height="40"
+          width="40"
+          class="visible ml-4"
+          @click.stop="toggleMenu"
         />
       </v-container>
     </v-app-bar>
+    <v-navigation-drawer
+      v-model="state.drawer"
+      bottom
+      temporary
+      location="right"
+    >
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in MenuItems"
+          :key="i"
+          :value="item"
+          @click="item.func"
+        >
+            <AtomsIcons
+            :name="item.icon"
+            />
+          <v-list-item-content>
+            <v-list-item-title
+            class="pl-2"
+            >
+              <AtomsDecorationHeadline>
+                {{ item.text }}
+              </AtomsDecorationHeadline>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
   </div>
 </template>
-
 
 <style scoped lang="scss">
 .v-app-bar.v-toolbar:not(.v-toolbar--flat) {
   box-shadow: none;
 }
+
+.v-list {
+
+  &:deep(.v-list-item__content){
+    display: flex;
+  align-items: center;
+  }
+}
+
+// header {
+//   z-index: 0 !important;
+// }
 </style>

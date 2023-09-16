@@ -4,7 +4,7 @@
       メンバー募集の管理ページ
     </h1>
     <v-card>
-      <OrganismsRecruit/>
+      <OrganismsAuthRecruit/>
     </v-card>
   </v-container>
 </template>
@@ -14,4 +14,5 @@ import { definePageMeta } from "#imports";
 definePageMeta({
   middleware: ["auth"],
 });
+
 </script>

@@ -15,13 +15,13 @@ const sendToken = async (provider, query) => {
 
 
   if (redirectRes.error.value != null) {
-    return navigateTo("/beforeLogin");
+    return navigateTo("/beforelogin");
   }
 
   if (redirectRes.data.value.user == false) {
     return navigateTo({
 
-    path:'/beforeLogin/snsRegister',
+    path:'/beforelogin/snsRegister',
       query: {
         email:redirectRes.data.value.email,
         provider:redirectRes.data.value.provider,

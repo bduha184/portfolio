@@ -1,16 +1,25 @@
 <template>
   <v-img :src="path" cover>
     <slot/>
-    <v-file-input variant="solo" @change="onChange" />
+    <v-file-input
+      v-if="disabled ? 'disabled' : ''"
+     variant="solo" @change="onChange" />
   </v-img>
 </template>
 
 <script setup lang="ts">
+
 const props = defineProps({
-  path: String,
+  path: {
+    type:String,
+    default:''
+  },
+  disabled:{
+    type:Boolean,
+    default:true
+  }
 });
 
-console.log(props.path);
 
 const emits  =  defineEmits(['emitInput'])
 

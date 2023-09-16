@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRecruitRequest;
 use App\Http\Requests\UpdateRecruitRequest;
 use App\Models\Recruit;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,7 @@ class RecruitController extends Controller
         $recruit->save();
 
         return response()->json([
+            'itemId'=>$recruit->id,
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
         ]);
@@ -56,9 +58,16 @@ class RecruitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Recruit $recruit,$id)
     {
-        $recruitItem = Recruit::where('user_id',$id)->first();
+        $user_id=Auth::id();
+
+        if($id==$user_id){
+            $recruitItem=$recruit->where('user_id',$id)->first();
+        }else{
+
+            $recruitItem = $recruit->find($id)->first();
+        }
 
         return response()->json([
             'data'=>$recruitItem,
@@ -79,7 +88,7 @@ class RecruitController extends Controller
     public function update(Request $request,$id)
     {
 
-        $recruit  = Recruit::find($id)->first();
+        $recruit  = Recruit::where('user_id',$id)->first();
 
         $file_header = $request->file('header_img');
         $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
@@ -107,17 +116,21 @@ class RecruitController extends Controller
      */
     public function destroy($id)
     {
-        $recruit = Recruit::find($id)->first();
+        $recruit = Recruit::where('id',$id)->first();
 
         if ($recruit) {
             $recruit->delete();
             return response()->json([
-                'message' => 'update successfully'
+                'message' => 'delete successfully'
             ], Response::HTTP_OK);
         } else {
             return response()->json([
                 'message' => 'Article not found'
             ], Response::HTTP_NOT_FOUND);
         }
+
+        // return response()->json([
+        //     'item'=>$recruit
+        // ]);
     }
 }

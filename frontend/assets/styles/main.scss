@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 .v-toolbar-title__placeholder {
   overflow: visible !important;
   margin-right: 50px !important;
@@ -12,21 +13,14 @@
   text-transform: none !important;
 }
 
-// .v-main {
-//   position: relative;
-//   z-index: 0;
-
-//   &::before{
-//     content: "";
-//     display: block;
-//     width: 100%;
-//     height: 100vh;
-//     background: linear-gradient(to right,rgba(255,255,255,0)0%,rgba(255,255,255,0)100%),url(https://www.bicyclemap.net/wp-content/themes/bicyclemap/images/back.jpg);
-//     background-repeat: no-repeat;
-//     background-position: center;
-//     background-size: cover;
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//   }
-// }
+.v-overlay-scroll-blocked {
+  position:unset !important;
+}
+.v-list-item-title {
+  font-size: 0.8rem !important;
+  overflow: visible;
+  text-overflow: unset;
+  }
+  .v-list-item-subtitle {
+    opacity: 1 !important;
+  }

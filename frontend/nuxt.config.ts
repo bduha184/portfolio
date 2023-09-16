@@ -5,9 +5,6 @@ import vuetify from "vite-plugin-vuetify";
 export default defineNuxtConfig({
   ssr:false,
   devtools: { enabled: true },
-  build: {
-    transpile: ["vuetify"],
-  },
   css: ['@/assets/styles/main.scss'],
   postcss: {
     plugins: {
@@ -15,15 +12,12 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  hooks: {
-    "vite:extendConfig": (config) => {
-      config.plugins!.push(vuetify({}));
-    },
-  },
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@vee-validate/nuxt',
+    '@vueuse/nuxt',
+    "@invictus.codes/nuxt-vuetify"
   ],
   runtimeConfig:{
     public:{
@@ -31,9 +25,6 @@ export default defineNuxtConfig({
       appURL:process.env.APP_URL
     }
   },
-  plugins: [
-    '~/plugins/lightGallery.client.ts',
-  ],
   vite: {
     server: {
       watch: {
