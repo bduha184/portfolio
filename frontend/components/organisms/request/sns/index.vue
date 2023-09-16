@@ -101,6 +101,7 @@ onMounted(async () => {
       flex-direction: row-reverse;
 
       &:deep(.v-list-item-subtitle){
+        background: #2196f3;
 
         &::before{
           content: none;
@@ -128,7 +129,7 @@ onMounted(async () => {
       padding: 10px 15px;
       border-radius: 20px;
       line-height: 1;
-      background: #2196f3;
+      background: gray;
       color: #fff;
       position: relative;
       z-index: 0;
@@ -146,7 +147,7 @@ onMounted(async () => {
 
       &::before {
         border-radius: 20px 0px 10px 20px/20px 0 1px 20px;
-        box-shadow: -3px -15px 0 -5px #2196f3 inset;
+        box-shadow: -3px -15px 0 -5px gray inset;
         left: -8px;
       }
     }
