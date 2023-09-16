@@ -7,12 +7,12 @@ export const MenuItems = [
     {
       text: "ホーム",
       icon: Icons.HOME,
-      func: () => router.push(Url.TOP),
+      func:()=> router.push(Url.TOP),
     },
     {
       text: "マイページ",
       icon: Icons.ACCOUNT,
-      func: () => router.push(Url.MYPAGE),
+      func:()=>router.push(Url.MYPAGE),
     },
     {
       text: "サイクリング募集",
@@ -36,12 +36,12 @@ export const MenuItems = [
     },
     {
       text: "新規登録",
-      icon: "mdiAccount",
+      icon: Icons.REGISTER,
       func: () => router.push(Url.SIGNUP),
     },
     {
       text: "ログイン",
-      icon: "mdiAccount",
+      icon: Icons.LOGIN,
       func: () => router.push(Url.SIGNIN),
     },
   ]

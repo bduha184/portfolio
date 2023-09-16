@@ -60,7 +60,7 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $recruitItem = Profile::where('id',$id)->first();
+        $recruitItem = Profile::where('user_id',$id)->first();
 
         return response()->json([
             'data'=>$recruitItem,

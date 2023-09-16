@@ -26,7 +26,7 @@
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
-      @click="handleRegister"
+      @click.once="handleRegister"
       :disabled="!checkFilledOut()"
       v-if="!form.item_id"
     >
@@ -36,7 +36,7 @@
       width="16rem"
       setColor="orange"
       class="my-4 d-block mx-auto"
-      @click="handleUpdate"
+      @click.once="handleUpdate"
       :disabled="!checkFilledOut()"
       v-if="form.item_id"
       >
@@ -141,9 +141,9 @@ const handleDelete = async () => {
 };
 
 onMounted(async () => {
-  const itemId = form.value.item_id;
-  if (itemId != 0) {
-    const res = await useApiFetch(`/api/profile/${itemId}`);
+  const userId = auth.user.id;
+  if (userId != 0) {
+    const res = await useApiFetch(`/api/profile/${userId}`);
         // console.log(res);
         const val = res.data.value;
         form.value.item_id = val.data.id;

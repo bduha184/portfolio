@@ -88,27 +88,33 @@ class ImagesController extends Controller
         $images = $images->where('user_id',$id)->first();
         $files = $request['images'];
         // $image_paths=unserialize($images->image_path);
-        // $image_paths=[];
+        $exists_image_paths = unserialize($images->image_path);
+        $image_paths=[];
 
-        // if($files != null){
-        //     foreach($files as $file){
-        //         if(strpos($file,'uploaded') ===  false){
-        //             $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-        //             $image_path = $file->storeAs('uploaded/', $filename, 'public');
-        //             array_push($image_paths,$image_path);
-        //         }else{
-        //             array_push($image_paths,$file);
-        //         }
-        //     };
+        if ($images) {
+            foreach($exists_image_paths as $path){
+                Storage::disk('public')->delete($path);
+            }
+            if($files != null){
+                foreach($files as $file){
+                    if(strpos($file,'uploaded') ===  false){
+                        $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+                        $image_path = $file->storeAs('uploaded/', $filename, 'public');
+                        array_push($image_paths,$image_path);
+                    }else{
+                        array_push($image_paths,$file);
+                    }
+                };
 
-        //     $images->image_path = serialize($image_paths);
-        //     $images->user_id = Auth::id();
-        //     $images->save();
-        // }
+                $images->image_path = serialize($image_paths);
+                $images->user_id = Auth::id();
+                $images->save();
+            }
+        }
 
         return response()->json([
             'message'=>'image saved successfully',
-            'files'=>$files,
+            // 'files'=>$files,
         ]);
     }
 

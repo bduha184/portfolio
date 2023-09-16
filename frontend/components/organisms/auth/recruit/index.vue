@@ -35,7 +35,7 @@
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
-      @click="handleRegister"
+      @click.once="handleRegister"
       v-if="!recruitItems.item_id"
     >
       登録
@@ -44,7 +44,7 @@
       width="16rem"
       setColor="orange"
       class="my-4 d-block mx-auto"
-      @click="handleUpdate"
+      @click.once="handleUpdate"
       :disabled="!checkFilledOut()"
       v-if="recruitItems.item_id"
     >
@@ -59,6 +59,7 @@
     >
       削除
     </AtomsBtnsBaseBtn>
+    {{ postImages }}
   </form>
 </template>
 
