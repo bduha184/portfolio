@@ -5,9 +5,6 @@ import vuetify from "vite-plugin-vuetify";
 export default defineNuxtConfig({
   ssr:false,
   devtools: { enabled: true },
-  build: {
-    transpile: ["vuetify"],
-  },
   css: ['@/assets/styles/main.scss'],
   postcss: {
     plugins: {
@@ -20,12 +17,8 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@vee-validate/nuxt',
     '@vueuse/nuxt',
+    "@invictus.codes/nuxt-vuetify"
   ],
-  hooks: {
-    "vite:extendConfig": (config) => {
-      config.plugins!.push(vuetify({}));
-    },
-  },
   runtimeConfig:{
     public:{
       baseURL:process.env.BASE_URL,

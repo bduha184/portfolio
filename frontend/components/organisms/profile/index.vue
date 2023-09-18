@@ -1,20 +1,14 @@
 <template>
   <form>
-    <div class="relative z-0 h-[100px]">
-      <AtomsImgsCardHeaderImg
-        @emitInput="receiveImg"
-        :path="form.url_header_img"
-      >
-        <AtomsImgsThumbnail
-          @emitInput="receiveThumbnail"
-          :path="form.url_thumbnail"
-        />
-      </AtomsImgsCardHeaderImg>
-    </div>
+    <OrganismsImgsCardProfile
+      @emitInput="receiveProfileImage"
+      :path_header="form.url_header_img"
+      :path_thumbnail="form.url_thumbnail"
+    />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsDecorationHeadline>
+      <AtomsTextsHeadLine>
         {{ auth.user.name }}
-      </AtomsDecorationHeadline>
+      </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
       <AtomsTextAreas
@@ -26,7 +20,7 @@
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
-      @click="handleRegister"
+      @click.once="handleRegister"
       :disabled="!checkFilledOut()"
       v-if="!form.item_id"
     >
@@ -36,18 +30,18 @@
       width="16rem"
       setColor="orange"
       class="my-4 d-block mx-auto"
-      @click="handleUpdate"
+      @click.once="handleUpdate"
       :disabled="!checkFilledOut()"
       v-if="form.item_id"
-      >
+    >
       更新
     </AtomsBtnsBaseBtn>
     <AtomsBtnsBaseBtn
-    width="16rem"
-    setColor="red"
-    class="my-4 d-block mx-auto"
-    @click="handleDelete"
-    v-if="form.item_id"
+      width="16rem"
+      setColor="red"
+      class="my-4 d-block mx-auto"
+      @click="handleDelete"
+      v-if="form.item_id"
     >
       削除
     </AtomsBtnsBaseBtn>
@@ -113,46 +107,33 @@ const handleRegister = async () => {
 const handleUpdate = async () => {
   const formData = new FormData();
 
-
   formData.append("header_img", form.value.header_img);
   formData.append("thumbnail", form.value.thumbnail);
   formData.append("text", form.value.text);
 
   const itemId = form.value.item_id;
-        await useApiFetch("/sanctum/csrf-cookie");
-        const res = await useApiFetch(`/api/profile/${itemId}`, {
-          method: "POST",
-          body: formData,
-          headers:{
-            'X-HTTP-Method-Override' : 'PUT'
-          }
-        });
+  await useApiFetch("/sanctum/csrf-cookie");
+  const res = await useApiFetch(`/api/profile/${itemId}`, {
+    method: "POST",
+    body: formData,
+    headers: {
+      "X-HTTP-Method-Override": "PUT",
+    },
+  });
 
-        form.value.path_header = res.data.value.path_header;
-        form.value.path_thumbnail = res.data.value.path_thumbnail;
+  form.value.path_header = res.data.value.path_header;
+  form.value.path_thumbnail = res.data.value.path_thumbnail;
 };
 const handleDelete = async () => {
   const itemId = form.value.item_id;
   await useApiFetch("/sanctum/csrf-cookie");
-      const res = await useApiFetch(`/api/profile/${itemId}`,{
-        method:'DELETE'
-      })
-      console.log(res);
+  const res = await useApiFetch(`/api/profile/${itemId}`, {
+    method: "DELETE",
+  });
+  console.log(res);
 };
 
-onMounted(async () => {
-  const itemId = form.value.item_id;
-  if (itemId != 0) {
-    const res = await useApiFetch(`/api/profile/${itemId}`);
-        // console.log(res);
-        const val = res.data.value;
-        form.value.item_id = val.data.id;
-        form.value.url_header_img = config.public.baseURL + '/storage/'+ val.data.header_img_path;
-        form.value.url_thumbnail= config.public.baseURL + '/storage/'+ val.data.thumbnail_path;
-        form.value.text = val.data.text;
-        form.value.user_id = val.data.user_id;
-  }
-});
+
 
 const checkFilledOut = () => {
   const fieldArray = [form.value];
@@ -164,18 +145,37 @@ const checkFilledOut = () => {
   return false;
 };
 
-const receiveImg = (val) => {
-  form.value.header_img = val.files[0];
-  form.value.url_header_img = URL.createObjectURL(form.value.header_img);
-};
 
-const receiveThumbnail = (val) => {
-  form.value.thumbnail = val.files[0];
-  form.value.url_thumbnail = URL.createObjectURL(form.value.thumbnail);
+const receiveProfileImage = (val: File) => {
+  if (val.target == "header") {
+    form.value.header_img = val.val;
+    form.value.url_header_img = URL.createObjectURL(val.val);
+  } else {
+    form.value.thumbnail = val.val;
+    form.value.url_thumbnail = URL.createObjectURL(val.val);
+  }
+  URL.revokeObjectURL(val.val);
 };
 const receiveTeamIntroduce = (val) => {
   form.value.text = val.value;
 };
+
+
+onMounted(async () => {
+  const userId = auth.user.id;
+  if (userId != 0) {
+    const res = await useApiFetch(`/api/profile/${userId}`);
+    // console.log(res);
+    const val = res.data.value;
+    form.value.item_id = val.data.id;
+    form.value.url_header_img =
+      config.public.baseURL + "/storage/" + val.data.header_img_path;
+    form.value.url_thumbnail =
+      config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+    form.value.text = val.data.text;
+    form.value.user_id = val.data.user_id;
+  }
+});
 </script>
 
 <style lang="scss" scoped>

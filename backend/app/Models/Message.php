@@ -37,6 +37,7 @@ class Message extends Model
         ->where('sender_id','=',$sender_id)
         ->orWhere('sender_id','=',$receiver_id)
         ->join('profiles','messages.sender_id','=','profiles.user_id')
+        ->orderBy('messages.created_at','asc')
         ->get();
     }
 

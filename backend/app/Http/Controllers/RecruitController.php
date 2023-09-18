@@ -58,9 +58,16 @@ class RecruitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Recruit $recruit,$id)
     {
-        $recruitItem = Recruit::where('id',$id)->first();
+        $user_id=Auth::id();
+
+        if($id==$user_id){
+            $recruitItem=$recruit->where('user_id',$id)->first();
+        }else{
+
+            $recruitItem = $recruit->find($id)->first();
+        }
 
         return response()->json([
             'data'=>$recruitItem,
@@ -81,7 +88,7 @@ class RecruitController extends Controller
     public function update(Request $request,$id)
     {
 
-        $recruit  = Recruit::find($id)->first();
+        $recruit  = Recruit::where('user_id',$id)->first();
 
         $file_header = $request->file('header_img');
         $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();

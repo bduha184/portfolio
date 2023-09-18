@@ -1,8 +1,6 @@
 <template>
-  <div class="p-4">
-    <v-container class="bg-white">
+  <div class="bg-white">
       <OrganismsCardsRecruitCardForDetail/>
-    </v-container>
   </div>
 </template>
 <script setup lang="ts">

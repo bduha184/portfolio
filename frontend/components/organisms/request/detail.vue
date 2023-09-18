@@ -6,9 +6,9 @@
     >
       <div>
         <v-card-title class="!pl-28 text-body-2">
-          <AtomsDecorationHeadline>
+          <AtomsTextsHeadLine>
             {{ requestItems.title }}
-          </AtomsDecorationHeadline>
+          </AtomsTextsHeadLine>
         </v-card-title>
         <v-card-text> {{ requestItems.title }}さんからのコメント </v-card-text>
         <v-card-text>
@@ -17,18 +17,18 @@
         <v-container>
           {{ requestItems.title }}さんをチームに招待する
           <AtomsTextAreas
-          placeholder="コメント"
-          :body="comments"
-          @emitInput="receiveComments"
+            placeholder="コメント"
+            :body="comments"
+            @emitInput="receiveComments"
           />
 
           <AtomsBtnsBaseBtn
-          width="16rem"
-          class="my-4 d-block mx-auto"
-          :disabled="!checkFilledOut"
-          @emitClick="handleLogin"
+            width="16rem"
+            class="my-4 d-block mx-auto"
+            :disabled="!checkFilledOut"
+            @emitClick="handleLogin"
           >
-              チームに招待する
+            チームに招待する
           </AtomsBtnsBaseBtn>
         </v-container>
       </div>
@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { ref, onMounted,computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useRuntimeConfig } from "nuxt/app";
 
@@ -53,20 +53,19 @@ const requestItems = ref({
   comments: "",
 });
 
-const comments = ref('');
+const comments = ref("");
 
 const receiveComments = (val) => {
   comments.value = val.value;
-}
+};
 
-const checkFilledOut = computed(()=>{
-  if(comments.value){
-    return true
-  }else {
+const checkFilledOut = computed(() => {
+  if (comments.value) {
+    return true;
+  } else {
     return false;
-
   }
-})
+});
 
 onMounted(async () => {
   const userId = router.params.id;
