@@ -1,8 +1,8 @@
 <template>
     <v-img
     :src="path"
-    cover
-    @click="onClick"
+    :size="size"
+    @click.prevent="onClick"
     >
     <slot/>
     </v-img>
@@ -11,6 +11,10 @@
 <script setup lang="ts">
 const props= defineProps({
   path: {
+    type:String,
+    default:''
+  },
+  size: {
     type:String,
     default:''
   },

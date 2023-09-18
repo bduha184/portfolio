@@ -1,43 +1,36 @@
 <template>
   <div class="relative">
-    <v-container>
-      <v-card class="mx-auto h-[100vh]">
-        <v-list>
-          <v-list-item
-            v-for="(message, index) in messages"
-            :key="index"
-            :prepend-avatar="
-              message.sender_id == auth.user.id
-                ? ''
-                : config.public.baseURL + '/storage/' + message.thumbnail_path
-            "
-            rounded="shaped"
-            :title="message.sender_id == auth.user.id ? '' : message.title"
-            :subtitle="message.comments"
-            class="ml-auto"
-            :class="message.sender_id == auth.user.id ? 'right' : ''"
+    <v-card class="mx-auto h-[100vh]">
+      <v-list>
+        <v-list-item
+          v-for="(message, index) in messages"
+          :key="index"
+          :prepend-avatar="
+            message.sender_id == auth.user.id
+              ? ''
+              : config.public.baseURL + '/storage/' + message.thumbnail_path
+          "
+          rounded="shaped"
+          :title="message.sender_id == auth.user.id ? '' : message.title"
+          :subtitle="message.comments"
+          class="ml-auto"
+          :class="message.sender_id == auth.user.id ? 'right' : ''"
+        />
+      </v-list>
+    </v-card>
+    <v-form class="fixed p-2 bottom-0 left-0 w-100 bg-grey-lighten-3">
+      <v-row>
+        <v-col cols="10">
+          <AtomsInput
+            class="bg-white"
+            @emitInput="receiveInput"
+            :val="authMessage"
           />
-        </v-list>
-      </v-card>
-      <div></div>
-    </v-container>
-    <v-form class="fixed bottom-0 w-100 bg-grey-lighten-3">
-      <v-container>
-        <v-row>
-          <v-col cols="10">
-            <AtomsInput
-              class="bg-white"
-              @emitInput="receiveInput"
-              :val="authMessage"
-            />
-          </v-col>
-          <v-col cols="2">
-            <AtomsBtnsArrowBtn
-            @emitClick="receiveClick"
-            />
-          </v-col>
-        </v-row>
-      </v-container>
+        </v-col>
+        <v-col cols="2">
+          <AtomsBtnsArrowBtn @emitClick="receiveClick" />
+        </v-col>
+      </v-row>
     </v-form>
   </div>
 </template>
@@ -100,17 +93,17 @@ onMounted(async () => {
       display: flex;
       flex-direction: row-reverse;
 
-      &:deep(.v-list-item-subtitle){
+      &:deep(.v-list-item-subtitle) {
         background: #2196f3;
 
-        &::before{
+        &::before {
           content: none;
         }
         &::after {
-        border-radius: 0 20px 20px 10px/0 20px 20px 1px;
-        box-shadow: inset 3px -15px 0 -5px #2196f3;
-        right: -8px;
-      }
+          border-radius: 0 20px 20px 10px/0 20px 20px 1px;
+          box-shadow: inset 3px -15px 0 -5px #2196f3;
+          right: -8px;
+        }
       }
     }
 
@@ -135,7 +128,7 @@ onMounted(async () => {
       z-index: 0;
 
       &::before,
-      &::after{
+      &::after {
         content: "";
         display: block;
         width: 18px;
@@ -154,7 +147,4 @@ onMounted(async () => {
   }
 }
 
-.v-icon-svg{
-
-}
 </style>

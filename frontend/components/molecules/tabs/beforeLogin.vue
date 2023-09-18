@@ -29,9 +29,10 @@ const props = defineProps({
 <style scoped lang="scss">
 .v-btn {
 
+  padding: 0.5rem !important;
+
   &:deep(.v-btn__content){
     display: block;
-    padding-bottom: 0.5rem;
   }
 }
 </style>

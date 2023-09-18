@@ -4,12 +4,6 @@
     rounded="0"
     @click="onClick"
   >
-    <v-img
-      contain
-      :src="`${config.public.appURL}/_nuxt/assets/images/${provider}.png`"
-      width="20"
-      height="20"
-    />
     <slot/>
   </v-btn>
 </template>
@@ -34,11 +28,6 @@ const onClick = () => {
   emits('click');
 }
 
-const submit = async(provider) => {
 
-    const loginRes = await auth.providerLogin(provider);
-        window.location.href = loginRes.data.value.redirect_url;
-
-}
 
 </script>
