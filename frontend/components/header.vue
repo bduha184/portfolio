@@ -56,9 +56,9 @@ const toggleMenu = () => {
             <v-list-item-title
             class="pl-2"
             >
-              <AtomsDecorationHeadline>
+              <AtomsTextsHeadLine>
                 {{ item.text }}
-              </AtomsDecorationHeadline>
+              </AtomsTextsHeadLine>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

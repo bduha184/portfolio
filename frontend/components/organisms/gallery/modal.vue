@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <AtomsDecorationHeadline> ギャラリー </AtomsDecorationHeadline>
-    <slot/>
+    <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
+    <slot />
     <VueGallery
       :images="images"
       :index="index"
@@ -15,10 +15,7 @@
         :key="imageIndex"
         @click="index = imageIndex"
       >
-        <v-img
-        :src="image"
-        @click="deleteImage"
-        />
+        <v-img :src="image" @click="deleteImage" />
       </v-col>
     </v-row>
   </v-container>
@@ -26,11 +23,11 @@
 
 <script setup>
 import VueGallery from "vue-gallery";
-import { ref,computed } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
   images: {
-    type:Array,
+    type: Array,
     default: [],
   },
 });
@@ -39,12 +36,11 @@ const index = ref(0);
 
 console.log(index.value);
 
-const emits = defineEmits(['emitClick']);
+const emits = defineEmits(["emitClick"]);
 
 const deleteImage = () => {
-  emits('emitClick', index.value)
-}
-
+  emits("emitClick", index.value);
+};
 </script>
 
 <style scoped>
@@ -62,6 +58,6 @@ const deleteImage = () => {
 }
 
 .blueimp-gallery {
-  background: rgba(0,0,0,.85);
+  background: rgba(0, 0, 0, 0.85);
 }
 </style>

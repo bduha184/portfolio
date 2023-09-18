@@ -1,5 +1,5 @@
 <template>
-  <v-container
+  <div
   class="overflow-hidden"
   >
   <transition>
@@ -20,7 +20,7 @@
        </AtomsBtnsBaseBtn>
     </div>
     </transition>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -45,6 +45,7 @@ const props = defineProps({
 });
 
 const form = ref();
+
 
 const checkFilledOut = computed(() => {
   const field = form.value;

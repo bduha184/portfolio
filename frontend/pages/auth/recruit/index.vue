@@ -1,12 +1,12 @@
 <template>
-  <v-container>
+  <div>
     <h1 class="text-h6 font-weight-bold text-center">
       メンバー募集の管理ページ
     </h1>
     <v-card>
       <OrganismsAuthRecruit/>
     </v-card>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">

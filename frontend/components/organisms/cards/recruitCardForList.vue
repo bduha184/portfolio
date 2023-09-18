@@ -1,21 +1,15 @@
 <template>
   <v-card @click="onClick" height="300px">
-    <div class="relative z-0 h-[100px]">
-      <AtomsImgsCardHeaderImg
-        :disabled="false"
-        :path="config.public.baseURL + '/storage/' + header_img_path"
-      >
-        <AtomsImgsThumbnail
-          :disabled="false"
-          :path="config.public.baseURL + '/storage/' + thumbnail_path"
-        />
-      </AtomsImgsCardHeaderImg>
-    </div>
+    <OrganismsImgsCardProfile
+      :path_header="config.public.baseURL + '/storage/' + header_img_path"
+      :path_thumbnail="config.public.baseURL + '/storage/' + thumbnail_path"
+      :disabled=true
+    />
 
     <v-card-title class="text-body-2">
-      <AtomsDecorationHeadline>
+      <AtomsTextsHeadLine>
         {{ title }}
-      </AtomsDecorationHeadline>
+      </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
       {{ text }}

@@ -133,7 +133,7 @@ const receivePasswordConfirmation = (val) => {
 const receiveCheck = (setCheck) => {
   form.value.check = setCheck;
 };
-async function handleRegister() {
+const handleRegister= async ()=> {
   const res = await auth.register(form.value);
 
   console.log(res);

@@ -1,6 +1,5 @@
 <template>
-  <div class="p-4">
-    <v-container class="bg-white">
+  <div class="p-4 bg-white">
       <MoleculesBeforeLoginTabs v-model="tab"/>
       <v-window v-model="tab">
         <v-window-item value="register">
@@ -10,7 +9,6 @@
           <OrganismsBeforeLoginSignIn/>
         </v-window-item>
       </v-window>
-    </v-container>
   </div>
 </template>
 <script setup lang="ts">
