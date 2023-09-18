@@ -1,66 +1,67 @@
 <template>
-  <div>
-    <OrganismsCardsProfile
+  <v-card>
+    <OrganismsImgsCardProfile
       :path_header="recruitItems.url_header_img"
       :path_thumbnail="recruitItems.url_thumbnail"
-    >
-      <v-card-title class="text-body-2 pl-20">
-        <AtomsDecorationHeadline>
-          {{ recruitItems.title }}
-        </AtomsDecorationHeadline>
-      </v-card-title>
-      <v-card-text>
-        {{ recruitItems.text }}
-      </v-card-text>
-      <OrganismsGalleryModal :images="images" />
-      <OrganismsTeamActivity />
-      <v-container class="text-center">
-        <v-row>
-          <v-col>
-            <MoleculesBeforeLoginModal
-              @emitClick="requestJoinTeam"
-              :toggle="toggleRequest"
-            >
-              このチームに参加する
-            </MoleculesBeforeLoginModal>
-            <MoleculesAccordionsMessage
-              class="text-center"
-              :toggle="toggleRequest"
-              @emitInput="receiveBody"
-              @emitClick="receiveClick('join')"
-              placeholder="伝えたい内容、参加したい理由、等を記載してください"
-              text="メッセージを送信する"
-            >
-            </MoleculesAccordionsMessage>
-          </v-col>
-          <v-col>
-            <MoleculesBeforeLoginModal
-              @emitClick="questionToTeam"
-              :toggle="toggleQuestion"
-              setColor="orange"
-              >このチームに質問する</MoleculesBeforeLoginModal
-            >
-            <MoleculesAccordionsMessage
-              class="text-center"
-              setColor="orange"
-              :toggle="toggleQuestion"
-              @emitInput="receiveBody"
-              @emitClick="receiveClick('que')"
-              placeholder="質問内容を記載してください"
-              text="質問内容を送信する"
-            >
-            </MoleculesAccordionsMessage>
-          </v-col>
-        </v-row>
-      </v-container>
-      <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
-    </OrganismsCardsProfile>
-  </div>
+      disabled="disabled"
+    />
+    <v-card-title class="text-body-2 pl-20">
+      <AtomsTextsHeadLine>
+        {{ recruitItems.title }}
+      </AtomsTextsHeadLine>
+    </v-card-title>
+    <v-card-text>
+      {{ recruitItems.text }}
+    </v-card-text>
+    <OrganismsGalleryModal :images="images" />
+    <OrganismsTeamActivity />
+    <v-container class="text-center">
+      <v-row>
+        <v-col>
+          <OrganismsModal
+            @emitClick="requestJoinTeam"
+            setColor="red"
+          >
+            このチームに参加する
+          </OrganismsModal>
+          <MoleculesAccordionsMessage
+            class="text-center"
+            :toggle="toggleRequest"
+            @emitInput="receiveBody"
+            @emitClick="receiveClick('join')"
+            placeholder="伝えたい内容、参加したい理由、等を記載してください"
+            text="メッセージを送信する"
+          >
+          </MoleculesAccordionsMessage>
+        </v-col>
+        <v-col>
+          <OrganismsModal
+            @emitClick="questionToTeam"
+            setColor="orange"
+          >
+          このチームに質問する
+          </OrganismsModal>
+          <MoleculesAccordionsMessage
+            class="text-center"
+            setColor="orange"
+            :toggle="toggleQuestion"
+            @emitInput="receiveBody"
+            @emitClick="receiveClick('que')"
+            placeholder="質問内容を記載してください"
+            text="質問内容を送信する"
+          >
+          </MoleculesAccordionsMessage>
+        </v-col>
+      </v-row>
+    </v-container>
+    <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
+    <!-- </OrganismsCardsProfile> -->
+  </v-card>
 </template>
 
 <script setup lang="ts">
+import { ref, onBeforeMount,computed } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { ref, onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 import { useRuntimeConfig } from "nuxt/app";
 
@@ -93,9 +94,9 @@ const toggleQuestion = ref(false);
 
 const requestJoinTeam = () => {
   if (!auth.isLoggedIn) {
-    toggleRequest.value = false;
+     toggleRequest.value = false;
   } else {
-    toggleRequest.value = !toggleRequest.value;
+     toggleRequest.value = true;
   }
 };
 const questionToTeam = () => {
@@ -127,32 +128,32 @@ const receiveClick = async (val) => {
   });
 };
 
-
 onBeforeMount(async () => {
   const itemId = router.params.id;
   if (itemId) {
     await Promise.all([
       useApiFetch(`/api/recruit/${itemId}`),
       useApiFetch(`/api/images/${itemId}`),
-    ]).then((resItems)=>{
-      resItems.forEach(item=>{
-
+    ]).then((resItems) => {
+      resItems.forEach((item) => {
         const val = item.data.value;
         // console.log(val);
-        if(val.data){
+        if (val.data) {
           recruitItems.value.item_id = val.data.id;
-          recruitItems.value.url_header_img = config.public.baseURL + "/storage/" + val.data.header_img_path;
-          recruitItems.value.url_thumbnail = config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+          recruitItems.value.url_header_img =
+            config.public.baseURL + "/storage/" + val.data.header_img_path;
+          recruitItems.value.url_thumbnail =
+            config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
           recruitItems.value.user_id = val.data.user_id;
-        }else{
-          val.images.forEach(image=>{
-              images.value.push(config.public.baseURL + "/storage/" + image);
-          })
+        } else {
+          val.images.forEach((image) => {
+            images.value.push(config.public.baseURL + "/storage/" + image);
+          });
         }
-      })
-    })
+      });
+    });
   }
 });
 </script>

@@ -1,17 +1,19 @@
 <template>
-  <div>
     <input
+      ref="uploader"
       name="name"
       :type="type"
       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      @input="submit"
+      @change="onChange"
       :value="val"
       :placeholder="placeholder"
+      multiple
+      :disabled="disabled"
     />
-  </div>
 </template>
 
 <script setup lang="ts">
+import {ref,watch} from '#imports';
 const props = defineProps({
   type:{
     type:String,
@@ -25,14 +27,48 @@ const props = defineProps({
     type:String,
     default:''
   },
+  accept:{
+    type:String,
+    default:'text'
+  },
+  isSelecting:{
+    type:Boolean,
+    default:false
+  },
+  disabled:{
+    type:Boolean,
+    default:false
+  }
 })
 
-
-const emit = defineEmits(['emitInput']);
-
-const submit = (e) => {
-  emit('emitInput',e.target);
+interface Emits {
+  (e: "emitInput", value: File): void;
 }
+const emits = defineEmits<Emits>();
+
+const uploader = ref<HTMLInputElement>();
+const selectedFile = ref<File | null>(null)
+
+watch(()=>props.isSelecting,()=>{
+  if(props.isSelecting){
+    uploader.value?.click();
+  }
+});
+
+const onChange = (e: Event) => {
+    const target = e.target as HTMLInputElement
+    if(props.type==='file'){
+      const files = target.files
+      const file = files![0]
+      selectedFile.value = file
+      emits("emitInput", file)
+    }else{
+      emits('emitInput',target)
+    }
+  }
+
+
+
 
 </script>
 

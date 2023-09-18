@@ -1,6 +1,5 @@
 <template>
-  <div class="p-4">
-    <v-container class="bg-white">
+  <div class="p-4 bg-white">
       <FormKeywordsSearch />
       <FormMultipleSearch />
       <MoleculesCountsTeamCount
@@ -17,7 +16,6 @@
         :text="item.text"
         :id="item.id"
       />
-    </v-container>
   </div>
 </template>
 <script setup lang="ts">

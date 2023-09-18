@@ -1,34 +1,31 @@
 <template>
   <form>
-    <div class="relative z-0 h-[100px]">
-      <AtomsImgsCardHeaderImg
-        @emitInput="receiveImg"
-        :path="recruitItems.url_header_img"
-      >
-        <AtomsImgsThumbnail
-          @emitInput="receiveThumbnail"
-          :path="recruitItems.url_thumbnail"
-        />
-      </AtomsImgsCardHeaderImg>
-    </div>
+    <OrganismsImgsCardProfile
+      @emitInput="receiveProfileImage"
+      :path_header="recruitItems.url_header_img"
+      :path_thumbnail="recruitItems.url_thumbnail"
+    />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsInput
-        class="pl-2 leading-snug relative before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-orange-600 z-100"
-        placeholder="チーム名"
-        type="text"
-        @emitInput="receiveTeamName"
-        :val="recruitItems.title"
-      />
+      <AtomsTextsHeadLine
+      class="w-100"
+      >
+        <AtomsInput
+          placeholder="チーム名"
+          type="text"
+          @emitInput="receiveTeamName"
+          :val="recruitItems.title"
+        />
+      </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
       <AtomsTextAreas
-        placeholder="本文"
+        placeholder="チーム紹介"
         @emitInput="receiveTeamIntroduce"
         :body="recruitItems.text"
       />
     </v-card-text>
     <v-container>
-      <AtomsDecorationHeadline> ギャラリー </AtomsDecorationHeadline>
+      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
       <OrganismsDrugAndDrop @emitImages="receiveImages" />
       <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
@@ -50,16 +47,16 @@
     >
       更新
     </AtomsBtnsBaseBtn>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      setColor="red"
-      class="my-4 d-block mx-auto"
-      @click="handleDelete"
+    <OrganismsModal
       v-if="recruitItems.item_id"
+      @emitClick.prevent="handleDelete"
+      setColor="red"
+      caution="※削除すると元に戻せなくなります。削除しますか？"
+      btnValue="削除する"
+      btnType="delete"
     >
       削除
-    </AtomsBtnsBaseBtn>
-    {{ postImages }}
+    </OrganismsModal>
   </form>
 </template>
 
@@ -83,6 +80,7 @@ const config = useRuntimeConfig();
 
 const postImages = ref([]);
 const displayImages = ref([]);
+// const toggleDelete=ref<boolean>(false);
 
 const recruitItems = ref({
   items: [],
@@ -113,7 +111,7 @@ const handleRegister = async () => {
     imageData.append("images[]", image);
   });
   // console.log(...formData.entries());
-  console.log(...imageData.entries());
+  // console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
@@ -130,9 +128,9 @@ const handleRegister = async () => {
     console.log(res[0].data.value);
   });
 
-  // return navigateTo(Url.AUTHRECRUIT);
+  return navigateTo(Url.AUTHRECRUIT);
 };
-console.log(recruitItems.value.header_img);
+// console.log(recruitItems.value.header_img);
 
 const handleUpdate = async () => {
   const formData = new FormData();
@@ -148,17 +146,17 @@ const handleUpdate = async () => {
   });
   // imageData.append('test','test');
 
-  console.log(...imageData.entries());
+  // console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
-    // useApiFetch(`/api/recruit/${auth.user.id}`, {
-    //   method: "POST",
-    //   body: formData,
-    //   headers: {
-    //     "X-HTTP-Method-Override": "PUT",
-    //   },
-    // }),
+    useApiFetch(`/api/recruit/${auth.user.id}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
     useApiFetch(`/api/images/${auth.user.id}`, {
       method: "POST",
       body: imageData,
@@ -211,28 +209,27 @@ const receiveClick = (val) => {
   postImages.value.splice(val, 1);
 };
 
-const receiveImg = (val) => {
-  // console.log(val.files[0]);
-  recruitItems.value.header_img = val.files[0];
-  recruitItems.value.url_header_img = URL.createObjectURL(
-    recruitItems.value.header_img
-  );
-  // URL.revokeObjectURL(recruitItems.value.header_img);
-};
-
-const receiveThumbnail = (val) => {
-  recruitItems.value.thumbnail = val.files[0];
-  recruitItems.value.url_thumbnail = URL.createObjectURL(
-    recruitItems.value.thumbnail
-  );
-  // URL.revokeObjectURL(recruitItems.value.thumbnail);
-};
 const receiveTeamName = (val) => {
   recruitItems.value.title = val.value;
 };
 const receiveTeamIntroduce = (val) => {
   recruitItems.value.text = val.value;
 };
+
+const receiveProfileImage = (val: File) => {
+  if (val.target == "header") {
+    recruitItems.value.header_img = val.val;
+    recruitItems.value.url_header_img = URL.createObjectURL(val.val);
+  } else {
+    recruitItems.value.thumbnail = val.val;
+    recruitItems.value.url_thumbnail = URL.createObjectURL(val.val);
+  }
+  URL.revokeObjectURL(val.val);
+};
+
+// const deleteItem = () => {
+//   toggleDelete.value = !toggleDelete.value;
+// };
 
 onBeforeMount(async () => {
   const userId = auth.user.id;

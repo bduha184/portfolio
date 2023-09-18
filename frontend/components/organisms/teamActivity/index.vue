@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <AtomsDecorationHeadline>
-      チーム活動
-    </AtomsDecorationHeadline>
+    <AtomsTextsHeadLine> チーム活動 </AtomsTextsHeadLine>
   </v-container>
 </template>
