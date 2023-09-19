@@ -17,12 +17,13 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@vee-validate/nuxt',
     '@vueuse/nuxt',
-    "@invictus.codes/nuxt-vuetify"
+    "@invictus.codes/nuxt-vuetify",
   ],
   runtimeConfig:{
     public:{
       baseURL:process.env.BASE_URL,
-      appURL:process.env.APP_URL
+      appURL:process.env.APP_URL,
+
     }
   },
   vite: {

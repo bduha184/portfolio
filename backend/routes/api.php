@@ -55,6 +55,9 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 });
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
 Route::controller(RecruitController::class)->group(function(){
     Route::prefix('recruit')->name('recruit.')->group(function(){
         Route::get('/','index')->name('index');

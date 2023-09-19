@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SnsMessages;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
@@ -10,6 +11,7 @@ use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+
 class MessageController extends Controller
 {
     /**
@@ -41,8 +43,11 @@ class MessageController extends Controller
 
         $message->fill($request->all())->save();
 
+        SnsMessages::dispatch($message);
+
         return response()->json([
-            'message'=>Response::HTTP_OK
+            'message'=>Response::HTTP_OK,
+            'message'=>$message,
         ]);
     }
 

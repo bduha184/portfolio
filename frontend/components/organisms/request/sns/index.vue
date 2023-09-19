@@ -70,15 +70,27 @@ const receiveClick = async () => {
   const messages = await useApiFetch(`/api/message/${senderId}`);
   const val = messages.data.value;
 
+
+
   // console.log(val);
   return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
+
+
 onMounted(async () => {
   const senderId = router.params.id;
   const res = await useApiFetch(`/api/message/sns/${senderId}`);
   const val = res.data.value;
   messages.value.push(...val.data);
-  console.log(res);
+  // console.log(res);
+  Echo.channel("cycle-community").listen("SnsMessages", (e) => {
+    console.log(e);
+    // const res = await useApiFetch(`/api/message/sns/${senderId}`);
+    // const val = res.data.value;
+    // messages.value.push(...val.data);
+    });
+
+
 });
 </script>
 
@@ -146,5 +158,4 @@ onMounted(async () => {
     }
   }
 }
-
 </style>

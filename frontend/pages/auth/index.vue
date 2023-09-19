@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <h1>LoggedIn</h1>
     <v-row>
       <v-col cols="6">
@@ -29,7 +29,7 @@
     >
     ログアウト
     </v-btn>
-  </v-container>
+  </div>
 </template>
 <script setup lang="ts">
 import {definePageMeta,navigateTo} from '#imports';
