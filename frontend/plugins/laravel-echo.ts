@@ -14,24 +14,26 @@ export default defineNuxtPlugin(() => {
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
-    // authorizer: (channel, options) => {
-    //   return {
-    //     authorize: async (socketId, callback) => {
-    //       try {
-    //         const response = await useApiFetch('api/broadcasting/auth', {
-    //           method: "POST",
-    //           body: {
-    //             socket_id: socketId,
-    //             channel_name: channel.name
-    //         }})
-
-    //         callback(null, response)
-    //       } catch (error) {
-    //         callback(error)
-    //       }
-    //     }
-    //   };
-    // },
+    encrypted: true,
+    forceTLS:false,
+    authorizer: (channel, options) => {
+      return {
+          authorize: async(socketId, callback) => {
+              await useApiFetch('/api/broadcasting/auth', {
+                method: "POST",
+                body: {
+                  socket_id: socketId,
+                  channel_name: channel.name
+              }})
+              .then(response => {
+                console.log(response)
+                  callback(false, response.data);
+              })
+              .catch(error => {
+                  callback(true, error);
+              });
+          }
+      };
+  },
   })
 })

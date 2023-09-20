@@ -24,7 +24,7 @@ const props = defineProps({
   disabled:{
     type:Boolean,
     default:false
-  }
+  },
 });
 interface Emits {
   (e: "emitInput", value: File): void;
@@ -43,6 +43,7 @@ const receiveImg = (val:File)=> {
   emits('emitInput',val)
 }
 
+
 </script>
 
 <style lang="scss" scoped>
@@ -51,16 +52,5 @@ const receiveImg = (val:File)=> {
   bottom: -40px;
   left: 20px;
   z-index: 10;
-}
-.v-file-input {
-  opacity: 0;
-  position:absolute !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background: red;
 }
 </style>

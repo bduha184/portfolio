@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('cycle-community', function ($user, $id) {
+Broadcast::channel('cycle-community.{id}', function ($user,$id) {
     return (int) $user->id === (int) $id;
+    // return Auth::check();
     // return true;
 });

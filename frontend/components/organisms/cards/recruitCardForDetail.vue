@@ -92,7 +92,8 @@ const comments = ref("");
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
 
-const requestJoinTeam = () => {
+const requestJoinTeam = (e) => {
+  console.log(e)
   if (!auth.isLoggedIn) {
      toggleRequest.value = false;
   } else {

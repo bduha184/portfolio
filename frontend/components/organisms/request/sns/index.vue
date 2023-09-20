@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <v-card class="mx-auto h-[100vh]">
+    <v-card class="mx-auto h-[100vh] overflow-y-auto">
       <v-list>
         <v-list-item
           v-for="(message, index) in messages"
@@ -36,8 +36,15 @@
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig, navigateTo, useRoute } from "nuxt/app";
-import { onMounted, ref } from "vue";
+import {
+  ref,
+  useRuntimeConfig,
+  navigateTo,
+  useRoute,
+  computed,
+  onMounted,
+  watch
+} from "#imports";
 import { useMouse } from "@vueuse/core";
 import { useAuthStore } from "../../../../stores/useAuthStore";
 import { Url } from "../../../../constants/url";
@@ -51,6 +58,7 @@ const authMessage = ref("");
 const receiveInput = (val) => {
   authMessage.value = val.value;
 };
+const senderId = auth.user.id;
 
 const receiveClick = async () => {
   const data = {
@@ -66,31 +74,27 @@ const receiveClick = async () => {
     body: data,
   });
 
-  const senderId = auth.user.id;
   const messages = await useApiFetch(`/api/message/${senderId}`);
   const val = messages.data.value;
+  // window.Pusher.logToConsole = true;
 
-
+  window.Echo.private(`cycle-community.${senderId}`).listen(".new-message-event", (e) => {
+    console.log();
+    // const senderId = router.params.id;
+    // const res = await useApiFetch(`/api/message/sns/${senderId}`);
+    // const val = res.data.value;
+    // messages.value.push(...val.data);
+  });
 
   // console.log(val);
-  return navigateTo(Url.REQUESTS + `/${router.params.id}`);
+  // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
-
 
 onMounted(async () => {
   const senderId = router.params.id;
   const res = await useApiFetch(`/api/message/sns/${senderId}`);
   const val = res.data.value;
   messages.value.push(...val.data);
-  // console.log(res);
-  Echo.channel("cycle-community").listen("SnsMessages", (e) => {
-    console.log(e);
-    // const res = await useApiFetch(`/api/message/sns/${senderId}`);
-    // const val = res.data.value;
-    // messages.value.push(...val.data);
-    });
-
-
 });
 </script>
 

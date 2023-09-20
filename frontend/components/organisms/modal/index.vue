@@ -12,6 +12,7 @@
         class="my-4 d-block mx-auto"
           v-bind="props"
           :setColor="setColor"
+          @emitClick="receiveClick"
         >
           <slot />
         </AtomsBtnsBaseBtn>
@@ -41,12 +42,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    {{ dialog }}
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref,navigateTo,useRoute,onBeforeMount } from "#imports";
+import { ref,navigateTo,useRoute,onMounted } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { Url } from "../../../constants/url";
 
@@ -72,7 +72,6 @@ const dialog = ref(false);
 const auth = useAuthStore();
 const router = useRoute();
 
-
 interface Emits {
   (e: "emitClick"): void;
 }
@@ -88,11 +87,8 @@ const onClick = () => {
 
 };
 
-onBeforeMount(()=>{
-  if(auth.isLoggedIn && router.path.indexOf('auth') == -1){
-
-    dialog.value = false;
-  }
-})
+const receiveClick = ()=> {
+  emits("emitClick");
+}
 
 </script>

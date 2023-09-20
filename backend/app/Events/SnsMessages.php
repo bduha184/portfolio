@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -19,8 +20,10 @@ class SnsMessages implements ShouldBroadcast
      * Create a new event instance.
      */
     public $message;
-    public function __construct($message)
+    public $user;
+    public function __construct(User $user,Message $message)
     {
+        $this->user = $user;
         $this->message = $message;
     }
 
@@ -32,11 +35,11 @@ class SnsMessages implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('cycle-community'),
+            new PrivateChannel('cycle-community.'.$this->user->id),
         ];
     }
-    // public function broadcastAs()
-    // {
-    //     return 'new-message-event';
-    // }
+    public function broadcastAs():string
+    {
+        return 'new-message-event';
+    }
 }
