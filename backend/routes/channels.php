@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -13,8 +15,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Broadcast::channel('cycle-community.{id}', function ($user,$id) {
-    return (int) $user->id === (int) $id;
+
+Broadcast::channel('cycle-community', function () {
+    // return  $user->id === Message::findOrNew($id)->user_id;
     // return Auth::check();
-    // return true;
+    return true;
 });

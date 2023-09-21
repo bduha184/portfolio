@@ -35,7 +35,8 @@ class SnsMessages implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('cycle-community.'.$this->user->id),
+            // new PrivateChannel('cycle-community.'.$this->user->id),
+            new Channel('cycle-community'),
         ];
     }
     public function broadcastAs():string

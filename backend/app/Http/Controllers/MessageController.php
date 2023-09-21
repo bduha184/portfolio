@@ -17,6 +17,7 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index(Message $message,$dist)
     {
         $auth_id = Auth::id();

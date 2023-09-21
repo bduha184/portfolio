@@ -29,16 +29,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(RecruitController::class)->group(function(){
         Route::prefix('recruit')->name('recruit.')->group(function(){
-        Route::post('/register','store');
-        Route::put('/{id}','update');
-        Route::delete('/{id}','destroy');
+            Route::post('/register','store');
+            Route::put('/{id}','update');
+            Route::delete('/{id}','destroy');
         });
     });
     Route::controller(ProfileController::class)->group(function(){
         Route::prefix('profile')->name('profile.')->group(function(){
-        Route::post('/register','store');
-        Route::put('/{id}','update');
-        Route::delete('/{id}','destroy');
+            Route::post('/register','store');
+            Route::put('/{id}','update');
+            Route::delete('/{id}','destroy');
         });
     });
 

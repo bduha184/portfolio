@@ -16,6 +16,12 @@
           class="ml-auto"
           :class="message.sender_id == auth.user.id ? 'right' : ''"
         />
+        <v-list-item
+        v-for="(message,index) in pusherMessages"
+        :key="index"
+        :subtitle="message"
+         class="right"
+        />
       </v-list>
     </v-card>
     <v-form class="fixed p-2 bottom-0 left-0 w-100 bg-grey-lighten-3">
@@ -45,7 +51,6 @@ import {
   onMounted,
   watch
 } from "#imports";
-import { useMouse } from "@vueuse/core";
 import { useAuthStore } from "../../../../stores/useAuthStore";
 import { Url } from "../../../../constants/url";
 
@@ -53,6 +58,7 @@ const auth = useAuthStore();
 const config = useRuntimeConfig();
 const router = useRoute();
 const messages = ref([]);
+const pusherMessages = ref([]);
 const authMessage = ref("");
 
 const receiveInput = (val) => {
@@ -61,6 +67,7 @@ const receiveInput = (val) => {
 const senderId = auth.user.id;
 
 const receiveClick = async () => {
+  pusherMessages.value.push(authMessage.value);
   const data = {
     comments: authMessage.value,
     sender_id: auth.user.id,
@@ -74,27 +81,27 @@ const receiveClick = async () => {
     body: data,
   });
 
-  const messages = await useApiFetch(`/api/message/${senderId}`);
-  const val = messages.data.value;
   // window.Pusher.logToConsole = true;
-
-  window.Echo.private(`cycle-community.${senderId}`).listen(".new-message-event", (e) => {
-    console.log();
-    // const senderId = router.params.id;
-    // const res = await useApiFetch(`/api/message/sns/${senderId}`);
-    // const val = res.data.value;
-    // messages.value.push(...val.data);
-  });
 
   // console.log(val);
   // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
+
+window.Echo.channel(`cycle-community`).listen(".new-message-event", (e) => {
+  // console.log(e);
+  // messages.value.push(e.message.comments);
+  // const senderId = router.params.id;
+  // const res = await useApiFetch(`/api/message/sns/${senderId}`);
+  // const val = res.data.value;
+  // messages.value.push(...val.data);
+});
 
 onMounted(async () => {
   const senderId = router.params.id;
   const res = await useApiFetch(`/api/message/sns/${senderId}`);
   const val = res.data.value;
   messages.value.push(...val.data);
+
 });
 </script>
 

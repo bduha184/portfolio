@@ -15,7 +15,7 @@ export default defineNuxtPlugin(() => {
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     encrypted: true,
-    forceTLS:false,
+    forceTLS: false,
     authorizer: (channel, options) => {
       return {
           authorize: async(socketId, callback) => {
@@ -27,13 +27,16 @@ export default defineNuxtPlugin(() => {
               }})
               .then(response => {
                 console.log(response)
-                  callback(false, response.data);
+                callback(false, response.data);
               })
               .catch(error => {
+                console.log(error)
                   callback(true, error);
               });
+
           }
       };
   },
-  })
+  });
+
 })
