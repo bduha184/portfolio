@@ -3,20 +3,20 @@
     <v-container>
       <v-row>
         <v-col>
-          <AtomsBtnsSnsBtn
+          <MoleculesBtnsSnsBtn
             provider="google"
-            class="d-block mx-auto border-2 border-indigo-500 w-[250px]"
+            class="d-flex mx-auto border-2 border-indigo-500 w-[250px]"
             >
             Googleでログイン
-          </AtomsBtnsSnsBtn>
+          </MoleculesBtnsSnsBtn>
           </v-col>
           <v-col>
-            <AtomsBtnsSnsBtn
+            <MoleculesBtnsSnsBtn
             provider="twitter"
             class="d-block mx-auto border-2 border-indigo-500 w-[250px]"
           >
           Lineでログイン
-        </AtomsBtnsSnsBtn>
+        </MoleculesBtnsSnsBtn>
         </v-col>
       </v-row>
     </v-container>
@@ -95,8 +95,7 @@ const checkFilledOut = computed(() => {
 
 
 const auth = useAuthStore();
-async function handleLogin() {
-
+ const  handleLogin = async()=> {
   const res = await auth.login(form.value);
 
    if (res.error.value == null) {

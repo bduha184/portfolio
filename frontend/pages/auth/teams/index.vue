@@ -8,7 +8,7 @@
         </NuxtLink>
       </v-col>
       <v-col cols="6">
-        <NuxtLink :to="Url.AUTHRECRUIT"
+        <NuxtLink :to="Url.AFFILIATION"
         >
           所属チーム
         </NuxtLink>

@@ -16,6 +16,11 @@
 .v-overlay-scroll-blocked {
   position:unset !important;
 }
+
+.v-card-title {
+  width: calc(100% - 6rem);
+  margin-left: auto;
+}
 .v-list-item-title {
   font-size: 0.8rem !important;
   overflow: visible;
@@ -27,4 +32,8 @@
 
   .v-overlay__scrim {
     opacity: 0.6 !important;
+  }
+
+  .v-avatar {
+    border: 1px solid #333;
   }

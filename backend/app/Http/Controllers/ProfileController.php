@@ -81,7 +81,7 @@ class ProfileController extends Controller
     public function update(Request $request,$id)
     {
 
-        $profile  = Profile::find($id)->first();
+        $profile  = Profile::where('user_id',$id)->first();
 
         $file_header = $request->file('header_img');
         $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
@@ -113,7 +113,7 @@ class ProfileController extends Controller
         if ($profile) {
             $profile->delete();
             return response()->json([
-                'message' => 'update successfully'
+                'message' => 'delete successfully'
             ], Response::HTTP_OK);
         } else {
             return response()->json([

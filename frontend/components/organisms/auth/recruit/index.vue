@@ -1,14 +1,15 @@
 <template>
   <form>
+    <AtomsDisplayFlashMessage :isShow="isShow">
+      {{ flashMessage }}
+    </AtomsDisplayFlashMessage>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
       :path_header="recruitItems.url_header_img"
       :path_thumbnail="recruitItems.url_thumbnail"
     />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextsHeadLine
-      class="w-100"
-      >
+      <AtomsTextsHeadLine class="w-100">
         <AtomsInput
           placeholder="チーム名"
           type="text"
@@ -24,19 +25,50 @@
         :body="recruitItems.text"
       />
     </v-card-text>
+    <OrganismsAuthRecruitTeamInfo />
+    <v-container>
+      <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+      <AtomsTextAreas
+        placeholder="活動内容の詳細を記入"
+        @emitInput="receiveTeamActivities"
+        :body="recruitItems.activities"
+        class="mt-2"
+      />
+    </v-container>
     <v-container>
       <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-      <OrganismsDrugAndDrop @emitImages="receiveImages" />
+      <OrganismsDrugAndDrop @emitImages="receiveImage" />
       <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
-      @click.once="handleRegister"
+      @emitClick="handleRegister"
       v-if="!recruitItems.item_id"
     >
       登録
     </AtomsBtnsBaseBtn>
+
+    <!-- <v-snackbar
+      :timeout="2000"
+      color="deep-purple-accent-4"
+      elevation="2"
+      location="top"
+    >
+      <template v-slot:activator="{props }">
+        <AtomsBtnsBaseBtn
+        width="16rem"
+      class="my-4 d-block mx-auto"
+      @emitClick="handleRegister"
+      v-bind="props"
+      v-if="!recruitItems.item_id"
+        >
+          登録
+        </AtomsBtnsBaseBtn>
+      </template>
+
+      Snackbar with <strong>elevation="24"</strong>.
+    </v-snackbar> -->
     <AtomsBtnsBaseBtn
       width="16rem"
       setColor="orange"
@@ -49,7 +81,8 @@
     </AtomsBtnsBaseBtn>
     <OrganismsModal
       v-if="recruitItems.item_id"
-      @emitClick.prevent="handleDelete"
+      @emitModalOpen="handleCheck"
+      @emitModalBtnClick="handleDelete"
       setColor="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
       btnValue="削除する"
@@ -67,21 +100,25 @@ import {
   useRoute,
   clearNuxtData,
 } from "nuxt/app";
+import { Message } from "~/constants/flashMessage";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onBeforeMount, computed } from "vue";
+import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
-const router = useRoute();
-
 const config = useRuntimeConfig();
 
 const postImages = ref([]);
 const displayImages = ref([]);
-// const toggleDelete=ref<boolean>(false);
+const deleteCheck = ref(false);
+const isShow = ref(false);
+const flashMessage = ref("");
 
+const handelDelete = computed(() => {
+  return (deleteCheck.value = true);
+});
 const recruitItems = ref({
   items: [],
   item: "",
@@ -94,17 +131,22 @@ const recruitItems = ref({
   thumbnail: "",
   title: "",
   text: "",
+  activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
 const handleRegister = async () => {
+  flashMessage.value = Message.REGISTER;
+  isShow.value = true;
+
   const formData = new FormData();
 
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
+  formData.append("activities", recruitItems.value.activities);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -125,10 +167,13 @@ const handleRegister = async () => {
     }),
   ]).then((res) => {
     // console.log("all", res);
-    console.log(res[0].data.value);
+    // console.log(res[0].data.value);
+    isShow.value = true;
+    console.log(isShow.value);
+    recruitItems.value.item_id = res[0].data.value;
   });
 
-  return navigateTo(Url.AUTHRECRUIT);
+  // isShow.value=false;
 };
 // console.log(recruitItems.value.header_img);
 
@@ -139,6 +184,7 @@ const handleUpdate = async () => {
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
+  formData.append("activities", recruitItems.value.activities);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -170,20 +216,24 @@ const handleUpdate = async () => {
   return navigateTo(Url.AUTHRECRUIT);
 };
 
-const handleDelete = async () => {
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-      method: "DELETE",
-    }),
-    await useApiFetch(`/api/images/${auth.user.id}`, {
-      method: "DELETE",
-    }),
-  ]).then((res) => {
-    console.log(res);
-  });
+const handleCheck = async () => {
+  flashMessage.value = Message.DELETE;
+  if (deleteCheck) {
+    await useApiFetch("/sanctum/csrf-cookie");
+    await Promise.all([
+      await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+        method: "DELETE",
+      }),
+      await useApiFetch(`/api/images/${auth.user.id}`, {
+        method: "DELETE",
+      }),
+    ]).then((res) => {
+      console.log(res);
+      isShow.value = true;
+    });
 
-  return navigateTo(Url.AUTHRECRUIT);
+    return navigateTo(Url.AUTHRECRUIT);
+  }
 };
 
 const checkFilledOut = () => {
@@ -192,12 +242,11 @@ const checkFilledOut = () => {
   if (fieldArray.indexOf("") === -1) {
     return true;
   }
-
   return false;
 };
 
-const receiveImages = (val) => {
-  Array.from(val).map((data) => {
+const receiveImage = (val) => {
+  Array.from(val.files).map((data) => {
     postImages.value.push(data);
     let image = window.URL.createObjectURL(data);
     displayImages.value.push(image);
@@ -214,6 +263,9 @@ const receiveTeamName = (val) => {
 };
 const receiveTeamIntroduce = (val) => {
   recruitItems.value.text = val.value;
+};
+const receiveTeamActivities = (val) => {
+  recruitItems.value.activities = val.value;
 };
 
 const receiveProfileImage = (val: File) => {
@@ -248,16 +300,17 @@ onBeforeMount(async () => {
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
+          recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
-        } else {
-          if (val.images) {
-            val.images.forEach((image) => {
-              postImages.value.push(image);
-              displayImages.value.push(
-                config.public.baseURL + "/storage/" + image
-              );
-            });
-          }
+        }
+
+        if (val.images) {
+          val.images.forEach((image) => {
+            postImages.value.push(image);
+            displayImages.value.push(
+              config.public.baseURL + "/storage/" + image
+            );
+          });
         }
       });
     });

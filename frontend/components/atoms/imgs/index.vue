@@ -1,8 +1,8 @@
 <template>
     <v-img
     :src="path"
-    cover
     @click="onClick"
+    cover
     >
     <slot/>
     </v-img>

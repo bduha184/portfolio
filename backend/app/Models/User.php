@@ -28,6 +28,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'member_flg',
+        'request_flg',
     ];
 
     /**
@@ -57,6 +59,10 @@ class User extends Authenticatable
 
     public function recruits():HasOne{
         return $this->hasOne(Recruit::class);
+    }
+
+    public function images():HasMany{
+        return $this->hasMany(Recruit::class);
     }
 
     public function messages():HasMany{

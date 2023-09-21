@@ -27,18 +27,26 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::controller(UserController::class)->group(function(){
+        Route::prefix('user')->group(function () {
+            Route::put('/{id}', 'update');
+            Route::delete('/{id}', 'destroy');
+        });
+    });
+
+
     Route::controller(RecruitController::class)->group(function(){
         Route::prefix('recruit')->name('recruit.')->group(function(){
-        Route::post('/register','store');
-        Route::put('/{id}','update');
-        Route::delete('/{id}','destroy');
+            Route::post('/register','store');
+            Route::put('/{id}','update');
+            Route::delete('/{id}','destroy');
         });
     });
     Route::controller(ProfileController::class)->group(function(){
         Route::prefix('profile')->name('profile.')->group(function(){
-        Route::post('/register','store');
-        Route::put('/{id}','update');
-        Route::delete('/{id}','destroy');
+            Route::post('/register','store');
+            Route::put('/{id}','update');
+            Route::delete('/{id}','destroy');
         });
     });
 
@@ -55,12 +63,16 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 });
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
 Route::controller(RecruitController::class)->group(function(){
     Route::prefix('recruit')->name('recruit.')->group(function(){
         Route::get('/','index')->name('index');
         Route::get('/{id}','show')->name('show');
     });
 });
+
 Route::controller(ImagesController::class)->group(function(){
     Route::prefix('images')->name('images.')->group(function(){
         Route::get('/{id}','show');
@@ -75,8 +87,8 @@ Route::controller(ProfileController::class)->group(function(){
 
 Route::controller(MessageController::class)->group(function(){
     Route::prefix('message')->name('message.')->group(function(){
-        Route::get('/{dist}','index');
-        Route::get('/sns/{id}','show');
+        Route::get('/','index');
+        Route::get('/{sender_id}','show');
     });
 });
 Route::post('/logout', [LoginController::class, 'logout']);
@@ -89,6 +101,9 @@ Route::prefix('login')->name('login.')->group(function() {
 });
 
 Route::controller(UserController::class)->group(function(){
+    Route::prefix('user')->name('user.')->group(function(){
+        Route::get('/{id}','show');
+    });
     Route::prefix('register')->name('register.')->group(function () {
         Route::post('/', 'register');
         Route::get('/{provider}', 'showProviderUserRegistrationForm')->name('{provider}');

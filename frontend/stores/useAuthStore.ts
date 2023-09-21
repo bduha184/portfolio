@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed } from "vue";
+import {Url} from '~/constants/url';
 
 
 type User = {
@@ -77,7 +77,12 @@ export const useAuthStore = defineStore(
     async function logout() {
       await useApiFetch("/api/logout", { method: "POST" });
       user.value = null;
-      return navigateTo("/beforelogin");
+      return navigateTo({
+        path:Url.SIGNIN,
+        query:{
+          tab:'login'
+        }
+      });
     }
 
     async function login(credentials: Credentials) {
@@ -101,8 +106,8 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: info,
       });
-
-      user.value=register.data.value.user;
+      console.log(register.data);
+      // user.value=register.data.value.user;
 
       return register;
     }

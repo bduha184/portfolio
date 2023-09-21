@@ -15,16 +15,14 @@ export const Url = {
   PROFILE: getFrontUrl('/auth/profile'),
   /** マイページ（メッセージ）（ */
   MESSAGES: getFrontUrl('/auth/messages'),
-  /** マイページ（メッセージ_参加希望）（ */
-  REQUESTS: getFrontUrl('/auth/messages/requests'),
-  /** マイページ（メッセージ_質問BOX）（ */
-  QUESTIONS: getFrontUrl('/auth/messages/questions'),
   /** マイページ（チーム）（ */
-  TEAMS: getFrontUrl('/auth/teams'),
+  AUTHTEAMS: getFrontUrl('/auth/teams'),
   /** マイページ（マイチーム）（ */
   MYTEAM: getFrontUrl('/auth/teams/myteam'),
   /** マイページ（所属チーム一覧）（ */
-  AFFILIATION: getFrontUrl('/auth/teams/list'),
+  AFFILIATION: getFrontUrl('/auth/teams/affiliation'),
+  /** マイページ（愛車紹介）（ */
+  MYBICYCLE: getFrontUrl('/auth/mybicycle'),
 
   /**----------------------**/
   /**------BeforeLogin-----**/
@@ -40,11 +38,11 @@ export const Url = {
   /** 投稿詳細 */
   POSTS: getFrontUrl('/posts'),
   /** サイクリング募集 */
-  RECRUIT: getFrontUrl('/recruit/recruitlist'),
+  TEAMS: getFrontUrl('/teams'),
   /** サイクリング情報 */
   INFO: getFrontUrl('/info'),
   /** みんなの愛車 */
-  INTRODUCTION: getFrontUrl('/introduction'),
+  BICYCLES: getFrontUrl('/bicycles'),
   /** ルート検索 */
   SEARCH: getFrontUrl('/search'),
   /** パスワードリセット **/

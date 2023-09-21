@@ -1,98 +1,116 @@
-
 <template>
-  <div>
     <v-dialog
-      v-model="dialog"
-      max-width="600px"
-      persistent
+    max-width="600px" persistent
+    v-model="dialog"
     >
       <template v-slot:activator="{ props }">
         <AtomsBtnsBaseBtn
-        width="16rem"
-        class="my-4 d-block mx-auto"
+          width="16rem"
+          class="my-4 d-block mx-auto"
           v-bind="props"
-          :setColor="setColor"
+          :color="color"
+          @emitClick="receiveClick"
         >
           <slot />
         </AtomsBtnsBaseBtn>
       </template>
-      <v-card
-        class="py-5 px-3">
+      <v-card class="py-5 px-3" v-if="checkStatus">
         <v-card-text class="text-red">
           {{ caution }}
         </v-card-text>
         <v-card-actions class="mx-auto">
           <v-row>
             <v-col>
-              <AtomsBtnsBaseBtn @click="dialog = false">
+              <AtomsBtnsBaseBtn
+              @click="dialog = false"
+              >
                 戻る
               </AtomsBtnsBaseBtn>
             </v-col>
             <v-col>
               <AtomsBtnsBaseBtn
                 width="10rem"
-                setColor="orange"
-                @click="onClick"
+                :color="color"
+                @emitClick="onClick"
               >
-                {{btnValue}}
+                {{ btnValue }}
               </AtomsBtnsBaseBtn>
             </v-col>
           </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    {{ dialog }}
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref,navigateTo,useRoute,onBeforeMount } from "#imports";
+import { ref, navigateTo, useRoute, onMounted, computed } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { Url } from "../../../constants/url";
+import { chownSync } from "fs";
 
 const props = defineProps({
-  btnType:{
-    type:String,
-    default:''
-  },
-  setColor: {
+  btnType: {
     type: String,
     default: "",
   },
-  btnValue:{
-    type:String,
-    default:'ログイン'
+  color: {
+    type: String,
+    default: "",
   },
-  caution:{
-    type:String,
-    default:'※こちらの機能はログイン後にご利用いただけます。'
-  }
+  btnValue: {
+    type: String,
+    default: "ログイン",
+  },
+  caution: {
+    type: String,
+    default: "※こちらの機能はログイン後にご利用いただけます。",
+  },
 });
 const dialog = ref(false);
 const auth = useAuthStore();
 const router = useRoute();
-
+const path = router.path;
 
 interface Emits {
-  (e: "emitClick"): void;
+  (e: "emitModalBtnClick"): void;
+  (e: "emitModalOpen"): void;
+  (e: "emitAccordion"): void;
 }
 const emits = defineEmits<Emits>();
+const checkStatus = computed(() => {
+  if (auth.isLoggedIn && path.indexOf("auth") == -1) {
+    return (dialog.value = false);
+  }
+  if (!auth.isLoggedIn || auth.isLoggedIn && path.indexOf("auth") != -1) {
+    return (dialog.value = true);
+  }
+});
+
 const onClick = () => {
+  if (!auth.isLoggedIn) {
+    return navigateTo({
+      path:Url.SIGNIN,
+      query:{
+        tab:'login'
+      }
+      })
+  } else {
 
-  if(props.btnType == 'delete'){
-    emits("emitClick");
+    if (props.btnType == "delete") {
+      emits("emitModalBtnClick");
+    }
   }
-  if(!auth.isLoggedIn){
-    return navigateTo(Url.SIGNIN);
-  }
-
 };
 
-onBeforeMount(()=>{
-  if(auth.isLoggedIn && router.path.indexOf('auth') == -1){
+const receiveClick = () => {
 
-    dialog.value = false;
+  if (dialog.value == false) {
+    if (auth.isLoggedIn) {
+      emits("emitModalOpen");
+      emits("emitAccordion");
+    } else {
+      dialog.value = true;
+    }
   }
-})
-
+};
 </script>

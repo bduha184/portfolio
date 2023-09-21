@@ -18,7 +18,7 @@ export const Icons = {
   HOME:mdiHome,
   ACCOUNT:mdiAccount,
   MYPAGE:mdiAccountCircle,
-  RECRUIT:mdiBike,
+  CYCLING:mdiBike,
   INFORMATION:mdiInformation,
   MAP:mdiMapMarker,
   BICYCLE:mdiBicycle,

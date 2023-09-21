@@ -27,3 +27,5 @@ exit
 cd backend
 php artisan migrate:fresh --seed
 exit
+cd backend bash
+exit

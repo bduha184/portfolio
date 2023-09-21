@@ -2,10 +2,10 @@
   <v-btn
     rounded
     height="40"
-    class="bg-blue text-decoration-none"
     :to="to"
-    :class="setColor == 'orange' ? 'bg-orange text-white':''"
+    :color="color"
     @click="onClick"
+    :variant="variant"
   >
   <slot/>
 </v-btn>
@@ -17,9 +17,14 @@ const props = defineProps({
       type:String,
       default:''
   },
-  setColor:{
+  color:{
     type:String,
     default:''
+  },
+  variant:{
+    type:String,
+    default:'elevated'
+
   }
 })
 

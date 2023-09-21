@@ -13,14 +13,19 @@
     <v-card-text>
       {{ recruitItems.text }}
     </v-card-text>
+    <OrganismsRecruitsTeamInfo
+    :activities="recruitItems.activities"
+    />
+    <OrganismsRecruitsActivities
+    :activities="recruitItems.activities"
+    />
     <OrganismsGalleryModal :images="images" />
-    <OrganismsTeamActivity />
     <v-container class="text-center">
       <v-row>
         <v-col>
           <OrganismsModal
-            @emitClick="requestJoinTeam"
-            setColor="red"
+            @emitAccordion="requestJoinTeam"
+            color="info"
           >
             このチームに参加する
           </OrganismsModal>
@@ -28,7 +33,7 @@
             class="text-center"
             :toggle="toggleRequest"
             @emitInput="receiveBody"
-            @emitClick="receiveClick('join')"
+            @emitClick="joinRequest = true; receiveClick();"
             placeholder="伝えたい内容、参加したい理由、等を記載してください"
             text="メッセージを送信する"
           >
@@ -36,8 +41,8 @@
         </v-col>
         <v-col>
           <OrganismsModal
-            @emitClick="questionToTeam"
-            setColor="orange"
+            @emitAccordion="questionToTeam"
+            color="secondary"
           >
           このチームに質問する
           </OrganismsModal>
@@ -46,7 +51,7 @@
             setColor="orange"
             :toggle="toggleQuestion"
             @emitInput="receiveBody"
-            @emitClick="receiveClick('que')"
+            @emitClick="receiveClick"
             placeholder="質問内容を記載してください"
             text="質問内容を送信する"
           >
@@ -55,7 +60,6 @@
       </v-row>
     </v-container>
     <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
-    <!-- </OrganismsCardsProfile> -->
   </v-card>
 </template>
 
@@ -69,6 +73,8 @@ const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
 
+
+
 const recruitItems = ref({
   items: [],
   item: "",
@@ -81,6 +87,7 @@ const recruitItems = ref({
   thumbnail: "",
   title: "",
   text: "",
+  activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -88,6 +95,7 @@ const recruitItems = ref({
 const images = ref([]);
 
 const comments = ref("");
+const joinRequest = ref(false);
 
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
@@ -103,29 +111,43 @@ const questionToTeam = () => {
   if (!auth.isLoggedIn) {
     toggleQuestion.value = false;
   } else {
-    toggleQuestion.value = !toggleQuestion.value;
+    toggleQuestion.value = true;
   }
 };
 const receiveBody = (val) => {
   comments.value = val;
 };
 
-const receiveClick = async (val) => {
-  const dist = val == "join" ? "join" : "que";
+const receiveClick = async () => {
 
-  const data = {
+  const messageData = {
     comments: comments.value,
     receiver_id: recruitItems.value.user_id,
     sender_id: auth.user.id,
-    distinction: dist,
   };
 
-  console.log(data);
+  const userData = {
+    request_flg: joinRequest.value,
+  }
+
+  const userId = auth.user?.id;
+
   await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch("/api/message/register", {
-    method: "POST",
-    body: data,
-  });
+  await Promise.all([
+    useApiFetch("/api/message/register", {
+      method: "POST",
+      body: messageData,
+    }),
+    useApiFetch(`/api/user/${userId}`, {
+      method: "POST",
+      body: userData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+  ]).then((res)=>{
+    console.log(res);
+  })
 };
 
 onBeforeMount(async () => {
@@ -137,8 +159,8 @@ onBeforeMount(async () => {
     ]).then((resItems) => {
       resItems.forEach((item) => {
         const val = item.data.value;
-        // console.log(val);
-        if (val.data) {
+
+        if(val.data){
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
             config.public.baseURL + "/storage/" + val.data.header_img_path;
@@ -146,11 +168,14 @@ onBeforeMount(async () => {
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
+          recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
-        } else {
+        }
+        if(val.images){
           val.images.forEach((image) => {
             images.value.push(config.public.baseURL + "/storage/" + image);
           });
+
         }
       });
     });

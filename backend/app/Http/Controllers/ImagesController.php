@@ -59,18 +59,29 @@ class ImagesController extends Controller
      */
     public function show(Images $images,$id)
     {
-        $user_id = Auth::id();
-        if($id != $user_id){
-            $recruit  = Recruit::find($id)->first();
-            $user_id=$recruit->user_id;
+
+        if(Auth::id() == $id){
+            $get_image_info = $images->where('user_id',$id)->first();
+        }else{
+            $recruit = Recruit::find($id)->first();
+            $user_id = $recruit->user_id;
+            $get_image_info = $images->where('user_id',$user_id)->first();
+
         }
-        $get_image_info = $images->where('user_id',$user_id)->first();
-        $get_serialize_images = $get_image_info->image_path;
-        $get_images = unserialize($get_serialize_images);
+
+        if($get_image_info ){
+            $get_serialize_images = $get_image_info->image_path;
+            $get_images = unserialize($get_serialize_images);
+            return response()->json([
+                'images'=>$get_images,
+            ]);
+        }else {
         return response()->json([
-            'images'=>$get_images,
-        ]);
+            'message' => 'Images not found'
+        ], Response::HTTP_NOT_FOUND);
     }
+    }
+
 
     /**
      * Show the form for editing the specified resource.
