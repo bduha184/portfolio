@@ -1,12 +1,4 @@
 <template>
-  <v-container>
-    <OrganismsRequest
-
-    />
-  </v-container>
+    <OrganismsRequest/>
 </template>
 
-<scritp setup lang="ts">
-
-
-</scritp>
