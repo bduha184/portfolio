@@ -4,6 +4,7 @@
     @emitInput="receiveHeaderImg"
     :path="path_header"
     :disabled="disabled"
+    size="cover"
     />
     <v-avatar size="80" color="white">
       <MoleculesImgsSelect
