@@ -87,14 +87,14 @@ const receiveClick = async () => {
   // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
-window.Echo.channel(`cycle-community`).listen(".new-message-event", (e) => {
-  // console.log(e);
-  // messages.value.push(e.message.comments);
-  // const senderId = router.params.id;
-  // const res = await useApiFetch(`/api/message/sns/${senderId}`);
-  // const val = res.data.value;
-  // messages.value.push(...val.data);
-});
+// window.Echo.channel(`cycle-community`).listen(".new-message-event", (e) => {
+//   console.log(e);
+//   // messages.value.push(e.message.comments);
+//   // const senderId = router.params.id;
+//   // const res = await useApiFetch(`/api/message/sns/${senderId}`);
+//   // const val = res.data.value;
+//   // messages.value.push(...val.data);
+// });
 
 onMounted(async () => {
   const senderId = router.params.id;
