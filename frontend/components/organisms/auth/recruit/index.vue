@@ -49,7 +49,8 @@
     </AtomsBtnsBaseBtn>
     <OrganismsModal
       v-if="recruitItems.item_id"
-      @emitClick.prevent="handleDelete"
+      @emitModalOpen="handleCheck"
+      @emitModalBtnClick="handleDelete"
       setColor="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
       btnValue="削除する"
@@ -74,14 +75,14 @@ import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
-const router = useRoute();
-
 const config = useRuntimeConfig();
 
 const postImages = ref([]);
 const displayImages = ref([]);
-// const toggleDelete=ref<boolean>(false);
-
+const deleteCheck = ref(false);
+const handelDelete = computed(()=>{
+  return deleteCheck.value = true;
+})
 const recruitItems = ref({
   items: [],
   item: "",
@@ -125,10 +126,10 @@ const handleRegister = async () => {
     }),
   ]).then((res) => {
     // console.log("all", res);
-    console.log(res[0].data.value);
+    // console.log(res[0].data.value);
+    recruitItems.value.item_id = res[0].data.value;
   });
 
-  return navigateTo(Url.AUTHRECRUIT);
 };
 // console.log(recruitItems.value.header_img);
 
@@ -170,21 +171,26 @@ const handleUpdate = async () => {
   return navigateTo(Url.AUTHRECRUIT);
 };
 
-const handleDelete = async () => {
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-      method: "DELETE",
-    }),
-    await useApiFetch(`/api/images/${auth.user.id}`, {
-      method: "DELETE",
-    }),
-  ]).then((res) => {
-    console.log(res);
-  });
+const handleCheck = async()=>{
+  if(deleteCheck) {
+    console.log(deleteCheck.value);
+    // await useApiFetch("/sanctum/csrf-cookie");
+    // await Promise.all([
+    //   await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+    //     method: "DELETE",
+    //   }),
+    //   await useApiFetch(`/api/images/${auth.user.id}`, {
+    //     method: "DELETE",
+    //   }),
+    // ]).then((res) => {
+    //   console.log(res);
+    // });
 
-  return navigateTo(Url.AUTHRECRUIT);
-};
+    // return navigateTo(Url.AUTHRECRUIT);
+  }
+}
+
+
 
 const checkFilledOut = () => {
   const fieldArray = [recruitItems.value.title, recruitItems.value.text];
