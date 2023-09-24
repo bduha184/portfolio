@@ -19,7 +19,7 @@
       <v-row>
         <v-col>
           <OrganismsModal
-            @emitClick="requestJoinTeam"
+            @emitAccordion="requestJoinTeam"
             setColor="red"
           >
             このチームに参加する
@@ -55,7 +55,6 @@
       </v-row>
     </v-container>
     <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
-    <!-- </OrganismsCardsProfile> -->
   </v-card>
 </template>
 
@@ -92,8 +91,8 @@ const comments = ref("");
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
 
-const requestJoinTeam = (e) => {
-  console.log(e)
+const requestJoinTeam = () => {
+  console.log('test');
   if (!auth.isLoggedIn) {
      toggleRequest.value = false;
   } else {
