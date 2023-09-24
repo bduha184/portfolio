@@ -95,6 +95,7 @@ const onClick = () => {
 };
 
 const receiveClick = () => {
+
   if (dialog.value == false) {
     if (auth.isLoggedIn) {
       emits("emitModalOpen");

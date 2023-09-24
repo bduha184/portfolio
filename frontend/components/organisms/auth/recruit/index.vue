@@ -172,22 +172,25 @@ const handleUpdate = async () => {
 };
 
 const handleCheck = async()=>{
-  if(handelDelete) {
-    await useApiFetch("/sanctum/csrf-cookie");
-    await Promise.all([
-      await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-        method: "DELETE",
-      }),
-      await useApiFetch(`/api/images/${auth.user.id}`, {
-        method: "DELETE",
-      }),
-    ]).then((res) => {
-      console.log(res);
-    });
+  if(deleteCheck) {
+    console.log(deleteCheck.value);
+    // await useApiFetch("/sanctum/csrf-cookie");
+    // await Promise.all([
+    //   await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+    //     method: "DELETE",
+    //   }),
+    //   await useApiFetch(`/api/images/${auth.user.id}`, {
+    //     method: "DELETE",
+    //   }),
+    // ]).then((res) => {
+    //   console.log(res);
+    // });
 
-    return navigateTo(Url.AUTHRECRUIT);
+    // return navigateTo(Url.AUTHRECRUIT);
   }
 }
+
+
 
 const checkFilledOut = () => {
   const fieldArray = [recruitItems.value.title, recruitItems.value.text];
