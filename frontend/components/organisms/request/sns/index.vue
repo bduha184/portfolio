@@ -139,6 +139,7 @@ onMounted(async () => {
     }
 
     &:deep(.v-list-item-subtitle) {
+      display: inline-block;
       overflow: visible;
       -webkit-line-clamp: unset;
       // border: 1px solid #333 !important;
