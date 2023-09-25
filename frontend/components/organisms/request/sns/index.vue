@@ -103,6 +103,8 @@ onMounted(async () => {
   messages.value.push(...val.data);
 
 });
+
+
 </script>
 
 <style lang="scss" scoped>
