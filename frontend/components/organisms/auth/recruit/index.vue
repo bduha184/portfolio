@@ -1,5 +1,10 @@
 <template>
   <form>
+    <AtomsDisplayFlashMessage
+    :isShow=isShow
+    >
+    {{ flashMessage }}
+  </AtomsDisplayFlashMessage>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
       :path_header="recruitItems.url_header_img"
@@ -32,7 +37,7 @@
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
-      @click.once="handleRegister"
+      @click="handleRegister"
       v-if="!recruitItems.item_id"
     >
       登録
@@ -62,14 +67,16 @@
 </template>
 
 <script setup lang="ts">
+
 import {
   useRuntimeConfig,
   navigateTo,
   useRoute,
   clearNuxtData,
 } from "nuxt/app";
+import {Message} from '~/constants/flashMessage';
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onBeforeMount, computed } from "vue";
+import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 // import { useRoute } from "vue-router";
@@ -80,6 +87,9 @@ const config = useRuntimeConfig();
 const postImages = ref([]);
 const displayImages = ref([]);
 const deleteCheck = ref(false);
+const isShow = ref(false);
+const flashMessage = ref('');
+
 const handelDelete = computed(()=>{
   return deleteCheck.value = true;
 })
@@ -99,36 +109,44 @@ const recruitItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-const handleRegister = async () => {
-  const formData = new FormData();
 
-  formData.append("header_img", recruitItems.value.header_img);
-  formData.append("thumbnail", recruitItems.value.thumbnail);
-  formData.append("title", recruitItems.value.title);
-  formData.append("text", recruitItems.value.text);
+const handleRegister = async() => {
+  flashMessage.value = Message.REGISTER;
+  isShow.value= true;
 
-  const imageData = new FormData();
-  postImages.value.forEach((image) => {
-    imageData.append("images[]", image);
-  });
-  // console.log(...formData.entries());
-  // console.log(...imageData.entries());
+  console.log('onClick')
+  // const formData = new FormData();
 
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    useApiFetch("/api/recruit/register", {
-      method: "POST",
-      body: formData,
-    }),
-    useApiFetch("/api/images/register", {
-      method: "POST",
-      body: imageData,
-    }),
-  ]).then((res) => {
-    // console.log("all", res);
-    // console.log(res[0].data.value);
-    recruitItems.value.item_id = res[0].data.value;
-  });
+  // formData.append("header_img", recruitItems.value.header_img);
+  // formData.append("thumbnail", recruitItems.value.thumbnail);
+  // formData.append("title", recruitItems.value.title);
+  // formData.append("text", recruitItems.value.text);
+
+  // const imageData = new FormData();
+  // postImages.value.forEach((image) => {
+  //   imageData.append("images[]", image);
+  // });
+  // // console.log(...formData.entries());
+  // // console.log(...imageData.entries());
+
+  // await useApiFetch("/sanctum/csrf-cookie");
+  // await Promise.all([
+  //   useApiFetch("/api/recruit/register", {
+  //     method: "POST",
+  //     body: formData,
+  //   }),
+  //   useApiFetch("/api/images/register", {
+  //     method: "POST",
+  //     body: imageData,
+  //   }),
+  // ]).then((res) => {
+  //   // console.log("all", res);
+  //   // console.log(res[0].data.value);
+  //   isShow.value = true;
+  //   recruitItems.value.item_id = res[0].data.value;
+  // });
+
+  // isShow.value=false;
 
 };
 // console.log(recruitItems.value.header_img);
@@ -172,25 +190,27 @@ const handleUpdate = async () => {
 };
 
 const handleCheck = async()=>{
+  flashMessage.value = Message.DELETE;
   if(deleteCheck) {
-    console.log(deleteCheck.value);
-    // await useApiFetch("/sanctum/csrf-cookie");
-    // await Promise.all([
-    //   await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-    //     method: "DELETE",
-    //   }),
-    //   await useApiFetch(`/api/images/${auth.user.id}`, {
-    //     method: "DELETE",
-    //   }),
-    // ]).then((res) => {
-    //   console.log(res);
-    // });
+    await useApiFetch("/sanctum/csrf-cookie");
+    await Promise.all([
+      await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
+        method: "DELETE",
+      }),
+      await useApiFetch(`/api/images/${auth.user.id}`, {
+        method: "DELETE",
+      }),
+    ]).then((res) => {
+      console.log(res);
+      isShow.value = true;
+    }).finally(()=>{
+    isShow.value = false;
 
-    // return navigateTo(Url.AUTHRECRUIT);
+  });
+
+    return navigateTo(Url.AUTHRECRUIT);
   }
 }
-
-
 
 const checkFilledOut = () => {
   const fieldArray = [recruitItems.value.title, recruitItems.value.text];
@@ -198,7 +218,6 @@ const checkFilledOut = () => {
   if (fieldArray.indexOf("") === -1) {
     return true;
   }
-
   return false;
 };
 
