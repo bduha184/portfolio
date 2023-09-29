@@ -1,7 +1,7 @@
 <template>
   <v-snackbar
-  v-model="flashMessage"
   :color="color"
+  v-model="flashMessage"
   location="top"
   :timeout="2000"
   >
@@ -15,20 +15,21 @@ import {ref,computed} from '#imports';
 const props=defineProps({
   isShow:{
     type:Boolean,
-    default:true
+    default:false
   },
   color:{
     type:String,
     default:'success'
   }
 })
-console.log(props.isShow);
+
 
 const flashMessage = ref(props.isShow);
 
 // const isShow = computed(()=>{
 //   return flashMessage.value= props.isShow;
 // })
+console.log(flashMessage.value);
 
 </script>
 

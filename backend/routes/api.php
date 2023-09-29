@@ -27,6 +27,13 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::controller(UserController::class)->group(function(){
+        Route::prefix('user')->group(function () {
+            Route::delete('/{id}', 'destroy');
+        });
+    });
+
+
     Route::controller(RecruitController::class)->group(function(){
         Route::prefix('recruit')->name('recruit.')->group(function(){
             Route::post('/register','store');
