@@ -26,10 +26,10 @@ const props=defineProps({
 
 const flashMessage = ref(props.isShow);
 
-// const isShow = computed(()=>{
+// const test = computed(()=>{
 //   return flashMessage.value= props.isShow;
 // })
-console.log(flashMessage.value);
+// console.log(flashMessage.value);
 
 </script>
 

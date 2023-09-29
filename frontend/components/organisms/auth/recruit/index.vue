@@ -1,7 +1,7 @@
 <template>
   <form>
     <AtomsDisplayFlashMessage
-    :isShow=isShow
+    :isShow="isShow"
     >
     {{ flashMessage }}
   </AtomsDisplayFlashMessage>
@@ -34,14 +34,34 @@
       <OrganismsDrugAndDrop @emitImages="receiveImages" />
       <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
-    <AtomsBtnsBaseBtn
+    <!-- <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
       @click="handleRegister"
       v-if="!recruitItems.item_id"
     >
       登録
-    </AtomsBtnsBaseBtn>
+    </AtomsBtnsBaseBtn> -->
+
+    <v-snackbar
+      :timeout="2000"
+      color="deep-purple-accent-4"
+      elevation="24"
+      location="top"
+    >
+      <template v-slot:activator="{ props }">
+        <AtomsBtnsBaseBtn
+        width="16rem"
+      class="my-4 d-block mx-auto"
+      @click="handleRegister"
+      v-if="!recruitItems.item_id"
+        >
+          登録
+        </AtomsBtnsBaseBtn>
+      </template>
+
+      Snackbar with <strong>elevation="24"</strong>.
+    </v-snackbar>
     <AtomsBtnsBaseBtn
       width="16rem"
       setColor="orange"
@@ -89,6 +109,7 @@ const displayImages = ref([]);
 const deleteCheck = ref(false);
 const isShow = ref(false);
 const flashMessage = ref('');
+const props = ref(false);
 
 const handelDelete = computed(()=>{
   return deleteCheck.value = true;
@@ -113,37 +134,39 @@ const recruitItems = ref({
 const handleRegister = async() => {
   flashMessage.value = Message.REGISTER;
 
-  const formData = new FormData();
+  props.value = true;
 
-  formData.append("header_img", recruitItems.value.header_img);
-  formData.append("thumbnail", recruitItems.value.thumbnail);
-  formData.append("title", recruitItems.value.title);
-  formData.append("text", recruitItems.value.text);
+  // const formData = new FormData();
 
-  const imageData = new FormData();
-  postImages.value.forEach((image) => {
-    imageData.append("images[]", image);
-  });
-  // console.log(...formData.entries());
-  // console.log(...imageData.entries());
+  // formData.append("header_img", recruitItems.value.header_img);
+  // formData.append("thumbnail", recruitItems.value.thumbnail);
+  // formData.append("title", recruitItems.value.title);
+  // formData.append("text", recruitItems.value.text);
 
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    useApiFetch("/api/recruit/register", {
-      method: "POST",
-      body: formData,
-    }),
-    useApiFetch("/api/images/register", {
-      method: "POST",
-      body: imageData,
-    }),
-  ]).then((res) => {
-    // console.log("all", res);
-    // console.log(res[0].data.value);
-    isShow.value = true;
-    console.log(isShow.value);
-    recruitItems.value.item_id = res[0].data.value;
-  });
+  // const imageData = new FormData();
+  // postImages.value.forEach((image) => {
+  //   imageData.append("images[]", image);
+  // });
+  // // console.log(...formData.entries());
+  // // console.log(...imageData.entries());
+
+  // await useApiFetch("/sanctum/csrf-cookie");
+  // await Promise.all([
+  //   useApiFetch("/api/recruit/register", {
+  //     method: "POST",
+  //     body: formData,
+  //   }),
+  //   useApiFetch("/api/images/register", {
+  //     method: "POST",
+  //     body: imageData,
+  //   }),
+  // ]).then((res) => {
+  //   // console.log("all", res);
+  //   // console.log(res[0].data.value);
+  //   isShow.value = true;
+  //   console.log(isShow.value);
+  //   recruitItems.value.item_id = res[0].data.value;
+  // });
 
   // isShow.value=false;
 
