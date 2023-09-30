@@ -83,65 +83,19 @@ class UserController extends Controller
         ];
     }
 
-    public function followers(string $name)
-    {
-        $user = User::where('name', $name)->first();
-        if ($user) {
-            $followers = $user->followers->sortByDesc('created_at');
+
+    public function destroy($id){
+        $user = User::find($id)->first();
+
+        if($user){
+            $user->delete();
             return response()->json([
-                'followers' => $followers
+                'message' => 'delete successfully'
             ], Response::HTTP_OK);
-        }
-
-        return response()->json(Response::HTTP_NOT_FOUND);
-    }
-
-    public function followees(string $name)
-    {
-        $user = User::where('name', $name)->first();
-
-        if ($user) {
-            $followees = $user->followees->sortByDesc('created_at');
-
+        } else {
             return response()->json([
-                'followees' => $followees
-            ], Response::HTTP_OK);
+                'message' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
         }
-
-        return response()->json(Response::HTTP_NOT_FOUND);
-    }
-
-    public function follow(Request $request, string $name)
-    {
-        $user = User::where('name', $name)->first();
-
-        $request->user()->followees()->detach($user);
-        $request->user()->followees()->attach($user);
-
-        return ['name' => $name];
-    }
-    public function unfollow(Request $request, string $name)
-    {
-        $user = User::where('name', $name)->first();
-
-        $request->user()->followees()->detach($user);
-
-        return ['name' => $name];
-    }
-
-    public function likes($id)
-    {
-        $user = User::where('id', $id)->first();
-        if ($user) {
-            $likes_articles = $user->likes->all();
-            $articleArray = [];
-
-            foreach ($likes_articles as $likes_article) {
-                $article = Article::where('id', $likes_article->id)->with('user')->get();
-                array_push($articleArray, $article);
-            }
-            return $articleArray;
-        }
-        return response()->json(Response::HTTP_NOT_FOUND);
     }
 }
