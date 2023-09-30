@@ -17,10 +17,20 @@
     </v-row>
     <v-btn @click="handleLogout"> ログアウト </v-btn>
     <v-btn @click="handleDelete"> 退会 </v-btn>
+    <OrganismsModal
+      @emitModalOpen="handleCheck"
+      @emitModalBtnClick="handleDelete"
+      setColor="orange"
+      caution="※退会すると全てのデータが削除され、復元できません。退会しますか？"
+      btnValue="退会する"
+      btnType="delete"
+    >
+      退会
+    </OrganismsModal>
   </div>
 </template>
 <script setup lang="ts">
-import {definePageMeta,navigateTo} from '#imports';
+import {ref,definePageMeta,navigateTo} from '#imports';
 import {onMounted} from 'vue';
 import {Url} from '../../constants/url';
 import { useAuthStore } from '../../stores/useAuthStore';
@@ -33,6 +43,10 @@ const auth = useAuthStore();
 const userId = auth.user.id;
 const handleLogout = async()=> {
   await auth.logout();
+}
+const modalOpen = ref(false);
+
+const handleCheck= ()=>{
 }
 
 const handleDelete = async()=> {
