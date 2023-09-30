@@ -24,12 +24,14 @@ const props=defineProps({
 })
 
 
-const flashMessage = ref(props.isShow);
 
-// const test = computed(()=>{
-//   return flashMessage.value= props.isShow;
-// })
+const flashMessage = ref(false);
+
+const test = computed(()=>{
+  return flashMessage.value= props.isShow;
+})
 // console.log(flashMessage.value);
+console.log(test);
 
 </script>
 

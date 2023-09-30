@@ -34,26 +34,27 @@
       <OrganismsDrugAndDrop @emitImages="receiveImages" />
       <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
-    <!-- <AtomsBtnsBaseBtn
+    <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
-      @click="handleRegister"
+      @emitClick="handleRegister"
       v-if="!recruitItems.item_id"
     >
       登録
-    </AtomsBtnsBaseBtn> -->
+    </AtomsBtnsBaseBtn>
 
-    <v-snackbar
+    <!-- <v-snackbar
       :timeout="2000"
       color="deep-purple-accent-4"
-      elevation="24"
+      elevation="2"
       location="top"
     >
-      <template v-slot:activator="{ props }">
+      <template v-slot:activator="{props }">
         <AtomsBtnsBaseBtn
         width="16rem"
       class="my-4 d-block mx-auto"
-      @click="handleRegister"
+      @emitClick="handleRegister"
+      v-bind="props"
       v-if="!recruitItems.item_id"
         >
           登録
@@ -61,7 +62,7 @@
       </template>
 
       Snackbar with <strong>elevation="24"</strong>.
-    </v-snackbar>
+    </v-snackbar> -->
     <AtomsBtnsBaseBtn
       width="16rem"
       setColor="orange"
@@ -83,6 +84,7 @@
     >
       削除
     </OrganismsModal>
+    {{ isShow }}
   </form>
 </template>
 
@@ -109,7 +111,6 @@ const displayImages = ref([]);
 const deleteCheck = ref(false);
 const isShow = ref(false);
 const flashMessage = ref('');
-const props = ref(false);
 
 const handelDelete = computed(()=>{
   return deleteCheck.value = true;
@@ -131,10 +132,11 @@ const recruitItems = ref({
 });
 
 
-const handleRegister = async() => {
-  flashMessage.value = Message.REGISTER;
 
-  props.value = true;
+
+const handleRegister = () => {
+  flashMessage.value = Message.REGISTER;
+  isShow.value = true;
 
   // const formData = new FormData();
 

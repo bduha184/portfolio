@@ -15,12 +15,20 @@
         <NuxtLink :to="Url.MESSAGES"> メッセージ </NuxtLink>
       </v-col>
     </v-row>
-    <v-btn @click="handleLogout"> ログアウト </v-btn>
-    <v-btn @click="handleDelete"> 退会 </v-btn>
     <OrganismsModal
       @emitModalOpen="handleCheck"
       @emitModalBtnClick="handleDelete"
-      setColor="orange"
+      caution="ログアウトします。よろしいですか？"
+      btnValue="ログアウトする"
+      color="orange"
+      btnType="delete"
+    >
+      ログアウト
+    </OrganismsModal>
+    <OrganismsModal
+      @emitModalOpen="handleCheck"
+      @emitModalBtnClick="handleDelete"
+      color="error"
       caution="※退会すると全てのデータが削除され、復元できません。退会しますか？"
       btnValue="退会する"
       btnType="delete"

@@ -6,7 +6,7 @@
           width="16rem"
           class="my-4 d-block mx-auto"
           v-bind="props"
-          :setColor="setColor"
+          :color="color"
           @emitClick="receiveClick"
         >
           <slot />
@@ -19,14 +19,17 @@
         <v-card-actions class="mx-auto">
           <v-row>
             <v-col>
-              <AtomsBtnsBaseBtn @click="dialog = false">
+              <AtomsBtnsBaseBtn
+              @click="dialog = false"
+              
+              >
                 戻る
               </AtomsBtnsBaseBtn>
             </v-col>
             <v-col>
               <AtomsBtnsBaseBtn
                 width="10rem"
-                setColor="orange"
+                :color="color"
                 @click="onClick"
               >
                 {{ btnValue }}
@@ -50,7 +53,7 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  setColor: {
+  color: {
     type: String,
     default: "",
   },
