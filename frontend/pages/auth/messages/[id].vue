@@ -1,5 +1,5 @@
 <template>
-   <OrganismsMessages/>
+  <OrganismsMessagesDetail/>
 </template>
 <script setup lang="ts">
 import {definePageMeta} from '#imports';

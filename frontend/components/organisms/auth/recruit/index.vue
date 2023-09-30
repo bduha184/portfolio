@@ -134,41 +134,41 @@ const recruitItems = ref({
 
 
 
-const handleRegister = () => {
+const handleRegister = async() => {
   flashMessage.value = Message.REGISTER;
   isShow.value = true;
 
-  // const formData = new FormData();
+  const formData = new FormData();
 
-  // formData.append("header_img", recruitItems.value.header_img);
-  // formData.append("thumbnail", recruitItems.value.thumbnail);
-  // formData.append("title", recruitItems.value.title);
-  // formData.append("text", recruitItems.value.text);
+  formData.append("header_img", recruitItems.value.header_img);
+  formData.append("thumbnail", recruitItems.value.thumbnail);
+  formData.append("title", recruitItems.value.title);
+  formData.append("text", recruitItems.value.text);
 
-  // const imageData = new FormData();
-  // postImages.value.forEach((image) => {
-  //   imageData.append("images[]", image);
-  // });
-  // // console.log(...formData.entries());
-  // // console.log(...imageData.entries());
+  const imageData = new FormData();
+  postImages.value.forEach((image) => {
+    imageData.append("images[]", image);
+  });
+  // console.log(...formData.entries());
+  // console.log(...imageData.entries());
 
-  // await useApiFetch("/sanctum/csrf-cookie");
-  // await Promise.all([
-  //   useApiFetch("/api/recruit/register", {
-  //     method: "POST",
-  //     body: formData,
-  //   }),
-  //   useApiFetch("/api/images/register", {
-  //     method: "POST",
-  //     body: imageData,
-  //   }),
-  // ]).then((res) => {
-  //   // console.log("all", res);
-  //   // console.log(res[0].data.value);
-  //   isShow.value = true;
-  //   console.log(isShow.value);
-  //   recruitItems.value.item_id = res[0].data.value;
-  // });
+  await useApiFetch("/sanctum/csrf-cookie");
+  await Promise.all([
+    useApiFetch("/api/recruit/register", {
+      method: "POST",
+      body: formData,
+    }),
+    useApiFetch("/api/images/register", {
+      method: "POST",
+      body: imageData,
+    }),
+  ]).then((res) => {
+    // console.log("all", res);
+    // console.log(res[0].data.value);
+    isShow.value = true;
+    console.log(isShow.value);
+    recruitItems.value.item_id = res[0].data.value;
+  });
 
   // isShow.value=false;
 

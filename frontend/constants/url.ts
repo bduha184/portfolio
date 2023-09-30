@@ -15,10 +15,6 @@ export const Url = {
   PROFILE: getFrontUrl('/auth/profile'),
   /** マイページ（メッセージ）（ */
   MESSAGES: getFrontUrl('/auth/messages'),
-  /** マイページ（メッセージ_参加希望）（ */
-  REQUESTS: getFrontUrl('/auth/messages/requests'),
-  /** マイページ（メッセージ_質問BOX）（ */
-  QUESTIONS: getFrontUrl('/auth/messages/questions'),
   /** マイページ（チーム）（ */
   TEAMS: getFrontUrl('/auth/teams'),
   /** マイページ（マイチーム）（ */

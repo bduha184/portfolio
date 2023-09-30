@@ -95,8 +95,7 @@ const checkFilledOut = computed(() => {
 
 
 const auth = useAuthStore();
-async function handleLogin() {
-
+ const  handleLogin = async()=> {
   const res = await auth.login(form.value);
 
    if (res.error.value == null) {

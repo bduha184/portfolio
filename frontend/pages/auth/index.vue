@@ -17,7 +17,7 @@
     </v-row>
     <OrganismsModal
       @emitModalOpen="handleCheck"
-      @emitModalBtnClick="handleDelete"
+      @emitModalBtnClick="handleLogout"
       caution="ログアウトします。よろしいですか？"
       btnValue="ログアウトする"
       color="orange"
@@ -64,6 +64,7 @@ const handleDelete = async()=> {
   method: "DELETE",
 }).then((res)=>{
 console.log(res);
+  navigateTo(Url.SIGNUP)
 })
 }
 </script>
