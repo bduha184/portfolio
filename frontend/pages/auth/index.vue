@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <h1>LoggedIn</h1>
-    <v-row>
+  <v-container class="bg-white">
+    <h1 class="text-h5 text-center">管理画面</h1>
+    <v-row class="text-center py-4">
       <v-col cols="6">
-        <NuxtLink :to="Url.TEAMS"> チーム </NuxtLink>
+        <NuxtLink :to="Url.AUTHTEAMS"> チーム </NuxtLink>
       </v-col>
       <v-col cols="6">
         <NuxtLink :to="Url.AUTHRECRUIT"> メンバー募集 </NuxtLink>
@@ -13,6 +13,9 @@
       </v-col>
       <v-col cols="6">
         <NuxtLink :to="Url.MESSAGES"> メッセージ </NuxtLink>
+      </v-col>
+      <v-col cols="6">
+        <NuxtLink :to="Url.MYBICYCLE"> 愛車紹介 </NuxtLink>
       </v-col>
     </v-row>
     <OrganismsModal
@@ -35,7 +38,7 @@
     >
       退会
     </OrganismsModal>
-  </div>
+  </v-container>
 </template>
 <script setup lang="ts">
 import {ref,definePageMeta,navigateTo} from '#imports';

@@ -16,8 +16,8 @@ export const MenuItems = [
     },
     {
       text: "サイクリング募集",
-      icon: Icons.RECRUIT,
-      func: () => router.push(Url.RECRUIT),
+      icon: Icons.CYCLING,
+      func: () => router.push(Url.TEAMS),
     },
     {
       text: "サイクリング情報",
@@ -27,7 +27,7 @@ export const MenuItems = [
     {
       text: "みんなの愛車",
       icon: Icons.BICYCLE,
-      func: () => router.push(Url.INTRODUCTION),
+      func: () => router.push(Url.BICYCLES),
     },
     {
       text: "ルート検索",
@@ -37,11 +37,21 @@ export const MenuItems = [
     {
       text: "新規登録",
       icon: Icons.REGISTER,
-      func: () => router.push(Url.SIGNUP),
+      func: () => router.push({
+        path:Url.SIGNUP,
+        query:{
+          tab:'register'
+        }
+      }),
     },
     {
       text: "ログイン",
       icon: Icons.LOGIN,
-      func: () => router.push(Url.SIGNIN),
+      func: () => router.push({
+        path:Url.SIGNIN,
+        query:{
+          tab:'login'
+        }
+      }),
     },
   ]

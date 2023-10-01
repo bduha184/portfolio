@@ -20,7 +20,7 @@
         <v-col>
           <OrganismsModal
             @emitAccordion="requestJoinTeam"
-            setColor="red"
+            color="info"
           >
             このチームに参加する
           </OrganismsModal>
@@ -36,8 +36,8 @@
         </v-col>
         <v-col>
           <OrganismsModal
-            @emitClick="questionToTeam"
-            setColor="orange"
+            @emitAccordion="questionToTeam"
+            color="secondary"
           >
           このチームに質問する
           </OrganismsModal>
@@ -92,7 +92,6 @@ const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
 
 const requestJoinTeam = () => {
-  console.log('test');
   if (!auth.isLoggedIn) {
      toggleRequest.value = false;
   } else {
@@ -103,7 +102,7 @@ const questionToTeam = () => {
   if (!auth.isLoggedIn) {
     toggleQuestion.value = false;
   } else {
-    toggleQuestion.value = !toggleQuestion.value;
+    toggleQuestion.value = true;
   }
 };
 const receiveBody = (val) => {
@@ -120,7 +119,6 @@ const receiveClick = async (val) => {
     distinction: dist,
   };
 
-  console.log(data);
   await useApiFetch("/sanctum/csrf-cookie");
   const res = await useApiFetch("/api/message/register", {
     method: "POST",
@@ -137,8 +135,8 @@ onBeforeMount(async () => {
     ]).then((resItems) => {
       resItems.forEach((item) => {
         const val = item.data.value;
-        // console.log(val);
-        if (val.data) {
+        if (val != null) {
+          console.log(val);
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
             config.public.baseURL + "/storage/" + val.data.header_img_path;
@@ -147,10 +145,14 @@ onBeforeMount(async () => {
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
           recruitItems.value.user_id = val.data.user_id;
-        } else {
+
+        // console.log(val);
           val.images.forEach((image) => {
             images.value.push(config.public.baseURL + "/storage/" + image);
           });
+
+          // if(val.images != null){
+          //   }
         }
       });
     });

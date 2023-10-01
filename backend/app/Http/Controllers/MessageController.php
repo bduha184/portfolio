@@ -22,6 +22,7 @@ class MessageController extends Controller
     {
         $auth_id = Auth::id();
         $results = $message->getUserInfoById($auth_id);
+        // ->groupBy('sender_id');
 
         return response()->json([
             'messages'=>$results,

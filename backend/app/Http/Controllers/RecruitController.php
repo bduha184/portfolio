@@ -60,14 +60,7 @@ class RecruitController extends Controller
      */
     public function show(Recruit $recruit,$id)
     {
-        $user_id=Auth::id();
-
-        if($id==$user_id){
-            $recruitItem=$recruit->where('user_id',$id)->first();
-        }else{
-
-            $recruitItem = $recruit->find($id)->first();
-        }
+        $recruitItem = $recruit->where('id',$id)->first();
 
         return response()->json([
             'data'=>$recruitItem,
