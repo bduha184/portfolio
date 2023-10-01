@@ -45,6 +45,7 @@ class RecruitController extends Controller
 
         $recruit->title = $request->title;
         $recruit->text = $request->text;
+        $recruit->activities = $request->activities;
         $recruit->user_id = Auth::id();
         $recruit->save();
 

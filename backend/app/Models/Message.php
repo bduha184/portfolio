@@ -24,7 +24,7 @@ class Message extends Model
 
     public function getUserInfoById($auth_id)
     {
-        // return
+        return
 
             // $this->where('receiver_id', '=', $auth_id)
             // ->whereNotExists('created_at',function($query){
@@ -42,36 +42,35 @@ class Message extends Model
         //     $query->select(DB::raw('MAX(created_at)'))->from('messages')->groupBy('sender_id');
         // })
         // ->get();
-        // $this
-        // ->where('receiver_id', '=', $auth_id)
-        // ->select([
-        //     'messages.sender_id',
-        //     'messages.comments',
-        //     'profiles.thumbnail_path',
-        //     'profiles.title',
-        // ])
-        // ->from('messages')
-        // ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
-        // ->where('messages.sender_id', function ($query) {
-        //     $query->select(DB::raw('MAX(created_at)'))->from('messages')->groupBy('sender_id');
+        $this
+        ->where('receiver_id', '=', $auth_id)
+        ->select([
+            'messages.sender_id',
+            'messages.comments',
+            'profiles.thumbnail_path',
+            'profiles.title',
+        ])
+        ->from('messages')
+        ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
+        // ->where('messages.id', function ($query) {
+        //     $query->select(DB::raw('MAX(id) As id'))->from('messages')->groupBy('sender_id');
         // })
-        // ->get();
+        ->get();
 
         // return
         // $this
         // ->where('receiver_id','=',$auth_id)
-        // ->where('sender_id','!=',$auth_id)
         // ->whereIn('id',function($query){
         //  $query->select(DB::raw('MAX(id) As id'))->from('messages')->groupBy('sender_id');
         // })
         // ->get();
-        return
-        $this
-        ->where('receiver_id','=',$auth_id)
-        ->where('sender_id','!=',$auth_id)
-        ->join('users','messages.sender_id','=','users.id')
-        ->join('profiles','messages.sender_id','=','profiles.user_id')
-        ->get();
+        // return
+        // $this
+        // ->where('receiver_id','=',$auth_id)
+        // ->where('sender_id','!=',$auth_id)
+        // ->join('users','messages.sender_id','=','users.id')
+        // ->join('profiles','messages.sender_id','=','profiles.user_id')
+        // ->get();
     }
 
 

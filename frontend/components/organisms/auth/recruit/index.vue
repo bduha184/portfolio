@@ -34,6 +34,15 @@
       <OrganismsDrugAndDrop @emitImages="receiveImages" />
       <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
+    <v-container>
+      <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+      <AtomsTextAreas
+        placeholder="活動内容の詳細を記入"
+        @emitInput="receiveTeamActivities"
+        :body="recruitItems.activities"
+        class="mt-2"
+      />
+    </v-container>
     <AtomsBtnsBaseBtn
       width="16rem"
       class="my-4 d-block mx-auto"
@@ -127,6 +136,7 @@ const recruitItems = ref({
   thumbnail: "",
   title: "",
   text: "",
+  activities:'',
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -144,6 +154,7 @@ const handleRegister = async() => {
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
+  formData.append("activities", recruitItems.value.activities);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -182,6 +193,7 @@ const handleUpdate = async () => {
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
+  formData.append("activities", recruitItems.value.activities);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -261,6 +273,9 @@ const receiveTeamName = (val) => {
 const receiveTeamIntroduce = (val) => {
   recruitItems.value.text = val.value;
 };
+const receiveTeamActivities = (val) => {
+  recruitItems.value.activities = val.value;
+};
 
 const receiveProfileImage = (val: File) => {
   if (val.target == "header") {
@@ -294,6 +309,7 @@ onBeforeMount(async () => {
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
+          recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
         } else {
           if (val.images) {
