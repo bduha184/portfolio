@@ -14,7 +14,9 @@
       {{ recruitItems.text }}
     </v-card-text>
     <OrganismsGalleryModal :images="images" />
-    <OrganismsTeamActivity />
+    <OrganismsTeamActivity
+    :activities="recruitItems.activities"
+    />
     <v-container class="text-center">
       <v-row>
         <v-col>
@@ -80,6 +82,7 @@ const recruitItems = ref({
   thumbnail: "",
   title: "",
   text: "",
+  activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -135,8 +138,8 @@ onBeforeMount(async () => {
     ]).then((resItems) => {
       resItems.forEach((item) => {
         const val = item.data.value;
+        console.log(val);
         if (val != null) {
-          console.log(val);
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
             config.public.baseURL + "/storage/" + val.data.header_img_path;
@@ -144,6 +147,7 @@ onBeforeMount(async () => {
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
+          recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
 
         // console.log(val);
@@ -151,8 +155,8 @@ onBeforeMount(async () => {
             images.value.push(config.public.baseURL + "/storage/" + image);
           });
 
-          // if(val.images != null){
-          //   }
+          if(val.images != null){
+            }
         }
       });
     });
