@@ -13,10 +13,13 @@
     <v-card-text>
       {{ recruitItems.text }}
     </v-card-text>
-    <OrganismsGalleryModal :images="images" />
-    <OrganismsTeamActivity
+    <OrganismsRecruitsTeamInfo
     :activities="recruitItems.activities"
     />
+    <OrganismsRecruitsActivities
+    :activities="recruitItems.activities"
+    />
+    <OrganismsGalleryModal :images="images" />
     <v-container class="text-center">
       <v-row>
         <v-col>

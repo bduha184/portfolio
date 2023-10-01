@@ -30,18 +30,27 @@
       />
     </v-card-text>
     <v-container>
-      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-      <OrganismsDrugAndDrop @emitImages="receiveImages" />
-      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
+      <AtomsTextsHeadLine> チーム構成 </AtomsTextsHeadLine>
+      <v-row>
+        <v-col cols="6">メンバー数</v-col>
+        <v-col cols="6">男女比</v-col>
+        <v-col cols="6">メンバー数</v-col>
+        <v-col cols="6">男女比</v-col>
+      </v-row>
     </v-container>
     <v-container>
       <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
-        placeholder="活動内容の詳細を記入"
-        @emitInput="receiveTeamActivities"
-        :body="recruitItems.activities"
-        class="mt-2"
+      placeholder="活動内容の詳細を記入"
+      @emitInput="receiveTeamActivities"
+      :body="recruitItems.activities"
+      class="mt-2"
       />
+    </v-container>
+    <v-container>
+      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
+      <OrganismsDrugAndDrop @emitImages="receiveImages" />
+      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
     <AtomsBtnsBaseBtn
       width="16rem"
