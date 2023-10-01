@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
 import { navigateTo } from "nuxt/app";
+import {Url} from "../../../constants/url";
 
 const props = defineProps({
   header_img_path: {
@@ -46,8 +47,9 @@ const props = defineProps({
 const config = useRuntimeConfig();
 
 const onClick = () => {
-  return navigateTo(`/recruit/recruitdetail/${props.id}`);
+  return navigateTo(Url.TEAMS+'/'+props.id);
 };
+
 </script>
 
 <style lang="scss" scoped>

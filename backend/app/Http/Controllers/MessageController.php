@@ -18,10 +18,11 @@ class MessageController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index(Message $message,$dist)
+    public function index(Message $message)
     {
         $auth_id = Auth::id();
-        $results = $message->getUserInfoById($auth_id,$dist);
+        $results = $message->getUserInfoById($auth_id);
+        // ->groupBy('sender_id');
 
         return response()->json([
             'messages'=>$results,

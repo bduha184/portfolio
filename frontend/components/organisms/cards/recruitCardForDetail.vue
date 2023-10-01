@@ -13,14 +13,19 @@
     <v-card-text>
       {{ recruitItems.text }}
     </v-card-text>
+    <OrganismsRecruitsTeamInfo
+    :activities="recruitItems.activities"
+    />
+    <OrganismsRecruitsActivities
+    :activities="recruitItems.activities"
+    />
     <OrganismsGalleryModal :images="images" />
-    <OrganismsTeamActivity />
     <v-container class="text-center">
       <v-row>
         <v-col>
           <OrganismsModal
             @emitAccordion="requestJoinTeam"
-            setColor="red"
+            color="info"
           >
             このチームに参加する
           </OrganismsModal>
@@ -36,8 +41,8 @@
         </v-col>
         <v-col>
           <OrganismsModal
-            @emitClick="questionToTeam"
-            setColor="orange"
+            @emitAccordion="questionToTeam"
+            color="secondary"
           >
           このチームに質問する
           </OrganismsModal>
@@ -80,6 +85,7 @@ const recruitItems = ref({
   thumbnail: "",
   title: "",
   text: "",
+  activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -92,7 +98,6 @@ const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
 
 const requestJoinTeam = () => {
-  console.log('test');
   if (!auth.isLoggedIn) {
      toggleRequest.value = false;
   } else {
@@ -103,7 +108,7 @@ const questionToTeam = () => {
   if (!auth.isLoggedIn) {
     toggleQuestion.value = false;
   } else {
-    toggleQuestion.value = !toggleQuestion.value;
+    toggleQuestion.value = true;
   }
 };
 const receiveBody = (val) => {
@@ -120,7 +125,6 @@ const receiveClick = async (val) => {
     distinction: dist,
   };
 
-  console.log(data);
   await useApiFetch("/sanctum/csrf-cookie");
   const res = await useApiFetch("/api/message/register", {
     method: "POST",
@@ -137,8 +141,8 @@ onBeforeMount(async () => {
     ]).then((resItems) => {
       resItems.forEach((item) => {
         const val = item.data.value;
-        // console.log(val);
-        if (val.data) {
+        console.log(val);
+        if (val != null) {
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
             config.public.baseURL + "/storage/" + val.data.header_img_path;
@@ -146,11 +150,16 @@ onBeforeMount(async () => {
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
+          recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
-        } else {
+
+        // console.log(val);
           val.images.forEach((image) => {
             images.value.push(config.public.baseURL + "/storage/" + image);
           });
+
+          if(val.images != null){
+            }
         }
       });
     });

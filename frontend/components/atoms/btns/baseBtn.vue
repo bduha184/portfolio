@@ -4,7 +4,7 @@
     height="40"
     :to="to"
     :color="color"
-    @click.once="onClick"
+    @click="onClick"
   >
   <slot/>
 </v-btn>

@@ -16,6 +16,7 @@ class Recruit extends Model
         'thumbnail_path',
         'title',
         'text',
+        'activities',
     ];
 
     public function users():HasOne{

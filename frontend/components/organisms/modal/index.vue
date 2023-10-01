@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <v-dialog v-model="dialog" max-width="600px" persistent>
+    <v-dialog
+    max-width="600px" persistent
+    v-model="dialog"
+    >
       <template v-slot:activator="{ props }">
         <AtomsBtnsBaseBtn
           width="16rem"
@@ -21,7 +23,6 @@
             <v-col>
               <AtomsBtnsBaseBtn
               @click="dialog = false"
-              
               >
                 戻る
               </AtomsBtnsBaseBtn>
@@ -30,7 +31,7 @@
               <AtomsBtnsBaseBtn
                 width="10rem"
                 :color="color"
-                @click="onClick"
+                @emitClick="onClick"
               >
                 {{ btnValue }}
               </AtomsBtnsBaseBtn>
@@ -39,7 +40,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -81,14 +81,19 @@ const checkStatus = computed(() => {
   if (auth.isLoggedIn && path.indexOf("auth") == -1) {
     return (dialog.value = false);
   }
-  if (auth.isLoggedIn && path.indexOf("auth") != -1) {
+  if (!auth.isLoggedIn || auth.isLoggedIn && path.indexOf("auth") != -1) {
     return (dialog.value = true);
   }
 });
 
 const onClick = () => {
   if (!auth.isLoggedIn) {
-    dialog.value = true;
+    return navigateTo({
+      path:Url.SIGNIN,
+      query:{
+        tab:'login'
+      }
+      })
   } else {
 
     if (props.btnType == "delete") {

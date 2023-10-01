@@ -1,20 +1,5 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="6">
-        <NuxtLink :to="Url.REQUESTS"
-        >
-          チーム参加希望
-        </NuxtLink>
-      </v-col>
-      <v-col cols="6">
-        <NuxtLink :to="Url.QUESTIONS"
-        >
-          質問BOX
-        </NuxtLink>
-      </v-col>
-    </v-row>
-  </v-container>
+   <OrganismsMessages/>
 </template>
 <script setup lang="ts">
 import {definePageMeta} from '#imports';

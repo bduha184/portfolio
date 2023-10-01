@@ -30,6 +30,24 @@
       />
     </v-card-text>
     <v-container>
+      <AtomsTextsHeadLine> チーム構成 </AtomsTextsHeadLine>
+      <v-row>
+        <v-col cols="6">メンバー数</v-col>
+        <v-col cols="6">男女比</v-col>
+        <v-col cols="6">メンバー数</v-col>
+        <v-col cols="6">男女比</v-col>
+      </v-row>
+    </v-container>
+    <v-container>
+      <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+      <AtomsTextAreas
+      placeholder="活動内容の詳細を記入"
+      @emitInput="receiveTeamActivities"
+      :body="recruitItems.activities"
+      class="mt-2"
+      />
+    </v-container>
+    <v-container>
       <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
       <OrganismsDrugAndDrop @emitImages="receiveImages" />
       <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
@@ -127,6 +145,7 @@ const recruitItems = ref({
   thumbnail: "",
   title: "",
   text: "",
+  activities:'',
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -134,41 +153,42 @@ const recruitItems = ref({
 
 
 
-const handleRegister = () => {
+const handleRegister = async() => {
   flashMessage.value = Message.REGISTER;
   isShow.value = true;
 
-  // const formData = new FormData();
+  const formData = new FormData();
 
-  // formData.append("header_img", recruitItems.value.header_img);
-  // formData.append("thumbnail", recruitItems.value.thumbnail);
-  // formData.append("title", recruitItems.value.title);
-  // formData.append("text", recruitItems.value.text);
+  formData.append("header_img", recruitItems.value.header_img);
+  formData.append("thumbnail", recruitItems.value.thumbnail);
+  formData.append("title", recruitItems.value.title);
+  formData.append("text", recruitItems.value.text);
+  formData.append("activities", recruitItems.value.activities);
 
-  // const imageData = new FormData();
-  // postImages.value.forEach((image) => {
-  //   imageData.append("images[]", image);
-  // });
-  // // console.log(...formData.entries());
-  // // console.log(...imageData.entries());
+  const imageData = new FormData();
+  postImages.value.forEach((image) => {
+    imageData.append("images[]", image);
+  });
+  // console.log(...formData.entries());
+  // console.log(...imageData.entries());
 
-  // await useApiFetch("/sanctum/csrf-cookie");
-  // await Promise.all([
-  //   useApiFetch("/api/recruit/register", {
-  //     method: "POST",
-  //     body: formData,
-  //   }),
-  //   useApiFetch("/api/images/register", {
-  //     method: "POST",
-  //     body: imageData,
-  //   }),
-  // ]).then((res) => {
-  //   // console.log("all", res);
-  //   // console.log(res[0].data.value);
-  //   isShow.value = true;
-  //   console.log(isShow.value);
-  //   recruitItems.value.item_id = res[0].data.value;
-  // });
+  await useApiFetch("/sanctum/csrf-cookie");
+  await Promise.all([
+    useApiFetch("/api/recruit/register", {
+      method: "POST",
+      body: formData,
+    }),
+    useApiFetch("/api/images/register", {
+      method: "POST",
+      body: imageData,
+    }),
+  ]).then((res) => {
+    // console.log("all", res);
+    // console.log(res[0].data.value);
+    isShow.value = true;
+    console.log(isShow.value);
+    recruitItems.value.item_id = res[0].data.value;
+  });
 
   // isShow.value=false;
 
@@ -182,6 +202,7 @@ const handleUpdate = async () => {
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("title", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
+  formData.append("activities", recruitItems.value.activities);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -261,6 +282,9 @@ const receiveTeamName = (val) => {
 const receiveTeamIntroduce = (val) => {
   recruitItems.value.text = val.value;
 };
+const receiveTeamActivities = (val) => {
+  recruitItems.value.activities = val.value;
+};
 
 const receiveProfileImage = (val: File) => {
   if (val.target == "header") {
@@ -294,6 +318,7 @@ onBeforeMount(async () => {
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
           recruitItems.value.title = val.data.title;
           recruitItems.value.text = val.data.text;
+          recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
         } else {
           if (val.images) {
