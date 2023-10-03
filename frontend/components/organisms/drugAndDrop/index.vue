@@ -25,7 +25,9 @@
                 </v-icon>
             </v-col>
             <v-col class="text-truncate mb-2 mt-n2" cols="10">
-                {{ displayText }}
+                ファイルを選択<br>
+                or<br>
+                ドラッグ&ドロップ
             </v-col>
         </v-row>
     </v-btn>

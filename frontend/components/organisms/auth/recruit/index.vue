@@ -29,15 +29,7 @@
         :body="recruitItems.text"
       />
     </v-card-text>
-    <v-container>
-      <AtomsTextsHeadLine> チーム構成 </AtomsTextsHeadLine>
-      <v-row>
-        <v-col cols="6">メンバー数</v-col>
-        <v-col cols="6">男女比</v-col>
-        <v-col cols="6">メンバー数</v-col>
-        <v-col cols="6">男女比</v-col>
-      </v-row>
-    </v-container>
+    <OrganismsAuthRecruitTeamInfo/>
     <v-container>
       <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
@@ -102,7 +94,6 @@
     >
       削除
     </OrganismsModal>
-    {{ isShow }}
   </form>
 </template>
 
@@ -362,4 +353,6 @@ onBeforeMount(async () => {
   z-index: 10;
   background: red;
 }
+
+
 </style>
