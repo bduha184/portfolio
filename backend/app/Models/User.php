@@ -59,6 +59,10 @@ class User extends Authenticatable
         return $this->hasOne(Recruit::class);
     }
 
+    public function images():HasMany{
+        return $this->hasMany(Recruit::class);
+    }
+
     public function messages():HasMany{
         return $this->hasMany(Message::class);
     }

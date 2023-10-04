@@ -61,7 +61,7 @@ class RecruitController extends Controller
      */
     public function show(Recruit $recruit,$id)
     {
-        $recruitItem = $recruit->where('id',$id)->first();
+        $recruitItem = $recruit->where('user_id',$id)->first();
 
         return response()->json([
             'data'=>$recruitItem,

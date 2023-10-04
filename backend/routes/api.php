@@ -71,6 +71,7 @@ Route::controller(RecruitController::class)->group(function(){
         Route::get('/{id}','show')->name('show');
     });
 });
+
 Route::controller(ImagesController::class)->group(function(){
     Route::prefix('images')->name('images.')->group(function(){
         Route::get('/{id}','show');

@@ -41,7 +41,7 @@
     </v-container>
     <v-container>
       <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-      <OrganismsDrugAndDrop @emitImages="receiveImages" />
+      <OrganismsDrugAndDrop @emitImages="receiveImage" />
       <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
     <AtomsBtnsBaseBtn
@@ -160,8 +160,8 @@ const handleRegister = async() => {
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
-  // console.log(...formData.entries());
-  // console.log(...imageData.entries());
+  console.log(...formData.entries());
+  console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
@@ -179,6 +179,7 @@ const handleRegister = async() => {
     isShow.value = true;
     console.log(isShow.value);
     recruitItems.value.item_id = res[0].data.value;
+
   });
 
   // isShow.value=false;
@@ -254,12 +255,12 @@ const checkFilledOut = () => {
   return false;
 };
 
-const receiveImages = (val) => {
-  Array.from(val).map((data) => {
-    postImages.value.push(data);
-    let image = window.URL.createObjectURL(data);
-    displayImages.value.push(image);
-  });
+const receiveImage = (val) => {
+  Array.from(val.files).map((data) => {
+      postImages.value.push(data);
+      let image = window.URL.createObjectURL(data);
+      displayImages.value.push(image);
+    });
 };
 
 const receiveClick = (val) => {
@@ -294,13 +295,17 @@ const receiveProfileImage = (val: File) => {
 
 onBeforeMount(async () => {
   const userId = auth.user.id;
+  console.log(userId);
   if (userId) {
     await Promise.all([
       useApiFetch(`/api/recruit/${userId}`),
       useApiFetch(`/api/images/${userId}`),
     ]).then((responses) => {
+      console.log(responses);
       responses.forEach((res) => {
+        console.log(res);
         const val = res.data.value;
+        console.log(res.data);
         if (val.data) {
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =

@@ -40,13 +40,12 @@
         multiple
     >
   </div>
+
 </template>
 
 <script setup lang="ts">
-import {computed,ref} from 'vue';
-import {
-  mdiCloudUpload
-} from '@mdi/js'
+import {ref} from '#imports';
+import {mdiCloudUpload} from '@mdi/js'
 
 interface Props {
   buttonTitle?: string,
@@ -59,62 +58,35 @@ const props = withDefaults(defineProps<Props>(), {
   accept: "image/*"
 })
 
-// interface Emits {
-//   (e: "emitImages", value: File): void;
-// }
-const emits = defineEmits(['emitImages']);
+interface Emits {
+  (e: "emitImages", value: File): void;
+}
+const emits = defineEmits<Emits>();
 
 const isSelecting = ref<boolean>(false)
 const isDragged = ref<boolean>(false)
-const selectedFile = ref<File | null>(null)
 
-const displayText = computed(() => {
-  switch (true) {
-    case isDragged.value:
-      return "離すとアップロード"
-    case selectedFile.value != null:
-      return selectedFile.value!.name
-    default:
-      return props.buttonTitle
-  }
-})
-
-
-// ボタンクリックでファイル選択を開く
 const uploader = ref<HTMLInputElement>()
 const openFileSelect= () => {
   isSelecting.value = true
   window.addEventListener('focus', () => {
     isSelecting.value = false
   }, { once: true })
-  uploader.value?.click()
+  uploader.value?.click();
 }
 
-// ファイル選択確定時にEmit
 const onFileSelectChange = (e: Event) => {
-    const target = e.target as HTMLInputElement
-    const files = target.files
-    const file = files![0]
-    selectedFile.value = file
-    emits("emitImages", file)
-}
+    const target = e.target as HTMLInputElement;
+    const files = target.files!;
+    emits("emitImages", {files})
+  }
 
-// D&D時にEmit
-const onFileDropped = (e: DragEvent) => {
+  const onFileDropped = (e: DragEvent) => {
     isDragged.value = false
-    if (!e) {
+    if (!e || !e.target || e.dataTransfer.files.length === 0) {
       return
     }
-
-    if (!e.target) {
-      return
-    }
-
-    if (e.dataTransfer.files.length === 0) {
-      return
-    }
-    const file = e.dataTransfer.files;
-    selectedFile.value = file
-    emits("emitImages", file)
+    const files = e.dataTransfer.files;
+    emits("emitImages", {files});
 }
 </script>
