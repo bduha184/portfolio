@@ -28,24 +28,14 @@ class Message extends Model
     {
         return
 
-            // $this->where('receiver_id', '=', $auth_id)
-            // ->whereNotExists('created_at',function($query){
-            //     $query->select(DB::raw('MAX(created_at)'))
-            //     ->from('messages')
-            //     ->groupBy('sender_id');
-            // })
-            // ->get();
 
-        // ->select([
-        // ])
-        // ->from('messages')
-        // ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
-        // ->where('messages.sender_id', function ($query) {
-        //     $query->select(DB::raw('MAX(created_at)'))->from('messages')->groupBy('sender_id');
-        // })
-        // ->get();
         $this
-        ->where('receiver_id', '=', $auth_id)
+        ->where('receiver_id', $auth_id)
+        ->whereIn('messages.id', function ($query) {
+            $query->select(DB::raw('MAX(id)'))
+                ->from('messages')
+                ->groupBy('sender_id');
+        })
         ->select([
             'messages.sender_id',
             'messages.comments',
@@ -54,25 +44,8 @@ class Message extends Model
         ])
         ->from('messages')
         ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
-        // ->where('messages.id', function ($query) {
-        //     $query->select(DB::raw('MAX(id) As id'))->from('messages')->groupBy('sender_id');
-        // })
         ->get();
 
-        // return
-        // $this
-        // ->where('receiver_id','=',$auth_id)
-        // ->whereIn('id',function($query){
-        //  $query->select(DB::raw('MAX(id) As id'))->from('messages')->groupBy('sender_id');
-        // })
-        // ->get();
-        // return
-        // $this
-        // ->where('receiver_id','=',$auth_id)
-        // ->where('sender_id','!=',$auth_id)
-        // ->join('users','messages.sender_id','=','users.id')
-        // ->join('profiles','messages.sender_id','=','profiles.user_id')
-        // ->get();
     }
 
 
@@ -80,12 +53,12 @@ class Message extends Model
     {
         return
             $this
-            ->where(function($query)  use($sender_id,$auth_id){
-                $query->where('sender_id',$sender_id)
-                ->orWhere('sender_id',$auth_id);
+            ->where(function ($query)  use ($sender_id, $auth_id) {
+                $query->where('sender_id', $sender_id)
+                    ->orWhere('sender_id', $auth_id);
 
-                $query->where('receiver_id',$auth_id)
-                ->orWhere('receiver_id',$sender_id);
+                $query->where('receiver_id', $auth_id)
+                    ->orWhere('receiver_id', $sender_id);
             })
             ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
             ->orderBy('messages.created_at', 'asc')
