@@ -5,9 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Message extends Model
@@ -19,16 +16,14 @@ class Message extends Model
         'receiver_id',
         'sender_id',
     ];
-    public function users(): HasOne
+    public function users(): BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function getUserInfoById($auth_id)
     {
         return
-
-
         $this
         ->where('receiver_id', $auth_id)
         ->whereIn('messages.id', function ($query) {
@@ -45,7 +40,6 @@ class Message extends Model
         ->from('messages')
         ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
         ->get();
-
     }
 
 
