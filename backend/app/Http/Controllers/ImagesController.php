@@ -60,7 +60,15 @@ class ImagesController extends Controller
     public function show(Images $images,$id)
     {
 
-        $get_image_info = $images->where('user_id',$id)->first();
+        if(Auth::id() == $id){
+            $get_image_info = $images->where('user_id',$id)->first();
+        }else{
+            $recruit = Recruit::find($id)->first();
+            $user_id = $recruit->user_id;
+            $get_image_info = $images->where('user_id',$user_id)->first();
+
+        }
+
         if($get_image_info ){
             $get_serialize_images = $get_image_info->image_path;
             $get_images = unserialize($get_serialize_images);

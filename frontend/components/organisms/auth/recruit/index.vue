@@ -1,19 +1,15 @@
 <template>
   <form>
-    <AtomsDisplayFlashMessage
-    :isShow="isShow"
-    >
-    {{ flashMessage }}
-  </AtomsDisplayFlashMessage>
+    <AtomsDisplayFlashMessage :isShow="isShow">
+      {{ flashMessage }}
+    </AtomsDisplayFlashMessage>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
       :path_header="recruitItems.url_header_img"
       :path_thumbnail="recruitItems.url_thumbnail"
     />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextsHeadLine
-      class="w-100"
-      >
+      <AtomsTextsHeadLine class="w-100">
         <AtomsInput
           placeholder="チーム名"
           type="text"
@@ -29,14 +25,14 @@
         :body="recruitItems.text"
       />
     </v-card-text>
-    <OrganismsAuthRecruitTeamInfo/>
+    <OrganismsAuthRecruitTeamInfo />
     <v-container>
       <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
-      placeholder="活動内容の詳細を記入"
-      @emitInput="receiveTeamActivities"
-      :body="recruitItems.activities"
-      class="mt-2"
+        placeholder="活動内容の詳細を記入"
+        @emitInput="receiveTeamActivities"
+        :body="recruitItems.activities"
+        class="mt-2"
       />
     </v-container>
     <v-container>
@@ -98,14 +94,13 @@
 </template>
 
 <script setup lang="ts">
-
 import {
   useRuntimeConfig,
   navigateTo,
   useRoute,
   clearNuxtData,
 } from "nuxt/app";
-import {Message} from '~/constants/flashMessage';
+import { Message } from "~/constants/flashMessage";
 import { useApiFetch } from "~/composables/useApiFetch";
 import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
@@ -119,11 +114,11 @@ const postImages = ref([]);
 const displayImages = ref([]);
 const deleteCheck = ref(false);
 const isShow = ref(false);
-const flashMessage = ref('');
+const flashMessage = ref("");
 
-const handelDelete = computed(()=>{
-  return deleteCheck.value = true;
-})
+const handelDelete = computed(() => {
+  return (deleteCheck.value = true);
+});
 const recruitItems = ref({
   items: [],
   item: "",
@@ -136,15 +131,12 @@ const recruitItems = ref({
   thumbnail: "",
   title: "",
   text: "",
-  activities:'',
+  activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-
-
-
-const handleRegister = async() => {
+const handleRegister = async () => {
   flashMessage.value = Message.REGISTER;
   isShow.value = true;
 
@@ -179,11 +171,9 @@ const handleRegister = async() => {
     isShow.value = true;
     console.log(isShow.value);
     recruitItems.value.item_id = res[0].data.value;
-
   });
 
   // isShow.value=false;
-
 };
 // console.log(recruitItems.value.header_img);
 
@@ -226,9 +216,9 @@ const handleUpdate = async () => {
   return navigateTo(Url.AUTHRECRUIT);
 };
 
-const handleCheck = async()=>{
+const handleCheck = async () => {
   flashMessage.value = Message.DELETE;
-  if(deleteCheck) {
+  if (deleteCheck) {
     await useApiFetch("/sanctum/csrf-cookie");
     await Promise.all([
       await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
@@ -244,7 +234,7 @@ const handleCheck = async()=>{
 
     return navigateTo(Url.AUTHRECRUIT);
   }
-}
+};
 
 const checkFilledOut = () => {
   const fieldArray = [recruitItems.value.title, recruitItems.value.text];
@@ -257,10 +247,10 @@ const checkFilledOut = () => {
 
 const receiveImage = (val) => {
   Array.from(val.files).map((data) => {
-      postImages.value.push(data);
-      let image = window.URL.createObjectURL(data);
-      displayImages.value.push(image);
-    });
+    postImages.value.push(data);
+    let image = window.URL.createObjectURL(data);
+    displayImages.value.push(image);
+  });
 };
 
 const receiveClick = (val) => {
@@ -295,17 +285,13 @@ const receiveProfileImage = (val: File) => {
 
 onBeforeMount(async () => {
   const userId = auth.user.id;
-  console.log(userId);
   if (userId) {
     await Promise.all([
       useApiFetch(`/api/recruit/${userId}`),
       useApiFetch(`/api/images/${userId}`),
     ]).then((responses) => {
-      console.log(responses);
       responses.forEach((res) => {
-        console.log(res);
         const val = res.data.value;
-        console.log(res.data);
         if (val.data) {
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
@@ -316,15 +302,15 @@ onBeforeMount(async () => {
           recruitItems.value.text = val.data.text;
           recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
-        } else {
-          if (val.images) {
-            val.images.forEach((image) => {
-              postImages.value.push(image);
-              displayImages.value.push(
-                config.public.baseURL + "/storage/" + image
-              );
-            });
-          }
+        }
+
+        if (val.images) {
+          val.images.forEach((image) => {
+            postImages.value.push(image);
+            displayImages.value.push(
+              config.public.baseURL + "/storage/" + image
+            );
+          });
         }
       });
     });
@@ -358,6 +344,4 @@ onBeforeMount(async () => {
   z-index: 10;
   background: red;
 }
-
-
 </style>

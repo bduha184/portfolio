@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -17,9 +19,9 @@ class Message extends Model
         'receiver_id',
         'sender_id',
     ];
-    public function users(): BelongsTo
+    public function users(): HasOne
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class);
     }
 
     public function getUserInfoById($auth_id)
@@ -74,11 +76,17 @@ class Message extends Model
     }
 
 
-    public function getSnsMessageById($sender_id, $receiver_id)
+    public function getSnsMessageById($sender_id, $auth_id)
     {
         return
-            $this->where('sender_id', '=', $sender_id)
-            ->orWhere('receiver_id', '=', $sender_id)
+            $this
+            ->where(function($query)  use($sender_id,$auth_id){
+                $query->where('sender_id',$sender_id)
+                ->orWhere('sender_id',$auth_id);
+
+                $query->where('receiver_id',$auth_id)
+                ->orWhere('receiver_id',$sender_id);
+            })
             ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
             ->orderBy('messages.created_at', 'asc')
             ->get();

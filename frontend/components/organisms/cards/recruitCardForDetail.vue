@@ -141,8 +141,8 @@ onBeforeMount(async () => {
     ]).then((resItems) => {
       resItems.forEach((item) => {
         const val = item.data.value;
-        console.log(val);
-        if (val != null) {
+
+        if(val.data){
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
             config.public.baseURL + "/storage/" + val.data.header_img_path;
@@ -152,14 +152,12 @@ onBeforeMount(async () => {
           recruitItems.value.text = val.data.text;
           recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
-
-        // console.log(val);
+        }
+        if(val.images){
           val.images.forEach((image) => {
             images.value.push(config.public.baseURL + "/storage/" + image);
           });
 
-          if(val.images != null){
-            }
         }
       });
     });
