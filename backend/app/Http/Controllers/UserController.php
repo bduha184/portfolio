@@ -13,7 +13,8 @@ class UserController extends Controller
 {
 
 
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
 
         $request->validate([
             'name' => ['required'],
@@ -31,15 +32,14 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         Auth::login($user, true);
 
         return response()->json([
-            'user'=>$user,
+            'user' => $user,
             'User registration completed', Response::HTTP_OK
         ]);
-
     }
 
     public function registerProviderUser(Request $request, string $provider)
@@ -63,7 +63,7 @@ class UserController extends Controller
         Auth::login($user, true);
 
         return response()->json([
-            'user'=>$user
+            'user' => $user
         ]);
     }
 
@@ -83,11 +83,29 @@ class UserController extends Controller
         ];
     }
 
+    public function update(Request $request, $id)
+    {
 
-    public function destroy($id){
-        $user = User::find($id)->first();
+        $user = User::where('id',$id)->first();
 
-        if($user){
+        if ($user) {
+            $user->fill($request->all())->save();
+            return response()->json([
+                'message' => 'update successfully'
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                'message' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
             $user->delete();
             return response()->json([
                 'message' => 'delete successfully'

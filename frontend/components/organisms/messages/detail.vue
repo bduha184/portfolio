@@ -24,9 +24,14 @@
         />
       </v-list>
     </v-card>
-    <v-form class="fixed bottom-0 left-0 w-100 bg-grey-lighten-3">
+    <v-form class="fixed bottom-0 left-0 w-100">
       <v-container>
-        <v-row>
+        <AtomsBtnsBaseBtn
+        class="mb-6 ml-2"
+        >
+            参加申請を許可する
+          </AtomsBtnsBaseBtn>
+        <v-row class="bg-grey-lighten-3">
           <v-col cols="10">
             <AtomsInput
               class="bg-white"

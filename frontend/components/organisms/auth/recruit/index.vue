@@ -152,8 +152,8 @@ const handleRegister = async () => {
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
-  console.log(...formData.entries());
-  console.log(...imageData.entries());
+  // console.log(...formData.entries());
+  // console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([

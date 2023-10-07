@@ -9,7 +9,17 @@
           :key="index"
           :subtitle="message.comments"
           @click="onClick(message.sender_id)"
-        />
+        >
+        <template v-slot:append
+        v-if="message.request_flg == 1"
+        >
+          <AtomsTextsCaution
+          classes="text-red text-caption"
+          >
+            参加申請が来ています
+          </AtomsTextsCaution>
+        </template>
+      </v-list-item>
       </v-list>
     </v-card>
   </div>

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { computed } from "vue";
 import {Url} from '~/constants/url';
 
 
@@ -107,8 +106,8 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: info,
       });
-
-      user.value=register.data.value.user;
+      console.log(register.data);
+      // user.value=register.data.value.user;
 
       return register;
     }

@@ -5,6 +5,7 @@
     :to="to"
     :color="color"
     @click="onClick"
+    :variant="variant"
   >
   <slot/>
 </v-btn>
@@ -19,6 +20,11 @@ const props = defineProps({
   color:{
     type:String,
     default:''
+  },
+  variant:{
+    type:String,
+    default:'elevated'
+
   }
 })
 
