@@ -111,9 +111,9 @@ const handleUpdate = async () => {
   formData.append("thumbnail", form.value.thumbnail);
   formData.append("text", form.value.text);
 
-  const itemId = form.value.item_id;
+  const userId = auth.user.id;
   await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch(`/api/profile/${itemId}`, {
+  const res = await useApiFetch(`/api/profile/${userId}`, {
     method: "POST",
     body: formData,
     headers: {

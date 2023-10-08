@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(UserController::class)->group(function(){
         Route::prefix('user')->group(function () {
+            Route::put('/{id}', 'update');
             Route::delete('/{id}', 'destroy');
         });
     });
@@ -100,6 +101,9 @@ Route::prefix('login')->name('login.')->group(function() {
 });
 
 Route::controller(UserController::class)->group(function(){
+    Route::prefix('user')->name('user.')->group(function(){
+        Route::get('/{id}','show');
+    });
     Route::prefix('register')->name('register.')->group(function () {
         Route::post('/', 'register');
         Route::get('/{provider}', 'showProviderUserRegistrationForm')->name('{provider}');

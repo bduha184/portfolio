@@ -1,4 +1,0 @@
-<template>
-    <OrganismsRequest/>
-</template>
-

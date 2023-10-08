@@ -20,7 +20,7 @@ export const Url = {
   /** マイページ（マイチーム）（ */
   MYTEAM: getFrontUrl('/auth/teams/myteam'),
   /** マイページ（所属チーム一覧）（ */
-  AFFILIATION: getFrontUrl('/auth/teams/list'),
+  AFFILIATION: getFrontUrl('/auth/teams/affiliation'),
   /** マイページ（愛車紹介）（ */
   MYBICYCLE: getFrontUrl('/auth/mybicycle'),
 

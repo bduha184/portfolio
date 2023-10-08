@@ -33,7 +33,7 @@
             class="text-center"
             :toggle="toggleRequest"
             @emitInput="receiveBody"
-            @emitClick="receiveClick('join')"
+            @emitClick="joinRequest = true; receiveClick();"
             placeholder="伝えたい内容、参加したい理由、等を記載してください"
             text="メッセージを送信する"
           >
@@ -51,7 +51,7 @@
             setColor="orange"
             :toggle="toggleQuestion"
             @emitInput="receiveBody"
-            @emitClick="receiveClick('que')"
+            @emitClick="receiveClick"
             placeholder="質問内容を記載してください"
             text="質問内容を送信する"
           >
@@ -73,6 +73,8 @@ const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
 
+
+
 const recruitItems = ref({
   items: [],
   item: "",
@@ -93,6 +95,7 @@ const recruitItems = ref({
 const images = ref([]);
 
 const comments = ref("");
+const joinRequest = ref(false);
 
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
@@ -115,21 +118,36 @@ const receiveBody = (val) => {
   comments.value = val;
 };
 
-const receiveClick = async (val) => {
-  const dist = val == "join" ? "join" : "que";
+const receiveClick = async () => {
 
-  const data = {
+  const messageData = {
     comments: comments.value,
     receiver_id: recruitItems.value.user_id,
     sender_id: auth.user.id,
-    distinction: dist,
   };
 
+  const userData = {
+    request_flg: joinRequest.value,
+  }
+
+  const userId = auth.user?.id;
+
   await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch("/api/message/register", {
-    method: "POST",
-    body: data,
-  });
+  await Promise.all([
+    useApiFetch("/api/message/register", {
+      method: "POST",
+      body: messageData,
+    }),
+    useApiFetch(`/api/user/${userId}`, {
+      method: "POST",
+      body: userData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+  ]).then((res)=>{
+    console.log(res);
+  })
 };
 
 onBeforeMount(async () => {

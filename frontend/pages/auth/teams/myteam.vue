@@ -1,96 +1,30 @@
 <template>
-  <form>
-    <AtomsDisplayFlashMessage :isShow="isShow">
-      {{ flashMessage }}
-    </AtomsDisplayFlashMessage>
-    <OrganismsImgsCardProfile
-      @emitInput="receiveProfileImage"
-      :path_header="recruitItems.url_header_img"
-      :path_thumbnail="recruitItems.url_thumbnail"
-    />
-    <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextsHeadLine class="w-100">
-        <AtomsInput
-          placeholder="チーム名"
-          type="text"
-          @emitInput="receiveTeamName"
-          :val="recruitItems.title"
-        />
-      </AtomsTextsHeadLine>
-    </v-card-title>
-    <v-card-text>
-      <AtomsTextAreas
-        placeholder="チーム紹介"
-        @emitInput="receiveTeamIntroduce"
-        :body="recruitItems.text"
+  <div class="bg-white">
+    <form>
+      <AtomsDisplayFlashMessage :isShow="isShow">
+        {{ flashMessage }}
+      </AtomsDisplayFlashMessage>
+      <OrganismsImgsCardProfile
+        @emitInput="receiveProfileImage"
+        :path_header="recruitItems.url_header_img"
+        :path_thumbnail="recruitItems.url_thumbnail"
       />
-    </v-card-text>
-    <OrganismsAuthRecruitTeamInfo />
-    <v-container>
-      <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
-      <AtomsTextAreas
-        placeholder="活動内容の詳細を記入"
-        @emitInput="receiveTeamActivities"
-        :body="recruitItems.activities"
-        class="mt-2"
-      />
-    </v-container>
-    <v-container>
-      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-      <OrganismsDrugAndDrop @emitImages="receiveImage" />
-      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
-    </v-container>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      class="my-4 d-block mx-auto"
-      @emitClick="handleRegister"
-      v-if="!recruitItems.item_id"
-    >
-      登録
-    </AtomsBtnsBaseBtn>
+      <v-card-title class="w-60 text-body-2 text-left ml-auto">
+        <AtomsTextsHeadLine class="w-100">
+         {{ recruitItems.title }}
+        </AtomsTextsHeadLine>
+      </v-card-title>
+      <v-card-text>
+       {{ recruitItems.text }}
+      </v-card-text>
+      <v-container>
+        <AtomsTextsHeadLine class="w-100">
+          チームメンバー
+        </AtomsTextsHeadLine>
+      </v-container>
+    </form>
 
-    <!-- <v-snackbar
-      :timeout="2000"
-      color="deep-purple-accent-4"
-      elevation="2"
-      location="top"
-    >
-      <template v-slot:activator="{props }">
-        <AtomsBtnsBaseBtn
-        width="16rem"
-      class="my-4 d-block mx-auto"
-      @emitClick="handleRegister"
-      v-bind="props"
-      v-if="!recruitItems.item_id"
-        >
-          登録
-        </AtomsBtnsBaseBtn>
-      </template>
-
-      Snackbar with <strong>elevation="24"</strong>.
-    </v-snackbar> -->
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      setColor="orange"
-      class="my-4 d-block mx-auto"
-      @click.once="handleUpdate"
-      :disabled="!checkFilledOut()"
-      v-if="recruitItems.item_id"
-    >
-      更新
-    </AtomsBtnsBaseBtn>
-    <OrganismsModal
-      v-if="recruitItems.item_id"
-      @emitModalOpen="handleCheck"
-      @emitModalBtnClick="handleDelete"
-      setColor="red"
-      caution="※削除すると元に戻せなくなります。削除しますか？"
-      btnValue="削除する"
-      btnType="delete"
-    >
-      削除
-    </OrganismsModal>
-  </form>
+  </div>
 </template>
 
 <script setup lang="ts">

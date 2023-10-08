@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->string('password_confirmation')->nullable();
+            $table->boolean('member_flg')->default(false)->nullable();
+            $table->boolean('request_flg')->default(false)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -18,3 +18,5 @@ export const Levels = [
   'レース出場',
   'オールラウンド'
 ]
+
+export const ApprovalMessage = '参加申請を承諾しましたので、マイページの参加チームをご確認ください'

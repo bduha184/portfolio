@@ -26,6 +26,7 @@
     </v-card>
     <v-form class="fixed p-2 bottom-0 left-0 w-100 bg-grey-lighten-3">
       <v-row>
+       
         <v-col cols="10">
           <AtomsInput
             class="bg-white"
