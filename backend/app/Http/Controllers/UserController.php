@@ -68,19 +68,21 @@ class UserController extends Controller
     }
 
 
-    public function show()
+
+    public function show($id)
     {
-        $users =  User::all();
 
-        $articles = $users->each(function ($e) {
-            $e->articles->sortByDesc('created_at');
-        });
-        // $articles = $users->articles->sortByDesc('crated_at');
+        $user = User::where('id',$id)->first();
 
-        return [
-            // 'users'=>$users,
-            'articles' => $articles
-        ];
+        if ($user) {
+            return response()->json([
+                'user' => $user
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                'message' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     public function update(Request $request, $id)

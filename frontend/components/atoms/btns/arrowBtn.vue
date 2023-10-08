@@ -8,6 +8,7 @@
     class="text-decoration-none rotate-90"
     :to="to"
     @click="onClick"
+    :disabled="disabled"
   />
 </template>
 
@@ -22,6 +23,10 @@ import {Icons} from '../../../constants/icons';
   setColor:{
     type:String,
     default:''
+  },
+  disabled:{
+    type:Boolean,
+    default:false
   }
 })
 
