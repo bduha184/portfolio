@@ -49,9 +49,9 @@ const emits = defineEmits<Emits>();
 
 const uploader = ref<HTMLInputElement>();
 const selectedFile = ref<File | null>(null)
+console.log(props.isSelecting);
 
 watch(props.isSelecting,()=>{
-  console.log('Test')
   if(props.isSelecting){
     uploader.value?.click();
   }

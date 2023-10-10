@@ -37,7 +37,6 @@ const isSelecting = ref<boolean>(false);
 
 const openFileSelect= () => {
   isSelecting.value = true
-
   window.addEventListener('focus', () => {
     isSelecting.value = false
   }, { once: true })
