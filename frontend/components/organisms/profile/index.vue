@@ -14,7 +14,7 @@
       <AtomsTextAreas
         placeholder="本文"
         @emitInput="receiveTeamIntroduce"
-        :body="form.text"
+        :body="form.introduction"
       />
     </v-card-text>
     <AtomsBtnsBaseBtn
@@ -71,7 +71,7 @@ const form = ref({
   header_img: "",
   thumbnail: "",
   title: auth.user.name,
-  text: "",
+  introduction: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -81,8 +81,7 @@ const handleRegister = async () => {
 
   formData.append("header_img", form.value.header_img);
   formData.append("thumbnail", form.value.thumbnail);
-  formData.append("title", form.value.title);
-  formData.append("text", form.value.text);
+  formData.append("introduction", form.value.introduction);
 
   // console.log(...data.entries());
   await useApiFetch("/sanctum/csrf-cookie");
@@ -109,7 +108,7 @@ const handleUpdate = async () => {
 
   formData.append("header_img", form.value.header_img);
   formData.append("thumbnail", form.value.thumbnail);
-  formData.append("text", form.value.text);
+  formData.append("introduction", form.value.text);
 
   const userId = auth.user.id;
   await useApiFetch("/sanctum/csrf-cookie");
@@ -147,6 +146,7 @@ const checkFilledOut = () => {
 
 
 const receiveProfileImage = (val: File) => {
+  console.log('test')
   if (val.target == "header") {
     form.value.header_img = val.val;
     form.value.url_header_img = URL.createObjectURL(val.val);

@@ -26,6 +26,8 @@ const props = defineProps({
     default:false
   },
 });
+
+
 interface Emits {
   (e: "emitInput", value: File): void;
 }
@@ -35,6 +37,7 @@ const isSelecting = ref<boolean>(false);
 
 const openFileSelect= () => {
   isSelecting.value = true
+
   window.addEventListener('focus', () => {
     isSelecting.value = false
   }, { once: true })

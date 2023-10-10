@@ -41,6 +41,7 @@ const props = defineProps({
   }
 })
 
+
 interface Emits {
   (e: "emitInput", value: File): void;
 }
@@ -50,6 +51,7 @@ const uploader = ref<HTMLInputElement>();
 const selectedFile = ref<File | null>(null)
 
 watch(props.isSelecting,()=>{
+  console.log('Test')
   if(props.isSelecting){
     uploader.value?.click();
   }

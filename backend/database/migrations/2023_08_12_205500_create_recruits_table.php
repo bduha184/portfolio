@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('header_img_path')->nullable();
             $table->string('thumbnail_path')->nullable();
-            $table->string('title');
-            $table->string('text');
+            $table->string('introduction');
             $table->string('activities');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "#imports";
 const props = defineProps({
   path_header: {
     type: String,

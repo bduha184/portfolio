@@ -28,8 +28,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'member_flg',
-        'request_flg',
     ];
 
     /**
@@ -61,24 +59,16 @@ class User extends Authenticatable
         return $this->hasOne(Recruit::class);
     }
 
+    public function teams():BelongsToMany{
+        return $this->belongsToMany(Team::class);
+    }
+
     public function images():HasMany{
         return $this->hasMany(Recruit::class);
     }
 
     public function messages():HasMany{
         return $this->hasMany(Message::class);
-    }
-
-    public function likes():BelongsToMany{
-        return $this->belongsToMany(Article::class,'likes')->withTimestamps();
-    }
-
-    public function followers():BelongsToMany{
-        return $this->belongsToMany(User::class,'follows','followee_id','follower_id')->withTimestamps();
-    }
-
-    public function followees():BelongsToMany{
-        return $this->belongsToMany(User::class,'follows','follower_id','followee_id')->withTimestamps();
     }
 
     public function provider():HasMany{

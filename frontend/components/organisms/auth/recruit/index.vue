@@ -119,6 +119,7 @@ const flashMessage = ref("");
 const handelDelete = computed(() => {
   return (deleteCheck.value = true);
 });
+
 const recruitItems = ref({
   items: [],
   item: "",
@@ -129,8 +130,7 @@ const recruitItems = ref({
   user_id: "",
   header_img: "",
   thumbnail: "",
-  title: "",
-  text: "",
+  introduction: "",
   activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
@@ -144,8 +144,7 @@ const handleRegister = async () => {
 
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
-  formData.append("title", recruitItems.value.title);
-  formData.append("text", recruitItems.value.text);
+  formData.append("introduction", recruitItems.value.introduction);
   formData.append("activities", recruitItems.value.activities);
 
   const imageData = new FormData();
@@ -157,6 +156,10 @@ const handleRegister = async () => {
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
+    useApiFetch("/api/recruit/register", {
+      method: "POST",
+      body: formData,
+    }),
     useApiFetch("/api/recruit/register", {
       method: "POST",
       body: formData,
@@ -182,8 +185,7 @@ const handleUpdate = async () => {
 
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
-  formData.append("title", recruitItems.value.title);
-  formData.append("text", recruitItems.value.text);
+  formData.append("introduction", recruitItems.value.introduction);
   formData.append("activities", recruitItems.value.activities);
 
   const imageData = new FormData();
@@ -213,6 +215,7 @@ const handleUpdate = async () => {
   ]).then((res) => {
     console.log("all", res);
   });
+
   return navigateTo(Url.AUTHRECRUIT);
 };
 
