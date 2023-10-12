@@ -14,7 +14,7 @@
           placeholder="チーム名"
           type="text"
           @emitInput="receiveTeamName"
-          :val="recruitItems.title"
+          :val="recruitItems.team_name"
         />
       </AtomsTextsHeadLine>
     </v-card-title>
@@ -22,17 +22,17 @@
       <AtomsTextAreas
         placeholder="チーム紹介"
         @emitInput="receiveTeamIntroduce"
-        :body="recruitItems.text"
+        :body="recruitItems.introduction"
       />
     </v-card-text>
     <OrganismsAuthRecruitTeamInfo />
     <v-container>
       <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
+        class="mt-2"
         placeholder="活動内容の詳細を記入"
         @emitInput="receiveTeamActivities"
         :body="recruitItems.activities"
-        class="mt-2"
       />
     </v-container>
     <v-container>
@@ -105,6 +105,7 @@ import { useApiFetch } from "~/composables/useApiFetch";
 import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
+import { Form } from "vee-validate";
 // import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
@@ -121,15 +122,13 @@ const handelDelete = computed(() => {
 });
 
 const recruitItems = ref({
-  items: [],
-  item: "",
-  itemCount: 0,
   path_header: "",
   path_thumbnail: "",
   item_id: "",
   user_id: "",
   header_img: "",
   thumbnail: "",
+  team_name: "",
   introduction: "",
   activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
@@ -145,13 +144,18 @@ const handleRegister = async () => {
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("introduction", recruitItems.value.introduction);
+  formData.append("team_name", recruitItems.value.team_name);
   formData.append("activities", recruitItems.value.activities);
+
+  // const teamData = new FormData();
+  // teamData.append("team_name",recruitItems.value.team_name);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
   // console.log(...formData.entries());
+  // console.log(...teamData.entries());
   // console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
@@ -160,10 +164,10 @@ const handleRegister = async () => {
       method: "POST",
       body: formData,
     }),
-    useApiFetch("/api/recruit/register", {
-      method: "POST",
-      body: formData,
-    }),
+    // useApiFetch("/api/team/register", {
+    //   method: "POST",
+    //   body: teamData,
+    // }),
     useApiFetch("/api/images/register", {
       method: "POST",
       body: imageData,
@@ -172,7 +176,7 @@ const handleRegister = async () => {
     // console.log("all", res);
     // console.log(res[0].data.value);
     isShow.value = true;
-    console.log(isShow.value);
+    console.log(res);
     recruitItems.value.item_id = res[0].data.value;
   });
 
@@ -188,6 +192,10 @@ const handleUpdate = async () => {
   formData.append("introduction", recruitItems.value.introduction);
   formData.append("activities", recruitItems.value.activities);
 
+  const teamData = new FormData();
+  teamData.append("team_name",recruitItems.value.team_name);
+
+
   const imageData = new FormData();
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
@@ -199,6 +207,13 @@ const handleUpdate = async () => {
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
     useApiFetch(`/api/recruit/${auth.user.id}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+    useApiFetch(`/api/team/${auth.user.id}`, {
       method: "POST",
       body: formData,
       headers: {
@@ -240,7 +255,7 @@ const handleCheck = async () => {
 };
 
 const checkFilledOut = () => {
-  const fieldArray = [recruitItems.value.title, recruitItems.value.text];
+  const fieldArray = [recruitItems.value.team_name, recruitItems.value.introduction];
 
   if (fieldArray.indexOf("") === -1) {
     return true;
@@ -262,10 +277,10 @@ const receiveClick = (val) => {
 };
 
 const receiveTeamName = (val) => {
-  recruitItems.value.title = val.value;
+  recruitItems.value.team_name = val.value;
 };
 const receiveTeamIntroduce = (val) => {
-  recruitItems.value.text = val.value;
+  recruitItems.value.introduction = val.value;
 };
 const receiveTeamActivities = (val) => {
   recruitItems.value.activities = val.value;
@@ -291,18 +306,21 @@ onBeforeMount(async () => {
   if (userId) {
     await Promise.all([
       useApiFetch(`/api/recruit/${userId}`),
+      useApiFetch(`/api/team/${userId}`),
       useApiFetch(`/api/images/${userId}`),
     ]).then((responses) => {
       responses.forEach((res) => {
         const val = res.data.value;
+        console.log(val);
+        if(val != null){
         if (val.data) {
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
             config.public.baseURL + "/storage/" + val.data.header_img_path;
           recruitItems.value.url_thumbnail =
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-          recruitItems.value.title = val.data.title;
-          recruitItems.value.text = val.data.text;
+          recruitItems.value.team_name = val.data.team_name;
+          recruitItems.value.introduction = val.data.introduction;
           recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
         }
@@ -315,6 +333,7 @@ onBeforeMount(async () => {
             );
           });
         }
+      }
       });
     });
   }

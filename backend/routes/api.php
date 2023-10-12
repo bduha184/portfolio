@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecruitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 /*
@@ -53,6 +54,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(MessageController::class)->group(function(){
         Route::prefix('message')->name('message.')->group(function(){
             Route::post('/register','store');
+        });
+    });
+    Route::controller(TeamController::class)->group(function(){
+        Route::prefix('team')->name('team.')->group(function(){
+            Route::post('/register','store');
+            Route::put('/{id}','update');
         });
     });
     Route::controller(ImagesController::class)->group(function(){
@@ -108,5 +115,11 @@ Route::controller(UserController::class)->group(function(){
         Route::post('/', 'register');
         Route::get('/{provider}', 'showProviderUserRegistrationForm')->name('{provider}');
         Route::post('/{provider}', 'registerProviderUser')->name('{provider}');
+    });
+});
+
+Route::controller(TeamController::class)->group(function(){
+    Route::prefix('team')->name('team.')->group(function(){
+        Route::get('/{id}','show');
     });
 });

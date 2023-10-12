@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRecruitRequest;
 use App\Http\Requests\UpdateRecruitRequest;
 use App\Models\Recruit;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -43,8 +44,10 @@ class RecruitController extends Controller
         $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
         $recruit->thumbnail_path = $path_thumbnail;
 
-        $recruit->title = $request->title;
-        $recruit->text = $request->text;
+        $recruit->introduction = $request->introduction;
+        $team_name = Team::firstOrCreate(['team_name'=>$request->team_name]);
+        $recruit->teams()->attach($team_name);
+
         $recruit->activities = $request->activities;
         $recruit->user_id = Auth::id();
         $recruit->save();
@@ -99,8 +102,11 @@ class RecruitController extends Controller
         $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
         $recruit->thumbnail_path = $path_thumbnail;
 
-        $recruit->title = $request->title;
-        $recruit->text = $request->text;
+        $recruit->introduction = $request->introduction;
+
+        $request->teams = Team::firstOrCreate(['team_name'=>$request->team_name]);
+
+
         $recruit->user_id = Auth::id();
         $recruit->save();
 

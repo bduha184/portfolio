@@ -22,7 +22,7 @@
       class="my-4 d-block mx-auto"
       @click.once="handleRegister"
       :disabled="!checkFilledOut()"
-      v-if="!form.item_id"
+      v-if="!form.introduction"
     >
       登録
     </AtomsBtnsBaseBtn>
@@ -32,7 +32,7 @@
       class="my-4 d-block mx-auto"
       @click.once="handleUpdate"
       :disabled="!checkFilledOut()"
-      v-if="form.item_id"
+      v-if="form.introduction"
     >
       更新
     </AtomsBtnsBaseBtn>
@@ -41,7 +41,7 @@
       setColor="red"
       class="my-4 d-block mx-auto"
       @click="handleDelete"
-      v-if="form.item_id"
+      v-if="form.introduction"
     >
       削除
     </AtomsBtnsBaseBtn>
@@ -49,9 +49,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "#imports";
 import { useRuntimeConfig, navigateTo } from "nuxt/app";
 import { useApiFetch } from "../../../composables/useApiFetch";
-import { ref, onMounted } from "vue";
 import { Url } from "../../../constants/url";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { useRoute } from "vue-router";
@@ -61,16 +61,11 @@ const config = useRuntimeConfig();
 const router = useRoute();
 
 const form = ref({
-  items: [],
-  item: "",
-  itemCount: 0,
   path_header: "",
   path_thumbnail: "",
-  item_id: 0,
-  user_id: 0,
+  user_id: '',
   header_img: "",
   thumbnail: "",
-  title: auth.user.name,
   introduction: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
@@ -89,18 +84,11 @@ const handleRegister = async () => {
     method: "POST",
     body: formData,
   });
-
-  console.log(res);
-  form.value.item_id = res.data.value.itemId;
   form.value.path_header = res.data.value.path_header;
   form.value.path_thumbnail = res.data.value.path_thumbnail;
+  form.value.introduction = res.data.value.introduction;
 
-  return navigateTo({
-    path: Url.PROFILE,
-    query: {
-      id: form.value.item_id,
-    },
-  });
+  return navigateTo(Url.PROFILE);
 };
 
 const handleUpdate = async () => {
@@ -108,7 +96,7 @@ const handleUpdate = async () => {
 
   formData.append("header_img", form.value.header_img);
   formData.append("thumbnail", form.value.thumbnail);
-  formData.append("introduction", form.value.text);
+  formData.append("introduction", form.value.introduction);
 
   const userId = auth.user.id;
   await useApiFetch("/sanctum/csrf-cookie");
@@ -129,7 +117,6 @@ const handleDelete = async () => {
   const res = await useApiFetch(`/api/profile/${itemId}`, {
     method: "DELETE",
   });
-  console.log(res);
 };
 
 
@@ -146,7 +133,6 @@ const checkFilledOut = () => {
 
 
 const receiveProfileImage = (val: File) => {
-  console.log('test')
   if (val.target == "header") {
     form.value.header_img = val.val;
     form.value.url_header_img = URL.createObjectURL(val.val);
@@ -157,7 +143,7 @@ const receiveProfileImage = (val: File) => {
   URL.revokeObjectURL(val.val);
 };
 const receiveTeamIntroduce = (val) => {
-  form.value.text = val.value;
+  form.value.introduction = val.value;
 };
 
 
@@ -165,15 +151,15 @@ onMounted(async () => {
   const userId = auth.user.id;
   if (userId != 0) {
     const res = await useApiFetch(`/api/profile/${userId}`);
-    // console.log(res);
     const val = res.data.value;
-    form.value.item_id = val.data.id;
-    form.value.url_header_img =
-      config.public.baseURL + "/storage/" + val.data.header_img_path;
-    form.value.url_thumbnail =
-      config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-    form.value.text = val.data.text;
-    form.value.user_id = val.data.user_id;
+    if(val.data != null){
+      form.value.url_header_img =
+        config.public.baseURL + "/storage/" + val.data.header_img_path;
+      form.value.url_thumbnail =
+        config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+      form.value.introduction = val.data.introduction;
+      form.value.user_id = val.data.user_id;
+    }
   }
 });
 </script>
