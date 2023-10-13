@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('header_img_path')->nullable();
             $table->string('thumbnail_path')->nullable();
+            $table->string('team_name');
             $table->string('introduction');
             $table->string('activities');
             $table->unsignedBigInteger('user_id');

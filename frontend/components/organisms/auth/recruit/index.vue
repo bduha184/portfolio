@@ -190,11 +190,8 @@ const handleUpdate = async () => {
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
   formData.append("introduction", recruitItems.value.introduction);
+  formData.append("team_name",recruitItems.value.team_name);
   formData.append("activities", recruitItems.value.activities);
-
-  const teamData = new FormData();
-  teamData.append("team_name",recruitItems.value.team_name);
-
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -207,13 +204,6 @@ const handleUpdate = async () => {
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
     useApiFetch(`/api/recruit/${auth.user.id}`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }),
-    useApiFetch(`/api/team/${auth.user.id}`, {
       method: "POST",
       body: formData,
       headers: {
@@ -306,7 +296,6 @@ onBeforeMount(async () => {
   if (userId) {
     await Promise.all([
       useApiFetch(`/api/recruit/${userId}`),
-      useApiFetch(`/api/team/${userId}`),
       useApiFetch(`/api/images/${userId}`),
     ]).then((responses) => {
       responses.forEach((res) => {

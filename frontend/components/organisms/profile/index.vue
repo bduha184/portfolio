@@ -14,7 +14,7 @@
       <AtomsTextAreas
         placeholder="本文"
         @emitInput="receiveTeamIntroduce"
-        :body="form.introduction"
+        :body="form.item_id"
       />
     </v-card-text>
     <AtomsBtnsBaseBtn
@@ -22,7 +22,7 @@
       class="my-4 d-block mx-auto"
       @click.once="handleRegister"
       :disabled="!checkFilledOut()"
-      v-if="!form.introduction"
+      v-if="!form.item_id"
     >
       登録
     </AtomsBtnsBaseBtn>
@@ -32,7 +32,7 @@
       class="my-4 d-block mx-auto"
       @click.once="handleUpdate"
       :disabled="!checkFilledOut()"
-      v-if="form.introduction"
+      v-if="form.item_id"
     >
       更新
     </AtomsBtnsBaseBtn>
@@ -41,7 +41,7 @@
       setColor="red"
       class="my-4 d-block mx-auto"
       @click="handleDelete"
-      v-if="form.introduction"
+      v-if="form.item_id"
     >
       削除
     </AtomsBtnsBaseBtn>
@@ -67,6 +67,7 @@ const form = ref({
   header_img: "",
   thumbnail: "",
   introduction: "",
+  item_id:"",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -84,6 +85,7 @@ const handleRegister = async () => {
     method: "POST",
     body: formData,
   });
+  form.value.item_id = res.data.value.item_id;
   form.value.path_header = res.data.value.path_header;
   form.value.path_thumbnail = res.data.value.path_thumbnail;
   form.value.introduction = res.data.value.introduction;
@@ -159,6 +161,7 @@ onMounted(async () => {
         config.public.baseURL + "/storage/" + val.data.thumbnail_path;
       form.value.introduction = val.data.introduction;
       form.value.user_id = val.data.user_id;
+      form.value.item_id = val.data.item_id;
     }
   }
 });

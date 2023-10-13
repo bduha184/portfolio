@@ -56,12 +56,6 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/register','store');
         });
     });
-    Route::controller(TeamController::class)->group(function(){
-        Route::prefix('team')->name('team.')->group(function(){
-            Route::post('/register','store');
-            Route::put('/{id}','update');
-        });
-    });
     Route::controller(ImagesController::class)->group(function(){
         Route::prefix('images')->name('images.')->group(function(){
             Route::post('/register','store');
@@ -115,11 +109,5 @@ Route::controller(UserController::class)->group(function(){
         Route::post('/', 'register');
         Route::get('/{provider}', 'showProviderUserRegistrationForm')->name('{provider}');
         Route::post('/{provider}', 'registerProviderUser')->name('{provider}');
-    });
-});
-
-Route::controller(TeamController::class)->group(function(){
-    Route::prefix('team')->name('team.')->group(function(){
-        Route::get('/{id}','show');
     });
 });
