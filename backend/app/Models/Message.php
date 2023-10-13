@@ -53,6 +53,7 @@ class Message extends Model
                     ->orWhere('receiver_id', $sender_id);
             })
             ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
+            ->join('users', 'messages.sender_id', '=', 'users.id')
             ->orderBy('messages.created_at', 'asc')
             ->get();
     }

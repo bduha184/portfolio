@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 bg-white">
       <OrganismsCardsRecruitCardForList
-        v-for="(item, id) in recruitItems.items"
+        v-for="(item, id) in recruitItems"
         :key="id"
         :header_img_path="item.header_img_path"
         :thumbnail_path="item.thumbnail_path"
@@ -14,10 +14,7 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue";
 
-const recruitItems = ref({
-  items: [],
-  itemCount: 0,
-});
+const recruitItems = ref([]);
 
 onBeforeMount(async () => {
   const select = {
