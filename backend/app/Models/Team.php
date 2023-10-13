@@ -12,7 +12,7 @@ class Team extends Model
 
 
     protected $fillable = [
-        'team_name',
+        'member_flg',
         'request_flg'
     ];
 
