@@ -15,7 +15,7 @@ class Message extends Model
         'comments',
         'receiver_id',
         'sender_id',
-        'flg',
+        'request_flg',
     ];
     public function users(): BelongsTo
     {
@@ -35,9 +35,9 @@ class Message extends Model
         ->select([
             'messages.sender_id',
             'messages.comments',
+            'messages.request_flg',
             'profiles.thumbnail_path',
-            'profiles.title',
-            'users.request_flg',
+            'users.name',
         ])
         ->from('messages')
         ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')

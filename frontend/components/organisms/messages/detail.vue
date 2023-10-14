@@ -71,9 +71,10 @@ const auth = useAuthStore();
 const config = useRuntimeConfig();
 const router = useRoute();
 const messages = ref([]);
-const request_flg = ref(false);
+const request_flg = ref(router.query.flg);
 const pusherMessages = ref([]);
 const authMessage = ref("");
+
 
 const receiveInput = (val) => {
   authMessage.value = val.value;
@@ -105,11 +106,10 @@ const allowJoinTeam = async()=> {
 
   const userData = {
     request_flg: request_flg.value,
-    member_flg:true,
   }
 
   await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch(`/api/user/${sender_id}`,{
+  await useApiFetch(`/api/profile/${sender_id}`,{
     method: "POST",
     body: userData,
     headers: {
@@ -118,6 +118,8 @@ const allowJoinTeam = async()=> {
   }).then((res)=>{
     console.log(res);
   })
+
+  return navigateTo(`${Url.MESSAGES}/details/${router.params.id}`);
 }
 
 const receiveClick = async () => {
@@ -150,15 +152,9 @@ const receiveClick = async () => {
 
 onMounted(async () => {
   const senderId = router.params.id;
-  await Promise.all([
-    useApiFetch(`/api/message/${senderId}`),
-    useApiFetch(`/api/user/${senderId}`),
-  ]).then((res) => {
-    if (res[0]) {
-      messages.value.push(...res[0].data.value.data);
-    }
-    if (res[1]) {
-      request_flg.value = res[1].data.value.user.request_flg;
+   await useApiFetch(`/api/message/${senderId}`).then((res) => {
+    if (res.data) {
+      messages.value.push(...res.data.value.data);
     }
   });
 });

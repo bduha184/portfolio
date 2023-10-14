@@ -50,6 +50,7 @@ class ProfileController extends Controller
         return response()->json([
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
+            'item_id'=>$profile->id,
         ]);
     }
 

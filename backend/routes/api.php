@@ -1,14 +1,11 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RecruitController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TagController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
 
-    Route::controller(RecruitController::class)->group(function(){
-        Route::prefix('recruit')->name('recruit.')->group(function(){
+    Route::controller(TeamController::class)->group(function(){
+        Route::prefix('team')->name('team.')->group(function(){
             Route::post('/register','store');
             Route::put('/{id}','update');
             Route::delete('/{id}','destroy');
@@ -57,7 +54,7 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
     Route::controller(ImagesController::class)->group(function(){
-        Route::prefix('images')->name('images.')->group(function(){
+        Route::prefix('image')->name('image.')->group(function(){
             Route::post('/register','store');
             Route::put('/{id}','update');
             Route::delete('/{id}','destroy');
@@ -67,15 +64,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
-Route::controller(RecruitController::class)->group(function(){
-    Route::prefix('recruit')->name('recruit.')->group(function(){
+Route::controller(TeamController::class)->group(function(){
+    Route::prefix('team')->name('team.')->group(function(){
         Route::get('/','index')->name('index');
         Route::get('/{id}','show')->name('show');
     });
 });
 
 Route::controller(ImagesController::class)->group(function(){
-    Route::prefix('images')->name('images.')->group(function(){
+    Route::prefix('image')->name('image.')->group(function(){
         Route::get('/{id}','show');
     });
 });

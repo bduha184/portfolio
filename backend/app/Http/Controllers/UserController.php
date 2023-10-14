@@ -67,8 +67,6 @@ class UserController extends Controller
         ]);
     }
 
-
-
     public function show($id)
     {
 
@@ -77,23 +75,6 @@ class UserController extends Controller
         if ($user) {
             return response()->json([
                 'user' => $user
-            ], Response::HTTP_OK);
-        } else {
-            return response()->json([
-                'message' => 'User not found'
-            ], Response::HTTP_NOT_FOUND);
-        }
-    }
-
-    public function update(Request $request, $id)
-    {
-
-        $user = User::where('id',$id)->first();
-
-        if ($user) {
-            $user->fill($request->all())->save();
-            return response()->json([
-                'message' => 'update successfully'
             ], Response::HTTP_OK);
         } else {
             return response()->json([

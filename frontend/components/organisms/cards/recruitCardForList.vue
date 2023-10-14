@@ -8,11 +8,11 @@
 
     <v-card-title class="text-body-2">
       <AtomsTextsHeadLine>
-        {{ title }}
+        {{ team_name }}
       </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
-      {{ text }}
+      {{introduction }}
     </v-card-text>
   </v-card>
 </template>
@@ -31,11 +31,11 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  title: {
+  team_name: {
     type: String,
     default: "",
   },
-  text: {
+  introduction: {
     type: String,
     default: "",
   },

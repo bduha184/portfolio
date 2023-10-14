@@ -12,12 +12,15 @@ class Team extends Model
 
 
     protected $fillable = [
-        'member_flg',
-        'request_flg'
+        'header_img_path',
+        'thumbnail_path',
+        'team_name',
+        'introduction',
+        'activities',
     ];
 
     public function users():BelongsToMany{
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
 }

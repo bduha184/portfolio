@@ -14,7 +14,7 @@
       <AtomsTextAreas
         placeholder="本文"
         @emitInput="receiveTeamIntroduce"
-        :body="form.item_id"
+        :body="form.introduction"
       />
     </v-card-text>
     <AtomsBtnsBaseBtn
@@ -161,7 +161,7 @@ onMounted(async () => {
         config.public.baseURL + "/storage/" + val.data.thumbnail_path;
       form.value.introduction = val.data.introduction;
       form.value.user_id = val.data.user_id;
-      form.value.item_id = val.data.item_id;
+      form.value.item_id = val.data.id;
     }
   }
 });

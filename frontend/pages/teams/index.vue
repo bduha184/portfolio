@@ -4,16 +4,16 @@
       <FormMultipleSearch />
       <MoleculesCountsTeamCount
         class="mt-4"
-        :val="recruitItems.itemCount"
+        :val="teamItems.itemCount"
       />
       <OrganismsTabsRecruitTab />
       <OrganismsCardsRecruitCardForList
-        v-for="(item, id) in recruitItems.items"
+        v-for="(item, id) in teamItems.items"
         :key="id"
         :header_img_path="item.header_img_path"
         :thumbnail_path="item.thumbnail_path"
-        :title="item.title"
-        :text="item.text"
+        :team_name="item.team_name"
+        :introduction="item.introduction"
         :id="item.id"
       />
   </div>
@@ -21,16 +21,16 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue";
 
-const recruitItems = ref({
+const teamItems = ref({
   items: [],
   itemCount: 0,
 });
 
 onBeforeMount(async () => {
-  const res = await useApiFetch("/api/recruit/");
+  const res = await useApiFetch("/api/team/");
   const items = res.data.value;
-  recruitItems.value.items.push(...items);
-  recruitItems.value.itemCount = res.data.value.length;
+  teamItems.value.items.push(...items);
+  teamItems.value.itemCount = res.data.value.length;
 });
 </script>
 

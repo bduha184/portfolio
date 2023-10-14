@@ -7,11 +7,11 @@
     />
     <v-card-title class="text-body-2 pl-20">
       <AtomsTextsHeadLine>
-        {{ recruitItems.title }}
+        {{ recruitItems.team_name }}
       </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
-      {{ recruitItems.text }}
+      {{ recruitItems.introduction }}
     </v-card-text>
     <OrganismsRecruitsTeamInfo
     :activities="recruitItems.activities"
@@ -85,8 +85,8 @@ const recruitItems = ref({
   user_id: "",
   header_img: "",
   thumbnail: "",
-  title: "",
-  text: "",
+  team_name: "",
+  introduction: "",
   activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
@@ -123,29 +123,15 @@ const receiveClick = async () => {
   const messageData = {
     comments: comments.value,
     receiver_id: recruitItems.value.user_id,
-    sender_id: auth.user.id,
+    sender_id: auth.user?.id,
+    request_flg: joinRequest.value,
   };
 
-  const userData = {
-    request_flg: joinRequest.value,
-  }
-
-  const userId = auth.user?.id;
-
   await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    useApiFetch("/api/message/register", {
+  await useApiFetch("/api/message/register", {
       method: "POST",
       body: messageData,
-    }),
-    useApiFetch(`/api/user/${userId}`, {
-      method: "POST",
-      body: userData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }),
-  ]).then((res)=>{
+  }).then((res)=>{
     console.log(res);
   })
 };
@@ -154,8 +140,8 @@ onBeforeMount(async () => {
   const itemId = router.params.id;
   if (itemId) {
     await Promise.all([
-      useApiFetch(`/api/recruit/${itemId}`),
-      useApiFetch(`/api/images/${itemId}`),
+      useApiFetch(`/api/team/${itemId}`),
+      useApiFetch(`/api/image/${itemId}`),
     ]).then((resItems) => {
       resItems.forEach((item) => {
         const val = item.data.value;
@@ -166,8 +152,8 @@ onBeforeMount(async () => {
             config.public.baseURL + "/storage/" + val.data.header_img_path;
           recruitItems.value.url_thumbnail =
             config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-          recruitItems.value.title = val.data.title;
-          recruitItems.value.text = val.data.text;
+          recruitItems.value.team_name = val.data.team_name;
+          recruitItems.value.introduction = val.data.introduction;
           recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
         }

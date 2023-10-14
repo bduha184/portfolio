@@ -55,12 +55,8 @@ class User extends Authenticatable
     ];
 
 
-    public function recruits():HasOne{
-        return $this->hasOne(Recruit::class);
-    }
-
     public function teams():BelongsToMany{
-        return $this->belongsToMany(Team::class);
+        return $this->belongsToMany(Team::class)->withTimestamps();
     }
 
     public function images():HasMany{
