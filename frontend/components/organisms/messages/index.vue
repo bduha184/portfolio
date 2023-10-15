@@ -10,7 +10,7 @@
           :title="message.name"
           :key="index"
           :subtitle="message.comments"
-          @click="onClick(message.sender_id, message.request_flg)"
+          @click="onClick(message.sender_id,message.request_flg)"
         >
           <template v-slot:append v-if="message.request_flg">
             <AtomsTextsCaution classes="text-red text-caption">
@@ -34,7 +34,7 @@ const auth = useAuthStore();
 const config = useRuntimeConfig();
 const messages = ref([]);
 
-const onClick = (id, flg) => {
+const onClick = (id,flg) => {
   return navigateTo({
     path: `${Url.MESSAGES}/details/${id}`,
     query: {
@@ -44,9 +44,12 @@ const onClick = (id, flg) => {
 };
 
 onMounted(async () => {
-  const res = await useApiFetch("/api/message/");
-  console.log(res.data.value);
-  messages.value.push(...res.data.value.messages);
+  await  useApiFetch("/api/message/").then(res=>{
+    if(res.data.value){
+      const messageItems = res.data.value.messages;
+      messages.value.push(...messageItems);
+    }
+  })
 });
 </script>
 

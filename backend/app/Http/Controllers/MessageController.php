@@ -22,7 +22,6 @@ class MessageController extends Controller
     {
         $auth_id = Auth::id();
         $results = $message->getUserInfoById($auth_id);
-        // ->groupBy('sender_id');
 
         return response()->json([
             'messages'=>$results,
@@ -60,10 +59,10 @@ class MessageController extends Controller
     {
 
         $auth_id = Auth::id();
-        $message = $message->getSnsMessageById($sender_id,$auth_id);
+        $messages = $message->getSnsMessageById($sender_id,$auth_id);
 
         return response()->json([
-            'data'=>$message,
+            'data'=>$messages,
         ]);
     }
     /**
@@ -77,9 +76,15 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMessageRequest $request, Message $message)
+    public function update(Request $request, Message $message,$id)
     {
-        //
+        $message = $message->where('sender_id',$id)->first();
+        $message->fill($request->all())->save();
+
+
+        return response()->json([
+            'message'=>$message,
+        ]);
     }
 
     /**

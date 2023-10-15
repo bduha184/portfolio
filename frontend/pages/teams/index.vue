@@ -28,9 +28,13 @@ const teamItems = ref({
 
 onBeforeMount(async () => {
   const res = await useApiFetch("/api/team/");
-  const items = res.data.value;
-  teamItems.value.items.push(...items);
-  teamItems.value.itemCount = res.data.value.length;
+  if(res){
+    console.log(res);
+    const items = res.data.value.teams;
+    teamItems.value.items.push(...items);
+    teamItems.value.itemCount = items.length;
+
+  }
 });
 </script>
 

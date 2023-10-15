@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('profile_team', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('profile_id');
-            $table->unsignedBigInteger('team_id');
-            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade');
+            $table->foreignId('team_id')->constrained('teams')->onDelete('cascade');
             $table->timestamps();
         });
     }

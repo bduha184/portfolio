@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -14,10 +15,39 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return Team::latest()->get();
+
+        $teams = Team::latest()->get();
+
+        if ($teams) {
+            return response()->json([
+                'teams' => $teams,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Teams not found'
+        ], Response::HTTP_NOT_FOUND);
     }
 
-    /**
+    public function select_team()
+    {
+        $auth_id = Auth::id();
+        $auth_profile = Profile::where('user_id', $auth_id)->first();
+
+        if ($auth_profile) {
+            $affiliations = $auth_profile->teams()->get();
+            return response()->json([
+                'affiliations' => $affiliations
+            ]);
+        }
+
+
+        return response()->json([
+            'message' => 'Teams not found'
+        ], Response::HTTP_NOT_FOUND);
+    }
+
+    /**˝
      * Show the form for creating a new resource.
      */
     public function create()
@@ -28,7 +58,7 @@ class TeamController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,Team $team)
+    public function store(Request $request, Team $team)
     {
         $file_header = $request->file('header_img');
         $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
@@ -47,7 +77,7 @@ class TeamController extends Controller
         $team->save();
 
         return response()->json([
-            'itemId'=>$team->id,
+            'itemId' => $team->id,
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
         ]);
@@ -58,33 +88,26 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        if(Auth::id() == $id){
-            $teamItem = Team::where('user_id',$id)->first();
-        }else{
+        if (Auth::id() == $id) {
+            $teamItem = Team::where('user_id', $id)->first();
+        } else {
             $teamItem = Team::find($id)->first();
-
         }
+        $members = $teamItem->profiles()->get();
 
         return response()->json([
-            'data'=>$teamItem,
+            'teamItem' => $teamItem,
+            'members' => $members,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Recruit $team)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
 
-        $team  = Team::where('user_id',$id)->first();
+        $team  = Team::where('user_id', $id)->first();
 
         $file_header = $request->file('header_img');
         $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
@@ -98,7 +121,7 @@ class TeamController extends Controller
 
         $team->introduction = $request->introduction;
 
-        $request->teams = Team::firstOrCreate(['team_name'=>$request->team_name]);
+        $request->teams = Team::firstOrCreate(['team_name' => $request->team_name]);
 
 
         $team->user_id = Auth::id();
@@ -115,7 +138,7 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        $team = Team::where('id',$id)->first();
+        $team = Team::where('id', $id)->first();
 
         if ($team) {
             $team->delete();

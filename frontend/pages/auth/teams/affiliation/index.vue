@@ -5,8 +5,8 @@
         :key="id"
         :header_img_path="item.header_img_path"
         :thumbnail_path="item.thumbnail_path"
-        :title="item.title"
-        :text="item.text"
+        :introduction="item.introduction"
+        :team_name="item.team_name"
         :id="item.id"
       />
   </div>
@@ -20,8 +20,13 @@ const recruitItems = ref({
 });
 
 onBeforeMount(async () => {
-  const res = await useApiFetch("/api/recruit/");
-  const items = res.data.value;
+  const select = {
+    'kind':'auth'
+  }
+  const res = await useApiFetch("/api/team/auth");
+  console.log(res);
+  const items = res.data.value.affiliations;
+
   recruitItems.value.items.push(...items);
   recruitItems.value.itemCount = res.data.value.length;
 });

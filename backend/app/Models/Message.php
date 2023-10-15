@@ -15,12 +15,7 @@ class Message extends Model
         'comments',
         'receiver_id',
         'sender_id',
-        'request_flg',
     ];
-    public function users(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function getUserInfoById($auth_id)
     {
@@ -35,7 +30,7 @@ class Message extends Model
         ->select([
             'messages.sender_id',
             'messages.comments',
-            'messages.request_flg',
+            'profiles.request_flg',
             'profiles.thumbnail_path',
             'users.name',
         ])

@@ -25,7 +25,9 @@
         :body="teamItems.introduction"
       />
     </v-card-text>
-    <OrganismsAuthRecruitTeamInfo />
+    <OrganismsAuthRecruitTeamInfo
+    :member_count="teamItems.member_count"
+    />
     <v-container>
       <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
@@ -130,6 +132,7 @@ const teamItems = ref({
   thumbnail: "",
   team_name: "",
   introduction: "",
+  member_count: 0,
   activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
@@ -304,18 +307,21 @@ onBeforeMount(async () => {
       responses.forEach((res) => {
         const val = res.data.value;
         if (val != null) {
-          if (val.data) {
-            teamItems.value.item_id = val.data.id;
+          if (val.teamItem) {
+            console.log(val)
+            teamItems.value.item_id = val.teamItem.id;
             teamItems.value.url_header_img =
-              config.public.baseURL + "/storage/" + val.data.header_img_path;
+              config.public.baseURL + "/storage/" + val.teamItem.header_img_path;
             teamItems.value.url_thumbnail =
-              config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-            teamItems.value.team_name = val.data.team_name;
-            teamItems.value.introduction = val.data.introduction;
-            teamItems.value.activities = val.data.activities;
-            teamItems.value.user_id = val.data.user_id;
+              config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
+            teamItems.value.team_name = val.teamItem.team_name;
+            teamItems.value.introduction = val.teamItem.introduction;
+            teamItems.value.activities = val.teamItem.activities;
+            teamItems.value.user_id = val.teamItem.user_id;
           }
-
+          if(val.members){
+            teamItems.value.member_count = val.members.length + 1;
+          }
           if (val.images) {
             val.images.forEach((image) => {
               postImages.value.push(image);
@@ -324,6 +330,7 @@ onBeforeMount(async () => {
               );
             });
           }
+
         }
       });
     });

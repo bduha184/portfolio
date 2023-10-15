@@ -2,11 +2,15 @@
 <v-container>
       <AtomsTextsHeadLine> チーム詳細 </AtomsTextsHeadLine>
       <v-row>
-        <v-col cols="6">■メンバー数</v-col>
+        <v-col cols="6">
+          ■メンバー数
+          <v-col class="text-center">
+            {{ member_count }}
+          </v-col>
+        </v-col>
         <v-col cols="6">
           ■男女比
-          <v-select
-          >
+          <v-select>
           </v-select>
         </v-col>
         <v-col cols="12">
@@ -50,7 +54,12 @@ import {ref} from '#imports';
 import {Ages,Levels} from '~/constants/ride.ts';
 
 
-
+const props = defineProps({
+  member_count:{
+    type:Number,
+    default:0
+  }
+})
 
 </script>
 

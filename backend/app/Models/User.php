@@ -54,17 +54,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-    public function teams():BelongsToMany{
-        return $this->belongsToMany(Team::class)->withTimestamps();
-    }
-
     public function images():HasMany{
-        return $this->hasMany(Recruit::class);
-    }
-
-    public function messages():HasMany{
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Team::class);
     }
 
     public function provider():HasMany{

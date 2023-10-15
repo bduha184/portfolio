@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreImagesRequest;
 use App\Http\Requests\UpdateImagesRequest;
 use App\Models\Images;
-use App\Models\Recruit;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -63,8 +63,8 @@ class ImagesController extends Controller
         if(Auth::id() == $id){
             $get_image_info = $images->where('user_id',$id)->first();
         }else{
-            $recruit = Recruit::find($id)->first();
-            $user_id = $recruit->user_id;
+            $team = Team::find($id)->first();
+            $user_id = $team->user_id;
             $get_image_info = $images->where('user_id',$user_id)->first();
 
         }

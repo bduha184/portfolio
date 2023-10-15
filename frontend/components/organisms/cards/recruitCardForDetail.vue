@@ -13,38 +13,31 @@
     <v-card-text>
       {{ recruitItems.introduction }}
     </v-card-text>
-    <OrganismsRecruitsTeamInfo
-    :activities="recruitItems.activities"
-    />
-    <OrganismsRecruitsActivities
-    :activities="recruitItems.activities"
-    />
+    <OrganismsRecruitsTeamInfo :activities="recruitItems.activities" />
+    <OrganismsRecruitsActivities :activities="recruitItems.activities" />
     <OrganismsGalleryModal :images="images" />
     <v-container class="text-center">
       <v-row>
         <v-col>
-          <OrganismsModal
-            @emitAccordion="requestJoinTeam"
-            color="info"
-          >
+          <OrganismsModal @emitAccordion="requestJoinTeam" color="info">
             このチームに参加する
           </OrganismsModal>
           <MoleculesAccordionsMessage
             class="text-center"
             :toggle="toggleRequest"
             @emitInput="receiveBody"
-            @emitClick="joinRequest = true; receiveClick();"
+            @emitClick="
+              joinRequest = true;
+              receiveClick();
+            "
             placeholder="伝えたい内容、参加したい理由、等を記載してください"
             text="メッセージを送信する"
           >
           </MoleculesAccordionsMessage>
         </v-col>
         <v-col>
-          <OrganismsModal
-            @emitAccordion="questionToTeam"
-            color="secondary"
-          >
-          このチームに質問する
+          <OrganismsModal @emitAccordion="questionToTeam" color="secondary">
+            このチームに質問する
           </OrganismsModal>
           <MoleculesAccordionsMessage
             class="text-center"
@@ -64,16 +57,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeMount,computed } from "#imports";
+import { ref, onBeforeMount, computed } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { useRoute } from "vue-router";
 import { useRuntimeConfig } from "nuxt/app";
+import { useApiFetch } from "../../../composables/useApiFetch";
 
 const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
-
-
 
 const recruitItems = ref({
   items: [],
@@ -100,11 +92,13 @@ const joinRequest = ref(false);
 const toggleRequest = ref(false);
 const toggleQuestion = ref(false);
 
+const sender_id = auth.user?.id;
+
 const requestJoinTeam = () => {
   if (!auth.isLoggedIn) {
-     toggleRequest.value = false;
+    toggleRequest.value = false;
   } else {
-     toggleRequest.value = true;
+    toggleRequest.value = true;
   }
 };
 const questionToTeam = () => {
@@ -119,21 +113,32 @@ const receiveBody = (val) => {
 };
 
 const receiveClick = async () => {
-
   const messageData = {
     comments: comments.value,
     receiver_id: recruitItems.value.user_id,
     sender_id: auth.user?.id,
+  };
+
+  const profileData = {
     request_flg: joinRequest.value,
   };
 
-  await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch("/api/message/register", {
+  await Promise.all([
+    useApiFetch("/sanctum/csrf-cookie"),
+    useApiFetch("/api/message/register", {
       method: "POST",
       body: messageData,
-  }).then((res)=>{
+    }),
+    useApiFetch(`/api/profile/${sender_id}`, {
+      method: "POST",
+      body: profileData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+  ]).then((res) => {
     console.log(res);
-  })
+  });
 };
 
 onBeforeMount(async () => {
@@ -145,8 +150,8 @@ onBeforeMount(async () => {
     ]).then((resItems) => {
       resItems.forEach((item) => {
         const val = item.data.value;
-
-        if(val.data){
+        console.log(val);
+        if (val) {
           recruitItems.value.item_id = val.data.id;
           recruitItems.value.url_header_img =
             config.public.baseURL + "/storage/" + val.data.header_img_path;
@@ -156,12 +161,12 @@ onBeforeMount(async () => {
           recruitItems.value.introduction = val.data.introduction;
           recruitItems.value.activities = val.data.activities;
           recruitItems.value.user_id = val.data.user_id;
-        }
-        if(val.images){
-          val.images.forEach((image) => {
-            images.value.push(config.public.baseURL + "/storage/" + image);
-          });
 
+          if (val.images) {
+            val.images.forEach((image) => {
+              images.value.push(config.public.baseURL + "/storage/" + image);
+            });
+          }
         }
       });
     });

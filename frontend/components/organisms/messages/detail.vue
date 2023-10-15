@@ -42,10 +42,7 @@
             />
           </v-col>
           <v-col cols="2">
-            <AtomsBtnsArrowBtn
-            @emitClick="receiveClick"
-            disabled="true"
-             />
+            <AtomsBtnsArrowBtn @emitClick="receiveClick" disabled="true" />
           </v-col>
         </v-row>
       </v-container>
@@ -71,10 +68,9 @@ const auth = useAuthStore();
 const config = useRuntimeConfig();
 const router = useRoute();
 const messages = ref([]);
-const request_flg = ref(router.query.flg);
+const request_flg = ref(false);
 const pusherMessages = ref([]);
 const authMessage = ref("");
-
 
 const receiveInput = (val) => {
   authMessage.value = val.value;
@@ -90,43 +86,45 @@ watch(pusherMessages.value, async () => {
   };
   if (pusherMessages.value.length > 0) {
     await useApiFetch("/sanctum/csrf-cookie");
-    await useApiFetch("/api/message/register", {
+    await useApiFetch(`/api/message/${sender_id}`, {
       method: "POST",
       body: pusherData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
     }).then((res) => {
       console.log(res);
     });
   }
 });
 
-
-const allowJoinTeam = async()=> {
+const allowJoinTeam = async () => {
   pusherMessages.value.push(ApprovalMessage);
   request_flg.value = false;
 
-  const userData = {
-    request_flg: request_flg.value,
-  }
-
-  await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch(`/api/profile/${sender_id}`,{
-    method: "POST",
-    body: userData,
-    headers: {
-      "X-HTTP-Method-Override": "PUT",
-    },
-  }).then((res)=>{
+  await Promise.all([
+    useApiFetch("/sanctum/csrf-cookie"),
+    useApiFetch(`/api/profile/${sender_id}`, {
+      method: "POST",
+      body:{
+        'request_flg': request_flg.value,
+      },
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+  ]).then((res) => {
     console.log(res);
-  })
+  });
 
-  return navigateTo(`${Url.MESSAGES}/details/${router.params.id}`);
-}
+  // return navigateTo(`${Url.MESSAGES}/details/${router.params.id}`);
+};
 
 const receiveClick = async () => {
   const data = {
     comments: authMessage.value,
     sender_id: sender_id,
-    receiver_id: authId
+    receiver_id: authId,
   };
 
   await useApiFetch("/sanctum/csrf-cookie");
@@ -152,22 +150,25 @@ const receiveClick = async () => {
 
 onMounted(async () => {
   const senderId = router.params.id;
-   await useApiFetch(`/api/message/${senderId}`).then((res) => {
+  const flg = router.query.flg;
+  request_flg.value = false;
+  if(flg) request_flg.value = true;
+  await useApiFetch(`/api/message/${senderId}`).then((res) => {
+    console.log(res);
     if (res.data) {
       messages.value.push(...res.data.value.data);
     }
   });
+  return navigateTo(`${Url.MESSAGES}/details/${router.params.id}`);
 });
 </script>
 
 <style lang="scss" scoped>
-
 .v-list {
   &:deep(.v-list-item) {
-      width: calc(100% - 30px) !important;
-      margin-right: auto;
-
-    }
+    width: calc(100% - 30px) !important;
+    margin-right: auto;
+  }
   &-item {
     & + & {
       margin-top: 0.5rem;

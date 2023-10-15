@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(MessageController::class)->group(function(){
         Route::prefix('message')->name('message.')->group(function(){
             Route::post('/register','store');
+            Route::put('/{id}','update');
         });
     });
     Route::controller(ImagesController::class)->group(function(){
@@ -67,6 +68,7 @@ Broadcast::routes(['middleware' => ['auth:sanctum']]);
 Route::controller(TeamController::class)->group(function(){
     Route::prefix('team')->name('team.')->group(function(){
         Route::get('/','index')->name('index');
+        Route::get('/auth','select_team');
         Route::get('/{id}','show')->name('show');
     });
 });
