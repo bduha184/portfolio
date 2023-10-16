@@ -8,22 +8,31 @@
         @emitInput="receiveProfileImage"
         :path_header="recruitItems.url_header_img"
         :path_thumbnail="recruitItems.url_thumbnail"
+        disabled="true"
       />
       <v-card-title class="w-60 text-body-2 text-left ml-auto">
         <AtomsTextsHeadLine class="w-100">
-         {{ recruitItems.title }}
+          {{ recruitItems.team_name }}
         </AtomsTextsHeadLine>
       </v-card-title>
       <v-card-text>
-       {{ recruitItems.text }}
+        {{ recruitItems.introduction }}
       </v-card-text>
       <v-container>
-        <AtomsTextsHeadLine class="w-100">
-          チームメンバー
-        </AtomsTextsHeadLine>
+        <AtomsTextsHeadLine class="w-100"> チームメンバー </AtomsTextsHeadLine>
+        <v-row>
+          <v-col cols="4"
+          v-for="(member, i) in members"
+          :key="i">
+          <a href="">
+            <img
+            :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
+            />
+          </a>
+          </v-col>
+        </v-row>
       </v-container>
     </form>
-
   </div>
 </template>
 
@@ -49,10 +58,11 @@ const displayImages = ref([]);
 const deleteCheck = ref(false);
 const isShow = ref(false);
 const flashMessage = ref("");
-
+const members = ref([]);
 const handelDelete = computed(() => {
   return (deleteCheck.value = true);
 });
+
 const recruitItems = ref({
   items: [],
   item: "",
@@ -63,12 +73,14 @@ const recruitItems = ref({
   user_id: "",
   header_img: "",
   thumbnail: "",
-  title: "",
-  text: "",
+  team_name: "",
+  introduction: "",
   activities: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
+
+
 
 const handleRegister = async () => {
   flashMessage.value = Message.REGISTER;
@@ -78,7 +90,7 @@ const handleRegister = async () => {
 
   formData.append("header_img", recruitItems.value.header_img);
   formData.append("thumbnail", recruitItems.value.thumbnail);
-  formData.append("title", recruitItems.value.title);
+  formData.append("intro", recruitItems.value.title);
   formData.append("text", recruitItems.value.text);
   formData.append("activities", recruitItems.value.activities);
 
@@ -221,30 +233,38 @@ onBeforeMount(async () => {
   const userId = auth.user.id;
   if (userId) {
     await Promise.all([
-      useApiFetch(`/api/recruit/${userId}`),
-      useApiFetch(`/api/images/${userId}`),
+      useApiFetch(`/api/team/${userId}`),
+      useApiFetch(`/api/image/${userId}`),
     ]).then((responses) => {
       responses.forEach((res) => {
         const val = res.data.value;
-        if (val.data) {
-          recruitItems.value.item_id = val.data.id;
-          recruitItems.value.url_header_img =
-            config.public.baseURL + "/storage/" + val.data.header_img_path;
-          recruitItems.value.url_thumbnail =
-            config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-          recruitItems.value.title = val.data.title;
-          recruitItems.value.text = val.data.text;
-          recruitItems.value.activities = val.data.activities;
-          recruitItems.value.user_id = val.data.user_id;
-        }
+        if (val != null) {
+          if (val.teamItem) {
+            recruitItems.value.item_id = val.teamItem.id;
+            recruitItems.value.url_header_img =
+              config.public.baseURL +
+              "/storage/" +
+              val.teamItem.header_img_path;
+            recruitItems.value.url_thumbnail =
+              config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
+            recruitItems.value.introduction = val.teamItem.introduction;
+            recruitItems.value.team_name = val.teamItem.team_name;
+            recruitItems.value.activities = val.teamItem.activities;
+            recruitItems.value.user_id = val.teamItem.user_id;
+          }
 
-        if (val.images) {
-          val.images.forEach((image) => {
-            postImages.value.push(image);
-            displayImages.value.push(
-              config.public.baseURL + "/storage/" + image
-            );
-          });
+          if (val.members) {
+            members.value.push(...val.members);
+          }
+
+          if (val.images) {
+            val.images.forEach((image) => {
+              postImages.value.push(image);
+              displayImages.value.push(
+                config.public.baseURL + "/storage/" + image
+              );
+            });
+          }
         }
       });
     });
@@ -256,12 +276,6 @@ onBeforeMount(async () => {
 .v-card {
   overflow: hidden !important;
   border-radius: 10px;
-}
-.v-avatar {
-  position: absolute !important;
-  bottom: -40px;
-  left: 20px;
-  z-index: 1;
 }
 
 .v-responsive {

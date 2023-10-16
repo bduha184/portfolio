@@ -13,9 +13,9 @@
     <v-card-text>
       {{ recruitItems.introduction }}
     </v-card-text>
+    <OrganismsGalleryModal :images="images" />
     <OrganismsRecruitsTeamInfo :activities="recruitItems.activities" />
     <OrganismsRecruitsActivities :activities="recruitItems.activities" />
-    <OrganismsGalleryModal :images="images" />
     <v-container class="text-center">
       <v-row>
         <v-col>
@@ -151,22 +151,21 @@ onBeforeMount(async () => {
       resItems.forEach((item) => {
         const val = item.data.value;
         console.log(val);
-        if (val) {
-          recruitItems.value.item_id = val.data.id;
+        if (val.teamItem) {
+          recruitItems.value.item_id = val.teamItem.id;
           recruitItems.value.url_header_img =
-            config.public.baseURL + "/storage/" + val.data.header_img_path;
+            config.public.baseURL + "/storage/" + val.teamItem.header_img_path;
           recruitItems.value.url_thumbnail =
-            config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-          recruitItems.value.team_name = val.data.team_name;
-          recruitItems.value.introduction = val.data.introduction;
-          recruitItems.value.activities = val.data.activities;
-          recruitItems.value.user_id = val.data.user_id;
-
-          if (val.images) {
-            val.images.forEach((image) => {
-              images.value.push(config.public.baseURL + "/storage/" + image);
-            });
-          }
+            config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
+          recruitItems.value.team_name = val.teamItem.team_name;
+          recruitItems.value.introduction = val.teamItem.introduction;
+          recruitItems.value.activities = val.teamItem.activities;
+          recruitItems.value.user_id = val.dteamItemata.user_id;
+        }
+        if (val.images) {
+          val.images.forEach((image) => {
+            images.value.push(config.public.baseURL + "/storage/" + image);
+          });
         }
       });
     });

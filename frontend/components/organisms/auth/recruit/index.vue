@@ -29,12 +29,21 @@
     :member_count="teamItems.member_count"
     />
     <v-container>
-      <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+      <AtomsTextsHeadLine> チームの主な活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
         class="mt-2"
         placeholder="活動内容の詳細を記入"
         @emitInput="receiveTeamActivities"
         :body="teamItems.activities"
+      />
+    </v-container>
+    <v-container>
+      <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
+      <AtomsTextAreas
+        class="mt-2"
+        placeholder="これからの活動内容を記入"
+        @emitInput="receiveTeamActivities"
+        :body="teamItems.schedule"
       />
     </v-container>
     <v-container>
@@ -134,6 +143,7 @@ const teamItems = ref({
   introduction: "",
   member_count: 0,
   activities: "",
+  schedule: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -149,6 +159,7 @@ const handleRegister = async () => {
   formData.append("introduction", teamItems.value.introduction);
   formData.append("team_name", teamItems.value.team_name);
   formData.append("activities", teamItems.value.activities);
+  formData.append("schedule", teamItems.value.schedule);
 
   // const teamData = new FormData();
   // teamData.append("team_name",teamItems.value.team_name);
@@ -195,6 +206,7 @@ const handleUpdate = async () => {
   formData.append("introduction", teamItems.value.introduction);
   formData.append("team_name", teamItems.value.team_name);
   formData.append("activities", teamItems.value.activities);
+  formData.append("schedule", teamItems.value.schedule);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -319,10 +331,12 @@ onBeforeMount(async () => {
             teamItems.value.activities = val.teamItem.activities;
             teamItems.value.user_id = val.teamItem.user_id;
           }
+
           if(val.members){
             teamItems.value.member_count = val.members.length + 1;
           }
-          if (val.images) {
+
+          if(val.images){
             val.images.forEach((image) => {
               postImages.value.push(image);
               displayImages.value.push(
@@ -330,7 +344,6 @@ onBeforeMount(async () => {
               );
             });
           }
-
         }
       });
     });

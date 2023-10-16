@@ -34,7 +34,7 @@
           </v-row>
         </v-col>
         <v-col cols="12">
-          ■チームの方向性
+          ■チームの方向性(タグで表示)
           <v-select
           :items="Levels"
           outlined

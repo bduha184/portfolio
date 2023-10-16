@@ -21,10 +21,10 @@ class MessageController extends Controller
     public function index(Message $message)
     {
         $auth_id = Auth::id();
-        $results = $message->getUserInfoById($auth_id);
+        $messages = $message->getUserInfoById($auth_id);
 
         return response()->json([
-            'messages'=>$results,
+            'messages'=>$messages,
         ]);
     }
 
