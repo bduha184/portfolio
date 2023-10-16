@@ -38,6 +38,7 @@
     "vee-validate": "^4.10.8",
     "vue-gallery": "^2.0.5",
     "vue-router": "^4.0.3",
+    "vue3-tags-input": "^1.0.12",
     "yup": "^1.2.0"
   }
 }

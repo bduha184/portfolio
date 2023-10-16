@@ -2166,6 +2166,11 @@ cli-boxes@^3.0.0:
   resolved "https://registry.npmjs.org/cli-boxes/-/cli-boxes-3.0.0.tgz"
   integrity sha512-/lzGpEWL/8PfI0BmBOPRwp0c/wFNX1RdUML3jK/RcSBA9T8mZDdQpqYBKtCFTOfQbwPqWEOpjqW+Fnayc0969g==
 
+click-outside-vue3@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/click-outside-vue3/-/click-outside-vue3-4.0.1.tgz#81a6ac01696b301764b42db6fdbdf28e7cd8ef95"
+  integrity sha512-sbplNecrup5oGqA3o4bo8XmvHRT6q9fvw21Z67aDbTqB9M6LF7CuYLTlLvNtOgKU6W3zst5H5zJuEh4auqA34g==
+
 clipboardy@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/clipboardy/-/clipboardy-3.0.0.tgz"
@@ -7129,6 +7134,13 @@ vue-router@^4.0.3, vue-router@^4.2.4:
   integrity sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
+
+vue3-tags-input@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/vue3-tags-input/-/vue3-tags-input-1.0.12.tgz#afbd12cff99d2de0dd57113d340879c325c69111"
+  integrity sha512-s5rG+1W3M8+be0nd9H1nv/8WLjJOO6pShgVz8ALAqOiz3tDH5QhGrDH6fzD14ZjJNRWSa3bRBSXQwHEXffPQ6g==
+  dependencies:
+    click-outside-vue3 "^4.0.1"
 
 vue@^3.3.4:
   version "3.3.4"

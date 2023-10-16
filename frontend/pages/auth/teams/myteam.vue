@@ -24,11 +24,9 @@
           <v-col cols="4"
           v-for="(member, i) in members"
           :key="i">
-          <a href="">
-            <img
-            :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
-            />
-          </a>
+          <img
+          :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
+          />
           </v-col>
         </v-row>
       </v-container>
