@@ -12,6 +12,9 @@ class TeamSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\User::factory()->create([
+            'name' => 'user',
+            'email' => 'sample@sample.com',
+        ]);
     }
 }

@@ -27,7 +27,10 @@
     </v-card-text>
     <OrganismsAuthRecruitTeamInfo
     :member_count="teamItems.member_count"
+    @emitTeamInfo="receiveAvarage"
+
     />
+    {{ teamItems.avarage }}
     <v-container>
       <AtomsTextsHeadLine> チームの主な活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
@@ -132,6 +135,7 @@ const handelDelete = computed(() => {
   return (deleteCheck.value = true);
 });
 
+
 const teamItems = ref({
   path_header: "",
   path_thumbnail: "",
@@ -140,6 +144,7 @@ const teamItems = ref({
   header_img: "",
   thumbnail: "",
   team_name: "",
+  avarage:"",
   introduction: "",
   member_count: 0,
   activities: "",
@@ -148,6 +153,11 @@ const teamItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
+const receiveAvarage = (val) => {
+  teamItems.value.avarage = val;
+}
+
+console.log(teamItems.value.avarage);
 const handleRegister = async () => {
   flashMessage.value = Message.REGISTER;
   isShow.value = true;

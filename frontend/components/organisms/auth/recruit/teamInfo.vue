@@ -1,6 +1,6 @@
 <template>
 <v-container>
-      <AtomsTextsHeadLine> チーム詳細 </AtomsTextsHeadLine>
+      <AtomsTextsHeadLine> チーム情報 </AtomsTextsHeadLine>
       <v-row>
         <v-col cols="6">
           ■メンバー数
@@ -10,8 +10,13 @@
         </v-col>
         <v-col cols="6">
           ■男女比
-          <v-select>
+          <v-select
+          v-model="selectedAvarage"
+          :items="Averages"
+          item-value="value"
+          >
           </v-select>
+
         </v-col>
         <v-col cols="12">
           ■年齢層
@@ -35,10 +40,12 @@
         </v-col>
         <v-col cols="12">
           ■チームの方向性(タグで表示)
-          <v-select
+          <MoleculesTags
+          />
+          <!-- <v-select
           :items="Levels"
           outlined
-          />
+          /> -->
         </v-col>
         <v-col cols="12">
           ■レベル感（補足）
@@ -50,9 +57,9 @@
 
 
 <script setup lang="ts">
-import {ref} from '#imports';
-import {Ages,Levels} from '~/constants/ride.ts';
-
+import {ref,watch} from '#imports';
+import { emit } from 'process';
+import {Ages,Averages,Levels} from '~/constants/teams';
 
 const props = defineProps({
   member_count:{
@@ -60,6 +67,18 @@ const props = defineProps({
     default:0
   }
 })
+
+const selectedAvarage = ref('');
+
+interface Emits {
+  (e: "emitTeamInfo", value: String): void;
+}
+const emits = defineEmits<Emits>();
+
+watch(()=>selectedAvarage.value,()=>{
+  emits('emitTeamInfo',selectedAvarage.value);
+})
+
 
 </script>
 
