@@ -26,11 +26,16 @@
       />
     </v-card-text>
     <OrganismsAuthRecruitTeamInfo
+    @emitAgeAverage="receiveAverage"
+    @emitFromAge="receiveFromAge"
+    @emitToAge="receiveToAge"
+    @emitTags="receiveTags"
     :member_count="teamItems.member_count"
-    @emitTeamInfo="receiveAvarage"
-
+    :average="teamItems.average"
+    :from_age="teamItems.from_age"
+    :to_age="teamItems.to_age"
+    :tags="teamItems.tags"
     />
-    {{ teamItems.avarage }}
     <v-container>
       <AtomsTextsHeadLine> チームの主な活動内容 </AtomsTextsHeadLine>
       <AtomsTextAreas
@@ -45,7 +50,7 @@
       <AtomsTextAreas
         class="mt-2"
         placeholder="これからの活動内容を記入"
-        @emitInput="receiveTeamActivities"
+        @emitInput="receiveTeamSchedule"
         :body="teamItems.schedule"
       />
     </v-container>
@@ -144,7 +149,10 @@ const teamItems = ref({
   header_img: "",
   thumbnail: "",
   team_name: "",
-  avarage:"",
+  average:"",
+  from_age:"",
+  to_age:"",
+  tags:[],
   introduction: "",
   member_count: 0,
   activities: "",
@@ -153,11 +161,50 @@ const teamItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-const receiveAvarage = (val) => {
-  teamItems.value.avarage = val;
+
+const receiveClick = (val) => {
+  displayImages.value.splice(val, 1);
+  postImages.value.splice(val, 1);
+};
+
+const receiveTeamName = (val) => {
+  teamItems.value.team_name = val.value;
+};
+const receiveTeamIntroduce = (val) => {
+  teamItems.value.introduction = val.value;
+};
+const receiveTeamActivities = (val) => {
+  teamItems.value.activities = val.value;
+};
+const receiveTeamSchedule = (val) => {
+  teamItems.value.schedule = val.value;
+};
+
+const receiveProfileImage = (val: File) => {
+  if (val.target == "header") {
+    teamItems.value.header_img = val.val;
+    teamItems.value.url_header_img = URL.createObjectURL(val.val);
+  } else {
+    teamItems.value.thumbnail = val.val;
+    teamItems.value.url_thumbnail = URL.createObjectURL(val.val);
+  }
+  URL.revokeObjectURL(val.val);
+};
+
+
+const receiveAverage = (val) => {
+  teamItems.value.average = val;
+}
+const receiveFromAge = (val) => {
+  teamItems.value.from_age = val;
+}
+const receiveToAge = (val) => {
+  teamItems.value.to_age = val;
+}
+const receiveTags = (val) => {
+  teamItems.value.tags = val;
 }
 
-console.log(teamItems.value.avarage);
 const handleRegister = async () => {
   flashMessage.value = Message.REGISTER;
   isShow.value = true;
@@ -168,8 +215,12 @@ const handleRegister = async () => {
   formData.append("thumbnail", teamItems.value.thumbnail);
   formData.append("introduction", teamItems.value.introduction);
   formData.append("team_name", teamItems.value.team_name);
+  formData.append("average", teamItems.value.average);
+  formData.append("from_age", teamItems.value.from_age);
+  formData.append("to_age", teamItems.value.to_age);
+  formData.append("tags",teamItems.value.tags);
   formData.append("activities", teamItems.value.activities);
-  formData.append("schedule", teamItems.value.schedule);
+  formData.append("schedule",teamItems.value.schedule);
 
   // const teamData = new FormData();
   // teamData.append("team_name",teamItems.value.team_name);
@@ -178,6 +229,8 @@ const handleRegister = async () => {
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
+
+
   // console.log(...formData.entries());
   // console.log(...teamData.entries());
   // console.log(...imageData.entries());
@@ -188,10 +241,6 @@ const handleRegister = async () => {
       method: "POST",
       body: formData,
     }),
-    // useApiFetch("/api/team/register", {
-    //   method: "POST",
-    //   body: teamData,
-    // }),
     useApiFetch("/api/image/register", {
       method: "POST",
       body: imageData,
@@ -204,7 +253,7 @@ const handleRegister = async () => {
     teamItems.value.item_id = res[0].data.value;
   });
 
-  // isShow.value=false;
+  isShow.value=false;
 };
 // console.log(teamItems.value.header_img);
 
@@ -215,8 +264,12 @@ const handleUpdate = async () => {
   formData.append("thumbnail", teamItems.value.thumbnail);
   formData.append("introduction", teamItems.value.introduction);
   formData.append("team_name", teamItems.value.team_name);
+  formData.append("average", teamItems.value.average);
+  formData.append("from_age", teamItems.value.from_age);
+  formData.append("to_age", teamItems.value.to_age);
+  formData.append("tags",teamItems.value.tags);
   formData.append("activities", teamItems.value.activities);
-  formData.append("schedule", teamItems.value.schedule);
+  formData.append("schedule",teamItems.value.schedule);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -224,7 +277,7 @@ const handleUpdate = async () => {
   });
   // imageData.append('test','test');
 
-  // console.log(...imageData.entries());
+  console.log(...formData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
@@ -289,32 +342,6 @@ const receiveImage = (val) => {
   });
 };
 
-const receiveClick = (val) => {
-  displayImages.value.splice(val, 1);
-  postImages.value.splice(val, 1);
-};
-
-const receiveTeamName = (val) => {
-  teamItems.value.team_name = val.value;
-};
-const receiveTeamIntroduce = (val) => {
-  teamItems.value.introduction = val.value;
-};
-const receiveTeamActivities = (val) => {
-  teamItems.value.activities = val.value;
-};
-
-const receiveProfileImage = (val: File) => {
-  if (val.target == "header") {
-    teamItems.value.header_img = val.val;
-    teamItems.value.url_header_img = URL.createObjectURL(val.val);
-  } else {
-    teamItems.value.thumbnail = val.val;
-    teamItems.value.url_thumbnail = URL.createObjectURL(val.val);
-  }
-  URL.revokeObjectURL(val.val);
-};
-
 // const deleteItem = () => {
 //   toggleDelete.value = !toggleDelete.value;
 // };
@@ -338,12 +365,19 @@ onBeforeMount(async () => {
               config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
             teamItems.value.team_name = val.teamItem.team_name;
             teamItems.value.introduction = val.teamItem.introduction;
+            teamItems.value.average = val.teamItem.average;
+            teamItems.value.from_age = val.teamItem.from_age;
+            teamItems.value.to_age = val.teamItem.to_age;
+            teamItems.value.schedule = val.teamItem.schedule;
             teamItems.value.activities = val.teamItem.activities;
             teamItems.value.user_id = val.teamItem.user_id;
           }
 
           if(val.members){
             teamItems.value.member_count = val.members.length + 1;
+          }
+          if(val.tags){
+            teamItems.value.tags = val.tags[0].name;
           }
 
           if(val.images){

@@ -17,8 +17,11 @@ return new class extends Migration
             $table->string('thumbnail_path')->nullable();
             $table->string('team_name');
             $table->string('introduction');
-            $table->string('activities');
-            $table->string('schedule');
+            $table->string('average')->nullable();
+            $table->string('from_age')->nullable();
+            $table->string('to_age')->nullable();
+            $table->string('activities')->nullable();
+            $table->string('schedule')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recruits');
+        Schema::dropIfExists('teams');
     }
 };

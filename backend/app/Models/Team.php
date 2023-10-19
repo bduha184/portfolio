@@ -14,12 +14,20 @@ class Team extends Model
     protected $fillable = [
         'header_img_path',
         'thumbnail_path',
+        'team_name',
         'introduction',
+        'average',
+        'from_age',
+        'to_age',
         'activities',
+        'schedule',
     ];
 
     public function profiles():BelongsToMany{
         return $this->belongsToMany(Profile::class)->withTimestamps();
+    }
+    public function tags():BelongsToMany{
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
 }

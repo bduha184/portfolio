@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\Tag;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -70,11 +71,21 @@ class TeamController extends Controller
         $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
         $team->thumbnail_path = $path_thumbnail;
 
-        $team->team_name = $request->team_name;
-        $team->introduction = $request->introduction;
-        $team->activities = $request->activities;
+        $explodes = explode(',', $request->tags);
+        $tags = [];
+        foreach ($explodes as $explode) {
+            array_push($tags, $explode);
+        }
+        $team->fill($request->all());
         $team->user_id = Auth::id();
         $team->save();
+        collect($tags)->each(function ($tagName) use ($team) {
+            $i=1;
+            $tag = Tag::firstOrCreate([
+            'name1' => $tagName
+            ]);
+            $team->tags()->attach($tag);
+        });
 
         return response()->json([
             'itemId' => $team->id,
@@ -94,10 +105,12 @@ class TeamController extends Controller
             $teamItem = Team::find($id)->first();
         }
         $members = $teamItem->profiles()->get();
+        $tags = $teamItem->tags()->get();
 
         return response()->json([
             'teamItem' => $teamItem,
             'members' => $members,
+            'tags' => $tags,
         ]);
     }
 
@@ -119,11 +132,15 @@ class TeamController extends Controller
         $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
         $team->thumbnail_path = $path_thumbnail;
 
-        $team->introduction = $request->introduction;
 
         $request->teams = Team::firstOrCreate(['team_name' => $request->team_name]);
 
+        collect($request->tags)->each(function ($tagName) use ($team) {
+            $tag = Tag::updateOrCreate(['name' => $tagName]);
+            $team->tags()->attach($tag);
+        });
 
+        $team->fill($request->all());
         $team->user_id = Auth::id();
         $team->save();
 
