@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            for($i=1;$i<=5;$i++){
-                $table->string('name'.$i)->unique()->nullable();
-            }
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

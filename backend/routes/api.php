@@ -5,6 +5,7 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
@@ -52,6 +53,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('message')->name('message.')->group(function(){
             Route::post('/register','store');
             Route::put('/{id}','update');
+        });
+    });
+    Route::controller(TagController::class)->group(function(){
+        Route::prefix('tag')->name('tag.')->group(function(){
+            Route::post('/register','store');
         });
     });
     Route::controller(ImagesController::class)->group(function(){

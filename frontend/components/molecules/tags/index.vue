@@ -33,7 +33,6 @@ function remove(item) {
   chips.value.splice(chips.value.indexOf(item), 1);
 }
 
-
 // interface Emits {
 //   (e: "emitTags", value: File): void;
 // }

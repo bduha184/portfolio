@@ -71,19 +71,13 @@ class TeamController extends Controller
         $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
         $team->thumbnail_path = $path_thumbnail;
 
-        $explodes = explode(',', $request->tags);
-        $tags = [];
-        foreach ($explodes as $explode) {
-            array_push($tags, $explode);
-        }
         $team->fill($request->all());
         $team->user_id = Auth::id();
         $team->save();
-        collect($tags)->each(function ($tagName) use ($team) {
-            $i=1;
-            $tag = Tag::firstOrCreate([
-            'name1' => $tagName
-            ]);
+
+
+        collect($request->tags)->each(function ($tagName) use ($team) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
             $team->tags()->attach($tag);
         });
 
@@ -92,6 +86,11 @@ class TeamController extends Controller
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
         ]);
+
+        // return response()->json([
+        //     'tags'=>$request->tags
+        // ]);
+
     }
 
     /**
@@ -132,17 +131,15 @@ class TeamController extends Controller
         $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
         $team->thumbnail_path = $path_thumbnail;
 
+        $team->fill($request->all());
+        $team->user_id = Auth::id();
+        $team->save();
 
-        $request->teams = Team::firstOrCreate(['team_name' => $request->team_name]);
-
-        collect($request->tags)->each(function ($tagName) use ($team) {
+        collect($request->tag)->each(function ($tagName) use ($team) {
             $tag = Tag::updateOrCreate(['name' => $tagName]);
             $team->tags()->attach($tag);
         });
 
-        $team->fill($request->all());
-        $team->user_id = Auth::id();
-        $team->save();
 
         return response()->json([
             'path_header' => $path_header,

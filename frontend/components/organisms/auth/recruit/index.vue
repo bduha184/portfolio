@@ -202,6 +202,7 @@ const receiveToAge = (val) => {
   teamItems.value.to_age = val;
 }
 const receiveTags = (val) => {
+  console.log(val);
   teamItems.value.tags = val;
 }
 
@@ -218,7 +219,10 @@ const handleRegister = async () => {
   formData.append("average", teamItems.value.average);
   formData.append("from_age", teamItems.value.from_age);
   formData.append("to_age", teamItems.value.to_age);
-  formData.append("tags",teamItems.value.tags);
+  const tags =teamItems.value.tags;
+  tags.forEach(tag => {
+    formData.append('tags[]', tag);
+  })
   formData.append("activities", teamItems.value.activities);
   formData.append("schedule",teamItems.value.schedule);
 
@@ -229,7 +233,6 @@ const handleRegister = async () => {
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
-
 
   // console.log(...formData.entries());
   // console.log(...teamData.entries());
@@ -253,7 +256,7 @@ const handleRegister = async () => {
     teamItems.value.item_id = res[0].data.value;
   });
 
-  isShow.value=false;
+  // isShow.value=false;
 };
 // console.log(teamItems.value.header_img);
 
@@ -267,17 +270,20 @@ const handleUpdate = async () => {
   formData.append("average", teamItems.value.average);
   formData.append("from_age", teamItems.value.from_age);
   formData.append("to_age", teamItems.value.to_age);
-  formData.append("tags",teamItems.value.tags);
   formData.append("activities", teamItems.value.activities);
   formData.append("schedule",teamItems.value.schedule);
 
+  const tags =teamItems.value.tags;
+  tags.forEach(tag => {
+    formData.append('tags[]', tag);
+  })
   const imageData = new FormData();
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
   // imageData.append('test','test');
 
-  console.log(...formData.entries());
+  // console.log(...formData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Models\Tag;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TagController extends Controller
 {
@@ -13,6 +15,8 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      */
+
+
     public function show($name)
     {
         $tag = Tag::where('name',$name)->first();

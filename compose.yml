@@ -43,11 +43,11 @@ services:
       - ./backend/infra/db/data:/var/lib/mysql
       - ./backend/infra/db/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - ${DB_PORT}:3307
+      - ${DB_PORT}:3306
     expose:
-      - 3307
+      - 3306
     command: >
-      --port 3307 &&
+      --port 3306 &&
       mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
   phpmyadmin:
