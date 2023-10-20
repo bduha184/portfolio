@@ -26,7 +26,10 @@
       </v-col>
       <v-col cols="12">
         ■チームの方向性(５個まで)
-        <MoleculesTags @emitTags="receiveTags" />
+        <MoleculesTags
+        @emitTags="receiveTags"
+        :tags="tags"
+        />
       </v-col>
       <v-col cols="12">
         ■レベル感（補足）

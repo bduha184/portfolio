@@ -23,8 +23,14 @@
 </template>
 
 <script setup>
-import { ref,watch } from "#imports";
+import { ref,watch,computed } from "#imports";
 import { Levels } from "~/constants/teams";
+const props =defineProps({
+  tags:{
+    type:Array,
+    default:[]
+  }
+})
 const items = Levels;
 
 const chips = ref([]);
@@ -40,6 +46,9 @@ const emits = defineEmits();
 
 watch(()=>chips.value,()=>{
   emits('emitTags',chips.value)
+});
+watch(()=>props.tags,()=>{
+  chips.value=props.tags;
 });
 
 

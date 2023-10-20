@@ -135,8 +135,8 @@ class TeamController extends Controller
         $team->user_id = Auth::id();
         $team->save();
 
-        collect($request->tag)->each(function ($tagName) use ($team) {
-            $tag = Tag::updateOrCreate(['name' => $tagName]);
+        collect($request->tags)->each(function ($tagName) use ($team) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
             $team->tags()->attach($tag);
         });
 

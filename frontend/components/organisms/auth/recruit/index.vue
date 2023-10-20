@@ -202,7 +202,6 @@ const receiveToAge = (val) => {
   teamItems.value.to_age = val;
 }
 const receiveTags = (val) => {
-  console.log(val);
   teamItems.value.tags = val;
 }
 
@@ -383,7 +382,11 @@ onBeforeMount(async () => {
             teamItems.value.member_count = val.members.length + 1;
           }
           if(val.tags){
-            teamItems.value.tags = val.tags[0].name;
+            console.log(val.tags);
+            val.tags.forEach(tag => {
+              teamItems.value.tags.push(tag.name);
+
+            });
           }
 
           if(val.images){
