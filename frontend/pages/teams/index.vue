@@ -16,6 +16,7 @@
         :introduction="item.introduction"
         :id="item.id"
         :tags="item.tags"
+        :profiles="item.profiles"
       />
   </div>
 </template>

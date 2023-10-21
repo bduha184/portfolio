@@ -10,7 +10,8 @@ import {
   mdiLoginVariant,
   mdiMagnify,
   mdiNavigation,
-  mdiCloseCircleOutline
+  mdiCalendarMonth,
+  mdiCloseCircleOutline,
 } from "@mdi/js";
 
 
@@ -26,5 +27,6 @@ export const Icons = {
   LOGIN:mdiLoginVariant,
   SEARCH:mdiMagnify,
   NAVI:mdiNavigation,
-  CLOSE:mdiCloseCircleOutline
+  CLOSE:mdiCloseCircleOutline,
+  SCHEDULE:mdiCalendarMonth,
 }

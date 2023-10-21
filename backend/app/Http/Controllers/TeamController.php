@@ -37,6 +37,7 @@ class TeamController extends Controller
         if ($auth_profile) {
             $affiliations = $auth_profile->teams()->get();
             return response()->json([
+                'profile'=>$auth_profile,
                 'affiliations' => $affiliations
             ]);
         }

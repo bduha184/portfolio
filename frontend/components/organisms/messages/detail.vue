@@ -42,7 +42,10 @@
             />
           </v-col>
           <v-col cols="2">
-            <AtomsBtnsArrowBtn @emitClick="receiveClick" disabled="true" />
+            <AtomsBtnsArrowBtn
+              @emitClick="receiveClick"
+              :disabled="checkFilledOut"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -71,10 +74,15 @@ const messages = ref([]);
 const request_flg = ref(false);
 const pusherMessages = ref([]);
 const authMessage = ref("");
-
 const receiveInput = (val) => {
   authMessage.value = val.value;
 };
+
+const checkFilledOut = computed(() => {
+  if (authMessage.value) return false;
+  return true;
+});
+
 const authId = auth.user.id;
 const sender_id = router.params.id;
 
@@ -86,12 +94,12 @@ watch(pusherMessages.value, async () => {
   };
   if (pusherMessages.value.length > 0) {
     await useApiFetch("/sanctum/csrf-cookie");
-    await useApiFetch(`/api/message/${sender_id}`, {
+    await useApiFetch("/api/message/register", {
       method: "POST",
       body: pusherData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
+      // headers: {
+      //   "X-HTTP-Method-Override": "PUT",
+      // },
     }).then((res) => {
       console.log(res);
     });
@@ -106,8 +114,8 @@ const allowJoinTeam = async () => {
     useApiFetch("/sanctum/csrf-cookie"),
     useApiFetch(`/api/profile/${sender_id}`, {
       method: "POST",
-      body:{
-        'request_flg': request_flg.value,
+      body: {
+        request_flg: request_flg.value,
       },
       headers: {
         "X-HTTP-Method-Override": "PUT",
@@ -121,6 +129,7 @@ const allowJoinTeam = async () => {
 };
 
 const receiveClick = async () => {
+  messages.value.push(authMessage.value);
   const data = {
     comments: authMessage.value,
     sender_id: sender_id,
@@ -135,7 +144,7 @@ const receiveClick = async () => {
 
   // window.Pusher.logToConsole = true;
 
-  // console.log(val);
+  console.log(res);
   // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
@@ -149,17 +158,16 @@ const receiveClick = async () => {
 // });
 
 onMounted(async () => {
+  request_flg.value = false;
   const senderId = router.params.id;
   const flg = router.query.flg;
-  request_flg.value = false;
-  if(flg) request_flg.value = true;
+  if (flg == 1) request_flg.value = true;
   await useApiFetch(`/api/message/${senderId}`).then((res) => {
     console.log(res);
     if (res.data) {
       messages.value.push(...res.data.value.data);
     }
   });
-  return navigateTo(`${Url.MESSAGES}/details/${router.params.id}`);
 });
 </script>
 

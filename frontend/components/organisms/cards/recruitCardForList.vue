@@ -1,5 +1,5 @@
 <template>
-  <v-card @click="onClick" height="300px">
+  <v-card @click="onClick" min-height="300px">
     <OrganismsImgsCardProfile
       :path_header="config.public.baseURL + '/storage/' + header_img_path"
       :path_thumbnail="config.public.baseURL + '/storage/' + thumbnail_path"
@@ -14,14 +14,67 @@
     <v-card-text>
       {{ introduction }}
     </v-card-text>
-    <v-card-text>
-      <AtomsIcons
-      class="border-none"
-        :name="Icons.CYCLING"
-      />
-    </v-card-text>
+    <v-list>
+        <v-list-item
+        min-height="unset"
+        class="py-0"
+        >
+          <v-list-item-content
+          class="d-flex align-center"
+          >
+            <AtomsIcons
+            :name="Icons.CYCLING"
+            class="border-none"
+            size="25"
+            />
+            <v-list-item-title
+            class="pl-2"
+            >
+            : {{ profiles.length + 1 }}人
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+        min-height="unset"
+        class="py-0"
+        >
+          <v-list-item-content
+          class="d-flex align-center"
+          >
+            <AtomsIcons
+            :name="Icons.MAP"
+            class="border-none"
+            size="25"
+            />
+            <v-list-item-title
+            class="pl-2"
+            >
+            :
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+        min-height="unset"
+        class="py-0"
+        >
+          <v-list-item-content
+          class="d-flex align-center"
+          >
+            <AtomsIcons
+            :name="Icons.SCHEDULE"
+            class="border-none"
+            size="25"
+            />
+            <v-list-item-title
+            class="pl-2"
+            >
+            :
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
   <v-chip-group
-  class="absolute bottom-0 px-2"
+  class="px-2"
   >
     <v-chip
     v-for="(tag, i) in tags" :key="i"
@@ -61,6 +114,10 @@ const props = defineProps({
     default: "",
   },
   tags: {
+    type: Array,
+    default: [],
+  },
+  profiles: {
     type: Array,
     default: [],
   },
