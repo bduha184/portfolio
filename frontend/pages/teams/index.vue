@@ -15,6 +15,7 @@
         :team_name="item.team_name"
         :introduction="item.introduction"
         :id="item.id"
+        :tags="item.tags"
       />
   </div>
 </template>
