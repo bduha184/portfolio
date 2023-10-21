@@ -68,9 +68,6 @@ const router = useRoute();
 const config = useRuntimeConfig();
 
 const recruitItems = ref({
-  items: [],
-  item: "",
-  itemCount: 0,
   path_header: "",
   path_thumbnail: "",
   item_id: "",
@@ -160,7 +157,7 @@ onBeforeMount(async () => {
           recruitItems.value.team_name = val.teamItem.team_name;
           recruitItems.value.introduction = val.teamItem.introduction;
           recruitItems.value.activities = val.teamItem.activities;
-          recruitItems.value.user_id = val.dteamItemata.user_id;
+          recruitItems.value.user_id = val.teamItem.user_id;
         }
         if (val.images) {
           val.images.forEach((image) => {

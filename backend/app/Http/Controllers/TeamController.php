@@ -17,8 +17,7 @@ class TeamController extends Controller
     public function index()
     {
 
-        $teams = Team::latest()->with('tags:name')->get();
-
+        $teams = Team::latest()->with(['tags:name','profiles'])->get();
         if ($teams) {
             return response()->json([
                 'teams' => $teams,

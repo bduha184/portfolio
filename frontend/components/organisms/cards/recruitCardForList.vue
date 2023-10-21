@@ -14,6 +14,12 @@
     <v-card-text>
       {{ introduction }}
     </v-card-text>
+    <v-card-text>
+      <AtomsIcons
+      class="border-none"
+        :name="Icons.CYCLING"
+      />
+    </v-card-text>
   <v-chip-group
   class="absolute bottom-0 px-2"
   >
@@ -30,7 +36,8 @@
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
 import { navigateTo } from "nuxt/app";
-import { Url } from "../../../constants/url";
+import { Url } from "@/constants/url";
+import {Icons} from "@/constants/icons";
 
 const props = defineProps({
   header_img_path: {
@@ -85,5 +92,8 @@ const onClick = () => {
 
 .v-chip {
   min-width:fit-content;
+  &-group{
+    flex-wrap: nowrap;
+  }
 }
 </style>
