@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use App\Models\Tag;
+use App\Models\Area;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,7 +18,7 @@ class TeamController extends Controller
     public function index()
     {
 
-        $teams = Team::latest()->with(['tags:name','profiles'])->get();
+        $teams = Team::latest()->with(['tags:name','areas:name','profiles'])->get();
         if ($teams) {
             return response()->json([
                 'teams' => $teams,
@@ -81,6 +82,11 @@ class TeamController extends Controller
             $team->tags()->attach($tag);
         });
 
+        collect($request->areas)->each(function ($areaName) use ($team) {
+            $area = Area::firstOrCreate(['name' => $areaName]);
+            $team->areas()->attach($area);
+        });
+
         return response()->json([
             'itemId' => $team->id,
             'path_header' => $path_header,
@@ -105,11 +111,13 @@ class TeamController extends Controller
         }
         $members = $teamItem->profiles()->get();
         $tags = $teamItem->tags()->get();
+        $areas = $teamItem->areas()->get();
 
         return response()->json([
             'teamItem' => $teamItem,
             'members' => $members,
             'tags' => $tags,
+            'areas' => $areas,
         ]);
     }
 
@@ -135,11 +143,17 @@ class TeamController extends Controller
         $team->user_id = Auth::id();
         $team->save();
 
+        $team->tags()->detach();
         collect($request->tags)->each(function ($tagName) use ($team) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $team->tags()->attach($tag);
         });
 
+        $team->areas()->detach();
+        collect($request->areas)->each(function ($areaName) use ($team) {
+            $area = Area::firstOrCreate(['name' => $areaName]);
+            $team->areas()->attach($area);
+        });
 
         return response()->json([
             'path_header' => $path_header,

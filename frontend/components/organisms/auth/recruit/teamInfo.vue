@@ -10,7 +10,7 @@
       </v-col>
       <v-col cols="6">
         ■男女比
-        <v-select v-model="ageAverage" :items="Averages"> </v-select>
+        <v-select v-model="ageAverage" :items="Averages" />
       </v-col>
       <v-col cols="12">
         ■年齢層
@@ -25,17 +25,38 @@
         </v-row>
       </v-col>
       <v-col cols="12">
-        ■チームの方向性(５個まで)
-        <MoleculesTags
-        @emitTags="receiveTags"
-        :tags="tags"
+        ■チームの活動
+        <MoleculesTags @emitTags="receiveTags" :tags="tags" />
+      </v-col>
+      <v-col cols="12">
+        ■チームの活動(補足)
+        <AtomsTextAreas
+          @emitInput="receiveTeamActivities"
+          :body="detailActivities"
         />
       </v-col>
       <v-col cols="12">
-        ■レベル感（補足）
-        <AtomsTextAreas />
+        ■主な活動エリア
+        <v-select v-model="areas" multiple :items="Areas" />
+      </v-col>
+      <v-col cols="12">
+        ■主な活動エリア（詳細）
+        <AtomsTextAreas @emitInput="receiveTeamAreas" :body="detailAreas" />
+      </v-col>
+      <v-col cols="12">
+        ■主な活動日時
+        <AtomsTextAreas
+          @emitInput="receiveActiveDateTime"
+          :body="activeDateTime"
+        />
+      </v-col>
+      <v-col cols="12">
+        ■ホームページ、ブログ等URL
+        <AtomsTextAreas @emitInput="receiveTeamUrl" :body="teamUrl" />
       </v-col>
     </v-row>
+    {{ teamUrl }}
+    {{ activeDateTime }}
   </v-container>
 </template>
 
@@ -43,6 +64,7 @@
 import { ref, watch } from "#imports";
 import { emit } from "process";
 import { Ages, Averages, Levels } from "~/constants/teams";
+import { Areas } from "~/constants/areas";
 
 const props = defineProps({
   member_count: {
@@ -65,43 +87,114 @@ const props = defineProps({
     type: Array,
     default: [],
   },
+  areas: {
+    type: Array,
+    default: [],
+  },
+  detailActivities: {
+    type: String,
+    default: "",
+  },
+  detailAreas: {
+    type: String,
+    default: "",
+  },
+  activeDateTime: {
+    type: String,
+    default: "",
+  },
+  teamUrl: {
+    type: String,
+    default: "",
+  },
 });
 
 const ageAverage = ref("");
 const fromAge = ref("");
 const toAge = ref("");
 const tags = ref([]);
-
+const areas = ref([]);
+const detailActivities = ref("");
+const detailAreas = ref("");
+const activeDateTime = ref("");
+const teamUrl = ref("");
 
 interface Emits {
   (e: "emitAgeAverage", value: String): void;
   (e: "emitFromAge", value: String): void;
   (e: "emitToAge", value: String): void;
   (e: "emitTags", value: String): void;
+  (e: "emitAreas", value: String): void;
+  (e: "emitDetailActivities", value: String): void;
+  (e: "emitDetailAreas", value: String): void;
+  (e: "emitTeamUrl", value: String): void;
+  (e: "emitActiveDatetime", value: String): void;
 }
 const emits = defineEmits<Emits>();
 
 const receiveTags = (val) => {
   tags.value = val;
 };
+const receiveTeamActivities = (val) => {
+  return (detailActivities.value = val.value);
+};
+const receiveTeamAreas = (val) => {
+  return (detailAreas.value = val.value);
+};
+const receiveTeamUrl = (val) => {
+  return (teamUrl.value = val.value);
+};
+const receiveActiveDateTime = (val) => {
+  return (activeDateTime.value = val.value);
+};
 
 watch(
-  () => [ageAverage.value, fromAge.value, toAge.value, tags.value],
+  () => [
+    ageAverage.value,
+    fromAge.value,
+    toAge.value,
+    tags.value,
+    areas.value,
+    detailActivities.value,
+    detailAreas.value,
+    teamUrl.value,
+    activeDateTime.value,
+  ],
   () => {
     emits("emitAgeAverage", ageAverage.value);
     emits("emitFromAge", fromAge.value);
     emits("emitToAge", toAge.value);
     emits("emitTags", tags.value);
+    emits("emitAreas", areas.value);
+    emits("emitDetailActivities", detailActivities.value);
+    emits("emitDetailAreas", detailAreas.value);
+    emits("emitTeamUrl", teamUrl.value);
+    emits("emitActiveDatetime", activeDateTime.value);
   }
-  );
-  watch(
-    () => [props.average, props.from_age, props.to_age, props.tags],
-    () => {
-      ageAverage.value = props.average;
-      fromAge.value = props.from_age;
-      toAge.value = props.to_age;
-      tags.value = props.tags;
-    }
+);
+watch(
+  () => [
+    props.average,
+    props.from_age,
+    props.to_age,
+    props.tags,
+    props.areas,
+    props.detailActivities,
+    props.detailAreas,
+    props.activeDateTime,
+    props.teamUrl,
+  ],
+  () => {
+    ageAverage.value = props.average;
+    fromAge.value = props.from_age;
+    toAge.value = props.to_age;
+    tags.value = props.tags;
+    areas.value = props.areas;
+    detailActivities.value = props.detailActivities;
+    detailAreas.value = props.detailAreas;
+    activeDateTime.value = props.activeDateTime;
+    teamUrl.value = props.teamUrl;
+  }
 );
 </script>
 

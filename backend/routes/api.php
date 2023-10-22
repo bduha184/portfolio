@@ -84,6 +84,7 @@ Route::controller(ImagesController::class)->group(function(){
         Route::get('/{id}','show');
     });
 });
+
 Route::controller(ProfileController::class)->group(function(){
     Route::prefix('profile')->name('profile.')->group(function(){
     Route::get('/','index')->name('index');

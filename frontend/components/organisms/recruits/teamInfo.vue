@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <AtomsTextsHeadLine> チーム構成 </AtomsTextsHeadLine>
+    <AtomsTextsHeadLine> チーム情報 </AtomsTextsHeadLine>
     <v-card-text>
       {{ activities }}
     </v-card-text>
