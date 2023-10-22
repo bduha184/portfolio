@@ -10,8 +10,6 @@ class Team extends Model
 {
     use HasFactory;
 
-<<<<<<< HEAD
-
     protected $fillable = [
         'header_img_path',
         'thumbnail_path',
@@ -22,11 +20,6 @@ class Team extends Model
         'to_age',
         'activities',
         'schedule',
-=======
-    protected $fillable=[
-        'member_flg',
-        'request_flg'
->>>>>>> 7c02775 (teamテーブル作成)
     ];
 
     public function profiles():BelongsToMany{
