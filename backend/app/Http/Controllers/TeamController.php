@@ -101,7 +101,7 @@ class TeamController extends Controller
         if (Auth::id() == $id) {
             $teamItem = Team::where('user_id', $id)->first();
         } else {
-            $teamItem = Team::find($id)->first();
+            $teamItem = Team::find($id);
         }
         $members = $teamItem->profiles()->get();
         $tags = $teamItem->tags()->get();
@@ -152,7 +152,7 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        $team = Team::where('id', $id)->first();
+        $team = Team::find($id);
 
         if ($team) {
             $team->delete();

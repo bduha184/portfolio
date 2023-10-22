@@ -118,6 +118,7 @@ const receiveClick = async () => {
 
   const profileData = {
     request_flg: joinRequest.value,
+    team_id:router.params.id
   };
 
   await Promise.all([
