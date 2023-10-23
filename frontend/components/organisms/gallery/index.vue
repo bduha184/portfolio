@@ -43,7 +43,7 @@ const deleteImage = () => {
 
 <style scoped>
 .v-row {
-  max-height: 200px;
+  max-height: 300px;
   overflow: scroll !important;
 }
 

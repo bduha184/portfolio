@@ -1,21 +1,34 @@
 <template>
   <v-card>
     <OrganismsImgsCardProfile
-      :path_header="recruitItems.url_header_img"
-      :path_thumbnail="recruitItems.url_thumbnail"
+      :path_header="teamItems.url_header_img"
+      :path_thumbnail="teamItems.url_thumbnail"
       disabled="disabled"
     />
     <v-card-title class="text-body-2 pl-20">
       <AtomsTextsHeadLine>
-        {{ recruitItems.team_name }}
+        {{ teamItems.team_name }}
       </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
-      {{ recruitItems.introduction }}
+      {{ teamItems.introduction }}
     </v-card-text>
-    <OrganismsGalleryModal :images="images" />
-    <OrganismsRecruitsTeamInfo :activities="recruitItems.activities" />
-    <OrganismsRecruitsActivities :activities="recruitItems.activities" />
+    <OrganismsGalleryModal
+    :images="images"
+    />
+    <OrganismsRecruitsTeamInfo
+      :member_count="teamItems.member_count"
+      :average="teamItems.average"
+      :from_age="teamItems.from_age"
+      :to_age="teamItems.to_age"
+      :tags="teamItems.tags"
+      :areas="teamItems.areas"
+      :detailActivities="teamItems.detailActivities"
+      :detailAreas="teamItems.detailAreas"
+      :activeDateTime="teamItems.activeDateTime"
+      :teamUrl="teamItems.teamUrl"
+    />
+    <OrganismsRecruitsActivities :activities="teamItems.activities" />
     <v-container class="text-center">
       <v-row>
         <v-col>
@@ -67,7 +80,7 @@ const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
 
-const recruitItems = ref({
+const teamItems = ref({
   path_header: "",
   path_thumbnail: "",
   item_id: "",
@@ -76,7 +89,17 @@ const recruitItems = ref({
   thumbnail: "",
   team_name: "",
   introduction: "",
-  activities: "",
+  average: "",
+  from_age: "",
+  to_age: "",
+  tags: [],
+  areas: [],
+  detailAreas: "",
+  member_count: 0,
+  detailActivities: "",
+  schedule: "",
+  activeDateTime: "",
+  teamUrl: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -112,13 +135,13 @@ const receiveBody = (val) => {
 const receiveClick = async () => {
   const messageData = {
     comments: comments.value,
-    receiver_id: recruitItems.value.user_id,
+    receiver_id: teamItems.value.user_id,
     sender_id: auth.user?.id,
   };
 
   const profileData = {
     request_flg: joinRequest.value,
-    team_id:router.params.id
+    team_id: router.params.id,
   };
 
   await Promise.all([
@@ -149,21 +172,49 @@ onBeforeMount(async () => {
       resItems.forEach((item) => {
         const val = item.data.value;
         console.log(val);
-        if (val.teamItem) {
-          recruitItems.value.item_id = val.teamItem.id;
-          recruitItems.value.url_header_img =
-            config.public.baseURL + "/storage/" + val.teamItem.header_img_path;
-          recruitItems.value.url_thumbnail =
-            config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
-          recruitItems.value.team_name = val.teamItem.team_name;
-          recruitItems.value.introduction = val.teamItem.introduction;
-          recruitItems.value.activities = val.teamItem.activities;
-          recruitItems.value.user_id = val.teamItem.user_id;
-        }
-        if (val.images) {
-          val.images.forEach((image) => {
-            images.value.push(config.public.baseURL + "/storage/" + image);
-          });
+        if (val != null) {
+          if (val.teamItem) {
+            console.log(val);
+            teamItems.value.item_id = val.teamItem.id;
+            teamItems.value.url_header_img =
+              config.public.baseURL +
+              "/storage/" +
+              val.teamItem.header_img_path;
+            teamItems.value.url_thumbnail =
+              config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
+            teamItems.value.team_name = val.teamItem.team_name;
+            teamItems.value.introduction = val.teamItem.introduction;
+            teamItems.value.average = val.teamItem.average;
+            teamItems.value.from_age = val.teamItem.from_age;
+            teamItems.value.to_age = val.teamItem.to_age;
+            teamItems.value.detailAreas = val.teamItem.detailAreas;
+            teamItems.value.detailActivities = val.teamItem.detailActivities;
+            teamItems.value.activeDateTime = val.teamItem.activeDateTime;
+            teamItems.value.teamUrl = val.teamItem.teamUrl;
+            teamItems.value.schedule = val.teamItem.schedule;
+            teamItems.value.user_id = val.teamItem.user_id;
+          }
+          if (val.members) {
+            teamItems.value.member_count = val.members.length + 1;
+          }
+          if (val.tags) {
+            val.tags.forEach((tag) => {
+              teamItems.value.tags.push(tag.name);
+            });
+          }
+          if (val.areas) {
+            val.areas.forEach((area) => {
+              teamItems.value.areas.push(area.name);
+            });
+          }
+
+          if (val.images) {
+            val.images.forEach((image) => {
+              images.value.push(
+                config.public.baseURL + "/storage/" + image
+              );
+            });
+          }
         }
       });
     });

@@ -41,7 +41,10 @@
       </v-col>
       <v-col cols="12">
         ■主な活動エリア（詳細）
-        <AtomsTextAreas @emitInput="receiveTeamAreas" :body="detailAreas" />
+        <AtomsTextAreas
+        @emitInput="receiveTeamAreas"
+        :body="detailAreas"
+        />
       </v-col>
       <v-col cols="12">
         ■主な活動日時
@@ -127,25 +130,30 @@ interface Emits {
   (e: "emitAreas", value: String): void;
   (e: "emitDetailActivities", value: String): void;
   (e: "emitDetailAreas", value: String): void;
-  (e: "emitTeamUrl", value: String): void;
   (e: "emitActiveDatetime", value: String): void;
+  (e: "emitTeamUrl", value: String): void;
 }
 const emits = defineEmits<Emits>();
 
 const receiveTags = (val) => {
   tags.value = val;
+  return false;
 };
 const receiveTeamActivities = (val) => {
-  return (detailActivities.value = val.value);
+  detailActivities.value = val.value;
+  return false;
 };
 const receiveTeamAreas = (val) => {
-  return (detailAreas.value = val.value);
+  detailAreas.value = val.value;
+  return false;
 };
 const receiveTeamUrl = (val) => {
-  return (teamUrl.value = val.value);
+  teamUrl.value = val.value;
+  return false;
 };
 const receiveActiveDateTime = (val) => {
-  return (activeDateTime.value = val.value);
+  activeDateTime.value = val.value;
+  return false;
 };
 
 watch(
@@ -157,8 +165,8 @@ watch(
     areas.value,
     detailActivities.value,
     detailAreas.value,
-    teamUrl.value,
     activeDateTime.value,
+    teamUrl.value,
   ],
   () => {
     emits("emitAgeAverage", ageAverage.value);
@@ -168,8 +176,8 @@ watch(
     emits("emitAreas", areas.value);
     emits("emitDetailActivities", detailActivities.value);
     emits("emitDetailAreas", detailAreas.value);
-    emits("emitTeamUrl", teamUrl.value);
     emits("emitActiveDatetime", activeDateTime.value);
+    emits("emitTeamUrl", teamUrl.value);
   }
 );
 watch(

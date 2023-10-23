@@ -17,6 +17,8 @@
         :id="item.id"
         :tags="item.tags"
         :profiles="item.profiles"
+        :areas="item.areas"
+        :date_time="item.activeDateTime"
       />
   </div>
 </template>
