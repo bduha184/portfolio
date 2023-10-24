@@ -168,10 +168,9 @@ onBeforeMount(async () => {
     await Promise.all([
       useApiFetch(`/api/team/${itemId}`),
       useApiFetch(`/api/image/${itemId}`),
-    ]).then((resItems) => {
-      resItems.forEach((item) => {
+      ]).then((items) => {
+      items.forEach((item) => {
         const val = item.data.value;
-        console.log(val);
         if (val != null) {
           if (val.teamItem) {
             console.log(val);

@@ -385,10 +385,10 @@ const receiveImage = (val) => {
 
 onBeforeMount(async () => {
   const userId = auth.user.id;
-  if (userId) {
+  if (userId && teamItems.item_id) {
     await Promise.all([
-      useApiFetch(`/api/team/${userId}`),
-      useApiFetch(`/api/image/${userId}`),
+      useApiFetch(`/api/team/${userId}`,{lazy:true}),
+      useApiFetch(`/api/image/${userId}`,{lazy:true}),
     ]).then((responses) => {
       responses.forEach((res) => {
         const val = res.data.value;
