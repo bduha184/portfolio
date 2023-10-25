@@ -66,7 +66,8 @@
       </v-row>
     </v-container>
     <OrganismsRecruitsRepresentative
-    :path="teamItems.profile"
+    :path_thumbnail="rep.path_thumbnail"
+    :introduction="rep.introduction"
     />
   </v-card>
 </template>
@@ -105,6 +106,11 @@ const teamItems = ref({
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
+
+const rep = ref({
+  path_thumbnail:'',
+  introduction:''
+})
 
 const images = ref([]);
 
@@ -197,7 +203,11 @@ onBeforeMount(async () => {
             teamItems.value.user_id = val.teamItem.user_id;
           }
           if (val.members) {
-            teamItems.value.member_count = val.members.length + 1;
+            teamItems.value.member_count = val.members.length;
+          }
+          if (val.profile) {
+            rep.value.path_thumbnail =config.public.baseURL + "/storage/" +  val.profile.thumbnail_path;
+            rep.value.introduction = val.profile.introduction;
           }
           if (val.tags) {
             val.tags.forEach((tag) => {

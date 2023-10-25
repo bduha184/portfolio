@@ -87,6 +87,8 @@ class TeamController extends Controller
             $team->areas()->attach($area);
         });
 
+        $team->profiles()->attach(Auth::id());
+
         return response()->json([
             'itemId' => $team->id,
             'path_header' => $path_header,
@@ -110,11 +112,13 @@ class TeamController extends Controller
             $teamItem = Team::find($id);
         }
         $members = $teamItem->profiles()->get();
+        $rep_profile = $teamItem->profiles()->where('user_id',$teamItem->user_id)->first();
         $tags = $teamItem->tags()->get();
         $areas = $teamItem->areas()->get();
 
         return response()->json([
             'teamItem' => $teamItem,
+            'profile' => $rep_profile,
             'members' => $members,
             'tags' => $tags,
             'areas' => $areas,
