@@ -385,16 +385,15 @@ const receiveImage = (val) => {
 
 onBeforeMount(async () => {
   const userId = auth.user.id;
-  if (userId && teamItems.item_id) {
+  if (userId) {
     await Promise.all([
-      useApiFetch(`/api/team/${userId}`,{lazy:true}),
-      useApiFetch(`/api/image/${userId}`,{lazy:true}),
+      useApiFetch(`/api/team/${userId}`),
+      useApiFetch(`/api/image/${userId}`),
     ]).then((responses) => {
       responses.forEach((res) => {
         const val = res.data.value;
         if (val != null) {
           if (val.teamItem) {
-            console.log(val)
             teamItems.value.item_id = val.teamItem.id;
             teamItems.value.url_header_img =
               config.public.baseURL + "/storage/" + val.teamItem.header_img_path;

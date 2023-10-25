@@ -5,7 +5,7 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">メンバー:</v-col>
-          <v-col>{{ member_count }}</v-col>
+          <v-col>{{ member_count }}人</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
@@ -16,19 +16,43 @@
       </v-list-item>
       <v-list-item>
         <v-row>
-          <v-col cols="4">男女比 :</v-col>
+          <v-col cols="4">年齢層 :</v-col>
           <v-col> {{ from_age }}〜{{ to_age }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
-          <v-col cols="4">活動 :</v-col>
-          <v-col>{{ detailActivities }}</v-col>
+          <v-col cols="4">ライド :</v-col>
+          <v-col cols="8">
+            <v-chip-group>
+              <v-chip v-for="(tag, i) in tags" :key="i">
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
+          </v-col>
+        </v-row>
+      </v-list-item>
+      <v-list-item>
+        <v-row>
+          <v-col cols="4">ライド詳細 :</v-col>
+          <v-col>{{ detailAreas }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
           <v-col cols="4">エリア :</v-col>
+          <v-col>
+            <v-chip-group>
+              <v-chip v-for="(area, i) in areas" :key="i">
+                {{ area }}
+              </v-chip>
+            </v-chip-group>
+          </v-col>
+        </v-row>
+      </v-list-item>
+      <v-list-item>
+        <v-row>
+          <v-col cols="4">エリア詳細 :</v-col>
           <v-col>{{ detailAreas }}</v-col>
         </v-row>
       </v-list-item>
@@ -44,33 +68,11 @@
           <v-col>{{ teamUrl }}</v-col>
         </v-row>
       </v-list-item>
-      <v-list-item>
-        <v-row>
-          <v-col>
-            <v-chip-group>
-              <v-chip v-for="(tag, i) in tags" :key="i">
-                {{ tag }}
-              </v-chip>
-            </v-chip-group>
-          </v-col>
-        </v-row>
-      </v-list-item>
-      <v-list-item>
-        <v-row>
-          <v-col>
-            <v-chip-group>
-              <v-chip v-for="(area, i) in areas" :key="i">
-                {{ area }}
-              </v-chip>
-            </v-chip-group>
-          </v-col>
-        </v-row>
-      </v-list-item>
     </v-list>
   </v-container>
 </template>
 
-<script setup lant="ts">
+<script setup lang="ts">
 const props = defineProps({
   member_count: {
     type: Number,
@@ -122,6 +124,7 @@ const props = defineProps({
     padding-right: 0;
     min-height: unset;
     font-size: 0.85rem;
+    border-bottom: 1px dashed #ccc;
 
     & .v-col {
       &:first-of-type {
@@ -141,7 +144,7 @@ const props = defineProps({
     }
 
     & + & {
-      border-top: 1px solid;
+      border-top: 1px solid red;
     }
 
     &:deep(.v-row) {
@@ -149,13 +152,6 @@ const props = defineProps({
     }
   }
 
-}
-
-.v-chip {
-  min-width:fit-content;
-  &-group{
-    flex-wrap: nowrap;
-  }
 }
 
 .v-col {

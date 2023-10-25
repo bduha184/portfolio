@@ -65,7 +65,9 @@
         </v-col>
       </v-row>
     </v-container>
-    <RecruitProfile :prof_thumbnail_path="prof_thumbnail_path" />
+    <OrganismsRecruitsRepresentative
+    :path="teamItems.profile"
+    />
   </v-card>
 </template>
 
@@ -171,6 +173,7 @@ onBeforeMount(async () => {
       ]).then((items) => {
       items.forEach((item) => {
         const val = item.data.value;
+        console.log(val);
         if (val != null) {
           if (val.teamItem) {
             console.log(val);
