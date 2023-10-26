@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <div>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
       :path_header="form.url_header_img"
@@ -11,49 +11,17 @@
       </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
-      <AtomsTextAreas
-        placeholder="本文"
-        @emitInput="receiveTeamIntroduce"
-        :body="form.introduction"
-      />
+      {{ form.introduction }}
     </v-card-text>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      class="my-4 d-block mx-auto"
-      @click.once="handleRegister"
-      :disabled="!checkFilledOut()"
-      v-if="!form.item_id"
-    >
-      登録
-    </AtomsBtnsBaseBtn>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      setColor="orange"
-      class="my-4 d-block mx-auto"
-      @click.once="handleUpdate"
-      :disabled="!checkFilledOut()"
-      v-if="form.item_id"
-    >
-      更新
-    </AtomsBtnsBaseBtn>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      setColor="red"
-      class="my-4 d-block mx-auto"
-      @click="handleDelete"
-      v-if="form.item_id"
-    >
-      削除
-    </AtomsBtnsBaseBtn>
-  </form>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "#imports";
 import { useRuntimeConfig, navigateTo } from "nuxt/app";
-import { useApiFetch } from "../../../composables/useApiFetch";
-import { Url } from "../../../constants/url";
-import { useAuthStore } from "../../../stores/useAuthStore";
+import { useApiFetch } from "~/composables/useApiFetch";
+import { Url } from "~/constants/url";
+import { useAuthStore } from "~/stores/useAuthStore";
 import { useRoute } from "vue-router";
 
 const auth = useAuthStore();

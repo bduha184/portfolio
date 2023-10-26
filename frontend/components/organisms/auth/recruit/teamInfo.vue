@@ -58,8 +58,6 @@
         <AtomsTextAreas @emitInput="receiveTeamUrl" :body="teamUrl" />
       </v-col>
     </v-row>
-    {{ teamUrl }}
-    {{ activeDateTime }}
   </v-container>
 </template>
 
@@ -130,7 +128,7 @@ interface Emits {
   (e: "emitAreas", value: String): void;
   (e: "emitDetailActivities", value: String): void;
   (e: "emitDetailAreas", value: String): void;
-  (e: "emitActiveDatetime", value: String): void;
+  (e: "emitActiveDateTime", value: String): void;
   (e: "emitTeamUrl", value: String): void;
 }
 const emits = defineEmits<Emits>();
@@ -176,7 +174,7 @@ watch(
     emits("emitAreas", areas.value);
     emits("emitDetailActivities", detailActivities.value);
     emits("emitDetailAreas", detailAreas.value);
-    emits("emitActiveDatetime", activeDateTime.value);
+    emits("emitActiveDateTime", activeDateTime.value);
     emits("emitTeamUrl", teamUrl.value);
   }
 );

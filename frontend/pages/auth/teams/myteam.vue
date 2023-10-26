@@ -24,13 +24,17 @@
           <v-col cols="4"
           v-for="(member, i) in members"
           :key="i">
-          <v-avatar
-          size="80"
+          <NuxtLink
+          :to="Url.PROFILE+'/'+member.user_id"
           >
-          <AtomsImgs
-          :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
-          />
-        </v-avatar>
+            <v-avatar
+            size="80"
+            >
+            <AtomsImgs
+            :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
+            />
+          </v-avatar>
+          </NuxtLink>
           </v-col>
         </v-row>
       </v-container>

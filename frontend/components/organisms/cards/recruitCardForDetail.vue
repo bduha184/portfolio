@@ -66,6 +66,7 @@
       </v-row>
     </v-container>
     <OrganismsRecruitsRepresentative
+    :user_id="rep.user_id"
     :path_thumbnail="rep.path_thumbnail"
     :introduction="rep.introduction"
     />
@@ -108,8 +109,9 @@ const teamItems = ref({
 });
 
 const rep = ref({
+  user_id:'',
   path_thumbnail:'',
-  introduction:''
+  introduction:'',
 })
 
 const images = ref([]);
@@ -152,8 +154,8 @@ const receiveClick = async () => {
     team_id: router.params.id,
   };
 
+  await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
-    useApiFetch("/sanctum/csrf-cookie"),
     useApiFetch("/api/message/register", {
       method: "POST",
       body: messageData,
@@ -208,6 +210,7 @@ onBeforeMount(async () => {
           if (val.profile) {
             rep.value.path_thumbnail =config.public.baseURL + "/storage/" +  val.profile.thumbnail_path;
             rep.value.introduction = val.profile.introduction;
+            rep.value.user_id = val.profile.user_id;
           }
           if (val.tags) {
             val.tags.forEach((tag) => {

@@ -9,7 +9,7 @@
         <NuxtLink :to="Url.AUTHRECRUIT"> メンバー募集 </NuxtLink>
       </v-col>
       <v-col cols="6">
-        <NuxtLink :to="Url.PROFILE"> プロフィール </NuxtLink>
+        <NuxtLink :to="Url.AUTHPROFILE"> プロフィール </NuxtLink>
       </v-col>
       <v-col cols="6">
         <NuxtLink :to="Url.MESSAGES"> メッセージ </NuxtLink>

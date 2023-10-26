@@ -1,30 +1,47 @@
 <template>
   <div>
     <v-container>
-      <v-row>
-        <v-col>
-          <AtomsBtnsSnsBtn
-            provider="google"
-            class="d-block mx-auto border-2 border-indigo-500 w-[250px]"
+        <v-row>
+          <v-col cols="12" sm="6"
+          class="text-center"
           >
-            Googleで登録
-          </AtomsBtnsSnsBtn>
-        </v-col>
-        <v-col>
-          <AtomsBtnsSnsBtn
-            provider="twitter"
-            class="d-block mx-auto border-2 border-indigo-500 w-[250px]"
+            <AtomsBtnsSnsBtn
+            width="250"
+            >
+              <AtomsImgs
+                size="contain"
+                :src="`${config.public.appURL}/_nuxt/assets/images/google.png`"
+                width="20"
+                height="20"
+                class="absolute left-2"
+                />
+                <p>
+                  Googleで登録
+                </p>
+            </AtomsBtnsSnsBtn>
+          </v-col>
+          <v-col cols="12" sm="6"
+           class="text-center"
           >
-            Lineで登録
-          </AtomsBtnsSnsBtn>
-        </v-col>
-      </v-row>
+
+            <AtomsBtnsSnsBtn
+            width="250"
+            >
+              <AtomsImgs
+                size="contain"
+                :src="`${config.public.appURL}/_nuxt/assets/images/twitter.png`"
+                width="20"
+                height="20"
+                class="absolute left-2"
+                />
+                <p>
+                  Lineで登録
+                </p>
+            </AtomsBtnsSnsBtn>
+          </v-col>
+        </v-row>
     </v-container>
-    <div
-      class="text-center my-4 relative before:absolute before:left-0 before:top-50 before:h-[1px] before:w-full before:bg-slate-600 z-0"
-    >
-      or
-    </div>
+    <v-divider class="my-5 border-opacity-100" color="waring"></v-divider>
     <form method="POST">
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
@@ -145,3 +162,10 @@ const handleRegister= async ()=> {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.v-btn:deep(.v-responsive){
+  position: absolute !important;
+}
+
+</style>

@@ -313,30 +313,30 @@ const handleUpdate = async () => {
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
+//
+  // console.log(...formData.entries());
 
-  console.log(...formData.entries());
+  await useApiFetch("/sanctum/csrf-cookie");
+  await Promise.all([
+    useApiFetch(`/api/team/${auth.user.id}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+    useApiFetch(`/api/image/${auth.user.id}`, {
+      method: "POST",
+      body: imageData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+  ]).then((res) => {
+    console.log("all", res);
+  });
 
-  // await useApiFetch("/sanctum/csrf-cookie");
-  // await Promise.all([
-  //   useApiFetch(`/api/team/${auth.user.id}`, {
-  //     method: "POST",
-  //     body: formData,
-  //     headers: {
-  //       "X-HTTP-Method-Override": "PUT",
-  //     },
-  //   }),
-  //   useApiFetch(`/api/image/${auth.user.id}`, {
-  //     method: "POST",
-  //     body: imageData,
-  //     headers: {
-  //       "X-HTTP-Method-Override": "PUT",
-  //     },
-  //   }),
-  // ]).then((res) => {
-  //   console.log("all", res);
-  // });
-
-  // return navigateTo(Url.AUTHRECRUIT);
+  return navigateTo(Url.AUTHRECRUIT);
 };
 
 const handleCheck = async () => {

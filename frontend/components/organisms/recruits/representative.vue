@@ -6,11 +6,15 @@
       <v-list>
         <v-list-item>
           <template v-slot:prepend>
-            <v-avatar size="60">
-              <AtomsImgs
-              :path="path_thumbnail"
-              />
-            </v-avatar>
+            <NuxtLink
+            :to="Url.PROFILE+'/'+user_id"
+            >
+              <v-avatar size="60">
+                <AtomsImgs
+                :path="path_thumbnail"
+                />
+              </v-avatar>
+            </NuxtLink>
           </template>
           <v-list-item-title
           v-text="introduction"
@@ -21,8 +25,15 @@
 </template>
 
 <script setup lang="ts">
+import { navigateTo } from "nuxt/app"
+import {Url} from "~/constants/url"
+
 
 const props = defineProps({
+  user_id:{
+    type:Number,
+    default:''
+  },
   path_thumbnail:{
     type:String,
     default:'',

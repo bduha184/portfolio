@@ -110,9 +110,8 @@ const allowJoinTeam = async () => {
   pusherMessages.value.push(ApprovalMessage);
   request_flg.value = false;
 
-  await Promise.all([
-    useApiFetch("/sanctum/csrf-cookie"),
-    useApiFetch(`/api/profile/${sender_id}`, {
+  await useApiFetch("/sanctum/csrf-cookie");
+  await useApiFetch(`/api/profile/${sender_id}`, {
       method: "POST",
       body: {
         request_flg: request_flg.value,
@@ -120,8 +119,7 @@ const allowJoinTeam = async () => {
       headers: {
         "X-HTTP-Method-Override": "PUT",
       },
-    }),
-  ]).then((res) => {
+    }).then((res) => {
     console.log(res);
   });
 

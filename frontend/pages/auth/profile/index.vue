@@ -4,7 +4,7 @@
       プロフィールページ
     </h1>
     <v-card>
-      <OrganismsProfile/>
+      <OrganismsAuthProfile/>
     </v-card>
   </div>
 </template>

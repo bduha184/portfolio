@@ -30,7 +30,7 @@
             <v-list-item-title
             class="pl-2"
             >
-             {{ profiles.length + 1 }}人
+             {{ profiles.length  }}人
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

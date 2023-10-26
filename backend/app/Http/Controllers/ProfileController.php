@@ -107,11 +107,11 @@ class ProfileController extends Controller
                 $profile->save();
 
                 $auth_id = Auth::id();
-                $teams = Team::find($request->team_id);
-                $teams->profiles()->attach($auth_id);
+                $teams = Team::where('user_id',$auth_id)->first();
+                $teams->profiles()->attach($id);
 
                 return response()->json([
-                    'teams'=>$profile->teams()
+                    'request'=>$teams
                 ]);
 
             }
