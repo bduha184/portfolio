@@ -7,12 +7,14 @@
         v-for="(image, imageIndex) in images"
         :key="imageIndex"
       >
+      {{ imageIndex }}
+
         <v-img :src="image" >
           <v-btn
           density="compact"
           variant="text"
           :icon="Icons.CLOSE"
-          @click="deleteImage();index = imageIndex;"
+          @click="deleteImage();index = imageIndex+1;"
           />
         </v-img>
       </v-col>
@@ -32,7 +34,7 @@ const props = defineProps({
   },
 });
 
-const index = ref();
+const index = ref(0);
 
 const emits = defineEmits(["emitClick"]);
 
@@ -43,7 +45,7 @@ const deleteImage = () => {
 
 <style scoped>
 .v-row {
-  max-height: 200px;
+  max-height: 300px;
   overflow: scroll !important;
 }
 

@@ -12,7 +12,7 @@ export const Url = {
   /** マイページ（メンバー募集）（ */
   AUTHRECRUIT: getFrontUrl('/auth/recruit'),
   /** マイページ（プロフィール）（ */
-  PROFILE: getFrontUrl('/auth/profile'),
+  AUTHPROFILE: getFrontUrl('/auth/profile'),
   /** マイページ（メッセージ）（ */
   MESSAGES: getFrontUrl('/auth/messages'),
   /** マイページ（チーム）（ */
@@ -49,5 +49,7 @@ export const Url = {
   RESETPASSWORD: getFrontUrl('/passwords/forgotpassword'),
   /** パスワードリセット **/
   CYCLINGINFO: getFrontUrl('/cyclinginfo'),
+  /** プロフィール **/
+  PROFILE: getFrontUrl('/profile'),
 
 }

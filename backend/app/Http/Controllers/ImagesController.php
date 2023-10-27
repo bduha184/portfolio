@@ -100,12 +100,13 @@ class ImagesController extends Controller
         $files = $request['images'];
         // $image_paths=unserialize($images->image_path);
         $exists_image_paths = unserialize($images->image_path);
-        $image_paths=[];
 
         if ($images) {
             foreach($exists_image_paths as $path){
                 Storage::disk('public')->delete($path);
             }
+
+            $image_paths=[];
             if($files != null){
                 foreach($files as $file){
                     if(strpos($file,'uploaded') ===  false){
@@ -121,12 +122,14 @@ class ImagesController extends Controller
                 $images->user_id = Auth::id();
                 $images->save();
             }
+            return response()->json([
+                'message'=>'image saved successfully',
+                // 'files'=>$files,
+            ]);
         }
-
         return response()->json([
-            'message'=>'image saved successfully',
-            // 'files'=>$files,
-        ]);
+            'message' => 'Images not found'
+        ], Response::HTTP_NOT_FOUND);
     }
 
     /**

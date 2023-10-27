@@ -21,12 +21,20 @@
       <v-container>
         <AtomsTextsHeadLine class="w-100"> チームメンバー </AtomsTextsHeadLine>
         <v-row>
-          <v-col cols="4"
+          <v-col cols="3"
           v-for="(member, i) in members"
           :key="i">
-          <img
-          :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
-          />
+          <NuxtLink
+          :to="Url.PROFILE+'/'+member.user_id"
+          >
+            <v-avatar
+            size="80"
+            >
+            <AtomsImgs
+            :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
+            />
+          </v-avatar>
+          </NuxtLink>
           </v-col>
         </v-row>
       </v-container>

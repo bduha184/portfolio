@@ -6,6 +6,7 @@ use App\Http\Requests\StoreRecruitRequest;
 use App\Http\Requests\UpdateRecruitRequest;
 use App\Models\Profile;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +71,7 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $recruitItem = Profile::where('user_id', $id)->first();
+        $recruitItem = Profile::where('user_id',$id)->with(['user'])->first();
 
         return response()->json([
             'data' => $recruitItem,
@@ -83,7 +84,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $auth_id = Auth::id();
         $profile  = Profile::where('user_id', $id)->first();
 
         if ($profile) {
@@ -106,13 +107,15 @@ class ProfileController extends Controller
                 $profile->request_flg = $request->request_flg;
                 $profile->save();
 
-                $auth_id = Auth::id();
-                $teams = Team::find($request->team_id);
-                $teams->profiles()->attach($auth_id);
+                if($id != $auth_id) {
+                    $teams = Team::where('user_id',$auth_id)->first();
+                    $profile->teams()->attach($teams->id);
+                }
 
                 return response()->json([
-                    'teams'=>$profile->teams()
-                ]);
+                    $teams,
+                    'message' => 'register successfully'
+                ], Response::HTTP_OK);
 
             }
             return response()->json([

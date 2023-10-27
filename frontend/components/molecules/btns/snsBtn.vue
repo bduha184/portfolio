@@ -1,12 +1,14 @@
 <template>
   <AtomsSnsBtn>
-    <AtomsImgs
-    size="contain"
-    :src="`${config.public.appURL}/_nuxt/assets/images/${provider}.png`"
-    width="20"
-    height="20"
-    />
-    <slot/>
+    <template v-slot:prepend>
+      <AtomsImgs
+      size="contain"
+      :src="`${config.public.appURL}/_nuxt/assets/images/${provider}.png`"
+      width="20"
+      height="20"
+      />
+      </template>
+      <slot/>
   </AtomsSnsBtn>
 </template>
 

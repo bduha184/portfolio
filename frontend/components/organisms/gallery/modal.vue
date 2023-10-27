@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-    <slot />
     <VueGallery
       :images="images"
       :index="index"
@@ -32,7 +30,7 @@ const props = defineProps({
   },
 });
 
-const index = ref(0);
+const index = ref();
 
 console.log(index.value);
 
@@ -45,8 +43,8 @@ const deleteImage = () => {
 
 <style scoped>
 .v-row {
-  max-height: 200px;
-  overflow: scroll !important;
+  max-height: 300px;
+  overflow-y: scroll !important;
 }
 
 .v-container p {

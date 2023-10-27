@@ -23,28 +23,34 @@
         placeholder="チーム紹介"
         @emitInput="receiveTeamIntroduce"
         :body="teamItems.introduction"
-      />
-    </v-card-text>
+        />
+      </v-card-text>
+      <v-container>
+        <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
+        <OrganismsDrugAndDrop @emitImages="receiveImage" />
+        <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
+      </v-container>
     <OrganismsAuthRecruitTeamInfo
     @emitAgeAverage="receiveAverage"
     @emitFromAge="receiveFromAge"
     @emitToAge="receiveToAge"
     @emitTags="receiveTags"
+    @emitAreas="receiveAreas"
+    @emitDetailAreas="receiveDetailAreas"
+    @emitDetailActivities="receiveDetailActivities"
+    @emitActiveDateTime="receiveActiveDateTime"
+    @emitTeamUrl="receiveTeamUrl"
     :member_count="teamItems.member_count"
     :average="teamItems.average"
     :from_age="teamItems.from_age"
     :to_age="teamItems.to_age"
     :tags="teamItems.tags"
+    :areas="teamItems.areas"
+    :detailActivities="teamItems.detailActivities"
+    :detailAreas="teamItems.detailAreas"
+    :activeDateTime="teamItems.activeDateTime"
+    :teamUrl="teamItems.teamUrl"
     />
-    <v-container>
-      <AtomsTextsHeadLine> チームの主な活動内容 </AtomsTextsHeadLine>
-      <AtomsTextAreas
-        class="mt-2"
-        placeholder="活動内容の詳細を記入"
-        @emitInput="receiveTeamActivities"
-        :body="teamItems.activities"
-      />
-    </v-container>
     <v-container>
       <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
       <AtomsTextAreas
@@ -53,11 +59,6 @@
         @emitInput="receiveTeamSchedule"
         :body="teamItems.schedule"
       />
-    </v-container>
-    <v-container>
-      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-      <OrganismsDrugAndDrop @emitImages="receiveImage" />
-      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
     </v-container>
     <AtomsBtnsBaseBtn
       width="16rem"
@@ -125,6 +126,7 @@ import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { Form } from "vee-validate";
+import { afterEach } from "node:test";
 // import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
@@ -153,10 +155,14 @@ const teamItems = ref({
   from_age:"",
   to_age:"",
   tags:[],
+  areas:[],
+  detailAreas:'',
   introduction: "",
   member_count: 0,
-  activities: "",
+  detailActivities: "",
   schedule: "",
+  activeDateTime: "",
+  teamUrl: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -170,12 +176,11 @@ const receiveClick = (val) => {
 const receiveTeamName = (val) => {
   teamItems.value.team_name = val.value;
 };
+
 const receiveTeamIntroduce = (val) => {
   teamItems.value.introduction = val.value;
 };
-const receiveTeamActivities = (val) => {
-  teamItems.value.activities = val.value;
-};
+
 const receiveTeamSchedule = (val) => {
   teamItems.value.schedule = val.value;
 };
@@ -191,7 +196,6 @@ const receiveProfileImage = (val: File) => {
   URL.revokeObjectURL(val.val);
 };
 
-
 const receiveAverage = (val) => {
   teamItems.value.average = val;
 }
@@ -203,6 +207,22 @@ const receiveToAge = (val) => {
 }
 const receiveTags = (val) => {
   teamItems.value.tags = val;
+}
+const receiveDetailActivities = (val) => {
+  teamItems.value.detailActivities = val;
+}
+const receiveAreas = (val) => {
+  teamItems.value.areas = val;
+}
+const receiveDetailAreas = (val) => {
+  teamItems.value.detailAreas = val;
+}
+const receiveTeamUrl = (val) => {
+  teamItems.value.teamUrl = val;
+}
+
+const receiveActiveDateTime = (val) => {
+  teamItems.value.activeDateTime = val;
 }
 
 const handleRegister = async () => {
@@ -222,11 +242,16 @@ const handleRegister = async () => {
   tags.forEach(tag => {
     formData.append('tags[]', tag);
   })
-  formData.append("activities", teamItems.value.activities);
+  formData.append("detailActivities", teamItems.value.detailActivities);
+  const areas =teamItems.value.areas;
+  areas.forEach(area => {
+    formData.append('areas[]', area);
+  })
+  formData.append("detailAreas",teamItems.value.detailAreas);
+  formData.append("activeDateTime",teamItems.value.activeDateTime);
+  formData.append("teamUrl",teamItems.value.teamUrl);
   formData.append("schedule",teamItems.value.schedule);
 
-  // const teamData = new FormData();
-  // teamData.append("team_name",teamItems.value.team_name);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
@@ -255,7 +280,7 @@ const handleRegister = async () => {
     teamItems.value.item_id = res[0].data.value;
   });
 
-  // isShow.value=false;
+  isShow.value=false;
 };
 // console.log(teamItems.value.header_img);
 
@@ -269,19 +294,26 @@ const handleUpdate = async () => {
   formData.append("average", teamItems.value.average);
   formData.append("from_age", teamItems.value.from_age);
   formData.append("to_age", teamItems.value.to_age);
-  formData.append("activities", teamItems.value.activities);
-  formData.append("schedule",teamItems.value.schedule);
-
   const tags =teamItems.value.tags;
   tags.forEach(tag => {
     formData.append('tags[]', tag);
   })
+  formData.append("detailActivities", teamItems.value.detailActivities);
+  const areas =teamItems.value.areas;
+  areas.forEach(area => {
+    formData.append('areas[]', area);
+  })
+  formData.append("detailAreas",teamItems.value.detailAreas);
+  formData.append("activeDateTime",teamItems.value.activeDateTime);
+  formData.append("teamUrl",teamItems.value.teamUrl);
+  formData.append("schedule",teamItems.value.schedule);
+
+
   const imageData = new FormData();
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
-  // imageData.append('test','test');
-
+//
   // console.log(...formData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
@@ -362,7 +394,6 @@ onBeforeMount(async () => {
         const val = res.data.value;
         if (val != null) {
           if (val.teamItem) {
-            console.log(val)
             teamItems.value.item_id = val.teamItem.id;
             teamItems.value.url_header_img =
               config.public.baseURL + "/storage/" + val.teamItem.header_img_path;
@@ -373,19 +404,24 @@ onBeforeMount(async () => {
             teamItems.value.average = val.teamItem.average;
             teamItems.value.from_age = val.teamItem.from_age;
             teamItems.value.to_age = val.teamItem.to_age;
+            teamItems.value.detailAreas = val.teamItem.detailAreas;
+            teamItems.value.detailActivities = val.teamItem.detailActivities;
+            teamItems.value.activeDateTime = val.teamItem.activeDateTime;
+            teamItems.value.teamUrl = val.teamItem.teamUrl;
             teamItems.value.schedule = val.teamItem.schedule;
-            teamItems.value.activities = val.teamItem.activities;
             teamItems.value.user_id = val.teamItem.user_id;
           }
-
           if(val.members){
             teamItems.value.member_count = val.members.length + 1;
           }
           if(val.tags){
-            console.log(val.tags);
             val.tags.forEach(tag => {
               teamItems.value.tags.push(tag.name);
-
+            });
+          }
+          if(val.areas){
+            val.areas.forEach(area => {
+              teamItems.value.areas.push(area.name);
             });
           }
 

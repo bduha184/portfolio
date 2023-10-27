@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Mail\BareMail;
 use App\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 // use App\Notifications\ResetPasswordNotification;
 
@@ -54,12 +55,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function profile():HasOne{
+        return $this->hasOne(Profile::class);
+    }
+
     public function images():HasMany{
-        return $this->hasMany(Team::class);
+        return $this->hasMany(Team::class)->withTimestamps();
     }
 
     public function provider():HasMany{
-        return $this->hasMany(Provider::class);
+        return $this->hasMany(Provider::class)->withTimestamps();
     }
 
 }

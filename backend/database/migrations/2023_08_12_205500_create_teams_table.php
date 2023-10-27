@@ -20,7 +20,10 @@ return new class extends Migration
             $table->string('average')->nullable();
             $table->string('from_age')->nullable();
             $table->string('to_age')->nullable();
-            $table->string('activities')->nullable();
+            $table->string('detailActivities')->nullable();
+            $table->string('detailAreas')->nullable();
+            $table->string('activeDateTime')->nullable();
+            $table->string('teamUrl')->nullable();
             $table->string('schedule')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

@@ -26,11 +26,11 @@
             :name="Icons.CYCLING"
             class="border-none"
             size="25"
-            />
+            />:
             <v-list-item-title
             class="pl-2"
             >
-            : {{ profiles.length + 1 }}人
+             {{ profiles.length  }}人
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -45,11 +45,13 @@
             :name="Icons.MAP"
             class="border-none"
             size="25"
-            />
+            />:
             <v-list-item-title
             class="pl-2"
+            v-for="(area,i) in areas"
+            :key="i"
             >
-            :
+          {{ area.name }},
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -64,11 +66,11 @@
             :name="Icons.SCHEDULE"
             class="border-none"
             size="25"
-            />
+            /> :
             <v-list-item-title
             class="pl-2"
             >
-            :
+          {{ date_time }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -118,6 +120,14 @@ const props = defineProps({
     default: [],
   },
   profiles: {
+    type: Array,
+    default: [],
+  },
+  date_time: {
+    type: String,
+    default: '',
+  },
+  areas: {
     type: Array,
     default: [],
   },

@@ -15,13 +15,6 @@ import {useRuntimeConfig} from 'nuxt/app';
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();
-const props = defineProps({
-  provider:{
-    type:String,
-    default:undefined
-  }
-})
-
 const emits = defineEmits(['click']);
 
 const onClick = () => {

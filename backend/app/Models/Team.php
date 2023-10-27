@@ -18,7 +18,10 @@ class Team extends Model
         'average',
         'from_age',
         'to_age',
-        'activities',
+        'detailActivities',
+        'detailAreas',
+        'activeDateTime',
+        'teamUrl',
         'schedule',
     ];
 
@@ -27,6 +30,9 @@ class Team extends Model
     }
     public function tags():BelongsToMany{
         return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
+    public function areas():BelongsToMany{
+        return $this->belongsToMany(Area::class)->withTimestamps();
     }
 
 }

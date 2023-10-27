@@ -1,49 +1,66 @@
 <template>
   <div>
     <v-container>
-      <v-row>
-        <v-col>
-          <MoleculesBtnsSnsBtn
-            provider="google"
-            class="d-flex mx-auto border-2 border-indigo-500 w-[250px]"
-            >
-            Googleでログイン
-          </MoleculesBtnsSnsBtn>
-          </v-col>
-          <v-col>
-            <MoleculesBtnsSnsBtn
-            provider="twitter"
-            class="d-block mx-auto border-2 border-indigo-500 w-[250px]"
+        <v-row>
+          <v-col cols="12" sm="6"
+          class="text-center"
           >
-          Lineでログイン
-        </MoleculesBtnsSnsBtn>
-        </v-col>
-      </v-row>
+            <AtomsBtnsSnsBtn
+            width="250"
+            >
+              <AtomsImgs
+                size="contain"
+                :src="`${config.public.appURL}/_nuxt/assets/images/google.png`"
+                width="20"
+                height="20"
+                class="absolute left-2"
+                />
+                <p>
+                  Googleでログイン
+                </p>
+            </AtomsBtnsSnsBtn>
+          </v-col>
+          <v-col cols="12" sm="6"
+           class="text-center"
+          >
+
+            <AtomsBtnsSnsBtn
+            width="250"
+            >
+              <AtomsImgs
+                size="contain"
+                :src="`${config.public.appURL}/_nuxt/assets/images/twitter.png`"
+                width="20"
+                height="20"
+                class="absolute left-2"
+                />
+                <p>
+                  Lineでログイン
+                </p>
+            </AtomsBtnsSnsBtn>
+          </v-col>
+        </v-row>
     </v-container>
-    <div
-      class="text-center my-4 relative before:absolute before:left-0 before:top-50 before:h-[1px] before:w-full before:bg-slate-600 z-0"
-    >
-      or
-    </div>
+    <v-divider class="my-5 border-opacity-100" color="info"></v-divider>
     <form method="POST">
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
 
-        <MoleculesInput
+      <MoleculesInput
         type="email"
         label="メールアドレス"
         @emitInput="receiveEmail"
         :val="form.email"
         class="mb-4"
-        />
-        <MoleculesInput
+      />
+      <MoleculesInput
         type="password"
         label="パスワード"
         @emitInput="receivePassword"
         :val="form.password"
         class="mb-4"
-        />
+      />
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
@@ -59,17 +76,20 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../../../stores/useAuthStore";
-import {ref,computed} from 'vue';
+import { ref, computed } from "vue";
 import { navigateTo } from "nuxt/app";
-import {useRouter} from 'vue-router';
-import {Url} from '../../../constants/url';
+import { useRouter } from "vue-router";
+import { Url } from "../../../constants/url";
+import {useRuntimeConfig} from 'nuxt/app';
+
+const config = useRuntimeConfig();
 
 const router = useRouter();
 const form = ref({
-  email:'',
-  password:'',
-  errors:''
-})
+  email: "",
+  password: "",
+  errors: "",
+});
 
 const receiveEmail = (val) => {
   form.value.email = val.val;
@@ -80,31 +100,30 @@ const receivePassword = (val) => {
   form.value.errors = val.errors;
 };
 const checkFilledOut = computed(() => {
-
-  const fieldArray = [
-    form.value.email,
-    form.value.password,
-  ]
+  const fieldArray = [form.value.email, form.value.password];
 
   const errors = Object.keys(form.value.errors).length;
 
-  if(fieldArray.indexOf('') === -1 && errors == 0){
+  if (fieldArray.indexOf("") === -1 && errors == 0) {
     return true;
   }
-})
-
+});
 
 const auth = useAuthStore();
- const  handleLogin = async()=> {
+const handleLogin = async () => {
   const res = await auth.login(form.value);
 
-   if (res.error.value == null) {
+  if (res.error.value == null) {
     navigateTo(Url.MYPAGE);
   } else {
     navigateTo(Url.SIGNUP);
   }
-}
-
+};
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.v-btn:deep(.v-responsive){
+  position: absolute !important;
+}
+
+</style>

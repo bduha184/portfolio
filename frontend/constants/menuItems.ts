@@ -19,21 +19,21 @@ export const MenuItems = [
       icon: Icons.CYCLING,
       func: () => router.push(Url.TEAMS),
     },
-    {
-      text: "サイクリング情報",
-      icon: Icons.INFORMATION,
-      func: () => router.push(Url.CYCLINGINFO),
-    },
-    {
-      text: "みんなの愛車",
-      icon: Icons.BICYCLE,
-      func: () => router.push(Url.BICYCLES),
-    },
-    {
-      text: "ルート検索",
-      icon: Icons.MAP,
-      func: () => router.push(Url.SEARCH),
-    },
+    // {
+    //   text: "サイクリング情報",
+    //   icon: Icons.INFORMATION,
+    //   func: () => router.push(Url.CYCLINGINFO),
+    // },
+    // {
+    //   text: "みんなの愛車",
+    //   icon: Icons.BICYCLE,
+    //   func: () => router.push(Url.BICYCLES),
+    // },
+    // {
+    //   text: "ルート検索",
+    //   icon: Icons.MAP,
+    //   func: () => router.push(Url.SEARCH),
+    // },
     {
       text: "新規登録",
       icon: Icons.REGISTER,
