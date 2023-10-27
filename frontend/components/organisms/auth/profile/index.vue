@@ -90,7 +90,7 @@ const handleRegister = async () => {
   form.value.path_thumbnail = res.data.value.path_thumbnail;
   form.value.introduction = res.data.value.introduction;
 
-  return navigateTo(Url.PROFILE);
+  return navigateTo(Url.AUTHPROFILE);
 };
 
 const handleUpdate = async () => {

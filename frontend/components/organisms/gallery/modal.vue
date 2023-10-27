@@ -30,7 +30,7 @@ const props = defineProps({
   },
 });
 
-const index = ref(0);
+const index = ref();
 
 console.log(index.value);
 

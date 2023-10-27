@@ -21,7 +21,7 @@
       <v-container>
         <AtomsTextsHeadLine class="w-100"> チームメンバー </AtomsTextsHeadLine>
         <v-row>
-          <v-col cols="4"
+          <v-col cols="3"
           v-for="(member, i) in members"
           :key="i">
           <NuxtLink

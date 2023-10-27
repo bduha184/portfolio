@@ -106,10 +106,9 @@ class TeamController extends Controller
      */
     public function show($id)
     {
+        $teamItem = Team::find($id);
         if (Auth::id() == $id) {
             $teamItem = Team::where('user_id', $id)->first();
-        } else {
-            $teamItem = Team::find($id);
         }
         $members = $teamItem->profiles()->get();
         $rep_profile = $teamItem->profiles()->where('user_id',$teamItem->user_id)->first();

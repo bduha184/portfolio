@@ -97,9 +97,6 @@ watch(pusherMessages.value, async () => {
     await useApiFetch("/api/message/register", {
       method: "POST",
       body: pusherData,
-      // headers: {
-      //   "X-HTTP-Method-Override": "PUT",
-      // },
     }).then((res) => {
       console.log(res);
     });
