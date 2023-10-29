@@ -8,10 +8,12 @@ import {
   mdiBicycle,
   mdiNoteEdit,
   mdiLoginVariant,
+  mdiLogoutVariant,
   mdiMagnify,
   mdiNavigation,
   mdiCalendarMonth,
   mdiCloseCircleOutline,
+  mdiViewDashboard
 } from "@mdi/js";
 
 
@@ -25,8 +27,10 @@ export const Icons = {
   BICYCLE:mdiBicycle,
   REGISTER:mdiNoteEdit,
   LOGIN:mdiLoginVariant,
+  LOGOUT:mdiLogoutVariant,
   SEARCH:mdiMagnify,
   NAVI:mdiNavigation,
   CLOSE:mdiCloseCircleOutline,
   SCHEDULE:mdiCalendarMonth,
+  DASHBOARD:mdiViewDashboard
 }

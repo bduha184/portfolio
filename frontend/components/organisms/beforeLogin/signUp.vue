@@ -94,6 +94,9 @@ import {useAuthStore} from '../../../stores/useAuthStore';
 import { ref, computed } from "vue";
 import { navigateTo } from "nuxt/app";
 import {Url} from '../../../constants/url';
+import {useRuntimeConfig} from 'nuxt/app';
+
+const config = useRuntimeConfig();
 const form = ref({
   name: "",
   email: "",

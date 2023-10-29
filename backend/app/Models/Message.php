@@ -57,4 +57,5 @@ class Message extends Model
             ->orderBy('messages.created_at', 'asc')
             ->get();
     }
+
 }

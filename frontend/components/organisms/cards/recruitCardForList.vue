@@ -1,5 +1,5 @@
 <template>
-  <v-card @click="onClick" min-height="300px">
+  <v-card @click="onClick(auth)" min-height="300px">
     <OrganismsImgsCardProfile
       :path_header="config.public.baseURL + '/storage/' + header_img_path"
       :path_thumbnail="config.public.baseURL + '/storage/' + thumbnail_path"
@@ -131,10 +131,17 @@ const props = defineProps({
     type: Array,
     default: [],
   },
+  auth:{
+    type:Boolean,
+    default:false
+  }
 });
 const config = useRuntimeConfig();
 
-const onClick = () => {
+const onClick = (auth) => {
+  if(auth){
+  return navigateTo(Url.AFFILIATION + "/" + props.id);
+  }
   return navigateTo(Url.TEAMS + "/" + props.id);
 };
 </script>

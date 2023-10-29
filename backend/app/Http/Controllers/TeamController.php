@@ -36,7 +36,7 @@ class TeamController extends Controller
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $affiliations = $auth_profile->teams()->get();
+            $affiliations = $auth_profile->teams()->with(['tags:name','areas:name','profiles'])->get();
             return response()->json([
                 'profile'=>$auth_profile,
                 'affiliations' => $affiliations
