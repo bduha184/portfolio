@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->string('comments');
-            $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('receiver_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('sender_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('team_id')->nullable()->constrained('teams')->onDelete('cascade');
             $table->timestamps();
         });
     }

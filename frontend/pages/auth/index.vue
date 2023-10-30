@@ -2,9 +2,10 @@
   <div>
     <MoleculesImgsSelect
     @emitInput="receiveHeaderImg"
-    :path="path_header"
+    :path="items.url_header_img"
     :disabled="disabled"
     size="cover"
+    class="h-[100px]"
     />
     <v-container class="bg-white">
       <h6 class="text-h6">
@@ -35,32 +36,11 @@
         </v-col>
 
       </v-row>
-      <!-- <OrganismsModal
-        @emitModalOpen="handleCheck"
-        @emitModalBtnClick="handleLogout"
-        caution="ログアウトします。よろしいですか？"
-        btnValue="ログアウトする"
-        color="orange"
-        btnType="delete"
-      >
-        ログアウト
-      </OrganismsModal>
-      <OrganismsModal
-        @emitModalOpen="handleCheck"
-        @emitModalBtnClick="handleDelete"
-        color="error"
-        caution="※退会すると全てのデータが削除され、復元できません。退会しますか？"
-        btnValue="退会する"
-        btnType="delete"
-      >
-        退会
-      </OrganismsModal> -->
     </v-container>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, definePageMeta, navigateTo } from "#imports";
-import { onMounted } from "vue";
+import { ref, definePageMeta, navigateTo,onMounted,useRuntimeConfig } from "#imports";
 import { Url } from "~/constants/url";
 import { Icons } from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
@@ -70,23 +50,28 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+const config = useRuntimeConfig();
+
 const auth = useAuthStore();
 const userId = auth.user.id;
 
-const handleLogout = async () => {
-  await auth.logout();
-};
-const modalOpen = ref(false);
+const items = ref({
+  header_img:'',
+  url_header_img: config.public.appURL + "/images/noimage.jpg",
+})
 
-const handleCheck = () => {};
-
-const handleDelete = async () => {
-  await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch(`/api/user/${userId}`, {
-    method: "DELETE",
-  }).then((res) => {
-    console.log(res);
-    navigateTo(Url.SIGNUP);
-  });
+const receiveHeaderImg = (val: File) => {
+  console.log(val);
+  //   items.value.header_img = val.val;
+  items.value.url_header_img = URL.createObjectURL(val);
+  URL.revokeObjectURL(val);
 };
+
+// onMounted(() =>{
+//   teamItems.value.url_header_img =
+//               config.public.baseURL +
+//               "/storage/" +
+//               val.teamItem.header_img_path;
+// })
+
 </script>
