@@ -67,7 +67,7 @@ const messages = ref([]);
 const pusherMessages = ref([]);
 const authMessage = ref("");
 const team_id = router.params.id;
-const authId = auth.user.id;
+const sender_id = auth.user.id;
 
 const receiveInput = (val) => {
   authMessage.value = val.value;
@@ -79,29 +79,12 @@ const checkFilledOut = computed(() => {
 });
 
 
-watch(pusherMessages.value, async () => {
-  const pusherData = {
-    comments: pusherMessages.value[0],
-    team_id: router.params.id,
-  };
-  if (pusherMessages.value.length > 0) {
-    await useApiFetch("/sanctum/csrf-cookie");
-    await useApiFetch("/api/message/register", {
-      method: "POST",
-      body: pusherData,
-    }).then((res) => {
-      console.log(res);
-    });
-  }
-});
-
-
-
 const receiveClick = async () => {
   pusherMessages.value.push(authMessage.value);
   const data = {
     comments: authMessage.value,
     team_id: team_id,
+    sender_id: sender_id,
   };
 
   await useApiFetch("/sanctum/csrf-cookie");

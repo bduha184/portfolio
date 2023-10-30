@@ -18,6 +18,10 @@ class Message extends Model
         'team_id',
     ];
 
+    public function profiles():BelongsTo{
+        return $this->belongsTo(Profile::class);
+    }
+
     public function getUserInfoById($auth_id)
     {
         return
@@ -62,11 +66,11 @@ class Message extends Model
     {
         return
             $this
-            ->where('team_id',$team_id)->get();
-            // ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
+            ->where('team_id',$team_id)
+            ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
             // ->join('users', 'messages.sender_id', '=', 'users.id')
             // ->orderBy('messages.created_at', 'asc')
-            // ->get();
+            ->get();
     }
 
 }
