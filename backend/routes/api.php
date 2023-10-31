@@ -95,7 +95,7 @@ Route::controller(ProfileController::class)->group(function(){
 Route::controller(MessageController::class)->group(function(){
     Route::prefix('message')->name('message.')->group(function(){
         Route::get('/','index');
-        Route::get('/{sender_id}','show');
+        Route::get('/{id}','show');
     });
 });
 Route::post('/logout', [LoginController::class, 'logout']);

@@ -9,7 +9,7 @@
             <NuxtLink
             :to="Url.PROFILE+'/'+user_id"
             >
-              <v-avatar size="60">
+              <v-avatar size="60" class="mr-2">
                 <AtomsImgs
                 :path="path_thumbnail"
                 />

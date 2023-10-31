@@ -6,18 +6,27 @@
       </AtomsDisplayFlashMessage>
       <OrganismsImgsCardProfile
         @emitInput="receiveProfileImage"
-        :path_header="recruitItems.url_header_img"
-        :path_thumbnail="recruitItems.url_thumbnail"
+        :path_header="teamItems.url_header_img"
+        :path_thumbnail="teamItems.url_thumbnail"
         disabled="true"
       />
       <v-card-title class="w-60 text-body-2 text-left ml-auto">
         <AtomsTextsHeadLine class="w-100">
-          {{ recruitItems.team_name }}
+          {{ teamItems.team_name }}
         </AtomsTextsHeadLine>
       </v-card-title>
       <v-card-text>
-        {{ recruitItems.introduction }}
+        {{ teamItems.introduction }}
       </v-card-text>
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        height="60"
+        color="blue"
+        class="my-4 d-block mx-auto"
+        @emitClick="receiveClick"
+      >
+        チームチャット
+      </AtomsBtnsBaseBtn>
       <v-container>
         <AtomsTextsHeadLine class="w-100"> チームメンバー </AtomsTextsHeadLine>
         <v-row>
@@ -28,7 +37,7 @@
           :to="Url.PROFILE+'/'+member.user_id"
           >
             <v-avatar
-            size="80"
+            class="w-100 h-100"
             >
             <AtomsImgs
             :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
@@ -37,6 +46,16 @@
           </NuxtLink>
           </v-col>
         </v-row>
+      </v-container>
+      <v-container>
+        <AtomsTextsHeadLine class="w-100"> 今後の予定 </AtomsTextsHeadLine>
+        <AtomsTextAreas
+        class="mt-2"
+        v-if="auth.user.id == teamItems.user_id"
+        />
+        <v-card-text>
+
+        </v-card-text>
       </v-container>
     </form>
   </div>
@@ -61,21 +80,17 @@ const config = useRuntimeConfig();
 
 const postImages = ref([]);
 const displayImages = ref([]);
-const deleteCheck = ref(false);
 const isShow = ref(false);
 const flashMessage = ref("");
 const members = ref([]);
-const handelDelete = computed(() => {
-  return (deleteCheck.value = true);
-});
 
-const recruitItems = ref({
+const teamItems = ref({
+  id: "",
   items: [],
   item: "",
   itemCount: 0,
   path_header: "",
   path_thumbnail: "",
-  item_id: "",
   user_id: "",
   header_img: "",
   thumbnail: "",
@@ -86,154 +101,10 @@ const recruitItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
+const receiveClick = () => {
+  return navigateTo(Url.TEAMMESSAGES+teamItems.value.id);
+}
 
-
-const handleRegister = async () => {
-  flashMessage.value = Message.REGISTER;
-  isShow.value = true;
-
-  const formData = new FormData();
-
-  formData.append("header_img", recruitItems.value.header_img);
-  formData.append("thumbnail", recruitItems.value.thumbnail);
-  formData.append("intro", recruitItems.value.title);
-  formData.append("text", recruitItems.value.text);
-  formData.append("activities", recruitItems.value.activities);
-
-  const imageData = new FormData();
-  postImages.value.forEach((image) => {
-    imageData.append("images[]", image);
-  });
-  // console.log(...formData.entries());
-  // console.log(...imageData.entries());
-
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    useApiFetch("/api/recruit/register", {
-      method: "POST",
-      body: formData,
-    }),
-    useApiFetch("/api/images/register", {
-      method: "POST",
-      body: imageData,
-    }),
-  ]).then((res) => {
-    // console.log("all", res);
-    // console.log(res[0].data.value);
-    isShow.value = true;
-    console.log(isShow.value);
-    recruitItems.value.item_id = res[0].data.value;
-  });
-
-  // isShow.value=false;
-};
-// console.log(recruitItems.value.header_img);
-
-const handleUpdate = async () => {
-  const formData = new FormData();
-
-  formData.append("header_img", recruitItems.value.header_img);
-  formData.append("thumbnail", recruitItems.value.thumbnail);
-  formData.append("title", recruitItems.value.title);
-  formData.append("text", recruitItems.value.text);
-  formData.append("activities", recruitItems.value.activities);
-
-  const imageData = new FormData();
-  postImages.value.forEach((image) => {
-    imageData.append("images[]", image);
-  });
-  // imageData.append('test','test');
-
-  // console.log(...imageData.entries());
-
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    useApiFetch(`/api/recruit/${auth.user.id}`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }),
-    useApiFetch(`/api/images/${auth.user.id}`, {
-      method: "POST",
-      body: imageData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }),
-  ]).then((res) => {
-    console.log("all", res);
-  });
-  return navigateTo(Url.AUTHRECRUIT);
-};
-
-const handleCheck = async () => {
-  flashMessage.value = Message.DELETE;
-  if (deleteCheck) {
-    await useApiFetch("/sanctum/csrf-cookie");
-    await Promise.all([
-      await useApiFetch(`/api/recruit/${recruitItems.value.item_id}`, {
-        method: "DELETE",
-      }),
-      await useApiFetch(`/api/images/${auth.user.id}`, {
-        method: "DELETE",
-      }),
-    ]).then((res) => {
-      console.log(res);
-      isShow.value = true;
-    });
-
-    return navigateTo(Url.AUTHRECRUIT);
-  }
-};
-
-const checkFilledOut = () => {
-  const fieldArray = [recruitItems.value.title, recruitItems.value.text];
-
-  if (fieldArray.indexOf("") === -1) {
-    return true;
-  }
-  return false;
-};
-
-const receiveImage = (val) => {
-  Array.from(val.files).map((data) => {
-    postImages.value.push(data);
-    let image = window.URL.createObjectURL(data);
-    displayImages.value.push(image);
-  });
-};
-
-const receiveClick = (val) => {
-  displayImages.value.splice(val, 1);
-  postImages.value.splice(val, 1);
-};
-
-const receiveTeamName = (val) => {
-  recruitItems.value.title = val.value;
-};
-const receiveTeamIntroduce = (val) => {
-  recruitItems.value.text = val.value;
-};
-const receiveTeamActivities = (val) => {
-  recruitItems.value.activities = val.value;
-};
-
-const receiveProfileImage = (val: File) => {
-  if (val.target == "header") {
-    recruitItems.value.header_img = val.val;
-    recruitItems.value.url_header_img = URL.createObjectURL(val.val);
-  } else {
-    recruitItems.value.thumbnail = val.val;
-    recruitItems.value.url_thumbnail = URL.createObjectURL(val.val);
-  }
-  URL.revokeObjectURL(val.val);
-};
-
-// const deleteItem = () => {
-//   toggleDelete.value = !toggleDelete.value;
-// };
 
 onBeforeMount(async () => {
   const userId = auth.user.id;
@@ -244,19 +115,21 @@ onBeforeMount(async () => {
     ]).then((responses) => {
       responses.forEach((res) => {
         const val = res.data.value;
+        console.log(val);
         if (val != null) {
           if (val.teamItem) {
-            recruitItems.value.item_id = val.teamItem.id;
-            recruitItems.value.url_header_img =
+            teamItems.value.id = val.teamItem.id;
+            teamItems.value.user_id = val.teamItem.user_id;
+            teamItems.value.url_header_img =
               config.public.baseURL +
               "/storage/" +
               val.teamItem.header_img_path;
-            recruitItems.value.url_thumbnail =
+            teamItems.value.url_thumbnail =
               config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
-            recruitItems.value.introduction = val.teamItem.introduction;
-            recruitItems.value.team_name = val.teamItem.team_name;
-            recruitItems.value.activities = val.teamItem.activities;
-            recruitItems.value.user_id = val.teamItem.user_id;
+            teamItems.value.introduction = val.teamItem.introduction;
+            teamItems.value.team_name = val.teamItem.team_name;
+            teamItems.value.activities = val.teamItem.activities;
+            teamItems.value.user_id = val.teamItem.user_id;
           }
 
           if (val.members) {

@@ -3,13 +3,11 @@
 <template>
   <v-app>
     <Header />
-      <v-main>
-        <v-container>
-    <slot />
-
-  </v-container>
+    <v-main>
+      <v-container>
+        <slot />
+      </v-container>
     </v-main>
-    <Footer/>
-
+    <Footer />
   </v-app>
 </template>

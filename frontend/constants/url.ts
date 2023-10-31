@@ -15,6 +15,8 @@ export const Url = {
   AUTHPROFILE: getFrontUrl('/auth/profile'),
   /** マイページ（メッセージ）（ */
   MESSAGES: getFrontUrl('/auth/messages'),
+  /** マイページ（メッセージ）（ */
+  TEAMMESSAGES: getFrontUrl('/auth/messages/teams/'),
   /** マイページ（チーム）（ */
   AUTHTEAMS: getFrontUrl('/auth/teams'),
   /** マイページ（マイチーム）（ */

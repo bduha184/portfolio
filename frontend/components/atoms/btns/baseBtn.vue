@@ -1,7 +1,7 @@
 <template>
   <v-btn
     rounded
-    height="40"
+    :height=height
     :to="to"
     :color="color"
     @click="onClick"
@@ -24,7 +24,10 @@ const props = defineProps({
   variant:{
     type:String,
     default:'elevated'
-
+  },
+  height:{
+    type:Number,
+    default:40
   }
 })
 

@@ -1,21 +1,33 @@
 <script setup lang="ts">
-import { reactive } from "vue";
-import { Url } from "@/constants/url";
-import { MenuItems } from "@/constants/menuItems";
+import { ref,computed } from "#imports";
+import { Url } from "~/constants/url";
+import { MenuItems } from "~/constants/menuItems";
+import { useAuthStore } from "~/stores/useAuthStore";
 
-const state = reactive({
-  name: "",
-  drawer: false,
-});
+
+const auth = useAuthStore();
+const drawer = ref(false);
+
+const menuItems = computed(()=>{
+  if(auth.isLoggedIn) {
+    return MenuItems
+  }else {
+    const menus = MenuItems.filter((item)=> {
+      if(!item.auth) return item;
+    })
+    return menus;
+  }
+
+})
 
 const toggleMenu = () => {
-  state.drawer = !state.drawer;
+  drawer.value = !drawer.value;
 };
 </script>
 
 <template>
   <div>
-    <v-app-bar class="overflow-visible px-2" prominent
+    <v-app-bar class="overflow-visible px-2"
       ><v-container class="d-flex align-center">
         <v-toolbar-title class="text-red font-weight-bold">
           <NuxtLink :to="Url.TOP"> Cycle Community </NuxtLink>
@@ -37,14 +49,14 @@ const toggleMenu = () => {
       </v-container>
     </v-app-bar>
     <v-navigation-drawer
-      v-model="state.drawer"
+      v-model="drawer"
       bottom
       temporary
       location="right"
     >
       <v-list>
         <v-list-item
-          v-for="(item, i) in MenuItems"
+          v-for="(item, i) in menuItems"
           :key="i"
           :value="item"
           @click="item.func"

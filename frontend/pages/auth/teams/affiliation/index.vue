@@ -1,31 +1,30 @@
 <template>
   <div class="p-4 bg-white">
       <OrganismsCardsRecruitCardForList
-        v-for="(item, id) in recruitItems"
+        v-for="(item, id) in teams"
         :key="id"
         :header_img_path="item.header_img_path"
         :thumbnail_path="item.thumbnail_path"
         :introduction="item.introduction"
         :team_name="item.team_name"
         :id="item.id"
-      />
-  </div>
+        :profiles="item.profiles"
+        :areas="item.areas"
+        :date_time="item.activeDateTime"
+        :auth=true
+        />
+    </div>
 </template>
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue";
 
-const recruitItems = ref([]);
+const teams = ref([]);
 
 onBeforeMount(async () => {
-  const select = {
-    'kind':'auth'
-  }
   const res = await useApiFetch("/api/team/auth");
-  console.log(res);
   const items = res.data.value.affiliations;
 
-  recruitItems.value.items.push(...items);
-  recruitItems.value.itemCount = res.data.value.length;
+  teams.value.push(...items);
 });
 </script>
 

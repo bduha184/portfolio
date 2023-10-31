@@ -55,12 +55,19 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message,$sender_id)
+    public function show(Message $message,$id)
     {
 
         $auth_id = Auth::id();
-        $messages = $message->getSnsMessageById($sender_id,$auth_id);
-
+        $profile = Profile::where('user_id',$auth_id)->first();
+        $team = $profile->teams()->find($id);
+        if($team == null){
+            $messages = $message->getSnsMessageById($id,$auth_id);
+        }else{
+            if($id == $team->id) {
+                $messages = $message->getSnsMessageByTeamId($id);
+            }
+        }
         return response()->json([
             'data'=>$messages,
         ]);

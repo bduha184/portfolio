@@ -15,7 +15,12 @@ class Message extends Model
         'comments',
         'receiver_id',
         'sender_id',
+        'team_id',
     ];
+
+    public function profiles():BelongsTo{
+        return $this->belongsTo(Profile::class);
+    }
 
     public function getUserInfoById($auth_id)
     {
@@ -40,7 +45,6 @@ class Message extends Model
         ->get();
     }
 
-
     public function getSnsMessageById($sender_id, $auth_id)
     {
         return
@@ -57,4 +61,15 @@ class Message extends Model
             ->orderBy('messages.created_at', 'asc')
             ->get();
     }
+
+    public function getSnsMessageByTeamId($team_id)
+    {
+        return
+            $this
+            ->where('team_id',$team_id)
+            ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
+            ->orderBy('messages.created_at', 'asc')
+            ->get();
+    }
+
 }

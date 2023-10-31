@@ -35,7 +35,7 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">ライド詳細 :</v-col>
-          <v-col>{{ detailAreas }}</v-col>
+          <v-col>{{ detailActivities }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
