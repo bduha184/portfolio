@@ -1,15 +1,18 @@
 <template>
     <v-dialog
-    max-width="600px" persistent
+    max-width="600px"
+    persistent
     v-model="dialog"
+    hide-overlay
     >
+    <!-- v-if="auth.isLoggedIn  ? '' : 'hide-overlay'" -->
       <template v-slot:activator="{ props }">
         <AtomsBtnsBaseBtn
           width="16rem"
           class="my-4 d-block mx-auto"
           v-bind="props"
           :color="color"
-          @emitClick="receiveClick"
+          @emitClick="receiveClick(); dialog=false"
         >
           <slot />
         </AtomsBtnsBaseBtn>
@@ -78,10 +81,12 @@ interface Emits {
 }
 const emits = defineEmits<Emits>();
 const checkStatus = computed(() => {
-  if (auth.isLoggedIn && path.indexOf("auth") == -1) {
+  if (auth.isLoggedIn) {
+  // if (auth.isLoggedIn && path.indexOf("auth") == -1) {
     return (dialog.value = false);
   }
-  if (!auth.isLoggedIn || auth.isLoggedIn && path.indexOf("auth") != -1) {
+  if (!auth.isLoggedIn) {
+  // if (!auth.isLoggedIn || auth.isLoggedIn && path.indexOf("auth") != -1) {
     return (dialog.value = true);
   }
 });
@@ -109,8 +114,10 @@ const receiveClick = () => {
       emits("emitModalOpen");
       emits("emitAccordion");
     } else {
+      console.log('true');
       dialog.value = true;
     }
   }
 };
+
 </script>

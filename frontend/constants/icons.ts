@@ -13,7 +13,8 @@ import {
   mdiNavigation,
   mdiCalendarMonth,
   mdiCloseCircleOutline,
-  mdiViewDashboard
+  mdiViewDashboard,
+  mdiMessageProcessing
 } from "@mdi/js";
 
 
@@ -32,5 +33,6 @@ export const Icons = {
   NAVI:mdiNavigation,
   CLOSE:mdiCloseCircleOutline,
   SCHEDULE:mdiCalendarMonth,
-  DASHBOARD:mdiViewDashboard
+  DASHBOARD:mdiViewDashboard,
+  MESSAGES:mdiMessageProcessing,
 }

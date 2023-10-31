@@ -68,8 +68,7 @@ class Message extends Model
             $this
             ->where('team_id',$team_id)
             ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
-            // ->join('users', 'messages.sender_id', '=', 'users.id')
-            // ->orderBy('messages.created_at', 'asc')
+            ->orderBy('messages.created_at', 'asc')
             ->get();
     }
 

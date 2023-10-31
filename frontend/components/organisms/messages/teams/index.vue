@@ -122,7 +122,7 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .v-list {
   &:deep(.v-list-item) {
-    width: calc(100% - 30px) !important;
+    // width: calc(100% - 30px) !important;
     margin-right: auto;
   }
   &-item {

@@ -1,15 +1,31 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { ref,computed } from "#imports";
 import { Url } from "@/constants/url";
 import { MenuItems } from "@/constants/menuItems";
+import { useAuthStore } from "../stores/useAuthStore";
 
-const state = reactive({
-  name: "",
-  drawer: false,
-});
+
+const auth = useAuthStore();
+const drawer = ref(false);
+
+const menuItems = computed(()=>{
+  if(auth.isLoggedIn) {
+    console.log('isloggedin');
+    return MenuItems
+  }else {
+    console.log('beforelogin');
+    const menus = MenuItems.map((item)=> {
+      if(!item.auth) return item;
+    })
+    return menus;
+  }
+
+})
+
+console.log(menuItems);
 
 const toggleMenu = () => {
-  state.drawer = !state.drawer;
+  drawer.value = !drawer.value;
 };
 </script>
 
@@ -37,18 +53,19 @@ const toggleMenu = () => {
       </v-container>
     </v-app-bar>
     <v-navigation-drawer
-      v-model="state.drawer"
+      v-model="drawer"
       bottom
       temporary
       location="right"
     >
       <v-list>
         <v-list-item
-          v-for="(item, i) in MenuItems"
+          v-for="(item, i) in menuItems"
           :key="i"
           :value="item"
           @click="item.func"
         >
+        {{ item.auth }}
             <AtomsIcons
             :name="item.icon"
             />
