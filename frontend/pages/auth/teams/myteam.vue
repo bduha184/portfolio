@@ -37,7 +37,7 @@
           :to="Url.PROFILE+'/'+member.user_id"
           >
             <v-avatar
-            size="80"
+            class="w-100 h-100"
             >
             <AtomsImgs
             :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"

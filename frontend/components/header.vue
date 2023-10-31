@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref,computed } from "#imports";
-import { Url } from "@/constants/url";
-import { MenuItems } from "@/constants/menuItems";
-import { useAuthStore } from "../stores/useAuthStore";
+import { Url } from "~/constants/url";
+import { MenuItems } from "~/constants/menuItems";
+import { useAuthStore } from "~/stores/useAuthStore";
 
 
 const auth = useAuthStore();
@@ -10,19 +10,15 @@ const drawer = ref(false);
 
 const menuItems = computed(()=>{
   if(auth.isLoggedIn) {
-    console.log('isloggedin');
     return MenuItems
   }else {
-    console.log('beforelogin');
-    const menus = MenuItems.map((item)=> {
+    const menus = MenuItems.filter((item)=> {
       if(!item.auth) return item;
     })
     return menus;
   }
 
 })
-
-console.log(menuItems);
 
 const toggleMenu = () => {
   drawer.value = !drawer.value;
@@ -65,7 +61,6 @@ const toggleMenu = () => {
           :value="item"
           @click="item.func"
         >
-        {{ item.auth }}
             <AtomsIcons
             :name="item.icon"
             />
