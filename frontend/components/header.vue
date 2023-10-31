@@ -27,7 +27,7 @@ const toggleMenu = () => {
 
 <template>
   <div>
-    <v-app-bar class="overflow-visible px-2" prominent
+    <v-app-bar class="overflow-visible px-2"
       ><v-container class="d-flex align-center">
         <v-toolbar-title class="text-red font-weight-bold">
           <NuxtLink :to="Url.TOP"> Cycle Community </NuxtLink>
