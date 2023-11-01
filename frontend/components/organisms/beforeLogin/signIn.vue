@@ -61,6 +61,12 @@
         :val="form.password"
         class="mb-4"
       />
+      <p
+      v-show="postError"
+      class="text-body-2 text-red"
+      >
+          ※メールアドレスまたはパスワードが一致しません
+      </p>
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
@@ -91,6 +97,8 @@ const form = ref({
   errors: "",
 });
 
+const postError = ref(false);
+
 const receiveEmail = (val) => {
   form.value.email = val.val;
   form.value.errors = val.errors;
@@ -111,13 +119,15 @@ const checkFilledOut = computed(() => {
 
 const auth = useAuthStore();
 const handleLogin = async () => {
-  const res = await auth.login(form.value);
+  await auth.login(form.value)
+  .then((res)=>{
+    if (res.error.value == null) {
+      navigateTo(Url.MYPAGE);
+    }
+  }).catch((e)=>{
+    postError.value = true;
+  })
 
-  if (res.error.value == null) {
-    navigateTo(Url.MYPAGE);
-  } else {
-    navigateTo(Url.SIGNUP);
-  }
 };
 </script>
 

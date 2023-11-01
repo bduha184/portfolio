@@ -11,16 +11,18 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+
 class LoginController extends Controller
 {
     //
 
-    public function guestLogin() {
+    public function guestLogin()
+    {
         $user = User::find(1);
         Auth::login($user);
         return response()->json([
-            'message'=>'User Logged In Successfully'
-        ]);
+            'message' => 'User Logged In Successfully'
+        ],Response::HTTP_OK);
     }
 
     public function login(Request $request)
@@ -34,26 +36,25 @@ class LoginController extends Controller
             return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if (Auth::attempt($request->only(['email','password']))) {
-
-            $user = User::where('email',$request->email)->first();
-            $user->tokens()->delete();
-            $token = $user->createToken("login:user{$user->id}")->plainTextToken;
+        if (!Auth::attempt($request->only(['email', 'password']))) {
             return response()->json([
-                'user'=>$user,
-                'message'=>'User Logged In Successfully',
-                'token'=>$token
-            ], Response::HTTP_OK);
+                "error" => "invalid credentials"
+            ], Response::HTTP_UNAUTHORIZED);
         }
 
+        $user = User::where('email', $request->email)->first();
+        if(!$user) {
+            return response()->json([
+                'message' => 'User Not Found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $user->tokens()->delete();
+        $token = $user->createToken("login:user{$user->id}")->plainTextToken;
         return response()->json([
-            'status'=>false,
-            'message'=>'validation error',
-            'errors'=>$validator->errors()
-        ], Response::HTTP_INTERNAL_SERVER_ERROR);
-
-
-
+            'user' => $user,
+            'message' => 'User Logged In Successfully',
+            'token' => $token
+        ], Response::HTTP_OK);
     }
 
     public function logout()
@@ -82,17 +83,15 @@ class LoginController extends Controller
         if ($user) {
             Auth::login($user);
             return  response()->json([
-                'user'=>$user,
+                'user' => $user,
             ]);
         }
 
         return response()->json([
-            'user'=>false,
+            'user' => false,
             'provider' => $provider,
             'email' => $providerUser->getEmail(),
             'token' => $providerUser->token,
         ]);
-
-
     }
 }
