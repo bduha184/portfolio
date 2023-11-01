@@ -8,15 +8,15 @@
         :key="imageIndex"
       >
       {{ imageIndex }}
-
         <v-img :src="image" >
           <v-btn
           density="compact"
           variant="text"
           :icon="Icons.CLOSE"
-          @click="deleteImage();index = imageIndex+1;"
+          @click="deleteImage();index = imageIndex;"
           />
         </v-img>
+        {{ index }}
       </v-col>
     </v-row>
   </v-container>
@@ -34,7 +34,7 @@ const props = defineProps({
   },
 });
 
-const index = ref(0);
+const index = ref();
 
 const emits = defineEmits(["emitClick"]);
 

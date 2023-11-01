@@ -27,7 +27,10 @@
       </v-card-text>
       <v-container>
         <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-        <OrganismsDrugAndDrop @emitImages="receiveImage" />
+        <OrganismsDrugAndDrop
+        @emitImages="receiveImage"
+        :class="displayImages.length > 0 ? 'absolute opacity-0' : ''"
+        />
         <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
       </v-container>
     <OrganismsAuthRecruitTeamInfo
