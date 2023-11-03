@@ -1,45 +1,32 @@
 <template>
   <div>
     <v-container>
-        <v-row>
-          <v-col cols="12" sm="6"
-          class="text-center"
-          >
-            <AtomsBtnsSnsBtn
-            width="250"
-            >
-              <AtomsImgs
-                size="contain"
-                :src="`${config.public.appURL}/_nuxt/assets/images/google.png`"
-                width="20"
-                height="20"
-                class="absolute left-2"
-                />
-                <p>
-                  Googleで登録
-                </p>
-            </AtomsBtnsSnsBtn>
-          </v-col>
-          <v-col cols="12" sm="6"
-           class="text-center"
-          >
-
-            <AtomsBtnsSnsBtn
-            width="250"
-            >
-              <AtomsImgs
-                size="contain"
-                :src="`${config.public.appURL}/_nuxt/assets/images/twitter.png`"
-                width="20"
-                height="20"
-                class="absolute left-2"
-                />
-                <p>
-                  Lineで登録
-                </p>
-            </AtomsBtnsSnsBtn>
-          </v-col>
-        </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" class="text-center">
+          <AtomsBtnsSnsBtn width="250">
+            <AtomsImgs
+              size="contain"
+              :src="`${config.public.appURL}/_nuxt/assets/images/google.png`"
+              width="20"
+              height="20"
+              class="absolute left-2"
+            />
+            <p>Googleで登録</p>
+          </AtomsBtnsSnsBtn>
+        </v-col>
+        <v-col cols="12" sm="6" class="text-center">
+          <AtomsBtnsSnsBtn width="250">
+            <AtomsImgs
+              size="contain"
+              :src="`${config.public.appURL}/_nuxt/assets/images/twitter.png`"
+              width="20"
+              height="20"
+              class="absolute left-2"
+            />
+            <p>Lineで登録</p>
+          </AtomsBtnsSnsBtn>
+        </v-col>
+      </v-row>
     </v-container>
     <v-divider class="my-5 border-opacity-100" color="waring"></v-divider>
     <form method="POST">
@@ -50,32 +37,32 @@
         type="text"
         label="ユーザーネーム"
         @emitInput="receiveName"
-        :val="form.name"
+        :val="formValue.name"
         class="mb-4"
-        />
-        <MoleculesInput
+      />
+      <MoleculesInput
         type="email"
         label="メールアドレス"
         @emitInput="receiveEmail"
-        :val="form.email"
+        :val="formValue.email"
         class="mb-4"
-        />
-        <MoleculesInput
+      />
+      <MoleculesInput
         type="password"
         label="パスワード"
         @emitInput="receivePassword"
-        :val="form.password"
+        :val="formValue.password"
         class="mb-4"
-        />
-        <MoleculesInput
+      />
+      <MoleculesInput
         type="password"
         label="パスワード（確認）"
         @emitInput="receivePasswordConfirmation"
-        :val="form.password_confirmation"
-        :confirm="form.confirm"
+        :val="formValue.password_confirmation"
+        :confirm="formCheck.confirm"
         class="mb-4"
-        />
-        <MoleculesConcent @emitInput="receiveCheck" :val="form.check" />
+      />
+      <MoleculesConcent @emitInput="receiveCheck" :val="formCheck.check" />
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
@@ -85,6 +72,7 @@
       >
         登録
       </AtomsBtnsBaseBtn>
+      {{ auth.user }}
     </form>
   </div>
 </template>
@@ -95,35 +83,42 @@ import { ref, computed } from "vue";
 import { navigateTo } from "nuxt/app";
 import {Url} from '../../../constants/url';
 import {useRuntimeConfig} from 'nuxt/app';
+import {Message} from '~/constants/flashMessage';
+import { useFlashMessageStore } from '../../../stores/useFlashMessageStore';
 
 const config = useRuntimeConfig();
-const form = ref({
+const flashMessage = useFlashMessageStore();
+const formValue = ref({
   name: "",
   email: "",
   password: "",
   password_confirmation: "",
+});
+
+const formCheck = ref({
   check: false,
   confirm: false,
   errors:'',
-});
+
+})
 
 
 const checkFilledOut = computed(()=>{
   const fieldArray = [
-    form.value.name,
-    form.value.email,
-    form.value.password,
-    form.value.password_confirmation,
+  formValue.value.name,
+  formValue.value.email,
+  formValue.value.password,
+  formValue.value.password_confirmation,
   ];
 
-  const errors = Object.keys(form.value.errors).length;
+  const errors = Object.keys(formCheck.value.errors).length;
 
-  if (form.value.password != form.value.password_confirmation) {
-    form.value.confirm = false;
+  if (formValue.value.password != formValue.value.password_confirmation) {
+    formCheck.value.confirm = false;
   } else {
-    form.value.confirm = true;
+    formCheck.value.confirm = true;
   }
-  if (fieldArray.indexOf("") === -1 && form.value.check && errors == 0) {
+  if (fieldArray.indexOf("") === -1 && formCheck.value.check && errors == 0) {
     return true
   }else{
     return false
@@ -133,42 +128,53 @@ const checkFilledOut = computed(()=>{
 
 const auth = useAuthStore();
 const receiveName = (val) => {
-  form.value.name = val.val;
-  form.value.errors = val.errors;
+  formValue.value.name = val.val;
+  formCheck.value.errors = val.errors;
 };
 
 const receiveEmail = (val) => {
-  form.value.email = val.val;
-  form.value.errors = val.errors;
+  formValue.value.email = val.val;
+  formCheck.value.errors = val.errors;
 };
 const receivePassword = (val) => {
-  form.value.password = val.val;
-  form.value.errors = val.errors;
+  formValue.value.password = val.val;
+  formCheck.value.errors = val.errors;
 };
 const receivePasswordConfirmation = (val) => {
-  form.value.password_confirmation = val.val;
-  form.value.errors = val.errors;
+  formValue.value.password_confirmation = val.val;
+  formCheck.value.errors = val.errors;
 };
 
 const receiveCheck = (setCheck) => {
-  form.value.check = setCheck;
+  formCheck.value.check = setCheck;
 };
 const handleRegister= async ()=> {
-  const res = await auth.register(form.value);
 
-  console.log(res);
+   const res =  await auth.register(formValue.value);
+   console.log(res);
+   if(res.error.value != null){
+     const errors = res.error.value.data.errors;
+     if (errors) {
+      if(errors.name) {
+        flashMessage.setMessage(Message.REGISTERNAMEERROR,'error',8000);
+        return false;
+      }
+      if(errors.email) {
+        flashMessage.setMessage(Message.REGISTEREMAILERROR,'error',8000);
+        return false;
+      }
+     }
+   }else{
+     flashMessage.setMessage(Message.REGISTER);
+     return navigateTo(Url.MYPAGE);
 
-  if (res.error.value == null) {
-    navigateTo(Url.MYPAGE);
-  } else {
-    navigateTo(Url.SIGNUP);
-  }
+   }
+
 }
 </script>
 
 <style scoped lang="scss">
-.v-btn:deep(.v-responsive){
+.v-btn:deep(.v-responsive) {
   position: absolute !important;
 }
-
 </style>

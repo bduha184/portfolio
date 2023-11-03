@@ -113,7 +113,6 @@ class ProfileController extends Controller
                 }
 
                 return response()->json([
-                    $teams,
                     'message' => 'register successfully'
                 ], Response::HTTP_OK);
 
@@ -129,7 +128,7 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        $profile = Profile::find($id)->first();
+        $profile = Profile::find($id);
 
         if ($profile) {
             $profile->delete();

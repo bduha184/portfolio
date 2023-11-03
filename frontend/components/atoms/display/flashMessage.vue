@@ -1,37 +1,24 @@
 <template>
   <v-snackbar
-  :color="color"
-  v-model="flashMessage"
+  v-model="statusFlg"
+  :color="flashMessage.getColor"
   location="top"
-  :timeout="2000"
   >
-  <slot/>
+  {{ flashMessage.getMessage }}
   </v-snackbar>
 </template>
 
 <script setup lang="ts">
-import {ref,computed} from '#imports';
+import {ref,reactive,computed} from '#imports';
+import {useFlashMessageStore} from '~/stores/useFlashMessageStore';
 
-const props=defineProps({
-  isShow:{
-    type:Boolean,
-    default:false
-  },
-  color:{
-    type:String,
-    default:'success'
-  }
+const flashMessage = useFlashMessageStore();
+
+const status = ref(false);
+
+const statusFlg = computed(()=>{
+  return status.value = flashMessage.getStatus;
 })
-
-
-
-const flashMessage = ref(false);
-
-const test = computed(()=>{
-  return flashMessage.value= props.isShow;
-})
-// console.log(flashMessage.value);
-console.log(test);
 
 </script>
 

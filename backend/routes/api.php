@@ -23,7 +23,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        return response()->json([
+            'user'=>$request->user()
+        ]);
     });
 
     Route::controller(UserController::class)->group(function(){

@@ -1,8 +1,5 @@
 <template>
   <form>
-    <AtomsDisplayFlashMessage :isShow="isShow">
-      {{ flashMessage }}
-    </AtomsDisplayFlashMessage>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
       :path_header="teamItems.url_header_img"
@@ -124,22 +121,30 @@ import {
   clearNuxtData,
 } from "nuxt/app";
 import { Message } from "~/constants/flashMessage";
-import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onBeforeMount, computed } from "#imports";
+import { ref, onBeforeMount, computed,watch } from "#imports";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { Form } from "vee-validate";
 import { afterEach } from "node:test";
 // import { useRoute } from "vue-router";
 
-const auth = useAuthStore();
 const config = useRuntimeConfig();
+const auth = useAuthStore();
+const flash = useFlashMessageStore();
 
 const postImages = ref([]);
 const displayImages = ref([]);
 const deleteCheck = ref(false);
 const isShow = ref(false);
-const flashMessage = ref("");
+const flashMessage = ref({
+  message:'',
+  status:false,
+});
+
+watch(()=>flashMessage.value,()=>{
+  flash.setMessage(flashMessage.value.message,flashMessage.value.status);
+})
 
 const handelDelete = computed(() => {
   return (deleteCheck.value = true);
@@ -278,12 +283,12 @@ const handleRegister = async () => {
   ]).then((res) => {
     // console.log("all", res);
     // console.log(res[0].data.value);
-    isShow.value = true;
     console.log(res);
+    flashMessage.value.message = Message.REGISTER;
+    flashMessage.value.status = true;
     teamItems.value.item_id = res[0].data.value;
   });
 
-  isShow.value=false;
 };
 // console.log(teamItems.value.header_img);
 
@@ -395,6 +400,7 @@ onBeforeMount(async () => {
     ]).then((responses) => {
       responses.forEach((res) => {
         const val = res.data.value;
+        console.log(val);
         if (val != null) {
           if (val.teamItem) {
             teamItems.value.item_id = val.teamItem.id;

@@ -2,8 +2,11 @@ import {Url} from './url';
 import {Icons} from './icons';
 import { useAuthStore } from '~/stores/useAuthStore';
 import {useRouter} from '#imports';
+import {Message} from './flashMessage';
+import { useFlashMessageStore } from '~/stores/useFlashMessageStore';
 
 const router = useRouter();
+const flashMessage = useFlashMessageStore();
 
 export const MenuItems = [
     {
@@ -66,6 +69,7 @@ export const MenuItems = [
       icon: Icons.LOGOUT,
       auth: true,
       func: () => {
+        flashMessage.setMessage(Message.LOGOUT);
         useAuthStore().logout();
       }
     },

@@ -61,12 +61,6 @@
         :val="form.password"
         class="mb-4"
       />
-      <p
-      v-show="postError"
-      class="text-body-2 text-red"
-      >
-          ※メールアドレスまたはパスワードが一致しません
-      </p>
       <AtomsBtnsBaseBtn
         width="16rem"
         setColor="orange"
@@ -81,14 +75,16 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "../../../stores/useAuthStore";
-import { ref, computed } from "vue";
-import { navigateTo } from "nuxt/app";
+import { useAuthStore } from "~/stores/useAuthStore";
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
+import { ref, computed,useRuntimeConfig,navigateTo } from "#imports";
 import { useRouter } from "vue-router";
-import { Url } from "../../../constants/url";
-import {useRuntimeConfig} from 'nuxt/app';
+import { Url } from "~/constants/url";
+import { Message } from "~/constants/flashMessage";
 
 const config = useRuntimeConfig();
+const auth = useAuthStore();
+const flashMessage = useFlashMessageStore();
 
 const router = useRouter();
 const form = ref({
@@ -117,15 +113,16 @@ const checkFilledOut = computed(() => {
   }
 });
 
-const auth = useAuthStore();
+
 const handleLogin = async () => {
   await auth.login(form.value)
   .then((res)=>{
     if (res.error.value == null) {
-      navigateTo(Url.MYPAGE);
+      flashMessage.setMessage(Message.LOGIN);
+      return navigateTo(Url.MYPAGE);
     }
   }).catch((e)=>{
-    postError.value = true;
+    flashMessage.setMessage(Message.LOGINERROR,'error',6000);
   })
 
 };

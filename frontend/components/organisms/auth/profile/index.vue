@@ -55,9 +55,12 @@ import { useApiFetch } from "~/composables/useApiFetch";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useRoute } from "vue-router";
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
+import {Message} from '~/constants/flashMessage';
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();
+const flashMessage = useFlashMessageStore();
 const router = useRoute();
 
 const form = ref({
@@ -85,12 +88,15 @@ const handleRegister = async () => {
     method: "POST",
     body: formData,
   });
-  form.value.item_id = res.data.value.item_id;
-  form.value.path_header = res.data.value.path_header;
-  form.value.path_thumbnail = res.data.value.path_thumbnail;
-  form.value.introduction = res.data.value.introduction;
+  if(res.error.value == null){
+    form.value.item_id = res.data.value.item_id;
+    form.value.path_header = res.data.value.path_header;
+    form.value.path_thumbnail = res.data.value.path_thumbnail;
+    form.value.introduction = res.data.value.introduction;
+    return flashMessage.setMessage(Message.REGISTER);
+  }
+  flashMessage.setMessage(Message.REGISTERERROR,'error',6000);
 
-  return navigateTo(Url.AUTHPROFILE);
 };
 
 const handleUpdate = async () => {
@@ -110,8 +116,14 @@ const handleUpdate = async () => {
     },
   });
 
-  form.value.path_header = res.data.value.path_header;
-  form.value.path_thumbnail = res.data.value.path_thumbnail;
+  if(res.error.value == null){
+    form.value.path_header = res.data.value.path_header;
+    form.value.path_thumbnail = res.data.value.path_thumbnail;
+
+    return flashMessage.setMessage(Message.UPDATE);
+  }
+  return flashMessage.setMessage(Message.UPDATEERROR,'error',6000);
+
 };
 const handleDelete = async () => {
   const itemId = form.value.item_id;
@@ -119,6 +131,12 @@ const handleDelete = async () => {
   const res = await useApiFetch(`/api/profile/${itemId}`, {
     method: "DELETE",
   });
+  if(res.error.value == null){
+    flashMessage.setMessage(Message.DELETE);
+    return navigateTo(Url.MYPAGE);
+  }
+  return flashMessage.setMessage(Message.DELETEERROR,'error',6000);
+
 };
 
 

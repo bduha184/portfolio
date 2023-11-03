@@ -2,6 +2,7 @@
 
 <template>
   <v-app>
+    <AtomsDisplayFlashMessage/>
     <Header />
     <v-main>
       <v-container>

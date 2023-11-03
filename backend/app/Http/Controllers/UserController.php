@@ -2,44 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
 
 
-    public function register(Request $request)
+    public function register(StoreUserRequest $request)
     {
 
-        $request->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-            'password_confirmation' => ['required']
-        ]);
+        try{
+            DB::transaction(function () use ($request) {
 
-        // if ($validator->fails()) {
-        //     return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
-        // }
-        User::create([
-            'name' =>  $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+                User::create([
+                    'name' =>  $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'password_confirmation' => Hash::make($request->password_confirmation),
+                ]);
 
-        $user = User::where('email', $request->email)->first();
+                $user = User::where('email', $request->email)->first();
+                Auth::login($user, true);
+                return response()->json([
+                    'user' => $user,
+                    'User registration completed', Response::HTTP_OK
+                ]);
+            });
 
-        Auth::login($user, true);
+        }catch(\Exception $e){
+            return response()->json([
+                'errors' => $e,
+            ]);
 
-        return response()->json([
-            'user' => $user,
-            'User registration completed', Response::HTTP_OK
-        ]);
+        }
+
     }
 
     public function registerProviderUser(Request $request, string $provider)

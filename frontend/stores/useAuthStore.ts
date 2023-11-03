@@ -57,10 +57,13 @@ export const useAuthStore = defineStore(
     const isLoggedIn = computed(() => user.value !== null);
 
     async function fetchUser() {
-      const { data } = await useApiFetch("/api/user");
-      user.value = data.value as User;
+      const res = await useApiFetch("/api/user");
+      console.log(res);
+      if(res.error.value == null){
+        user.value = res.data.value.user as User;
+      }
 
-      return data.value
+      return user.value;
     }
 
     async function guestLogin(){
@@ -92,6 +95,7 @@ export const useAuthStore = defineStore(
         method: "POST",
         body: credentials,
       });
+      console.log(login);
       user.value = login.data.value.user;
 
       // await fetchUser();
@@ -102,14 +106,12 @@ export const useAuthStore = defineStore(
     async function register(info: RegistrationInfo) {
       await useApiFetch("/sanctum/csrf-cookie");
 
-      const register = await useApiFetch("/api/register", {
+      const data = await useApiFetch("/api/register", {
         method: "POST",
         body: info,
       });
-      console.log(register.data);
-      // user.value=register.data.value.user;
-
-      return register;
+      await fetchUser();
+      return data;
     }
     async function providerLogin(provider:Provider){
       await useApiFetch("/sanctum/csrf-cookie");
