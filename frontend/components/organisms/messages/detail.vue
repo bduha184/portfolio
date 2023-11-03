@@ -86,22 +86,22 @@ const checkFilledOut = computed(() => {
 const authId = auth.user.id;
 const sender_id = router.params.id;
 
-watch(pusherMessages.value, async () => {
-  const pusherData = {
-    comments: pusherMessages.value[0],
-    sender_id: authId,
-    receiver_id: sender_id,
-  };
-  if (pusherMessages.value.length > 0) {
-    await useApiFetch("/sanctum/csrf-cookie");
-    await useApiFetch("/api/message/register", {
-      method: "POST",
-      body: pusherData,
-    }).then((res) => {
-      console.log(res);
-    });
-  }
-});
+// watch(pusherMessages.value, async () => {
+//   const pusherData = {
+//     comments: pusherMessages.value[0],
+//     sender_id: authId,
+//     receiver_id: sender_id,
+//   };
+//   if (pusherMessages.value.length > 0) {
+//     await useApiFetch("/sanctum/csrf-cookie");
+//     await useApiFetch("/api/message/register", {
+//       method: "POST",
+//       body: pusherData,
+//     }).then((res) => {
+//       console.log(res);
+//     });
+//   }
+// });
 
 const allowJoinTeam = async () => {
   pusherMessages.value.push(ApprovalMessage);
