@@ -250,29 +250,29 @@ const handleRegister = async () => {
     imageData.append("images[]", image);
   });
 
-  console.log(...formData.entries());
+  // console.log(...formData.entries());
   // console.log(...teamData.entries());
-  console.log(...imageData.entries());
+  // console.log(...imageData.entries());
 
-  // await useApiFetch("/sanctum/csrf-cookie");
-  // await Promise.all([
-  //   useApiFetch("/api/team/register", {
-  //     method: "POST",
-  //     body: formData,
-  //   }),
-  //   useApiFetch("/api/image/register", {
-  //     method: "POST",
-  //     body: imageData,
-  //   }),
-  // ]).then((res) => {
-  //   // console.log(res);
-  //   if (res[0].error.value != null && res[0].error.value != null) {
-  //     return flashMessage.setMessage(Message.REGISTERERROR, "error", 6000);
-  //   }
+  await useApiFetch("/sanctum/csrf-cookie");
+  await Promise.all([
+    useApiFetch("/api/team/register", {
+      method: "POST",
+      body: formData,
+    }),
+    useApiFetch("/api/image/register", {
+      method: "POST",
+      body: imageData,
+    }),
+  ]).then((res) => {
+    // console.log(res);
+    if (res[0].error.value != null && res[0].error.value != null) {
+      return flashMessage.setMessage(Message.REGISTERERROR, "error", 6000);
+    }
 
-  //   teamItems.value.item_id = res[0].data.value;
-  //   return flashMessage.setMessage(Message.REGISTER);
-  // });
+    teamItems.value.item_id = res[0].data.value;
+    return flashMessage.setMessage(Message.REGISTER);
+  });
 };
 // console.log(teamItems.value.header_img);
 

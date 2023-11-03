@@ -11,4 +11,6 @@ export const Message = {
   LOGINERROR:'メールアドレスもしくはパスワードが一致しません',
   REGISTERNAMEERROR:'ユーザーネームは既に使用されています',
   REGISTEREMAILERROR:'登録に失敗しました。入力情報を再度ご確認ください',
+  SENDMESSAGE:'メッセージを送信しました',
+  SENDMESSAGEERROR:'メッセージを送信しました'
 }

@@ -78,11 +78,14 @@ import { ref, onBeforeMount, computed } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { useRoute } from "vue-router";
 import { useRuntimeConfig } from "nuxt/app";
+import {Message} from '~/constants/flashMessage';
+import { useFlashMessageStore } from "../../../stores/useFlashMessageStore";
 import { useApiFetch } from "../../../composables/useApiFetch";
 
 const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
+const flashMessage = useFlashMessageStore();
 
 const teamItems = ref({
   path_header: "",
@@ -169,6 +172,12 @@ const receiveClick = async () => {
     }),
   ]).then((res) => {
     console.log(res);
+    if (res[0].error.value != null && res[0].error.value != null) {
+      return flashMessage.setMessage(Message.SENDMESSAGEERROR, "error", 6000);
+    }
+
+    teamItems.value.item_id = res[0].data.value;
+    return flashMessage.setMessage(Message.SENDMESSAGE);
   });
 };
 
