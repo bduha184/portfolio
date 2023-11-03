@@ -115,15 +115,12 @@ const checkFilledOut = computed(() => {
 
 
 const handleLogin = async () => {
-  await auth.login(form.value)
-  .then((res)=>{
-    if (res.error.value == null) {
-      flashMessage.setMessage(Message.LOGIN);
-      return navigateTo(Url.MYPAGE);
+ const res =  await auth.login(form.value)
+    if (res.error.value != null) {
+      return flashMessage.setMessage(Message.LOGINERROR,'error',6000);
     }
-  }).catch((e)=>{
-    flashMessage.setMessage(Message.LOGINERROR,'error',6000);
-  })
+    flashMessage.setMessage(Message.LOGIN);
+    return navigateTo(Url.MYPAGE);
 
 };
 </script>

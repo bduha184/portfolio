@@ -15,7 +15,7 @@ export const useFlashMessageStore = defineStore({
   },
 
   actions : {
-    setMessage(message,color='success',timeout=4000){
+    setMessage(message,color='success',timeout=2000){
       this.message = message;
       this.color = color;
       this.status = true;

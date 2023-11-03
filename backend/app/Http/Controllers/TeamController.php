@@ -76,7 +76,6 @@ class TeamController extends Controller
         $team->user_id = Auth::id();
         $team->save();
 
-
         collect($request->tags)->each(function ($tagName) use ($team) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $team->tags()->attach($tag);
@@ -87,7 +86,9 @@ class TeamController extends Controller
             $team->areas()->attach($area);
         });
 
-        $team->profiles()->attach(Auth::id());
+        $profile_id = Profile::where('user_id',Auth::id())->first();
+
+        $team->profiles()->attach($profile_id);
 
         return response()->json([
             'itemId' => $team->id,
@@ -146,16 +147,14 @@ class TeamController extends Controller
         $team->user_id = Auth::id();
         $team->save();
 
-        $team->tags()->detach();
         collect($request->tags)->each(function ($tagName) use ($team) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $team->tags()->attach($tag);
+            $team->tags()->sync($tag);
         });
 
-        $team->areas()->detach();
         collect($request->areas)->each(function ($areaName) use ($team) {
             $area = Area::firstOrCreate(['name' => $areaName]);
-            $team->areas()->attach($area);
+            $team->areas()->sync($area);
         });
 
         return response()->json([

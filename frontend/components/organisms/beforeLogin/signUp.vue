@@ -72,7 +72,6 @@
       >
         登録
       </AtomsBtnsBaseBtn>
-      {{ auth.user }}
     </form>
   </div>
 </template>

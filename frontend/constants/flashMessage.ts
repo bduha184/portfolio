@@ -5,7 +5,7 @@ export const Message = {
   REGISTER:'登録しました',
   DELETE:'削除しました',
   UPDATE:'更新しました',
-  REGISTERERROR:'登録できませんでした。再度お試しください。',
+  REGISTERERROR:'登録できませんでした。<br>再度お試しください。',
   DELETEERROR:'削除できませんでした。再度お試しください。',
   UPDATEERROR:'更新できませんでした。再度お試しください。',
   LOGINERROR:'メールアドレスもしくはパスワードが一致しません',

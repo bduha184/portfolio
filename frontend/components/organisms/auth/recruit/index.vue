@@ -20,36 +20,36 @@
         placeholder="チーム紹介"
         @emitInput="receiveTeamIntroduce"
         :body="teamItems.introduction"
-        />
-      </v-card-text>
-      <v-container>
-        <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-        <OrganismsDrugAndDrop
+      />
+    </v-card-text>
+    <v-container>
+      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
+      <OrganismsDrugAndDrop
         @emitImages="receiveImage"
         :class="displayImages.length > 0 ? 'absolute opacity-0' : ''"
-        />
-        <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
-      </v-container>
+      />
+      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
+    </v-container>
     <OrganismsAuthRecruitTeamInfo
-    @emitAgeAverage="receiveAverage"
-    @emitFromAge="receiveFromAge"
-    @emitToAge="receiveToAge"
-    @emitTags="receiveTags"
-    @emitAreas="receiveAreas"
-    @emitDetailAreas="receiveDetailAreas"
-    @emitDetailActivities="receiveDetailActivities"
-    @emitActiveDateTime="receiveActiveDateTime"
-    @emitTeamUrl="receiveTeamUrl"
-    :member_count="teamItems.member_count"
-    :average="teamItems.average"
-    :from_age="teamItems.from_age"
-    :to_age="teamItems.to_age"
-    :tags="teamItems.tags"
-    :areas="teamItems.areas"
-    :detailActivities="teamItems.detailActivities"
-    :detailAreas="teamItems.detailAreas"
-    :activeDateTime="teamItems.activeDateTime"
-    :teamUrl="teamItems.teamUrl"
+      @emitAgeAverage="receiveAverage"
+      @emitFromAge="receiveFromAge"
+      @emitToAge="receiveToAge"
+      @emitTags="receiveTags"
+      @emitAreas="receiveAreas"
+      @emitDetailAreas="receiveDetailAreas"
+      @emitDetailActivities="receiveDetailActivities"
+      @emitActiveDateTime="receiveActiveDateTime"
+      @emitTeamUrl="receiveTeamUrl"
+      :member_count="teamItems.member_count"
+      :average="teamItems.average"
+      :from_age="teamItems.from_age"
+      :to_age="teamItems.to_age"
+      :tags="teamItems.tags"
+      :areas="teamItems.areas"
+      :detailActivities="teamItems.detailActivities"
+      :detailAreas="teamItems.detailAreas"
+      :activeDateTime="teamItems.activeDateTime"
+      :teamUrl="teamItems.teamUrl"
     />
     <v-container>
       <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
@@ -121,35 +121,24 @@ import {
   clearNuxtData,
 } from "nuxt/app";
 import { Message } from "~/constants/flashMessage";
-import { ref, onBeforeMount, computed,watch } from "#imports";
+import { ref, onBeforeMount, computed, watch } from "#imports";
 import { Url } from "~/constants/url";
+import { useApiFetch } from "~/composables/useApiFetch";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { Form } from "vee-validate";
-import { afterEach } from "node:test";
-// import { useRoute } from "vue-router";
 
 const config = useRuntimeConfig();
 const auth = useAuthStore();
-const flash = useFlashMessageStore();
+const flashMessage = useFlashMessageStore();
 
 const postImages = ref([]);
 const displayImages = ref([]);
 const deleteCheck = ref(false);
 const isShow = ref(false);
-const flashMessage = ref({
-  message:'',
-  status:false,
-});
-
-watch(()=>flashMessage.value,()=>{
-  flash.setMessage(flashMessage.value.message,flashMessage.value.status);
-})
-
 const handelDelete = computed(() => {
   return (deleteCheck.value = true);
 });
-
 
 const teamItems = ref({
   path_header: "",
@@ -159,12 +148,12 @@ const teamItems = ref({
   header_img: "",
   thumbnail: "",
   team_name: "",
-  average:"",
-  from_age:"",
-  to_age:"",
-  tags:[],
-  areas:[],
-  detailAreas:'',
+  average: "",
+  from_age: "",
+  to_age: "",
+  tags: [],
+  areas: [],
+  detailAreas: "",
   introduction: "",
   member_count: 0,
   detailActivities: "",
@@ -174,7 +163,6 @@ const teamItems = ref({
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
-
 
 const receiveClick = (val) => {
   displayImages.value.splice(val, 1);
@@ -206,37 +194,34 @@ const receiveProfileImage = (val: File) => {
 
 const receiveAverage = (val) => {
   teamItems.value.average = val;
-}
+};
 const receiveFromAge = (val) => {
   teamItems.value.from_age = val;
-}
+};
 const receiveToAge = (val) => {
   teamItems.value.to_age = val;
-}
+};
 const receiveTags = (val) => {
   teamItems.value.tags = val;
-}
+};
 const receiveDetailActivities = (val) => {
   teamItems.value.detailActivities = val;
-}
+};
 const receiveAreas = (val) => {
   teamItems.value.areas = val;
-}
+};
 const receiveDetailAreas = (val) => {
   teamItems.value.detailAreas = val;
-}
+};
 const receiveTeamUrl = (val) => {
   teamItems.value.teamUrl = val;
-}
+};
 
 const receiveActiveDateTime = (val) => {
   teamItems.value.activeDateTime = val;
-}
+};
 
 const handleRegister = async () => {
-  flashMessage.value = Message.REGISTER;
-  isShow.value = true;
-
   const formData = new FormData();
 
   formData.append("header_img", teamItems.value.header_img);
@@ -246,49 +231,48 @@ const handleRegister = async () => {
   formData.append("average", teamItems.value.average);
   formData.append("from_age", teamItems.value.from_age);
   formData.append("to_age", teamItems.value.to_age);
-  const tags =teamItems.value.tags;
-  tags.forEach(tag => {
-    formData.append('tags[]', tag);
-  })
+  const tags = teamItems.value.tags;
+  tags.forEach((tag) => {
+    formData.append("tags[]", tag);
+  });
   formData.append("detailActivities", teamItems.value.detailActivities);
-  const areas =teamItems.value.areas;
-  areas.forEach(area => {
-    formData.append('areas[]', area);
-  })
-  formData.append("detailAreas",teamItems.value.detailAreas);
-  formData.append("activeDateTime",teamItems.value.activeDateTime);
-  formData.append("teamUrl",teamItems.value.teamUrl);
-  formData.append("schedule",teamItems.value.schedule);
-
+  const areas = teamItems.value.areas;
+  areas.forEach((area) => {
+    formData.append("areas[]", area);
+  });
+  formData.append("detailAreas", teamItems.value.detailAreas);
+  formData.append("activeDateTime", teamItems.value.activeDateTime);
+  formData.append("teamUrl", teamItems.value.teamUrl);
+  formData.append("schedule", teamItems.value.schedule);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
 
-  // console.log(...formData.entries());
+  console.log(...formData.entries());
   // console.log(...teamData.entries());
-  // console.log(...imageData.entries());
+  console.log(...imageData.entries());
 
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    useApiFetch("/api/team/register", {
-      method: "POST",
-      body: formData,
-    }),
-    useApiFetch("/api/image/register", {
-      method: "POST",
-      body: imageData,
-    }),
-  ]).then((res) => {
-    // console.log("all", res);
-    // console.log(res[0].data.value);
-    console.log(res);
-    flashMessage.value.message = Message.REGISTER;
-    flashMessage.value.status = true;
-    teamItems.value.item_id = res[0].data.value;
-  });
+  // await useApiFetch("/sanctum/csrf-cookie");
+  // await Promise.all([
+  //   useApiFetch("/api/team/register", {
+  //     method: "POST",
+  //     body: formData,
+  //   }),
+  //   useApiFetch("/api/image/register", {
+  //     method: "POST",
+  //     body: imageData,
+  //   }),
+  // ]).then((res) => {
+  //   // console.log(res);
+  //   if (res[0].error.value != null && res[0].error.value != null) {
+  //     return flashMessage.setMessage(Message.REGISTERERROR, "error", 6000);
+  //   }
 
+  //   teamItems.value.item_id = res[0].data.value;
+  //   return flashMessage.setMessage(Message.REGISTER);
+  // });
 };
 // console.log(teamItems.value.header_img);
 
@@ -302,26 +286,25 @@ const handleUpdate = async () => {
   formData.append("average", teamItems.value.average);
   formData.append("from_age", teamItems.value.from_age);
   formData.append("to_age", teamItems.value.to_age);
-  const tags =teamItems.value.tags;
-  tags.forEach(tag => {
-    formData.append('tags[]', tag);
-  })
+  const tags = teamItems.value.tags;
+  tags.forEach((tag) => {
+    formData.append("tags[]", tag);
+  });
   formData.append("detailActivities", teamItems.value.detailActivities);
-  const areas =teamItems.value.areas;
-  areas.forEach(area => {
-    formData.append('areas[]', area);
-  })
-  formData.append("detailAreas",teamItems.value.detailAreas);
-  formData.append("activeDateTime",teamItems.value.activeDateTime);
-  formData.append("teamUrl",teamItems.value.teamUrl);
-  formData.append("schedule",teamItems.value.schedule);
-
+  const areas = teamItems.value.areas;
+  areas.forEach((area) => {
+    formData.append("areas[]", area);
+  });
+  formData.append("detailAreas", teamItems.value.detailAreas);
+  formData.append("activeDateTime", teamItems.value.activeDateTime);
+  formData.append("teamUrl", teamItems.value.teamUrl);
+  formData.append("schedule", teamItems.value.schedule);
 
   const imageData = new FormData();
   postImages.value.forEach((image) => {
     imageData.append("images[]", image);
   });
-//
+  //
   // console.log(...formData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
@@ -341,14 +324,16 @@ const handleUpdate = async () => {
       },
     }),
   ]).then((res) => {
-    console.log("all", res);
-  });
+    if (res[0].error.value != null && res[0].error.value != null) {
+      return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
+    }
 
-  return navigateTo(Url.AUTHRECRUIT);
+    teamItems.value.item_id = res[0].data.value;
+    return flashMessage.setMessage(Message.UPDATE);
+  });
 };
 
 const handleCheck = async () => {
-  flashMessage.value = Message.DELETE;
   if (deleteCheck) {
     await useApiFetch("/sanctum/csrf-cookie");
     await Promise.all([
@@ -360,7 +345,11 @@ const handleCheck = async () => {
       }),
     ]).then((res) => {
       console.log(res);
-      isShow.value = true;
+      if (res[0].error.value != null && res[0].error.value != null) {
+        return flashMessage.setMessage(Message.DELETEERROR, "error", 6000);
+      }
+
+      return flashMessage.setMessage(Message.DELETE);
     });
 
     return navigateTo(Url.AUTHRECRUIT);
@@ -368,10 +357,7 @@ const handleCheck = async () => {
 };
 
 const checkFilledOut = () => {
-  const fieldArray = [
-    teamItems.value.team_name,
-    teamItems.value.introduction,
-  ];
+  const fieldArray = [teamItems.value.team_name, teamItems.value.introduction];
 
   if (fieldArray.indexOf("") === -1) {
     return true;
@@ -393,54 +379,60 @@ const receiveImage = (val) => {
 
 onBeforeMount(async () => {
   const userId = auth.user.id;
+
   if (userId) {
     await Promise.all([
       useApiFetch(`/api/team/${userId}`),
       useApiFetch(`/api/image/${userId}`),
     ]).then((responses) => {
       responses.forEach((res) => {
-        const val = res.data.value;
-        console.log(val);
-        if (val != null) {
-          if (val.teamItem) {
-            teamItems.value.item_id = val.teamItem.id;
-            teamItems.value.url_header_img =
-              config.public.baseURL + "/storage/" + val.teamItem.header_img_path;
-            teamItems.value.url_thumbnail =
-              config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
-            teamItems.value.team_name = val.teamItem.team_name;
-            teamItems.value.introduction = val.teamItem.introduction;
-            teamItems.value.average = val.teamItem.average;
-            teamItems.value.from_age = val.teamItem.from_age;
-            teamItems.value.to_age = val.teamItem.to_age;
-            teamItems.value.detailAreas = val.teamItem.detailAreas;
-            teamItems.value.detailActivities = val.teamItem.detailActivities;
-            teamItems.value.activeDateTime = val.teamItem.activeDateTime;
-            teamItems.value.teamUrl = val.teamItem.teamUrl;
-            teamItems.value.schedule = val.teamItem.schedule;
-            teamItems.value.user_id = val.teamItem.user_id;
-          }
-          if(val.members){
-            teamItems.value.member_count = val.members.length + 1;
-          }
-          if(val.tags){
-            val.tags.forEach(tag => {
-              teamItems.value.tags.push(tag.name);
-            });
-          }
-          if(val.areas){
-            val.areas.forEach(area => {
-              teamItems.value.areas.push(area.name);
-            });
-          }
+        if (res.error.value == null) {
+          const val = res.data.value;
+          if (val != null) {
+            if (val.teamItem) {
+              teamItems.value.item_id = val.teamItem.id;
+              teamItems.value.url_header_img =
+                config.public.baseURL +
+                "/storage/" +
+                val.teamItem.header_img_path;
+              teamItems.value.url_thumbnail =
+                config.public.baseURL +
+                "/storage/" +
+                val.teamItem.thumbnail_path;
+              teamItems.value.team_name = val.teamItem.team_name;
+              teamItems.value.introduction = val.teamItem.introduction;
+              teamItems.value.average = val.teamItem.average;
+              teamItems.value.from_age = val.teamItem.from_age;
+              teamItems.value.to_age = val.teamItem.to_age;
+              teamItems.value.detailAreas = val.teamItem.detailAreas;
+              teamItems.value.detailActivities = val.teamItem.detailActivities;
+              teamItems.value.activeDateTime = val.teamItem.activeDateTime;
+              teamItems.value.teamUrl = val.teamItem.teamUrl;
+              teamItems.value.schedule = val.teamItem.schedule;
+              teamItems.value.user_id = val.teamItem.user_id;
+            }
+            if (val.members) {
+              teamItems.value.member_count = val.members.length + 1;
+            }
+            if (val.tags) {
+              val.tags.forEach((tag) => {
+                teamItems.value.tags.push(tag.name);
+              });
+            }
+            if (val.areas) {
+              val.areas.forEach((area) => {
+                teamItems.value.areas.push(area.name);
+              });
+            }
 
-          if(val.images){
-            val.images.forEach((image) => {
-              postImages.value.push(image);
-              displayImages.value.push(
-                config.public.baseURL + "/storage/" + image
-              );
-            });
+            if (val.images) {
+              val.images.forEach((image) => {
+                postImages.value.push(image);
+                displayImages.value.push(
+                  config.public.baseURL + "/storage/" + image
+                );
+              });
+            }
           }
         }
       });
