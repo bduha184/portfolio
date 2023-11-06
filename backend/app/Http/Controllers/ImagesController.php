@@ -36,23 +36,25 @@ class ImagesController extends Controller
     {
 
         $files=$request['images'];
-
-        if($files != null){
+        if(isset($files)){
             foreach($files as $file){
-                $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-                $image_path = $file->storeAs('uploaded/', $filename, 'public');
-                $image_paths[]=$image_path;
-            };
-            $images->image_path = serialize($image_paths);
-            $images->user_id = Auth::id();
-            $images->save();
+                    $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+                    $image_path = $file->storeAs('uploaded/', $filename, 'public');
+                    $images = new Images();
+                    $images->image_path = $image_path;
+                    $images->place = 1;
+                    $images->user_id = Auth::id();
+                    $images->save();
+                };
+            return response()->json([
+                'message'=>'image saved successfully',
+            ]);
         }
-
         return response()->json([
-            'message'=>'image saved successfully'
-            // 'image_path'=>$image_paths,
-        ]);
+            'message' => 'upload files not found'
+        ], Response::HTTP_NOT_FOUND);
     }
+
 
     /**
      * Display the specified resource.
@@ -60,20 +62,24 @@ class ImagesController extends Controller
     public function show(Images $images,$id)
     {
 
+
         if(Auth::id() == $id){
-            $get_image_info = $images->where('user_id',$id)->first();
+            $get_images = $images->where('user_id',$id)->get();
         }else{
-            $team = Team::find($id)->first();
+            $team = Team::find($id);
             $user_id = $team->user_id;
-            $get_image_info = $images->where('user_id',$user_id)->first();
+            $get_images = $images->where('user_id',$user_id)->get();
 
         }
 
-        if($get_image_info ){
-            $get_serialize_images = $get_image_info->image_path;
-            $get_images = unserialize($get_serialize_images);
+        if($get_images ){
+            $image_paths=[];
+           foreach($get_images as $image){
+                array_push($image_paths,$image->image_path);
+           }
+
             return response()->json([
-                'images'=>$get_images,
+                'images'=>$image_paths,
             ]);
         }else {
         return response()->json([
@@ -96,39 +102,28 @@ class ImagesController extends Controller
      */
     public function update(Request $request, Images $images,$id)
     {
-        $images = $images->where('user_id',$id)->first();
+        $images = $images->where('user_id',$id)->get();
+        foreach($images as $image){
+            $image->delete();
+        }
         $files = $request['images'];
-        // $image_paths=unserialize($images->image_path);
-        $exists_image_paths = unserialize($images->image_path);
 
-        if ($images) {
-            foreach($exists_image_paths as $path){
-                Storage::disk('public')->delete($path);
-            }
-
-            $image_paths=[];
-            if($files != null){
-                foreach($files as $file){
-                    if(strpos($file,'uploaded') ===  false){
-                        $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
-                        $image_path = $file->storeAs('uploaded/', $filename, 'public');
-                        array_push($image_paths,$image_path);
-                    }else{
-                        array_push($image_paths,$file);
-                    }
+        if(isset($files)){
+            foreach($files as $file){
+                    $filename = now()->format('YmdHis') . uniqid('', true) . "." . $file->extension();
+                    $image_path = $file->storeAs('uploaded/', $filename, 'public');
+                    $images = new Images();
+                    $images->image_path = $image_path;
+                    $images->place = 1;
+                    $images->user_id = Auth::id();
+                    $images->save();
                 };
-
-                $images->image_path = serialize($image_paths);
-                $images->user_id = Auth::id();
-                $images->save();
-            }
             return response()->json([
                 'message'=>'image saved successfully',
-                // 'files'=>$files,
             ]);
         }
         return response()->json([
-            'message' => 'Images not found'
+            'message' => 'upload files not found'
         ], Response::HTTP_NOT_FOUND);
     }
 

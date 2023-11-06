@@ -46,6 +46,9 @@
 <script setup lang="ts">
 import {ref} from '#imports';
 import {mdiCloudUpload} from '@mdi/js'
+import { useGalleryStore } from '~/stores/useGalleryStore';
+
+const gallery = useGalleryStore();
 
 interface Props {
   buttonTitle?: string,
@@ -78,7 +81,8 @@ const openFileSelect= () => {
 const onFileSelectChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
     const files = target.files!;
-    emits("emitImages", {files})
+    // emits("emitImages", {files})
+    gallery.setImages(files);
   }
 
   const onFileDropped = (e: DragEvent) => {
@@ -87,6 +91,7 @@ const onFileSelectChange = (e: Event) => {
       return
     }
     const files = e.dataTransfer.files;
-    emits("emitImages", {files});
+    gallery.setImages(files);
+    // emits("emitImages", {files});
 }
 </script>

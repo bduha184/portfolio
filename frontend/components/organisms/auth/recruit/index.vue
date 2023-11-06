@@ -26,10 +26,11 @@
       <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
       <OrganismsDrugAndDrop
         @emitImages="receiveImage"
-        :class="displayImages.length > 0 ? 'absolute opacity-0' : ''"
+        :class="gallery.getDisplayImages.length > 0 ? 'absolute opacity-0' : ''"
       />
-      <OrganismsGallery :images="displayImages" @emitClick="receiveClick" />
+      <OrganismsGallery :images="gallery.getDisplayImages" @emitClick="receiveClick" />
     </v-container>
+    {{ gallery.getDisplayImages }}
     <OrganismsAuthRecruitTeamInfo
       @emitAgeAverage="receiveAverage"
       @emitFromAge="receiveFromAge"
@@ -68,27 +69,6 @@
     >
       登録
     </AtomsBtnsBaseBtn>
-
-    <!-- <v-snackbar
-      :timeout="2000"
-      color="deep-purple-accent-4"
-      elevation="2"
-      location="top"
-    >
-      <template v-slot:activator="{props }">
-        <AtomsBtnsBaseBtn
-        width="16rem"
-      class="my-4 d-block mx-auto"
-      @emitClick="handleRegister"
-      v-bind="props"
-      v-if="!teamItems.item_id"
-        >
-          登録
-        </AtomsBtnsBaseBtn>
-      </template>
-
-      Snackbar with <strong>elevation="24"</strong>.
-    </v-snackbar> -->
     <AtomsBtnsBaseBtn
       width="16rem"
       setColor="orange"
@@ -127,15 +107,15 @@ import { useApiFetch } from "~/composables/useApiFetch";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { Form } from "vee-validate";
+import { useGalleryStore } from "~/stores/useGalleryStore";
 
 const config = useRuntimeConfig();
 const auth = useAuthStore();
 const flashMessage = useFlashMessageStore();
+const gallery = useGalleryStore();
 
 const postImages = ref([]);
-const displayImages = ref([]);
 const deleteCheck = ref(false);
-const isShow = ref(false);
 const handelDelete = computed(() => {
   return (deleteCheck.value = true);
 });
@@ -165,8 +145,7 @@ const teamItems = ref({
 });
 
 const receiveClick = (val) => {
-  displayImages.value.splice(val, 1);
-  postImages.value.splice(val, 1);
+  gallery.deleteImages(val);
 };
 
 const receiveTeamName = (val) => {
@@ -246,26 +225,26 @@ const handleRegister = async () => {
   formData.append("schedule", teamItems.value.schedule);
 
   const imageData = new FormData();
-  postImages.value.forEach((image) => {
+  gallery.getImages.forEach((image) => {
     imageData.append("images[]", image);
   });
 
   // console.log(...formData.entries());
   // console.log(...teamData.entries());
-  // console.log(...imageData.entries());
+  console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
-    useApiFetch("/api/team/register", {
-      method: "POST",
-      body: formData,
-    }),
+    // useApiFetch("/api/team/register", {
+    //   method: "POST",
+    //   body: formData,
+    // }),
     useApiFetch("/api/image/register", {
       method: "POST",
       body: imageData,
     }),
   ]).then((res) => {
-    // console.log(res);
+    console.log(res);
     if (res[0].error.value != null && res[0].error.value != null) {
       return flashMessage.setMessage(Message.REGISTERERROR, "error", 6000);
     }
@@ -306,31 +285,32 @@ const handleUpdate = async () => {
   });
   //
   // console.log(...formData.entries());
+  console.log(...imageData.entries());
 
-  await useApiFetch("/sanctum/csrf-cookie");
-  await Promise.all([
-    useApiFetch(`/api/team/${auth.user.id}`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }),
-    useApiFetch(`/api/image/${auth.user.id}`, {
-      method: "POST",
-      body: imageData,
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }),
-  ]).then((res) => {
-    if (res[0].error.value != null && res[0].error.value != null) {
-      return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
-    }
+  // await useApiFetch("/sanctum/csrf-cookie");
+  // await Promise.all([
+  //   useApiFetch(`/api/team/${auth.user.id}`, {
+  //     method: "POST",
+  //     body: formData,
+  //     headers: {
+  //       "X-HTTP-Method-Override": "PUT",
+  //     },
+  //   }),
+  //   useApiFetch(`/api/image/${auth.user.id}`, {
+  //     method: "POST",
+  //     body: imageData,
+  //     headers: {
+  //       "X-HTTP-Method-Override": "PUT",
+  //     },
+  //   }),
+  // ]).then((res) => {
+  //   if (res[0].error.value != null && res[0].error.value != null) {
+  //     return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
+  //   }
 
-    teamItems.value.item_id = res[0].data.value;
-    return flashMessage.setMessage(Message.UPDATE);
-  });
+  //   teamItems.value.item_id = res[0].data.value;
+  //   return flashMessage.setMessage(Message.UPDATE);
+  // });
 };
 
 const handleCheck = async () => {
@@ -366,12 +346,9 @@ const checkFilledOut = () => {
 };
 
 const receiveImage = (val) => {
-  Array.from(val.files).map((data) => {
-    postImages.value.push(data);
-    let image = window.URL.createObjectURL(data);
-    displayImages.value.push(image);
-  });
+  gallery.setImages(val.files)
 };
+
 
 // const deleteItem = () => {
 //   toggleDelete.value = !toggleDelete.value;
@@ -422,15 +399,6 @@ onBeforeMount(async () => {
             if (val.areas) {
               val.areas.forEach((area) => {
                 teamItems.value.areas.push(area.name);
-              });
-            }
-
-            if (val.images) {
-              val.images.forEach((image) => {
-                postImages.value.push(image);
-                displayImages.value.push(
-                  config.public.baseURL + "/storage/" + image
-                );
               });
             }
           }
