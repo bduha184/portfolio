@@ -64,7 +64,7 @@ const receiveHeaderImg = (val: File) => {
   console.log(val);
   //   items.value.header_img = val.val;
   items.value.url_header_img = URL.createObjectURL(val);
-  URL.revokeObjectURL(val);
+  // URL.revokeObjectURL(val);
 };
 
 // onMounted(() =>{

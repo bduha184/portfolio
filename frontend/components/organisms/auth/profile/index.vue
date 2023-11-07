@@ -160,7 +160,7 @@ const receiveProfileImage = (val: File) => {
     form.value.thumbnail = val.val;
     form.value.url_thumbnail = URL.createObjectURL(val.val);
   }
-  URL.revokeObjectURL(val.val);
+  // URL.revokeObjectURL(val.val);
 };
 const receiveTeamIntroduce = (val) => {
   form.value.introduction = val.value;

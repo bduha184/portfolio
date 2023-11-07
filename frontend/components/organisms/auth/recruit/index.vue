@@ -30,7 +30,6 @@
       />
       <OrganismsGallery :images="gallery.getDisplayImages" @emitClick="receiveClick" />
     </v-container>
-    {{ gallery.getDisplayImages }}
     <OrganismsAuthRecruitTeamInfo
       @emitAgeAverage="receiveAverage"
       @emitFromAge="receiveFromAge"
@@ -108,6 +107,7 @@ import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { Form } from "vee-validate";
 import { useGalleryStore } from "~/stores/useGalleryStore";
+import vueGalleryClient from "../../../../plugins/vue-gallery.client";
 
 const config = useRuntimeConfig();
 const auth = useAuthStore();
@@ -168,7 +168,7 @@ const receiveProfileImage = (val: File) => {
     teamItems.value.thumbnail = val.val;
     teamItems.value.url_thumbnail = URL.createObjectURL(val.val);
   }
-  URL.revokeObjectURL(val.val);
+  // URL.revokeObjectURL(val.val);
 };
 
 const receiveAverage = (val) => {
@@ -225,7 +225,7 @@ const handleRegister = async () => {
   formData.append("schedule", teamItems.value.schedule);
 
   const imageData = new FormData();
-  gallery.getImages.forEach((image) => {
+  gallery.getPostImages.forEach((image) => {
     imageData.append("images[]", image);
   });
 
@@ -349,6 +349,12 @@ const receiveImage = (val) => {
   gallery.setImages(val.files)
 };
 
+// const displayImages = computed(()=>{
+//   const baseUrl =  config.public.baseURL + "/storage/";
+//   // gallery.getDisplayImages.forEach(image =>{
+
+//   // })
+// })
 
 // const deleteItem = () => {
 //   toggleDelete.value = !toggleDelete.value;

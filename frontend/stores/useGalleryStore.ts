@@ -4,27 +4,29 @@ export const useGalleryStore = defineStore({
 
   state: ()=>({
     images: [],
+    postImages:[],
     displayImages:[]
   }),
 
   getters : {
      getImages:(state) => state.images,
+     getPostImages:(state) => state.postImages,
      getDisplayImages:(state) => state.displayImages,
   },
 
   actions : {
     setImages(images){
       Array.from(images).map(image=>{
-        this.images.push(image);
-        const imageUrl = window.URL.createObjectURL(image);
+        this.postImages.push(image);
+        const imageUrl = URL.createObjectURL(image);
         this.displayImages.push(imageUrl);
       })
     },
     deleteImages(target){
       this.displayImages.splice(target,1);
       this.images.splice(target,1);
-    }
+    },
   },
-  persist:true,
+  persist: true
 }
 );
