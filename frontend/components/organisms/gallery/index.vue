@@ -4,28 +4,27 @@
       <v-col
         cols="4"
         class="image"
-        v-for="(image, imageIndex) in images"
-        :key="imageIndex"
+        v-for="(image, index) in images"
+        :key="index"
       >
-      {{ imageIndex }}
         <v-img :src="image" >
           <v-btn
           density="compact"
           variant="text"
           :icon="Icons.CLOSE"
-          @click="deleteImage();index = imageIndex;"
+          @click="deleteImage(index)"
           />
         </v-img>
-        {{ index }}
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-import VueGallery from "vue-gallery";
-import { ref, computed } from "vue";
-import { Icons } from "../../../constants/icons";
+import { Icons } from "~/constants/icons";
+import { useGalleryStore } from "~/stores/useGalleryStore";
+
+const gallery = useGalleryStore();
 
 const props = defineProps({
   images: {
@@ -34,12 +33,9 @@ const props = defineProps({
   },
 });
 
-const index = ref();
+const deleteImage = (target) => {
+  gallery.deleteImages(target);
 
-const emits = defineEmits(["emitClick"]);
-
-const deleteImage = () => {
-  emits("emitClick", index.value);
 };
 </script>
 

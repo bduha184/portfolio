@@ -43,25 +43,35 @@ class ProfileController extends Controller
      */
     public function store(Request $request, Profile $profile)
     {
-        $file_header = $request->file('header_img');
-        $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
-        $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');
-        $profile->header_img_path = $path_header;
+        if($request){
+            $file_header = $request->file('header_img');
+            if($file_header) {
+                $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
+                $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');
+                $profile->header_img_path = $path_header;
+            }
 
-        $file_thumbnail = $request->file('thumbnail');
-        $filename_thumbnail = now()->format('YmdHis') . uniqid('', true) . "." . $file_thumbnail->extension();
-        $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
-        $profile->thumbnail_path = $path_thumbnail;
+            $file_thumbnail = $request->file('thumbnail');
+            if($file_thumbnail){
+                $filename_thumbnail = now()->format('YmdHis') . uniqid('', true) . "." . $file_thumbnail->extension();
+                $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
+                $profile->thumbnail_path = $path_thumbnail;
+            }
 
-        $profile->introduction = $request->introduction;
-        $profile->user_id = Auth::id();
-        $profile->save();
+            $profile->introduction = $request->introduction;
+            $profile->user_id = Auth::id();
+            $profile->save();
+
+            return response()->json([
+                'path_header' => $path_header,
+                'path_thumbnail' => $path_thumbnail,
+                'item_id' => $profile->id,
+            ]);
+        }
 
         return response()->json([
-            'path_header' => $path_header,
-            'path_thumbnail' => $path_thumbnail,
-            'item_id' => $profile->id,
-        ]);
+            'message' => 'Data not found'
+        ], Response::HTTP_NOT_FOUND);
     }
 
 

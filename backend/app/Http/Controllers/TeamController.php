@@ -133,34 +133,44 @@ class TeamController extends Controller
 
         $team  = Team::where('user_id', $id)->first();
 
-        $file_header = $request->file('header_img');
-        $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
-        $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');
-        $team->header_img_path = $path_header;
+        if($team){
 
-        $file_thumbnail = $request->file('thumbnail');
-        $filename_thumbnail = now()->format('YmdHis') . uniqid('', true) . "." . $file_thumbnail->extension();
-        $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
-        $team->thumbnail_path = $path_thumbnail;
+            $file_header = $request->file('header_img');
+            if($file_header){
+                $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
+                $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');
+                $team->header_img_path = $path_header;
+            }
 
-        $team->fill($request->all());
-        $team->user_id = Auth::id();
-        $team->save();
+            $file_thumbnail = $request->file('thumbnail');
+            if($file_thumbnail){
+                $filename_thumbnail = now()->format('YmdHis') . uniqid('', true) . "." . $file_thumbnail->extension();
+                $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
+                $team->thumbnail_path = $path_thumbnail;
+            }
 
-        collect($request->tags)->each(function ($tagName) use ($team) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $team->tags()->sync($tag);
-        });
+            $team->fill($request->all());
+            $team->user_id = Auth::id();
+            $team->save();
 
-        collect($request->areas)->each(function ($areaName) use ($team) {
-            $area = Area::firstOrCreate(['name' => $areaName]);
-            $team->areas()->sync($area);
-        });
+            collect($request->tags)->each(function ($tagName) use ($team) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $team->tags()->sync($tag);
+            });
 
+            collect($request->areas)->each(function ($areaName) use ($team) {
+                $area = Area::firstOrCreate(['name' => $areaName]);
+                $team->areas()->sync($area);
+            });
+
+            return response()->json([
+               'message'=>'updated successfully'
+            ],Response::HTTP_OK);
+        }
         return response()->json([
-            'path_header' => $path_header,
-            'path_thumbnail' => $path_thumbnail,
-        ]);
+            'message' => 'Team not found'
+        ], Response::HTTP_NOT_FOUND);
+
     }
 
     /**

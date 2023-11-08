@@ -72,7 +72,7 @@
       width="16rem"
       setColor="orange"
       class="my-4 d-block mx-auto"
-      @click.once="handleUpdate"
+      @click="handleUpdate"
       :disabled="!checkFilledOut()"
       v-if="teamItems.item_id"
     >
@@ -144,9 +144,10 @@ const teamItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-const receiveClick = (val) => {
-  gallery.deleteImages(val);
-};
+// const receiveClick = (val) => {
+//   console.log(val);
+//   gallery.deleteImages(val);
+// };
 
 const receiveTeamName = (val) => {
   teamItems.value.team_name = val.value;
@@ -235,10 +236,10 @@ const handleRegister = async () => {
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
-    // useApiFetch("/api/team/register", {
-    //   method: "POST",
-    //   body: formData,
-    // }),
+    useApiFetch("/api/team/register", {
+      method: "POST",
+      body: formData,
+    }),
     useApiFetch("/api/image/register", {
       method: "POST",
       body: imageData,
@@ -280,37 +281,37 @@ const handleUpdate = async () => {
   formData.append("schedule", teamItems.value.schedule);
 
   const imageData = new FormData();
-  postImages.value.forEach((image) => {
+  gallery.getPostImages.forEach((image) => {
     imageData.append("images[]", image);
   });
   //
   // console.log(...formData.entries());
-  console.log(...imageData.entries());
+  // console.log(...imageData.entries());
 
-  // await useApiFetch("/sanctum/csrf-cookie");
-  // await Promise.all([
-  //   useApiFetch(`/api/team/${auth.user.id}`, {
-  //     method: "POST",
-  //     body: formData,
-  //     headers: {
-  //       "X-HTTP-Method-Override": "PUT",
-  //     },
-  //   }),
-  //   useApiFetch(`/api/image/${auth.user.id}`, {
-  //     method: "POST",
-  //     body: imageData,
-  //     headers: {
-  //       "X-HTTP-Method-Override": "PUT",
-  //     },
-  //   }),
-  // ]).then((res) => {
-  //   if (res[0].error.value != null && res[0].error.value != null) {
-  //     return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
-  //   }
-
-  //   teamItems.value.item_id = res[0].data.value;
-  //   return flashMessage.setMessage(Message.UPDATE);
-  // });
+  await useApiFetch("/sanctum/csrf-cookie");
+  await Promise.all([
+    useApiFetch(`/api/team/${auth.user.id}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+    useApiFetch(`/api/image/${auth.user.id}`, {
+      method: "POST",
+      body: imageData,
+      headers: {
+        "X-HTTP-Method-Override": "PUT",
+      },
+    }),
+  ]).then((res) => {
+    if (res[0].error.value != null && res[0].error.value != null) {
+      return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
+    }
+    gallery.revokeImages();
+    teamItems.value.item_id = res[0].data.value;
+    return flashMessage.setMessage(Message.UPDATE);
+  });
 };
 
 const handleCheck = async () => {
@@ -366,7 +367,7 @@ onBeforeMount(async () => {
   if (userId) {
     await Promise.all([
       useApiFetch(`/api/team/${userId}`),
-      useApiFetch(`/api/image/${userId}`),
+      // useApiFetch(`/api/image/${userId}`),
     ]).then((responses) => {
       responses.forEach((res) => {
         if (res.error.value == null) {

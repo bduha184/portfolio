@@ -16,16 +16,22 @@ export const useGalleryStore = defineStore({
 
   actions : {
     setImages(images){
-      Array.from(images).map(image=>{
+      Array.from(images).forEach(image => {
         this.postImages.push(image);
-        const imageUrl = URL.createObjectURL(image);
+        let imageUrl = URL.createObjectURL(image);
         this.displayImages.push(imageUrl);
       })
     },
     deleteImages(target){
+
       this.displayImages.splice(target,1);
-      this.images.splice(target,1);
+      this.postImages.splice(target,1);
     },
+    revokeImages(){
+      this.displayImages.forEach(image=>{
+        URL.revokeObjectURL(image);
+      })
+    }
   },
   persist: true
 }
