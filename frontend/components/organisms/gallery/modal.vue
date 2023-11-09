@@ -41,7 +41,7 @@ const deleteImage = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .v-row {
   max-height: 300px;
   overflow-y: scroll !important;
@@ -55,6 +55,14 @@ const deleteImage = () => {
   padding: 0.2rem !important;
 }
 
+.v-img{
+  &:deep(.v-responsive__sizer){
+padding-bottom: 100% !important;
+  }
+  &:deep(.v-img__img--contain){
+    object-fit: cover !important;
+  }
+}
 .blueimp-gallery {
   background: rgba(0, 0, 0, 0.85);
 }

@@ -1,63 +1,81 @@
 <template>
-  <div class="bg-white">
-    <form>
-      <AtomsDisplayFlashMessage :isShow="isShow">
-        {{ flashMessage }}
-      </AtomsDisplayFlashMessage>
-      <OrganismsImgsCardProfile
-        @emitInput="receiveProfileImage"
-        :path_header="teamItems.url_header_img"
-        :path_thumbnail="teamItems.url_thumbnail"
-        disabled="true"
-      />
-      <v-card-title class="w-60 text-body-2 text-left ml-auto">
-        <AtomsTextsHeadLine class="w-100">
-          {{ teamItems.team_name }}
-        </AtomsTextsHeadLine>
-      </v-card-title>
-      <v-card-text>
-        {{ teamItems.introduction }}
-      </v-card-text>
-      <AtomsBtnsBaseBtn
-        width="16rem"
-        height="60"
-        color="blue"
-        class="my-4 d-block mx-auto"
-        @emitClick="receiveClick"
-      >
-        チームチャット
-      </AtomsBtnsBaseBtn>
-      <v-container>
-        <AtomsTextsHeadLine class="w-100"> チームメンバー </AtomsTextsHeadLine>
-        <v-row>
-          <v-col cols="3"
-          v-for="(member, i) in members"
-          :key="i">
-          <NuxtLink
-          :to="Url.PROFILE+'/'+member.user_id"
-          >
-            <v-avatar
-            class="w-100 h-100"
-            >
-            <AtomsImgs
-            :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
-            />
-          </v-avatar>
-          </NuxtLink>
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-container>
-        <AtomsTextsHeadLine class="w-100"> 今後の予定 </AtomsTextsHeadLine>
-        <AtomsTextAreas
-        class="mt-2"
-        v-if="auth.user.id == teamItems.user_id"
+  <div>
+    <v-container class="bg-white mb-2">
+      <h6 class="text-h6">
+          <AtomsIconsSquare
+          :name="Icons.DASHBOARD"
+          color="white"
+          class="bg-red p-3 rounded"
+          size="50"
+          />
+          マイチーム
+        </h6>
+        <p>
+          <span class="font-weight-bold text-decoration-underline">
+            {{auth.user.name}}
+          </span>さんのマイチーム編集ページです
+        </p>
+    </v-container>
+    <div class="bg-white">
+      <form>
+        <AtomsDisplayFlashMessage :isShow="isShow">
+          {{ flashMessage }}
+        </AtomsDisplayFlashMessage>
+        <OrganismsImgsCardProfile
+          @emitInput="receiveProfileImage"
+          :path_header="teamItems.url_header_img"
+          :path_thumbnail="teamItems.url_thumbnail"
+          disabled="true"
         />
+        <v-card-title class="w-60 text-body-2 text-left ml-auto">
+          <AtomsTextsHeadLine class="w-100">
+            {{ teamItems.team_name }}
+          </AtomsTextsHeadLine>
+        </v-card-title>
         <v-card-text>
-
+          {{ teamItems.introduction }}
         </v-card-text>
-      </v-container>
-    </form>
+        <AtomsBtnsBaseBtn
+          width="16rem"
+          height="60"
+          color="blue"
+          class="my-4 d-block mx-auto"
+          @emitClick="receiveClick"
+        >
+          チームチャット
+        </AtomsBtnsBaseBtn>
+        <v-container>
+          <AtomsTextsHeadLine class="w-100"> チームメンバー </AtomsTextsHeadLine>
+          <v-row>
+            <v-col cols="3"
+            v-for="(member, i) in members"
+            :key="i">
+            <NuxtLink
+            :to="Url.PROFILE+'/'+member.user_id"
+            >
+              <v-avatar
+              class="w-100 h-100"
+              >
+              <AtomsImgs
+              :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
+              />
+            </v-avatar>
+            </NuxtLink>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-container>
+          <AtomsTextsHeadLine class="w-100"> 今後の予定 </AtomsTextsHeadLine>
+          <AtomsTextAreas
+          class="mt-2"
+          v-if="auth.user.id == teamItems.user_id"
+          />
+          <v-card-text>
+
+          </v-card-text>
+        </v-container>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -73,6 +91,7 @@ import { useApiFetch } from "~/composables/useApiFetch";
 import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
 import { useAuthStore } from "~/stores/useAuthStore";
+import {Icons} from '~/constants/icons';
 // import { useRoute } from "vue-router";
 
 const auth = useAuthStore();

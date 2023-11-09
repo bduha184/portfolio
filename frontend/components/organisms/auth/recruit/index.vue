@@ -308,7 +308,7 @@ const handleUpdate = async () => {
     if (res[0].error.value != null && res[0].error.value != null) {
       return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
     }
-    gallery.revokeImages();
+    // gallery.revokeImages();
     teamItems.value.item_id = res[0].data.value;
     return flashMessage.setMessage(Message.UPDATE);
   });
@@ -361,59 +361,60 @@ const receiveImage = (val) => {
 //   toggleDelete.value = !toggleDelete.value;
 // };
 
-onBeforeMount(async () => {
+
+(async ()=>{
   const userId = auth.user.id;
 
-  if (userId) {
-    await Promise.all([
-      useApiFetch(`/api/team/${userId}`),
-      // useApiFetch(`/api/image/${userId}`),
-    ]).then((responses) => {
-      responses.forEach((res) => {
-        if (res.error.value == null) {
-          const val = res.data.value;
-          if (val != null) {
-            if (val.teamItem) {
-              teamItems.value.item_id = val.teamItem.id;
-              teamItems.value.url_header_img =
-                config.public.baseURL +
-                "/storage/" +
-                val.teamItem.header_img_path;
-              teamItems.value.url_thumbnail =
-                config.public.baseURL +
-                "/storage/" +
-                val.teamItem.thumbnail_path;
-              teamItems.value.team_name = val.teamItem.team_name;
-              teamItems.value.introduction = val.teamItem.introduction;
-              teamItems.value.average = val.teamItem.average;
-              teamItems.value.from_age = val.teamItem.from_age;
-              teamItems.value.to_age = val.teamItem.to_age;
-              teamItems.value.detailAreas = val.teamItem.detailAreas;
-              teamItems.value.detailActivities = val.teamItem.detailActivities;
-              teamItems.value.activeDateTime = val.teamItem.activeDateTime;
-              teamItems.value.teamUrl = val.teamItem.teamUrl;
-              teamItems.value.schedule = val.teamItem.schedule;
-              teamItems.value.user_id = val.teamItem.user_id;
-            }
-            if (val.members) {
-              teamItems.value.member_count = val.members.length + 1;
-            }
-            if (val.tags) {
-              val.tags.forEach((tag) => {
-                teamItems.value.tags.push(tag.name);
-              });
-            }
-            if (val.areas) {
-              val.areas.forEach((area) => {
-                teamItems.value.areas.push(area.name);
-              });
-            }
+if (userId) {
+  await Promise.all([
+    useApiFetch(`/api/team/${userId}`),
+    // useApiFetch(`/api/image/${userId}`),
+  ]).then((responses) => {
+    responses.forEach((res) => {
+      if (res.error.value == null) {
+        const val = res.data.value;
+        if (val != null) {
+          if (val.teamItem) {
+            teamItems.value.item_id = val.teamItem.id;
+            teamItems.value.url_header_img =
+              config.public.baseURL +
+              "/storage/" +
+              val.teamItem.header_img_path;
+            teamItems.value.url_thumbnail =
+              config.public.baseURL +
+              "/storage/" +
+              val.teamItem.thumbnail_path;
+            teamItems.value.team_name = val.teamItem.team_name;
+            teamItems.value.introduction = val.teamItem.introduction;
+            teamItems.value.average = val.teamItem.average;
+            teamItems.value.from_age = val.teamItem.from_age;
+            teamItems.value.to_age = val.teamItem.to_age;
+            teamItems.value.detailAreas = val.teamItem.detailAreas;
+            teamItems.value.detailActivities = val.teamItem.detailActivities;
+            teamItems.value.activeDateTime = val.teamItem.activeDateTime;
+            teamItems.value.teamUrl = val.teamItem.teamUrl;
+            teamItems.value.schedule = val.teamItem.schedule;
+            teamItems.value.user_id = val.teamItem.user_id;
+          }
+          if (val.members) {
+            teamItems.value.member_count = val.members.length;
+          }
+          if (val.tags) {
+            val.tags.forEach((tag) => {
+              teamItems.value.tags.push(tag.name);
+            });
+          }
+          if (val.areas) {
+            val.areas.forEach((area) => {
+              teamItems.value.areas.push(area.name);
+            });
           }
         }
-      });
+      }
     });
-  }
-});
+  });
+}
+})();
 </script>
 
 <style lang="scss" scoped>

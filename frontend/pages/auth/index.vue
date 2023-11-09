@@ -1,5 +1,22 @@
 <template>
   <div>
+
+    <v-container class="bg-white mb-2">
+      <h6 class="text-h6">
+          <AtomsIconsSquare
+          :name="Icons.DASHBOARD"
+          color="white"
+          class="bg-red p-3 rounded"
+          size="50"
+          />
+          ダッシュボード
+        </h6>
+        <p>
+          <span class="font-weight-bold text-decoration-underline">
+            {{auth.user.name}}
+          </span>さんの管理画面です
+        </p>
+    </v-container>
     <MoleculesImgsSelect
     @emitInput="receiveHeaderImg"
     :path="items.url_header_img"
@@ -8,17 +25,7 @@
     class="h-[100px]"
     />
     <v-container class="bg-white">
-      <h6 class="text-h6">
-        <AtomsIconsSquare
-        :name="Icons.DASHBOARD"
-        color="white"
-        class="bg-red p-3 rounded"
-        size="50"
-        />
-        ダッシュボード
-      </h6>
-      <p>
-        <span class="font-weight-bold text-decoration-underline">{{auth.user.name}}</span>さんの管理画面です</p>
+
       <v-row class="text-center py-4">
         <v-col cols="6"
         v-for="(menu,i) in AuthMenus"

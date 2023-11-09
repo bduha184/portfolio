@@ -23,7 +23,6 @@ export const useGalleryStore = defineStore({
       })
     },
     deleteImages(target){
-
       this.displayImages.splice(target,1);
       this.postImages.splice(target,1);
     },

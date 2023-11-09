@@ -4,6 +4,7 @@ import vuetify from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   ssr:false,
+  // spaLoadingTemplate: false,
   devtools: { enabled: true },
   css: ['@/assets/styles/main.scss'],
   postcss: {

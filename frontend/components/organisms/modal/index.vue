@@ -41,6 +41,7 @@
             </v-col>
           </v-row>
         </v-card-actions>
+
       </v-card>
     </v-dialog>
 </template>
@@ -49,7 +50,6 @@
 import { ref, navigateTo, useRoute, onMounted, computed } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { Url } from "../../../constants/url";
-import { chownSync } from "fs";
 
 const props = defineProps({
   btnType: {
@@ -68,12 +68,15 @@ const props = defineProps({
     type: String,
     default: "※こちらの機能はログイン後にご利用いただけます。",
   },
+  userId:{
+    type:Number,
+    default:''
+  }
 });
+
 const dialog = ref(false);
 const auth = useAuthStore();
 const router = useRoute();
-const path = router.path;
-
 interface Emits {
   (e: "emitModalBtnClick"): void;
   (e: "emitModalOpen"): void;
@@ -81,14 +84,15 @@ interface Emits {
 }
 const emits = defineEmits<Emits>();
 const checkStatus = computed(() => {
-  if (auth.isLoggedIn) {
+  if(auth.isLoggedIn && props.userId == auth.user.id) {
+    return dialog.value = true;
+  }
+  if (auth.isLoggedIn && props.userId != auth.user.id) {
   // if (auth.isLoggedIn && path.indexOf("auth") == -1) {
-    return (dialog.value = false);
+    return dialog.value = false;
   }
-  if (!auth.isLoggedIn) {
+  return dialog.value = true;
   // if (!auth.isLoggedIn || auth.isLoggedIn && path.indexOf("auth") != -1) {
-    return (dialog.value = true);
-  }
 });
 
 const onClick = () => {

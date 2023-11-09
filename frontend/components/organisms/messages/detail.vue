@@ -86,22 +86,22 @@ const checkFilledOut = computed(() => {
 const authId = auth.user.id;
 const sender_id = router.params.id;
 
-// watch(pusherMessages.value, async () => {
-//   const pusherData = {
-//     comments: pusherMessages.value[0],
-//     sender_id: authId,
-//     receiver_id: sender_id,
-//   };
-//   if (pusherMessages.value.length > 0) {
-//     await useApiFetch("/sanctum/csrf-cookie");
-//     await useApiFetch("/api/message/register", {
-//       method: "POST",
-//       body: pusherData,
-//     }).then((res) => {
-//       console.log(res);
-//     });
-//   }
-// });
+watch(pusherMessages.value, async () => {
+  const pusherData = {
+    comments: pusherMessages.value[0],
+    sender_id: authId,
+    receiver_id: sender_id,
+  };
+  if (pusherMessages.value.length > 0) {
+    await useApiFetch("/sanctum/csrf-cookie");
+    await useApiFetch("/api/message/register", {
+      method: "POST",
+      body: pusherData,
+    }).then((res) => {
+      console.log(res);
+    });
+  }
+});
 
 const allowJoinTeam = async () => {
   pusherMessages.value.push(ApprovalMessage);
@@ -143,14 +143,10 @@ const receiveClick = async () => {
   // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
-// window.Echo.channel(`cycle-community`).listen(".new-message-event", (e) => {
-//   console.log(e);
-//   // messages.value.push(e.message.comments);
-//   // const senderId = router.params.id;
-//   // const res = await useApiFetch(`/api/message/sns/${senderId}`);
-//   // const val = res.data.value;
-//   // messages.value.push(...val.data);
-// });
+window.Echo.channel(`cycle-community`).listen(".new-message-event", async(e) => {
+  console.log(e);
+  messages.value.push(e.message.comments);
+});
 
 onMounted(async () => {
   request_flg.value = false;

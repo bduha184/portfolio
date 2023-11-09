@@ -23,7 +23,6 @@
 <script setup>
 import { Icons } from "~/constants/icons";
 import { useGalleryStore } from "~/stores/useGalleryStore";
-
 const gallery = useGalleryStore();
 
 const props = defineProps({
@@ -33,10 +32,21 @@ const props = defineProps({
   },
 });
 
+// const displayImages = computed(()=>{
+//   Array.from(props.images).forEach(image => {
+//         // this.postImages.push(image);
+//         // let imageUrl = URL.createObjectURL(image);
+//         // this.displayImages.push(imageUrl);
+//       })
+// })
+
+
 const deleteImage = (target) => {
   gallery.deleteImages(target);
 
 };
+
+
 </script>
 
 <style scoped>

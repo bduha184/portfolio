@@ -32,7 +32,11 @@
     <v-container class="text-center">
       <v-row>
         <v-col>
-          <OrganismsModal @emitAccordion="requestJoinTeam" color="info">
+          <OrganismsModal
+          @emitAccordion="requestJoinTeam"
+          color="info"
+          :userId ="rep.user_id"
+          >
             このチームに参加する
           </OrganismsModal>
           <MoleculesAccordionsMessage
@@ -49,7 +53,11 @@
           </MoleculesAccordionsMessage>
         </v-col>
         <v-col>
-          <OrganismsModal @emitAccordion="questionToTeam" color="secondary">
+          <OrganismsModal
+          @emitAccordion="questionToTeam"
+          color="secondary"
+          :userId ="rep.user_id"
+          >
             このチームに質問する
           </OrganismsModal>
           <MoleculesAccordionsMessage
