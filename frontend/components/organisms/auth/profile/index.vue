@@ -36,15 +36,17 @@
     >
       更新
     </AtomsBtnsBaseBtn>
-    <AtomsBtnsBaseBtn
-      width="16rem"
+    <OrganismsModal
+       v-if="form.item_id"
+      @emitModalOpen="handleCheck"
+      @emitModalBtnClick="handleDelete"
       setColor="red"
-      class="my-4 d-block mx-auto"
-      @click="handleDelete"
-      v-if="form.item_id"
+      caution="※削除すると元に戻せなくなります。削除しますか？"
+      btnValue="削除する"
+      btnType="delete"
     >
       削除
-    </AtomsBtnsBaseBtn>
+    </OrganismsModal>
   </form>
 </template>
 

@@ -6,6 +6,7 @@
     :color="color"
     @click="onClick"
     :variant="variant"
+    :disabled="disabled"
   >
   <slot/>
 </v-btn>
@@ -28,6 +29,10 @@ const props = defineProps({
   height:{
     type:Number,
     default:40
+  },
+  disabled:{
+    type:Boolean,
+    default:false
   }
 })
 

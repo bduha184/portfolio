@@ -1,49 +1,63 @@
 <template>
-    <v-dialog
+  <v-dialog
     max-width="600px"
-    persistent
+    class="m-0"
+    :persistent="persistent"
     v-model="dialog"
     hide-overlay
-    >
-    <!-- v-if="auth.isLoggedIn  ? '' : 'hide-overlay'" -->
-      <template v-slot:activator="{ props }">
+  >
+    <template v-slot:activator="{ props }">
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        class="my-4 d-block mx-auto"
+        :disabled="disabled"
+        v-bind="props"
+        :color="color"
+        @emitClick="
+          receiveClick();
+          dialog = false;
+        "
+      >
+        <slot />
+      </AtomsBtnsBaseBtn>
+    </template>
+    <v-card class="py-5 px-3" v-if="checkStatus">
+      <v-card-text class="text-red">
+        {{ caution }}
+      </v-card-text>
+      <v-card-actions class="mx-auto">
+        <v-row>
+          <v-col>
+            <AtomsBtnsBaseBtn @click="dialog = false"> 戻る </AtomsBtnsBaseBtn>
+          </v-col>
+          <v-col>
+            <AtomsBtnsBaseBtn width="10rem" :color="color" @emitClick="onClick">
+              {{ btnValue }}
+            </AtomsBtnsBaseBtn>
+          </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+
+    <v-card class="py-5 px-3" v-else>
+      <v-card-actions class="w-100 d-block mx-auto text-center">
+        <AtomsTextAreas
+          :placeholder="placeholder"
+          @emitInput="receiveBody"
+          :body="form"
+        />
         <AtomsBtnsBaseBtn
+          :disabled="true"
+          :color="color"
+          @emitClick="receiveClick"
           width="16rem"
           class="my-4 d-block mx-auto"
-          v-bind="props"
-          :color="color"
-          @emitClick="receiveClick(); dialog=false"
         >
-          <slot />
+          {{ text }}
         </AtomsBtnsBaseBtn>
-      </template>
-      <v-card class="py-5 px-3" v-if="checkStatus">
-        <v-card-text class="text-red">
-          {{ caution }}
-        </v-card-text>
-        <v-card-actions class="mx-auto">
-          <v-row>
-            <v-col>
-              <AtomsBtnsBaseBtn
-              @click="dialog = false"
-              >
-                戻る
-              </AtomsBtnsBaseBtn>
-            </v-col>
-            <v-col>
-              <AtomsBtnsBaseBtn
-                width="10rem"
-                :color="color"
-                @emitClick="onClick"
-              >
-                {{ btnValue }}
-              </AtomsBtnsBaseBtn>
-            </v-col>
-          </v-row>
-        </v-card-actions>
-
-      </v-card>
-    </v-dialog>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -68,10 +82,30 @@ const props = defineProps({
     type: String,
     default: "※こちらの機能はログイン後にご利用いただけます。",
   },
-  userId:{
-    type:Number,
-    default:''
-  }
+  userId: {
+    type: Number,
+    default: "",
+  },
+  persistent: {
+    type: String,
+    default: false,
+  },
+  placeholder: {
+    type: String,
+    default: "",
+  },
+  setColor: {
+    type: String,
+    default: "",
+  },
+  text: {
+    type: String,
+    default: "",
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const dialog = ref(false);
@@ -83,28 +117,26 @@ interface Emits {
   (e: "emitAccordion"): void;
 }
 const emits = defineEmits<Emits>();
+
+const form = ref();
+
+console.log(auth.user);
 const checkStatus = computed(() => {
-  if(auth.isLoggedIn && props.userId == auth.user.id) {
-    return dialog.value = true;
-  }
-  if (auth.isLoggedIn && props.userId != auth.user.id) {
-  // if (auth.isLoggedIn && path.indexOf("auth") == -1) {
-    return dialog.value = false;
-  }
-  return dialog.value = true;
-  // if (!auth.isLoggedIn || auth.isLoggedIn && path.indexOf("auth") != -1) {
+  if (!auth.isLoggedIn) return true;
+  if (auth.isLoggedIn && router.path.indexOf("auth") != -1) return true;
+  if (auth.isLoggedIn && props.userId == auth.user?.id) return true;
+  return false;
 });
 
 const onClick = () => {
   if (!auth.isLoggedIn) {
     return navigateTo({
-      path:Url.SIGNIN,
-      query:{
-        tab:'login'
-      }
-      })
+      path: Url.SIGNIN,
+      query: {
+        tab: "login",
+      },
+    });
   } else {
-
     if (props.btnType == "delete") {
       emits("emitModalBtnClick");
     }
@@ -112,16 +144,13 @@ const onClick = () => {
 };
 
 const receiveClick = () => {
-
   if (dialog.value == false) {
     if (auth.isLoggedIn) {
       emits("emitModalOpen");
-      emits("emitAccordion");
     } else {
-      console.log('true');
+      console.log("true");
       dialog.value = true;
     }
   }
 };
-
 </script>
