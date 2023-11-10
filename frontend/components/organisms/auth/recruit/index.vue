@@ -62,6 +62,7 @@
     </v-container>
     <AtomsBtnsBaseBtn
       width="16rem"
+      color="info"
       class="my-4 d-block mx-auto"
       @emitClick="handleRegister"
       v-if="!teamItems.item_id"
@@ -70,7 +71,7 @@
     </AtomsBtnsBaseBtn>
     <AtomsBtnsBaseBtn
       width="16rem"
-      setColor="orange"
+      color="orange"
       class="my-4 d-block mx-auto"
       @click="handleUpdate"
       :disabled="!checkFilledOut()"
@@ -82,7 +83,7 @@
       v-if="teamItems.item_id"
       @emitModalOpen="handleCheck"
       @emitModalBtnClick="handleDelete"
-      setColor="red"
+      color="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
       btnValue="削除する"
       btnType="delete"

@@ -38,6 +38,7 @@
         placeholder="伝えたい内容、参加したい理由、等を記載してください"
         text="メッセージを送信する"
         :disabled="rep.user_id == auth.user?.id"
+        @emitMessages="receiveMessages"
            >
             このチームに参加する
           </OrganismsModal>
@@ -49,6 +50,7 @@
           placeholder="質問内容を記載してください"
           text="質問内容を送信する"
           :disabled="rep.user_id == auth.user?.id"
+          @emitMessages="receiveMessages"
            >
             このチームに質問する
           </OrganismsModal>
@@ -115,11 +117,8 @@ const joinRequest = ref(false);
 
 
 const sender_id = auth.user?.id;
-const receiveBody = (val) => {
+const receiveMessages = async (val) => {
   comments.value = val;
-};
-
-const receiveClick = async () => {
   const messageData = {
     comments: comments.value,
     receiver_id: teamItems.value.user_id,

@@ -22,13 +22,14 @@
       class="my-4 d-block mx-auto"
       @click.once="handleRegister"
       :disabled="!checkFilledOut()"
+      color="info"
       v-if="!form.item_id"
     >
       登録
     </AtomsBtnsBaseBtn>
     <AtomsBtnsBaseBtn
       width="16rem"
-      setColor="orange"
+      color="orange"
       class="my-4 d-block mx-auto"
       @click.once="handleUpdate"
       :disabled="!checkFilledOut()"
@@ -40,7 +41,7 @@
        v-if="form.item_id"
       @emitModalOpen="handleCheck"
       @emitModalBtnClick="handleDelete"
-      setColor="red"
+      color="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
       btnValue="削除する"
       btnType="delete"

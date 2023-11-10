@@ -47,9 +47,9 @@
           :body="form"
         />
         <AtomsBtnsBaseBtn
-          :disabled="true"
+          :disabled="checkFilledOut"
           :color="color"
-          @emitClick="receiveClick"
+          @emitClick="sendMessage"
           width="16rem"
           class="my-4 d-block mx-auto"
         >
@@ -94,10 +94,6 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  setColor: {
-    type: String,
-    default: "",
-  },
   text: {
     type: String,
     default: "",
@@ -111,16 +107,16 @@ const props = defineProps({
 const dialog = ref(false);
 const auth = useAuthStore();
 const router = useRoute();
+const messages = ref();
 interface Emits {
   (e: "emitModalBtnClick"): void;
   (e: "emitModalOpen"): void;
-  (e: "emitAccordion"): void;
+  (e: "emitMessages",value:String): void;
 }
 const emits = defineEmits<Emits>();
 
 const form = ref();
 
-console.log(auth.user);
 const checkStatus = computed(() => {
   if (!auth.isLoggedIn) return true;
   if (auth.isLoggedIn && router.path.indexOf("auth") != -1) return true;
@@ -143,14 +139,20 @@ const onClick = () => {
   }
 };
 
-const receiveClick = () => {
-  if (dialog.value == false) {
-    if (auth.isLoggedIn) {
-      emits("emitModalOpen");
-    } else {
-      console.log("true");
-      dialog.value = true;
-    }
-  }
+const receiveBody = (val) => {
+  return (messages.value = val.value);
 };
+
+const checkFilledOut = computed(() => {
+  if (messages.value) return false;
+  return true;
+});
+
+const receiveClick = () => {
+    emits("emitModalOpen");
+  };
+  const sendMessage = () => {
+    emits("emitMessages",messages.value);
+}
+
 </script>

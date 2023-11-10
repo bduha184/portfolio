@@ -65,7 +65,7 @@
       <MoleculesConcent @emitInput="receiveCheck" :val="formCheck.check" />
       <AtomsBtnsBaseBtn
         width="16rem"
-        setColor="orange"
+        color="info"
         class="my-4 d-block mx-auto"
         :disabled="!checkFilledOut"
         @emitClick="handleRegister"

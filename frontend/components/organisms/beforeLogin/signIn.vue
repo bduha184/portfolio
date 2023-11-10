@@ -63,7 +63,7 @@
       />
       <AtomsBtnsBaseBtn
         width="16rem"
-        setColor="orange"
+        color="orange"
         class="my-4 d-block mx-auto"
         :disabled="!checkFilledOut"
         @emitClick="handleLogin"

@@ -17,13 +17,6 @@
           </span>さんの管理画面です
         </p>
     </v-container>
-    <MoleculesImgsSelect
-    @emitInput="receiveHeaderImg"
-    :path="items.url_header_img"
-    :disabled="disabled"
-    size="cover"
-    class="h-[100px]"
-    />
     <v-container class="bg-white">
 
       <v-row class="text-center py-4">
