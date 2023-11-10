@@ -32,9 +32,7 @@ return [
     ],
 
     // 'google' => [
-    //     'client_id' => '1076463058274-b5hi3e826kc2tpv1iku5ht2o73s58su7.apps.googleusercontent.com',
-    //     'client_secret' => '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',
-    //     'redirect' => 'http://localhost/login/google/callback',
+  
     //     // 'client_id' => env('GOOGLE_CLIENT_ID'),
     //     // 'client_secret' => env('GOOGLE_CLIENT_SECRET'),
     //     // 'redirect' => env('GOOGLE_CALLBACK_URL'),
