@@ -15,12 +15,16 @@ import {useRuntimeConfig} from 'nuxt/app';
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();
-const emits = defineEmits(['click']);
 
-const onClick = () => {
-  emits('click');
+interface Emits {
+(e:"emitClick"):void
 }
 
+const emits = defineEmits<Emits>();
+
+const onClick = () => {
+  emits('emitClick');
+}
 
 
 </script>

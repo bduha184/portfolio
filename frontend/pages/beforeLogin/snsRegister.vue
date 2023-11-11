@@ -1,6 +1,6 @@
 <template>
   <v-container class="bg-white">
-    <BeforeLoginSnsSignUp/>
+    <OrganismsBeforeLoginSnsSignUp/>
   </v-container>
 </template>
 <script setup lang="ts">

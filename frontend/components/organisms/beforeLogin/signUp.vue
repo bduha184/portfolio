@@ -3,7 +3,10 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="6" class="text-center">
-          <AtomsBtnsSnsBtn width="250">
+          <AtomsBtnsSnsBtn
+          width="250"
+          @emitClick="receiveClick('google')"
+          >
             <AtomsImgs
               size="contain"
               :src="`${config.public.appURL}/_nuxt/assets/images/google.png`"
@@ -170,6 +173,12 @@ const handleRegister= async ()=> {
    }
 
 }
+
+const receiveClick = async(provider)=> {
+  const res = await auth.providerLogin(provider);
+        window.location.href = res.data.value.redirect_url;
+}
+
 </script>
 
 <style scoped lang="scss">

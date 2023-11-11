@@ -7,6 +7,7 @@
           >
             <AtomsBtnsSnsBtn
             width="250"
+            @emitClick="receiveClick('google')"
             >
               <AtomsImgs
                 size="contain"
@@ -38,6 +39,9 @@
                   Lineでログイン
                 </p>
             </AtomsBtnsSnsBtn>
+          </v-col>
+          <v-col>
+            <MoleculesBtnsSnsBtn/>
           </v-col>
         </v-row>
     </v-container>
@@ -123,6 +127,13 @@ const handleLogin = async () => {
     return navigateTo(Url.MYPAGE);
 
 };
+
+
+const receiveClick = async(provider)=> {
+  const res = await auth.providerLogin(provider);
+        window.location.href = res.data.value.redirect_url;
+}
+
 </script>
 
 <style scoped lang="scss">
