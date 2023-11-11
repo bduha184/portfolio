@@ -4,7 +4,7 @@
       <div class="text-red" v-bind="props">利用規約</div>
     </template>
     <v-card class="py-5 px-3">
-      <v-card-title>
+      <v-card-title class="mx-auto">
         <h2 class="text-h4 text-center font-weight-bold">利用規約</h2>
       </v-card-title>
       <v-card-text>
@@ -161,8 +161,18 @@ const props = defineProps({
 const dialog = ref(props.name);
 </script>
 
-<style lang="scss">
+
+<style scoped lang="scss">
 ol {
   list-style: decimal;
 }
+
+.v-dialog {
+
+  &:deep(.v-card-text){
+    padding-left:15px !important;
+    padding-right:0 !important;
+  }
+}
+
 </style>

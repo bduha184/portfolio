@@ -32,45 +32,30 @@
     <v-container class="text-center">
       <v-row>
         <v-col>
-          <OrganismsModal
-          @emitAccordion="requestJoinTeam"
-          color="info"
-          :userId ="rep.user_id"
-          >
+        <OrganismsModal
+        color="info"
+        :userId ="rep.user_id"
+        placeholder="伝えたい内容、参加したい理由、等を記載してください"
+        text="メッセージを送信する"
+        :disabled="rep.user_id == auth.user?.id"
+        @emitMessages="receiveMessages"
+           >
             このチームに参加する
           </OrganismsModal>
-          <MoleculesAccordionsMessage
-            class="text-center"
-            :toggle="toggleRequest"
-            @emitInput="receiveBody"
-            @emitClick="
-              joinRequest = true;
-              receiveClick();
-            "
-            placeholder="伝えたい内容、参加したい理由、等を記載してください"
-            text="メッセージを送信する"
-          >
-          </MoleculesAccordionsMessage>
         </v-col>
         <v-col>
           <OrganismsModal
-          @emitAccordion="questionToTeam"
           color="secondary"
           :userId ="rep.user_id"
-          >
+          placeholder="質問内容を記載してください"
+          text="質問内容を送信する"
+          :disabled="rep.user_id == auth.user?.id"
+          @emitMessages="receiveMessages"
+           >
             このチームに質問する
           </OrganismsModal>
-          <MoleculesAccordionsMessage
-            class="text-center"
-            setColor="orange"
-            :toggle="toggleQuestion"
-            @emitInput="receiveBody"
-            @emitClick="receiveClick"
-            placeholder="質問内容を記載してください"
-            text="質問内容を送信する"
-          >
-          </MoleculesAccordionsMessage>
         </v-col>
+
       </v-row>
     </v-container>
     <OrganismsRecruitsRepresentative
@@ -130,30 +115,10 @@ const images = ref([]);
 const comments = ref("");
 const joinRequest = ref(false);
 
-const toggleRequest = ref(false);
-const toggleQuestion = ref(false);
 
 const sender_id = auth.user?.id;
-
-const requestJoinTeam = () => {
-  if (!auth.isLoggedIn) {
-    toggleRequest.value = false;
-  } else {
-    toggleRequest.value = true;
-  }
-};
-const questionToTeam = () => {
-  if (!auth.isLoggedIn) {
-    toggleQuestion.value = false;
-  } else {
-    toggleQuestion.value = true;
-  }
-};
-const receiveBody = (val) => {
+const receiveMessages = async (val) => {
   comments.value = val;
-};
-
-const receiveClick = async () => {
   const messageData = {
     comments: comments.value,
     receiver_id: teamItems.value.user_id,
@@ -189,7 +154,8 @@ const receiveClick = async () => {
   });
 };
 
-onBeforeMount(async () => {
+
+(async () => {
   const itemId = router.params.id;
   if (itemId) {
     await Promise.all([
@@ -251,7 +217,7 @@ onBeforeMount(async () => {
       });
     });
   }
-});
+})();
 </script>
 
 <style lang="scss" scoped>

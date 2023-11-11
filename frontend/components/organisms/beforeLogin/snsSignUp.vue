@@ -1,21 +1,30 @@
 <template>
   <div>
-    <form method="POST">
+    <h2>Googleアカウントで登録</h2>
+    <form>
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <PartsTextFieldsFormName @setName="receiveName" :name="form.name"/>
-      <PartsTextFieldsFormEmail @setEmail="receiveEmail" :name="form.email"/>
-      <PartsBtnsBaseBtn
-        place="MAIN"
+      <MoleculesInput
+        type="text"
+        label="ユーザーネーム"
+        @emitInput="receiveName"
+        :val="form.name"
+        class="mb-4"
+      />
+      <AtomsLabelsFormLabel>
+        メールアドレス
+      </AtomsLabelsFormLabel>
+      <div>{{ form.email }}</div>
+      <AtomsBtnsBaseBtn
         width="16rem"
-        setColor="orange"
-        class="my-4 d-block"
-        :disabled="!checkFilledOut()"
-        @click.prevent="snsHandleRegister"
+        color="info"
+        class="my-4 d-block mx-auto"
+        :disabled="!checkFilledOut"
+        @emitClick="handleRegister"
       >
-      登録
-    </PartsBtnsBaseBtn>
+        登録
+      </AtomsBtnsBaseBtn>
     </form>
   </div>
 </template>
@@ -25,9 +34,10 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 import {ref} from 'vue';
 import { navigateTo } from "nuxt/app";
 import {useRoute} from 'vue-router';
-
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
+import {Message} from '~/constants/flashMessage';
 const route = useRoute();
-
+const flashMessage = useFlashMessageStore();
 const form = ref({
   name:'',
   email:route.query.email,
@@ -39,7 +49,6 @@ const checkFilledOut = () => {
 
   const fieldArray = [
     form.value.name,
-    form.value.email,
   ]
 
   if(fieldArray.indexOf('') === -1){
@@ -47,21 +56,19 @@ const checkFilledOut = () => {
   }
 }
 
-
 const auth = useAuthStore();
 const receiveName= (receiveName) => {
-  form.value.name = receiveName;
+  form.value.name = receiveName.val.value;
 };
 
-const receiveEmail = (receiveEmail) => {
-  form.value.email = receiveEmail;
-};
-async function snsHandleRegister() {
+const handleRegister= async() => {
 
-  const {error} = await auth.providerRegister(form.value);
-  if(error.value == null){
+  const res = await auth.providerRegister(form.value);
+  if(res.error.value == null){
+    flashMessage.setMessage(Message.REGISTER);
     navigateTo('/auth');
   }else{
+    flashMessage.setMessage(Message.REGISTERERROR,'error',6000);
     navigateTo('/beforelogin');
   }
 }

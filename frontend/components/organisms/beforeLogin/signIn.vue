@@ -7,6 +7,7 @@
           >
             <AtomsBtnsSnsBtn
             width="250"
+            @emitClick="receiveClick('google')"
             >
               <AtomsImgs
                 size="contain"
@@ -39,6 +40,9 @@
                 </p>
             </AtomsBtnsSnsBtn>
           </v-col>
+          <v-col>
+            <MoleculesBtnsSnsBtn/>
+          </v-col>
         </v-row>
     </v-container>
     <v-divider class="my-5 border-opacity-100" color="info"></v-divider>
@@ -63,7 +67,7 @@
       />
       <AtomsBtnsBaseBtn
         width="16rem"
-        setColor="orange"
+        color="orange"
         class="my-4 d-block mx-auto"
         :disabled="!checkFilledOut"
         @emitClick="handleLogin"
@@ -123,6 +127,13 @@ const handleLogin = async () => {
     return navigateTo(Url.MYPAGE);
 
 };
+
+
+const receiveClick = async(provider)=> {
+  const res = await auth.providerLogin(provider);
+        window.location.href = res.data.value.redirect_url;
+}
+
 </script>
 
 <style scoped lang="scss">
