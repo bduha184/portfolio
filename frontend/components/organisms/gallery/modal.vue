@@ -1,27 +1,17 @@
 <template>
   <v-container>
     <VueGallery
-      :images="images"
-      :index="index"
+      :images="gallery.getImages"
+      :index="gallery.getTargetImage"
       @close="index = null"
     ></VueGallery>
-    <v-row>
-      <v-col
-        cols="4"
-        class="image"
-        v-for="(image, imageIndex) in images"
-        :key="imageIndex"
-        @click="index = imageIndex"
-      >
-        <v-img :src="image" @click="deleteImage" />
-      </v-col>
-    </v-row>
   </v-container>
 </template>
 
 <script setup>
 import VueGallery from "vue-gallery";
-import { ref, computed } from "vue";
+import { ref,computed } from "#imports";
+import { useGalleryStore } from "~/stores/useGalleryStore";
 
 const props = defineProps({
   images: {
@@ -30,15 +20,11 @@ const props = defineProps({
   },
 });
 
-const index = ref();
+const images = ref([]);
 
-console.log(index.value);
+const gallery = useGalleryStore();
 
-const emits = defineEmits(["emitClick"]);
-
-const deleteImage = () => {
-  emits("emitClick", index.value);
-};
+console.log(gallery.getTargetImage)
 </script>
 
 <style scoped lang="scss">

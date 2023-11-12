@@ -136,13 +136,19 @@ const props = defineProps({
     default:false
   }
 });
+
 const config = useRuntimeConfig();
 
 const onClick = (auth) => {
   if(auth){
   return navigateTo(Url.AFFILIATION + "/" + props.id);
   }
-  return navigateTo(Url.TEAMS + "/" + props.id);
+  return navigateTo({
+    path:Url.TEAMS + "/" + props.id,
+    query:{
+      user:props.profiles.user_id
+    }
+  });
 };
 </script>
 

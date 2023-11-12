@@ -7,6 +7,7 @@
     @click="onClick"
     :variant="variant"
     :disabled="disabled"
+    :prepend-icon="prependIcon"
   >
   <slot/>
 </v-btn>
@@ -33,6 +34,10 @@ const props = defineProps({
   disabled:{
     type:Boolean,
     default:false
+  },
+  prependIcon:{
+    type:String,
+    default:''
   }
 })
 

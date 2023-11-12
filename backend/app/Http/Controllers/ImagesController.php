@@ -61,16 +61,13 @@ class ImagesController extends Controller
      */
     public function show(Images $images,$id)
     {
-
-
-        if(Auth::id() == $id){
+        // if(Auth::id() == $id){
             $get_images = $images->where('user_id',$id)->get();
-        }else{
-            $team = Team::find($id);
-            $user_id = $team->user_id;
-            $get_images = $images->where('user_id',$user_id)->get();
-
-        }
+        // }else{
+        //     $team = Team::find($id);
+        //     $user_id = $team->user_id;
+        //     $get_images = $images->where('user_id',$user_id)->get();
+        // }
 
         if($get_images ){
             $image_paths=[];

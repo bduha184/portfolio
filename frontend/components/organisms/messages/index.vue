@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-card class="mx-auto">
+    <v-card class="mx-auto"
+    v-if="messages.length  > 0"
+    >
       <v-list>
         <v-list-item
           v-for="(message, index) in messages"
@@ -20,6 +22,11 @@
         </v-list-item>
       </v-list>
     </v-card>
+    <p class="text-red"
+    v-else
+    >
+      ※受信メッセージは0件です
+    </p>
   </div>
 </template>
 
