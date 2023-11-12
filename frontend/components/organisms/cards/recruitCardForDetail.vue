@@ -1,6 +1,5 @@
 <template>
   <v-card>
-
     <OrganismsImgsCardProfile
       :path_header="teamItems.url_header_img"
       :path_thumbnail="teamItems.url_thumbnail"
@@ -14,9 +13,7 @@
     <v-card-text>
       {{ teamItems.introduction }}
     </v-card-text>
-    <OrganismsGallery
-    :images="gallery.getImages"
-    />
+    <OrganismsGallery :images="gallery.getImages" />
     <OrganismsRecruitsTeamInfo
       :member_count="teamItems.member_count"
       :average="teamItems.average"
@@ -33,37 +30,36 @@
     <v-container class="text-center">
       <v-row>
         <v-col>
-        <OrganismsModal
-        color="info"
-        :userId ="rep.user_id"
-        placeholder="伝えたい内容、参加したい理由、等を記載してください"
-        text="メッセージを送信する"
-        :disabled="rep.user_id == auth.user?.id"
-        @emitMessages="receiveMessages"
-           >
+          <OrganismsModal
+            color="info"
+            :userId="rep.user_id"
+            placeholder="伝えたい内容、参加したい理由、等を記載してください"
+            text="メッセージを送信する"
+            :disabled="rep.user_id == auth.user?.id"
+            @emitMessages="receiveMessages"
+          >
             このチームに参加する
           </OrganismsModal>
         </v-col>
         <v-col>
           <OrganismsModal
-          color="secondary"
-          :userId ="rep.user_id"
-          placeholder="質問内容を記載してください"
-          text="質問内容を送信する"
-          :disabled="rep.user_id == auth.user?.id"
-          @emitMessages="receiveMessages"
-           >
+            color="secondary"
+            :userId="rep.user_id"
+            placeholder="質問内容を記載してください"
+            text="質問内容を送信する"
+            :disabled="rep.user_id == auth.user?.id"
+            @emitMessages="receiveMessages"
+          >
             このチームに質問する
           </OrganismsModal>
         </v-col>
-
       </v-row>
     </v-container>
 
     <OrganismsRecruitsRepresentative
-    :user_id="rep.user_id"
-    :path_thumbnail="rep.path_thumbnail"
-    :introduction="rep.introduction"
+      :user_id="rep.user_id"
+      :path_thumbnail="rep.path_thumbnail"
+      :introduction="rep.introduction"
     />
   </v-card>
 </template>
@@ -73,7 +69,7 @@ import { ref, onBeforeMount, computed } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { useRoute } from "vue-router";
 import { useRuntimeConfig } from "nuxt/app";
-import {Message} from '~/constants/flashMessage';
+import { Message } from "~/constants/flashMessage";
 import { useFlashMessageStore } from "../../../stores/useFlashMessageStore";
 import { useApiFetch } from "../../../composables/useApiFetch";
 import { useGalleryStore } from "~/stores/useGalleryStore";
@@ -109,13 +105,12 @@ const teamItems = ref({
 });
 
 const rep = ref({
-  user_id:'',
-  path_thumbnail:'',
-  introduction:'',
-})
+  user_id: "",
+  path_thumbnail: "",
+  introduction: "",
+});
 const comments = ref("");
 const joinRequest = ref(false);
-
 
 const sender_id = auth.user?.id;
 const receiveMessages = async (val) => {
@@ -155,61 +150,55 @@ const receiveMessages = async (val) => {
   });
 };
 
-
 (async () => {
   const itemId = router.params.id;
   const userId = router.query.user;
   gallery.fetchGalleryImages(userId);
   if (itemId) {
-    await Promise.all([
-      useApiFetch(`/api/team/${itemId}`),
-      ]).then((items) => {
-      items.forEach((item) => {
-        const val = item.data.value;
-        console.log(val);
-        if (val != null) {
-          if (val.teamItem) {
-            console.log(val);
-            teamItems.value.item_id = val.teamItem.id;
-            teamItems.value.url_header_img =
-              config.public.baseURL +
-              "/storage/" +
-              val.teamItem.header_img_path;
-            teamItems.value.url_thumbnail =
-              config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
-            teamItems.value.team_name = val.teamItem.team_name;
-            teamItems.value.introduction = val.teamItem.introduction;
-            teamItems.value.average = val.teamItem.average;
-            teamItems.value.from_age = val.teamItem.from_age;
-            teamItems.value.to_age = val.teamItem.to_age;
-            teamItems.value.detailAreas = val.teamItem.detailAreas;
-            teamItems.value.detailActivities = val.teamItem.detailActivities;
-            teamItems.value.activeDateTime = val.teamItem.activeDateTime;
-            teamItems.value.teamUrl = val.teamItem.teamUrl;
-            teamItems.value.schedule = val.teamItem.schedule;
-            teamItems.value.user_id = val.teamItem.user_id;
-          }
-          if (val.members) {
-            teamItems.value.member_count = val.members.length;
-          }
-          if (val.profile) {
-            rep.value.path_thumbnail =config.public.baseURL + "/storage/" +  val.profile.thumbnail_path;
-            rep.value.introduction = val.profile.introduction;
-            rep.value.user_id = val.profile.user_id;
-          }
-          if (val.tags) {
-            val.tags.forEach((tag) => {
-              teamItems.value.tags.push(tag.name);
-            });
-          }
-          if (val.areas) {
-            val.areas.forEach((area) => {
-              teamItems.value.areas.push(area.name);
-            });
-          }
+    const res = await useApiFetch(`/api/team/${itemId}`);
+    if (res.error.value == null) {
+      const val = res.data.value;
+      if (val != null) {
+        if (val.teamItem) {
+          console.log(val);
+          teamItems.value.item_id = val.teamItem.id;
+          teamItems.value.url_header_img =
+            config.public.baseURL + "/storage/" + val.teamItem.header_img_path;
+          teamItems.value.url_thumbnail =
+            config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
+          teamItems.value.team_name = val.teamItem.team_name;
+          teamItems.value.introduction = val.teamItem.introduction;
+          teamItems.value.average = val.teamItem.average;
+          teamItems.value.from_age = val.teamItem.from_age;
+          teamItems.value.to_age = val.teamItem.to_age;
+          teamItems.value.detailAreas = val.teamItem.detailAreas;
+          teamItems.value.detailActivities = val.teamItem.detailActivities;
+          teamItems.value.activeDateTime = val.teamItem.activeDateTime;
+          teamItems.value.teamUrl = val.teamItem.teamUrl;
+          teamItems.value.schedule = val.teamItem.schedule;
+          teamItems.value.user_id = val.teamItem.user_id;
         }
-      });
-    });
+        if (val.members) {
+          teamItems.value.member_count = val.members.length;
+        }
+        if (val.profile) {
+          rep.value.path_thumbnail =
+            config.public.baseURL + "/storage/" + val.profile.thumbnail_path;
+          rep.value.introduction = val.profile.introduction;
+          rep.value.user_id = val.profile.user_id;
+        }
+        if (val.tags) {
+          val.tags.forEach((tag) => {
+            teamItems.value.tags.push(tag.name);
+          });
+        }
+        if (val.areas) {
+          val.areas.forEach((area) => {
+            teamItems.value.areas.push(area.name);
+          });
+        }
+      }
+    }
   }
 })();
 </script>
