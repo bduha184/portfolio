@@ -3,6 +3,7 @@
 <template>
   <v-app>
     <AtomsDisplayFlashMessage/>
+    <OrganismsGalleryModal/>
     <Header />
     <v-main>
       <v-container>

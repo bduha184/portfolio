@@ -250,7 +250,6 @@ const handleRegister = async () => {
     if (res[0].error.value != null && res[0].error.value != null) {
       return flashMessage.setMessage(Message.REGISTERERROR, "error", 6000);
     }
-
     teamItems.value.item_id = res[0].data.value;
     return flashMessage.setMessage(Message.REGISTER);
   });

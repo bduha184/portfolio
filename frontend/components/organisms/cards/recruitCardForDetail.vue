@@ -1,5 +1,6 @@
 <template>
   <v-card>
+
     <OrganismsImgsCardProfile
       :path_header="teamItems.url_header_img"
       :path_thumbnail="teamItems.url_thumbnail"
@@ -13,8 +14,8 @@
     <v-card-text>
       {{ teamItems.introduction }}
     </v-card-text>
-    <OrganismsGalleryModal
-    :images="images"
+    <OrganismsGallery
+    :images="gallery.getImages"
     />
     <OrganismsRecruitsTeamInfo
       :member_count="teamItems.member_count"
@@ -58,6 +59,7 @@
 
       </v-row>
     </v-container>
+
     <OrganismsRecruitsRepresentative
     :user_id="rep.user_id"
     :path_thumbnail="rep.path_thumbnail"
@@ -74,7 +76,9 @@ import { useRuntimeConfig } from "nuxt/app";
 import {Message} from '~/constants/flashMessage';
 import { useFlashMessageStore } from "../../../stores/useFlashMessageStore";
 import { useApiFetch } from "../../../composables/useApiFetch";
+import { useGalleryStore } from "~/stores/useGalleryStore";
 
+const gallery = useGalleryStore();
 const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
@@ -109,9 +113,6 @@ const rep = ref({
   path_thumbnail:'',
   introduction:'',
 })
-
-const images = ref([]);
-
 const comments = ref("");
 const joinRequest = ref(false);
 
@@ -157,10 +158,11 @@ const receiveMessages = async (val) => {
 
 (async () => {
   const itemId = router.params.id;
+  const userId = router.query.user;
+  gallery.fetchGalleryImages(userId);
   if (itemId) {
     await Promise.all([
       useApiFetch(`/api/team/${itemId}`),
-      useApiFetch(`/api/image/${itemId}`),
       ]).then((items) => {
       items.forEach((item) => {
         const val = item.data.value;
@@ -203,14 +205,6 @@ const receiveMessages = async (val) => {
           if (val.areas) {
             val.areas.forEach((area) => {
               teamItems.value.areas.push(area.name);
-            });
-          }
-
-          if (val.images) {
-            val.images.forEach((image) => {
-              images.value.push(
-                config.public.baseURL + "/storage/" + image
-              );
             });
           }
         }

@@ -14,7 +14,8 @@ import {
   mdiCalendarMonth,
   mdiCloseCircleOutline,
   mdiViewDashboard,
-  mdiMessageProcessing
+  mdiMessageProcessing,
+  mdiChevronLeft
 } from "@mdi/js";
 
 
@@ -35,4 +36,5 @@ export const Icons = {
   SCHEDULE:mdiCalendarMonth,
   DASHBOARD:mdiViewDashboard,
   MESSAGES:mdiMessageProcessing,
+  BACK:mdiChevronLeft,
 }

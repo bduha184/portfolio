@@ -16,19 +16,31 @@
           </span>さんの受信メッセージ一覧ページです
         </p>
     </v-container>
-    <OrganismsMessages/>
+    <v-container class="bg-white text-center">
+      <OrganismsMessages/>
+      <AtomsBtnsBaseBtn
+          width="10rem"
+          color="info"
+          :prependIcon="Icons.BACK"
+          variant="outlined"
+          class="my-4 text-center pr-8"
+          @click="router.go(-1)"
+        >
+          戻る
+        </AtomsBtnsBaseBtn>
+    </v-container>
   </div>
 </template>
 <script setup lang="ts">
-import {definePageMeta} from '#imports';
+import {definePageMeta,useRouter} from '#imports';
 import {Url} from '../../../constants/url';
 import { useAuthStore } from '../../../stores/useAuthStore';
 import {Icons} from '~/constants/icons';
 
-
 definePageMeta({
   middleware: ["auth"]
 })
+const router = useRouter();
 
 const auth = useAuthStore();
 

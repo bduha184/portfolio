@@ -16,7 +16,7 @@
         :introduction="item.introduction"
         :id="item.id"
         :tags="item.tags"
-        :profiles="item.profiles"
+        :profiles="item.profiles[0]"
         :areas="item.areas"
         :date_time="item.activeDateTime"
       />

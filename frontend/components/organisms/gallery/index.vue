@@ -7,23 +7,29 @@
         v-for="(image, index) in images"
         :key="index"
       >
-        <v-img :src="image" >
-          <v-btn
-          density="compact"
-          variant="text"
-          :icon="Icons.CLOSE"
-          @click="deleteImage(index)"
-          />
-        </v-img>
+      <v-img :src="image"
+      @click="gallery.selectImage(index)"
+      >
+        <v-btn
+        density="compact"
+        variant="text"
+        :icon="Icons.CLOSE"
+        @click="deleteImage(index)"
+        v-if="router.path.indexOf('auth') != -1"
+        />
+      </v-img>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Icons } from "~/constants/icons";
 import { useGalleryStore } from "~/stores/useGalleryStore";
+import {useRoute} from '#imports';
 const gallery = useGalleryStore();
+
+const router = useRoute();
 
 const props = defineProps({
   images: {
@@ -31,15 +37,6 @@ const props = defineProps({
     default: [],
   },
 });
-
-// const displayImages = computed(()=>{
-//   Array.from(props.images).forEach(image => {
-//         // this.postImages.push(image);
-//         // let imageUrl = URL.createObjectURL(image);
-//         // this.displayImages.push(imageUrl);
-//       })
-// })
-
 
 const deleteImage = (target) => {
   gallery.deleteImages(target);
@@ -49,7 +46,7 @@ const deleteImage = (target) => {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .v-row {
   max-height: 300px;
   overflow: scroll !important;
@@ -59,6 +56,14 @@ const deleteImage = (target) => {
   margin-bottom: 1rem;
 }
 
+.v-img{
+  &:deep(.v-responsive__sizer){
+    padding-bottom: 100% !important;
+  }
+&:deep(.v-img__img--contain){
+  object-fit: cover;
+}
+}
 .image {
   padding: 0.2rem !important;
 }

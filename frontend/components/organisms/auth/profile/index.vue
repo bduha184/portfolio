@@ -98,7 +98,7 @@ const handleRegister = async () => {
     form.value.introduction = res.data.value.introduction;
     return flashMessage.setMessage(Message.REGISTER);
   }
-  flashMessage.setMessage(Message.REGISTERERROR,'error',6000);
+  return flashMessage.setMessage(Message.REGISTERERROR,'error',6000);
 
 };
 
