@@ -17,7 +17,7 @@ import {ref,watch} from '#imports';
 const props = defineProps({
 type:{
   type:String,
-  default:''
+  default:'text'
 },
 val:{
   type:[String,Boolean],

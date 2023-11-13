@@ -18,7 +18,7 @@ class TeamController extends Controller
     public function index()
     {
 
-        $teams = Team::latest()->with(['tags:name','areas:name','profiles'])->get();
+        $teams = Team::latest()->with(['tags:name', 'areas:name', 'profiles'])->get();
         if ($teams) {
             return response()->json([
                 'teams' => $teams,
@@ -36,10 +36,10 @@ class TeamController extends Controller
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $teams = $auth_profile->teams()->with(['tags:name','areas:name','profiles'])->get();
+            $teams = $auth_profile->teams()->with(['tags:name', 'areas:name', 'profiles'])->get();
             $affiliations = $teams->filter(fn ($team) => $team->user_id != $auth_id);
             return response()->json([
-                'profile'=>$auth_profile,
+                'profile' => $auth_profile,
                 'affiliations' => $affiliations
             ]);
         }
@@ -49,12 +49,33 @@ class TeamController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
-    /**˝
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function search_team(Request $request)
     {
-        //
+
+
+        $keywords =$request->keywords;
+        if(isset($keywords)){
+            $teams =  Team::whereHas('tags',function($query) use ($keywords){
+                            $query->whereIn('name',$keywords);
+                        })->orWhereHas('areas',function($query) use ($keywords){
+                            $query->whereIn('name',$keywords);
+                        })->orWhereIn('team_name',$keywords)
+            ->get();
+            return response()->json([
+                        'teams' => $teams,
+            ]);
+        }
+
+        // $teams = Team::latest()->with(['tags:name','areas:name','profiles'])->get();
+        // if ($teams) {
+        //     return response()->json([
+        //         'teams' => $teams,
+        //     ]);
+        // }
+
+        // return response()->json([
+        //     'message' => 'Teams not found'
+        // ], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -86,7 +107,7 @@ class TeamController extends Controller
             $team->areas()->attach($area);
         });
 
-        $profile_id = Profile::where('user_id',Auth::id())->first();
+        $profile_id = Profile::where('user_id', Auth::id())->first();
 
         $team->profiles()->attach($profile_id);
 
@@ -112,7 +133,7 @@ class TeamController extends Controller
             $teamItem = Team::where('user_id', $id)->first();
         }
         $members = $teamItem->profiles()->get();
-        $rep_profile = $teamItem->profiles()->where('user_id',$teamItem->user_id)->first();
+        $rep_profile = $teamItem->profiles()->where('user_id', $teamItem->user_id)->first();
         $tags = $teamItem->tags()->get();
         $areas = $teamItem->areas()->get();
 
@@ -133,17 +154,17 @@ class TeamController extends Controller
 
         $team  = Team::where('user_id', $id)->first();
 
-        if($team){
+        if ($team) {
 
             $file_header = $request->file('header_img');
-            if($file_header){
+            if ($file_header) {
                 $filename_header = now()->format('YmdHis') . uniqid('', true) . "." . $file_header->extension();
                 $path_header = $file_header->storeAs('uploaded/', $filename_header, 'public');
                 $team->header_img_path = $path_header;
             }
 
             $file_thumbnail = $request->file('thumbnail');
-            if($file_thumbnail){
+            if ($file_thumbnail) {
                 $filename_thumbnail = now()->format('YmdHis') . uniqid('', true) . "." . $file_thumbnail->extension();
                 $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
                 $team->thumbnail_path = $path_thumbnail;
@@ -153,24 +174,26 @@ class TeamController extends Controller
             $team->user_id = Auth::id();
             $team->save();
 
+
+            $team->tags()->detach();
             collect($request->tags)->each(function ($tagName) use ($team) {
                 $tag = Tag::firstOrCreate(['name' => $tagName]);
-                $team->tags()->sync($tag);
+                $team->tags()->attach($tag);
             });
 
+            $team->areas()->detach();
             collect($request->areas)->each(function ($areaName) use ($team) {
                 $area = Area::firstOrCreate(['name' => $areaName]);
-                $team->areas()->sync($area);
+                $team->areas()->attach($area);
             });
 
             return response()->json([
-               'message'=>'updated successfully'
-            ],Response::HTTP_OK);
+                'message' => 'updated successfully'
+            ], Response::HTTP_OK);
         }
         return response()->json([
             'message' => 'Team not found'
         ], Response::HTTP_NOT_FOUND);
-
     }
 
     /**

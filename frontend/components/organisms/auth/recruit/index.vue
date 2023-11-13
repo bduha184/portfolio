@@ -366,11 +366,7 @@ const receiveImage = (val) => {
   const userId = auth.user.id;
 
 if (userId) {
-  await Promise.all([
-    useApiFetch(`/api/team/${userId}`),
-    // useApiFetch(`/api/image/${userId}`),
-  ]).then((responses) => {
-    responses.forEach((res) => {
+const res =  await useApiFetch(`/api/team/${userId}`);
       if (res.error.value == null) {
         const val = res.data.value;
         if (val != null) {
@@ -400,20 +396,20 @@ if (userId) {
             teamItems.value.member_count = val.members.length;
           }
           if (val.tags) {
+            console.log(val.tags);
             val.tags.forEach((tag) => {
               teamItems.value.tags.push(tag.name);
             });
           }
           if (val.areas) {
+          console.log(val.areas);
             val.areas.forEach((area) => {
               teamItems.value.areas.push(area.name);
             });
           }
         }
       }
-    });
-  });
-}
+    }
 })();
 </script>
 
