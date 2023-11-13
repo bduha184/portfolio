@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 bg-white">
-      <FormKeywordsSearch />
-      <FormMultipleSearch />
+      <OrganismsSearchFormKeywordsSearch />
+      <OrganismsSearchFormMultipleSearch />
       <MoleculesCountsTeamCount
         class="mt-4"
         :val="teamItems.itemCount"

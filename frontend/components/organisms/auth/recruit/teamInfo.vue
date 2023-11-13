@@ -63,7 +63,6 @@
 
 <script setup lang="ts">
 import { ref, watch } from "#imports";
-import { emit } from "process";
 import { Ages, Averages, Levels } from "~/constants/teams";
 import { Areas } from "~/constants/areas";
 
