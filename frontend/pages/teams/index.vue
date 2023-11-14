@@ -1,14 +1,16 @@
 <template>
   <div class="p-4 bg-white">
       <OrganismsSearchFormKeywordsSearch />
-      <OrganismsSearchFormMultipleSearch />
+      <!-- <OrganismsSearchFormMultipleSearch /> -->
       <MoleculesCountsTeamCount
         class="mt-4"
-        :val="teamItems.itemCount"
+        :val="teamStore.getTeamCount"
       />
-      <OrganismsTabsRecruitTab />
+      <OrganismsTabsRecruitTab
+      @emitSelectedTab="receiveSelectedTab"
+      />
       <OrganismsCardsRecruitCardForList
-        v-for="(item, id) in teamItems.items"
+        v-for="(item, id) in teams"
         :key="id"
         :header_img_path="item.header_img_path"
         :thumbnail_path="item.thumbnail_path"
@@ -23,28 +25,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import {useTeamStore} from "~/stores/useTeamStore";
+import {ref,onMounted} from "#imports";
+const teamStore = useTeamStore();
 
-const teamItems = ref({
-  items: [],
-  itemCount: 0,
-});
+const tab = ref();
 
-onBeforeMount(async () => {
-  const res = await useApiFetch("/api/team/");
-  if(res){
-    console.log(res);
-    const items = res.data.value.teams;
-    teamItems.value.items.push(...items);
-    teamItems.value.itemCount = items.length;
+const teams = ref(teamStore.getTeams);
 
-  }
-});
-</script>
-
-<style lang="scss" scoped>
-.v-container {
-  padding-right: 0.5rem !important;
-  padding-left: 0.5rem !important;
+const receiveSelectedTab = (val)=> {
+  tab.value = val;
 }
-</style>
+
+onMounted(()=>{
+  teamStore.fetchTeams();
+});
+
+</script>

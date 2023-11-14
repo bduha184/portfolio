@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="align-center justify-between">
+    <v-row class="align-center justify-between d-sm-flex d-none">
       <OrganismsSearchFormPulldown name="エリア"/>
       <span>×</span>
       <OrganismsSearchFormPulldown name="日時"/>
@@ -13,6 +13,11 @@
       @click="onClick"
       :prepend-icon="Icons.SEARCH"
       />
+    </v-row>
+    <v-row class="align-center justify-between d-sm-none">
+      <OrganismsSearchFormPulldown name="エリア"/>
+      <OrganismsSearchFormPulldown name="日時"/>
+      <OrganismsSearchFormPulldown name="ライド種別"/>
     </v-row>
   </v-container>
 </template>
