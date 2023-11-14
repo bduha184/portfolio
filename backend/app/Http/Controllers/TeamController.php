@@ -53,29 +53,31 @@ class TeamController extends Controller
     {
 
 
-        $keywords =$request->keywords;
-        if(isset($keywords)){
-            $teams =  Team::whereHas('tags',function($query) use ($keywords){
-                            $query->whereIn('name',$keywords);
-                        })->orWhereHas('areas',function($query) use ($keywords){
-                            $query->whereIn('name',$keywords);
-                        })->orWhereIn('team_name',$keywords)
-            ->get();
+        $keywords = $request->keywords;
+        if (!empty($keywords)) {
+            $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
+                $query->whereIn('name', $keywords);
+            })->orWhereHas('areas', function ($query) use ($keywords) {
+                $query->whereIn('name', $keywords);
+            })->orWhereIn('team_name', $keywords)
+                ->with(['tags:name', 'areas:name', 'profiles'])
+                ->get();
+
+            if ($teams) {
+                return response()->json([
+                    'teams' => $teams,
+                ]);
+            }
             return response()->json([
-                        'teams' => $teams,
-            ]);
+                'message' => 'Teams not found'
+            ], Response::HTTP_NOT_FOUND);
         }
+        $teams = Team::latest()->with(['tags:name', 'areas:name', 'profiles'])->get();
 
-        // $teams = Team::latest()->with(['tags:name','areas:name','profiles'])->get();
-        // if ($teams) {
-        //     return response()->json([
-        //         'teams' => $teams,
-        //     ]);
-        // }
-
-        // return response()->json([
-        //     'message' => 'Teams not found'
-        // ], Response::HTTP_NOT_FOUND);
+        return response()->json([
+            'keywords' => $keywords,
+            'teams' => $teams,
+        ]);
     }
 
     /**

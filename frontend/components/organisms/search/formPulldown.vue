@@ -1,13 +1,12 @@
 <template>
-    <select>
-      <option selected value="">{{ name }}</option>
-    </select>
+    <v-select v-model="area" :items="Areas" solo />
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  name:String
-})
+import {ref} from "#imports";
+import {Areas} from "~/constants/areas";
+
+const area = ref();
 
 </script>
 

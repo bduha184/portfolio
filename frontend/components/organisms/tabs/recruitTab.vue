@@ -10,6 +10,7 @@
         v-for="(tab,index) in tabs"
         :key="index"
         :value="tab.value"
+        @click="onClick"
         >
       {{ tab.name }}
         </v-tab>
@@ -20,7 +21,7 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 
-const tab = ref();
+const tab = ref(null);
 
 const tabs = [
   {
@@ -37,6 +38,14 @@ const tabs = [
   },
 ]
 
+interface Emits {
+  (e:"emitSelectedTab",value:String):void;
+}
 
+const emits = defineEmits<Emits>();
+
+const onClick = ()=> {
+  emits('emitSelectedTab',tab.value);
+}
 
 </script>

@@ -27,11 +27,13 @@ const keywords = ref([]);
 const receiveKeywords = (val) => {
   keywords.value.length = 0;
 
-  const words = val.value.split(' ');
+  if(val.value){
+    const words = val.value.split(' ');
+    words.forEach(word => {
+      keywords.value.push(word);
+    });
+  }
 
-  words.forEach(word => {
-    keywords.value.push(word);
-  });
 }
 
 const onClick = ()=>{
