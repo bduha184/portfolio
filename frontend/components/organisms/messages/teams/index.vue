@@ -12,7 +12,7 @@
           "
           rounded="shaped"
           :title="message.sender_id == auth.user.id ? '' : message.title"
-          :subtitle="message.comments"
+          :subtitle="message.comment"
           class="ml-auto"
           :class="message.sender_id == auth.user.id ? 'right' : ''"
         />
@@ -78,11 +78,10 @@ const checkFilledOut = computed(() => {
   return true;
 });
 
-
 const receiveClick = async () => {
   pusherMessages.value.push(authMessage.value);
   const data = {
-    comments: authMessage.value,
+    comment: authMessage.value,
     team_id: team_id,
     sender_id: sender_id,
   };
@@ -99,10 +98,13 @@ const receiveClick = async () => {
   // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
-window.Echo.channel(`cycle-community`).listen(".new-message-event", async(e) => {
-  console.log(e);
-  messages.value.push(e.message.comments);
-});
+window.Echo.channel(`cycle-community`).listen(
+  ".new-message-event",
+  async (e) => {
+    console.log(e);
+    messages.value.push(e.message.comment);
+  }
+);
 
 onMounted(async () => {
   const teamId = router.params.id;

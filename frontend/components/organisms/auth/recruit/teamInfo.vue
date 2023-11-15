@@ -5,7 +5,7 @@
       <v-col cols="6">
         ■メンバー数
         <v-col class="text-center">
-          {{ member_count }}
+          {{ member_count }}人
         </v-col>
       </v-col>
       <v-col cols="6">
@@ -32,7 +32,7 @@
         ■チームの活動(補足)
         <AtomsTextAreas
           @emitInput="receiveTeamActivities"
-          :body="detailActivities"
+          :body="detail_activities"
         />
       </v-col>
       <v-col cols="12">
@@ -41,21 +41,18 @@
       </v-col>
       <v-col cols="12">
         ■主な活動エリア（詳細）
-        <AtomsTextAreas
-        @emitInput="receiveTeamAreas"
-        :body="detailAreas"
-        />
+        <AtomsTextAreas @emitInput="receiveTeamAreas" :body="detail_areas" />
       </v-col>
       <v-col cols="12">
         ■主な活動日時
         <AtomsTextAreas
-          @emitInput="receiveActiveDateTime"
-          :body="activeDateTime"
+          @emitInput="receiveactive_datetime"
+          :body="active_datetime"
         />
       </v-col>
       <v-col cols="12">
         ■ホームページ、ブログ等URL
-        <AtomsTextAreas @emitInput="receiveTeamUrl" :body="teamUrl" />
+        <AtomsTextAreas @emitInput="receiveteam_url" :body="team_url" />
       </v-col>
     </v-row>
   </v-container>
@@ -91,19 +88,19 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  detailActivities: {
+  detail_activities: {
     type: String,
     default: "",
   },
-  detailAreas: {
+  detail_areas: {
     type: String,
     default: "",
   },
-  activeDateTime: {
+  active_datetime: {
     type: String,
     default: "",
   },
-  teamUrl: {
+  team_url: {
     type: String,
     default: "",
   },
@@ -114,10 +111,10 @@ const fromAge = ref("");
 const toAge = ref("");
 const tags = ref([]);
 const areas = ref([]);
-const detailActivities = ref("");
-const detailAreas = ref("");
-const activeDateTime = ref("");
-const teamUrl = ref("");
+const detail_activities = ref("");
+const detail_areas = ref("");
+const active_datetime = ref("");
+const team_url = ref("");
 
 interface Emits {
   (e: "emitAgeAverage", value: String): void;
@@ -125,10 +122,10 @@ interface Emits {
   (e: "emitToAge", value: String): void;
   (e: "emitTags", value: String): void;
   (e: "emitAreas", value: String): void;
-  (e: "emitDetailActivities", value: String): void;
-  (e: "emitDetailAreas", value: String): void;
-  (e: "emitActiveDateTime", value: String): void;
-  (e: "emitTeamUrl", value: String): void;
+  (e: "emitdetail_activities", value: String): void;
+  (e: "emitdetail_areas", value: String): void;
+  (e: "emitactive_datetime", value: String): void;
+  (e: "emitteam_url", value: String): void;
 }
 const emits = defineEmits<Emits>();
 
@@ -137,19 +134,19 @@ const receiveTags = (val) => {
   return false;
 };
 const receiveTeamActivities = (val) => {
-  detailActivities.value = val.value;
+  detail_activities.value = val.value;
   return false;
 };
 const receiveTeamAreas = (val) => {
-  detailAreas.value = val.value;
+  detail_areas.value = val.value;
   return false;
 };
-const receiveTeamUrl = (val) => {
-  teamUrl.value = val.value;
+const receiveteam_url = (val) => {
+  team_url.value = val.value;
   return false;
 };
-const receiveActiveDateTime = (val) => {
-  activeDateTime.value = val.value;
+const receiveactive_datetime = (val) => {
+  active_datetime.value = val.value;
   return false;
 };
 
@@ -160,10 +157,10 @@ watch(
     toAge.value,
     tags.value,
     areas.value,
-    detailActivities.value,
-    detailAreas.value,
-    activeDateTime.value,
-    teamUrl.value,
+    detail_activities.value,
+    detail_areas.value,
+    active_datetime.value,
+    team_url.value,
   ],
   () => {
     emits("emitAgeAverage", ageAverage.value);
@@ -171,10 +168,10 @@ watch(
     emits("emitToAge", toAge.value);
     emits("emitTags", tags.value);
     emits("emitAreas", areas.value);
-    emits("emitDetailActivities", detailActivities.value);
-    emits("emitDetailAreas", detailAreas.value);
-    emits("emitActiveDateTime", activeDateTime.value);
-    emits("emitTeamUrl", teamUrl.value);
+    emits("emitdetail_activities", detail_activities.value);
+    emits("emitdetail_areas", detail_areas.value);
+    emits("emitactive_datetime", active_datetime.value);
+    emits("emitteam_url", team_url.value);
   }
 );
 watch(
@@ -184,10 +181,10 @@ watch(
     props.to_age,
     props.tags,
     props.areas,
-    props.detailActivities,
-    props.detailAreas,
-    props.activeDateTime,
-    props.teamUrl,
+    props.detail_activities,
+    props.detail_areas,
+    props.active_datetime,
+    props.team_url,
   ],
   () => {
     ageAverage.value = props.average;
@@ -195,10 +192,10 @@ watch(
     toAge.value = props.to_age;
     tags.value = props.tags;
     areas.value = props.areas;
-    detailActivities.value = props.detailActivities;
-    detailAreas.value = props.detailAreas;
-    activeDateTime.value = props.activeDateTime;
-    teamUrl.value = props.teamUrl;
+    detail_activities.value = props.detail_activities;
+    detail_areas.value = props.detail_areas;
+    active_datetime.value = props.active_datetime;
+    team_url.value = props.team_url;
   }
 );
 </script>

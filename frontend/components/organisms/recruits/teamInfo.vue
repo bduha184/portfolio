@@ -35,7 +35,7 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">ライド詳細 :</v-col>
-          <v-col>{{ detailActivities }}</v-col>
+          <v-col>{{ detail_activities }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
@@ -53,19 +53,19 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">エリア詳細 :</v-col>
-          <v-col>{{ detailAreas }}</v-col>
+          <v-col>{{ detail_areas }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
           <v-col cols="4">日時 :</v-col>
-          <v-col>{{ activeDateTime }}</v-col>
+          <v-col>{{ active_datetime }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
           <v-col cols="4">ホームページ :</v-col>
-          <v-col>{{ teamUrl }}</v-col>
+          <v-col>{{ team_url }}</v-col>
         </v-row>
       </v-list-item>
     </v-list>
@@ -98,19 +98,19 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  detailActivities: {
+  detail_activities: {
     type: String,
     default: "",
   },
-  detailAreas: {
+  detail_areas: {
     type: String,
     default: "",
   },
-  activeDateTime: {
+  active_datetime: {
     type: String,
     default: "",
   },
-  teamUrl: {
+  team_url: {
     type: String,
     default: "",
   },
@@ -132,15 +132,15 @@ const props = defineProps({
       }
     }
 
-     &.circle {
-      border-width:2px;
+    &.circle {
+      border-width: 2px;
       border: 2px solid gray;
-      border-radius:50%;
+      border-radius: 50%;
       height: 100%;
       width: 85px;
-    height: 85px;
-    margin: 0 auto;
-    text-align: center;
+      height: 85px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     & + & {
@@ -151,10 +151,9 @@ const props = defineProps({
       width: 100%;
     }
   }
-
 }
 
 .v-col {
-  padding:3px;
+  padding: 3px;
 }
 </style>

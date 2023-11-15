@@ -30,7 +30,7 @@
             <v-list-item-title
             class="pl-2"
             >
-             {{ profiles.length  }}人
+             {{ member  }}人
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -89,8 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRuntimeConfig } from "nuxt/app";
-import { navigateTo } from "nuxt/app";
+import { useRuntimeConfig,navigateTo,computed } from "#imports";
 import { Url } from "@/constants/url";
 import {Icons} from "@/constants/icons";
 
@@ -106,6 +105,10 @@ const props = defineProps({
   team_name: {
     type: String,
     default: "",
+  },
+  member: {
+    type: Number,
+    default: 0,
   },
   introduction: {
     type: String,

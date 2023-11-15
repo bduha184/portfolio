@@ -30,7 +30,7 @@ const tabs = [
   },
   {
     name:'メンバー数順',
-    value:'desc'
+    value:'member'
   },
   {
     name:'人気順',

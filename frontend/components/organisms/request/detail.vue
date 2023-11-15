@@ -12,14 +12,14 @@
         </v-card-title>
         <v-card-text> {{ requestItems.title }}さんからのコメント </v-card-text>
         <v-card-text>
-          {{ requestItems.comments }}
+          {{ requestItems.comment }}
         </v-card-text>
         <v-container>
           {{ requestItems.title }}さんをチームに招待する
           <AtomsTextAreas
             placeholder="コメント"
-            :body="comments"
-            @emitInput="receiveComments"
+            :body="comment"
+            @emitInput="receivecomment"
           />
 
           <AtomsBtnsBaseBtn
@@ -50,17 +50,17 @@ const requestItems = ref({
   path_header: "",
   path_thumbnail: "",
   title: "",
-  comments: "",
+  comment: "",
 });
 
-const comments = ref("");
+const comment = ref("");
 
-const receiveComments = (val) => {
-  comments.value = val.value;
+const receivecomment = (val) => {
+  comment.value = val.value;
 };
 
 const checkFilledOut = computed(() => {
-  if (comments.value) {
+  if (comment.value) {
     return true;
   } else {
     return false;
@@ -78,7 +78,7 @@ onMounted(async () => {
     requestItems.value.path_thumbnail =
       config.public.baseURL + "/storage/" + val.data.thumbnail_path;
     requestItems.value.title = val.data.title;
-    requestItems.value.comments = val.data.comments;
+    requestItems.value.comment = val.data.comment;
   }
 });
 </script>
