@@ -5,6 +5,7 @@ export const useTeamStore = defineStore({
 
   state: () => ({
     teams: [],
+    tab:'',
   }),
 
   getters: {
@@ -22,13 +23,14 @@ export const useTeamStore = defineStore({
         });
       }
     },
-    async fetchTeams(keywords: Array<String | Number>) {
+    async fetchTeams(keywords: Array<string | number>) {
       this.teams.length = 0;
       console.log(keywords);
       const res = await useApiFetch("/api/team/search", {
         method: "POST",
         body: {
           keywords: keywords,
+          tab:this.tab
         },
         headers: {
           "X-HTTP-Method-Override": "GET",
@@ -41,6 +43,9 @@ export const useTeamStore = defineStore({
           this.teams.push(team);
         });
       }
+    },
+    setTab(tab:string){
+      this.tab = tab;
     },
   },
 });

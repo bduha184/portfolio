@@ -54,6 +54,8 @@ class TeamController extends Controller
 
 
         $keywords = $request->keywords;
+        $tab = $request->tab;
+
         if (!empty($keywords)) {
             $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
                 $query->whereIn('name', $keywords);
@@ -63,9 +65,14 @@ class TeamController extends Controller
                 ->with(['tags:name', 'areas:name', 'profiles'])
                 ->get();
 
+            if($tab == 'desc') {
+                $teams = $teams->sortByDesc('id');
+            }
+
             if ($teams) {
                 return response()->json([
                     'teams' => $teams,
+                    'tab'=>$tab
                 ]);
             }
             return response()->json([
@@ -74,9 +81,14 @@ class TeamController extends Controller
         }
         $teams = Team::latest()->with(['tags:name', 'areas:name', 'profiles'])->get();
 
+        if($tab == 'member') {
+            $teams = $teams->sortByDesc('id');
+        }
+
         return response()->json([
             'keywords' => $keywords,
             'teams' => $teams,
+            'tab'=>$tab
         ]);
     }
 
@@ -171,6 +183,7 @@ class TeamController extends Controller
                 $path_thumbnail = $file_thumbnail->storeAs('uploaded/', $filename_thumbnail, 'public');
                 $team->thumbnail_path = $path_thumbnail;
             }
+
 
             $team->fill($request->all());
             $team->user_id = Auth::id();

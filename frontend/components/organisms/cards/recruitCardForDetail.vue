@@ -21,10 +21,10 @@
       :to_age="teamItems.to_age"
       :tags="teamItems.tags"
       :areas="teamItems.areas"
-      :detailActivities="teamItems.detailActivities"
-      :detailAreas="teamItems.detailAreas"
-      :activeDateTime="teamItems.activeDateTime"
-      :teamUrl="teamItems.teamUrl"
+      :detail_activities="teamItems.detail_activities"
+      :detail_areas="teamItems.detail_areas"
+      :active_datetime="teamItems.active_datetime"
+      :team_url="teamItems.team_url"
     />
     <OrganismsRecruitsActivities :activities="teamItems.activities" />
     <v-container class="text-center">
@@ -94,12 +94,12 @@ const teamItems = ref({
   to_age: "",
   tags: [],
   areas: [],
-  detailAreas: "",
+  detail_areas: "",
   member_count: 0,
-  detailActivities: "",
+  detail_activities: "",
   schedule: "",
-  activeDateTime: "",
-  teamUrl: "",
+  active_datetime: "",
+  team_url: "",
   url_header_img: config.public.appURL + "/images/noimage.jpg",
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
@@ -109,14 +109,15 @@ const rep = ref({
   path_thumbnail: "",
   introduction: "",
 });
-const comments = ref("");
+const comment = ref("");
 const joinRequest = ref(false);
 
 const sender_id = auth.user?.id;
 const receiveMessages = async (val) => {
-  comments.value = val;
+  joinRequest.value = true;
+  comment.value = val;
   const messageData = {
-    comments: comments.value,
+    comment: comment.value,
     receiver_id: teamItems.value.user_id,
     sender_id: auth.user?.id,
   };
@@ -171,10 +172,10 @@ const receiveMessages = async (val) => {
           teamItems.value.average = val.teamItem.average;
           teamItems.value.from_age = val.teamItem.from_age;
           teamItems.value.to_age = val.teamItem.to_age;
-          teamItems.value.detailAreas = val.teamItem.detailAreas;
-          teamItems.value.detailActivities = val.teamItem.detailActivities;
-          teamItems.value.activeDateTime = val.teamItem.activeDateTime;
-          teamItems.value.teamUrl = val.teamItem.teamUrl;
+          teamItems.value.detail_areas = val.teamItem.detail_areas;
+          teamItems.value.detail_activities = val.teamItem.detail_activities;
+          teamItems.value.active_datetime = val.teamItem.active_datetime;
+          teamItems.value.team_url = val.teamItem.team_url;
           teamItems.value.schedule = val.teamItem.schedule;
           teamItems.value.user_id = val.teamItem.user_id;
         }

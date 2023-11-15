@@ -10,7 +10,7 @@
 <script setup lang="ts">
 defineProps({
   size:{
-    type:Number,
+    type:String,
     default:35
   },
   padding:{

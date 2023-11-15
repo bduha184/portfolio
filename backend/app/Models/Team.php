@@ -14,25 +14,28 @@ class Team extends Model
         'header_img_path',
         'thumbnail_path',
         'team_name',
+        'member',
         'introduction',
         'average',
         'from_age',
         'to_age',
-        'detailActivities',
-        'detailAreas',
-        'activeDateTime',
-        'teamUrl',
+        'detail_activity',
+        'detail_area',
+        'active_datetime',
+        'team_url',
         'schedule',
     ];
 
-    public function profiles():BelongsToMany{
+    public function profiles(): BelongsToMany
+    {
         return $this->belongsToMany(Profile::class)->withTimestamps();
     }
-    public function tags():BelongsToMany{
+    public function tags(): BelongsToMany
+    {
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
-    public function areas():BelongsToMany{
+    public function areas(): BelongsToMany
+    {
         return $this->belongsToMany(Area::class)->withTimestamps();
     }
-
 }

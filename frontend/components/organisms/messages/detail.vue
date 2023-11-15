@@ -12,7 +12,7 @@
           "
           rounded="shaped"
           :title="message.sender_id == auth.user.id ? '' : message.title"
-          :subtitle="message.comments"
+          :subtitle="message.comment"
           class="ml-auto"
           :class="message.sender_id == auth.user.id ? 'right' : ''"
         />
@@ -88,7 +88,7 @@ const sender_id = router.params.id;
 
 watch(pusherMessages.value, async () => {
   const pusherData = {
-    comments: pusherMessages.value[0],
+    comment: pusherMessages.value[0],
     sender_id: authId,
     receiver_id: sender_id,
   };
@@ -109,14 +109,14 @@ const allowJoinTeam = async () => {
 
   await useApiFetch("/sanctum/csrf-cookie");
   await useApiFetch(`/api/profile/${sender_id}`, {
-      method: "POST",
-      body: {
-        request_flg: request_flg.value,
-      },
-      headers: {
-        "X-HTTP-Method-Override": "PUT",
-      },
-    }).then((res) => {
+    method: "POST",
+    body: {
+      request_flg: request_flg.value,
+    },
+    headers: {
+      "X-HTTP-Method-Override": "PUT",
+    },
+  }).then((res) => {
     console.log(res);
   });
 
@@ -126,7 +126,7 @@ const allowJoinTeam = async () => {
 const receiveClick = async () => {
   messages.value.push(authMessage.value);
   const data = {
-    comments: authMessage.value,
+    comment: authMessage.value,
     sender_id: sender_id,
     receiver_id: authId,
   };
@@ -143,10 +143,13 @@ const receiveClick = async () => {
   // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
-window.Echo.channel(`cycle-community`).listen(".new-message-event", async(e) => {
-  console.log(e);
-  messages.value.push(e.message.comments);
-});
+window.Echo.channel(`cycle-community`).listen(
+  ".new-message-event",
+  async (e) => {
+    console.log(e);
+    messages.value.push(e.message.comment);
+  }
+);
 
 onMounted(async () => {
   request_flg.value = false;

@@ -12,37 +12,38 @@ class Message extends Model
     use HasFactory;
 
     protected $fillable = [
-        'comments',
+        'comment',
         'receiver_id',
         'sender_id',
         'team_id',
     ];
 
-    public function profiles():BelongsTo{
+    public function profiles(): BelongsTo
+    {
         return $this->belongsTo(Profile::class);
     }
 
     public function getUserInfoById($auth_id)
     {
         return
-        $this
-        ->where('receiver_id', $auth_id)
-        ->whereIn('messages.id', function ($query) {
-            $query->select(DB::raw('MAX(id)'))
-                ->from('messages')
-                ->groupBy('sender_id');
-        })
-        ->select([
-            'messages.sender_id',
-            'messages.comments',
-            'profiles.request_flg',
-            'profiles.thumbnail_path',
-            'users.name',
-        ])
-        ->from('messages')
-        ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
-        ->join('users', 'messages.sender_id', '=', 'users.id')
-        ->get();
+            $this
+            ->where('receiver_id', $auth_id)
+            ->whereIn('messages.id', function ($query) {
+                $query->select(DB::raw('MAX(id)'))
+                    ->from('messages')
+                    ->groupBy('sender_id');
+            })
+            ->select([
+                'messages.sender_id',
+                'messages.comment',
+                'profiles.request_flg',
+                'profiles.thumbnail_path',
+                'users.name',
+            ])
+            ->from('messages')
+            ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
+            ->join('users', 'messages.sender_id', '=', 'users.id')
+            ->get();
     }
 
     public function getSnsMessageById($sender_id, $auth_id)
@@ -66,10 +67,9 @@ class Message extends Model
     {
         return
             $this
-            ->where('team_id',$team_id)
+            ->where('team_id', $team_id)
             ->join('profiles', 'messages.sender_id', '=', 'profiles.user_id')
             ->orderBy('messages.created_at', 'asc')
             ->get();
     }
-
 }

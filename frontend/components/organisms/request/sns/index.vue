@@ -12,21 +12,20 @@
           "
           rounded="shaped"
           :title="message.sender_id == auth.user.id ? '' : message.title"
-          :subtitle="message.comments"
+          :subtitle="message.comment"
           class="ml-auto"
           :class="message.sender_id == auth.user.id ? 'right' : ''"
         />
         <v-list-item
-        v-for="(message,index) in pusherMessages"
-        :key="index"
-        :subtitle="message"
-         class="right"
+          v-for="(message, index) in pusherMessages"
+          :key="index"
+          :subtitle="message"
+          class="right"
         />
       </v-list>
     </v-card>
     <v-form class="fixed p-2 bottom-0 left-0 w-100 bg-grey-lighten-3">
       <v-row>
-       
         <v-col cols="10">
           <AtomsInput
             class="bg-white"
@@ -50,7 +49,7 @@ import {
   useRoute,
   computed,
   onMounted,
-  watch
+  watch,
 } from "#imports";
 import { useAuthStore } from "../../../../stores/useAuthStore";
 import { Url } from "../../../../constants/url";
@@ -70,7 +69,7 @@ const senderId = auth.user.id;
 const receiveClick = async () => {
   pusherMessages.value.push(authMessage.value);
   const data = {
-    comments: authMessage.value,
+    comment: authMessage.value,
     sender_id: auth.user.id,
     receiver_id: router.params.id,
     distinction: "all",
@@ -90,7 +89,7 @@ const receiveClick = async () => {
 
 // window.Echo.channel(`cycle-community`).listen(".new-message-event", (e) => {
 //   console.log(e);
-//   // messages.value.push(e.message.comments);
+//   // messages.value.push(e.message.comment);
 //   // const senderId = router.params.id;
 //   // const res = await useApiFetch(`/api/message/sns/${senderId}`);
 //   // const val = res.data.value;
@@ -102,10 +101,7 @@ onMounted(async () => {
   const res = await useApiFetch(`/api/message/sns/${senderId}`);
   const val = res.data.value;
   messages.value.push(...val.data);
-
 });
-
-
 </script>
 
 <style lang="scss" scoped>
