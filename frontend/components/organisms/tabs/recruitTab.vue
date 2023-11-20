@@ -32,10 +32,10 @@ const tabs = [
     name:'メンバー数順',
     value:'member'
   },
-  {
-    name:'人気順',
-    value:'popular'
-  },
+  // {
+  //   name:'人気順',
+  //   value:'popular'
+  // },
 ]
 
 interface Emits {

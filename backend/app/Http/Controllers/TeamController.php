@@ -75,6 +75,8 @@ class TeamController extends Controller
                         $query->orWhere('team_name','like','%'.$keyword.'%');
                     }
             })
+            ->withCount('profiles')
+            ->with(['tags:name','areas:name','profiles'])
             ->get();
 
             if ($teams) {
@@ -87,8 +89,8 @@ class TeamController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
         $teams = Team::latest()
+        ->withCount('profiles')
             ->with(['tags:name', 'areas:name', 'profiles'])
-            ->withCount('profiles')
             ->get();
 
         if ($tab == 'member') {
