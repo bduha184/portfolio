@@ -8,16 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Kyslik\ColumnSortable\Sortable;
 
 class Profile extends Model
 {
-    use HasFactory;
+    use HasFactory,Sortable;
 
     protected $fillable=[
         'header_img_path',
         'thumbnail_path',
         'introduction',
         'request_flg',
+    ];
+    public $sortable = [
+        'profile_id',
+        'team_id'
     ];
 
     public function teams():BelongsToMany{
@@ -29,4 +34,5 @@ class Profile extends Model
     public function messages():HasMany{
         return $this->hasMany(Message::class);
     }
+
 }

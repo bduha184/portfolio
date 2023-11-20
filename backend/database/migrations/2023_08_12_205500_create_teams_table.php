@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('header_img_path')->nullable();
             $table->string('thumbnail_path')->nullable();
             $table->string('team_name');
-            $table->unsignedInteger('member');
             $table->string('introduction');
             $table->string('average')->nullable();
             $table->string('from_age')->nullable();
