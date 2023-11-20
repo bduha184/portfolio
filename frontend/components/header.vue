@@ -91,8 +91,4 @@ const toggleMenu = () => {
   align-items: center;
   }
 }
-
-// header {
-//   z-index: 0 !important;
-// }
 </style>
