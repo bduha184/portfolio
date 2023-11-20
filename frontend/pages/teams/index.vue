@@ -4,7 +4,6 @@
     <!-- <OrganismsSearchFormMultipleSearch /> -->
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
     <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
-    {{ teamStore.tab }}
     <OrganismsCardsRecruitCardForList
       v-for="(item, id) in teams"
       :key="id"

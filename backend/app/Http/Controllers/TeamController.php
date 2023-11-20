@@ -49,7 +49,7 @@ class TeamController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
-    public function search_team(Request $request)
+    public function search_team(Request $request, Team $team)
     {
 
 
@@ -65,14 +65,15 @@ class TeamController extends Controller
                 ->with(['tags:name', 'areas:name', 'profiles'])
                 ->get();
 
-            if($tab == 'desc') {
-                $teams = $teams->sortByDesc('id');
+            if($tab == 'member') {
+                $ids = $teams->getTeamsByMemberCount();
             }
 
             if ($teams) {
                 return response()->json([
                     'teams' => $teams,
-                    'tab'=>$tab
+                    'tab'=>$tab,
+                    'ids'=>$ids
                 ]);
             }
             return response()->json([
@@ -82,13 +83,14 @@ class TeamController extends Controller
         $teams = Team::latest()->with(['tags:name', 'areas:name', 'profiles'])->get();
 
         if($tab == 'member') {
-            $teams = $teams->sortByDesc('id');
+
+            $teams = Team::withCount('profiles')->orderBy('profiles_count','desc')->get();
         }
 
         return response()->json([
             'keywords' => $keywords,
             'teams' => $teams,
-            'tab'=>$tab
+            'tab'=>$tab,
         ]);
     }
 
