@@ -21,7 +21,7 @@
                 </p>
             </AtomsBtnsSnsBtn>
           </v-col>
-          <v-col cols="12" sm="6"
+          <!-- <v-col cols="12" sm="6"
            class="text-center"
           >
 
@@ -39,7 +39,7 @@
                   Lineでログイン
                 </p>
             </AtomsBtnsSnsBtn>
-          </v-col>
+          </v-col> -->
           <v-col>
             <MoleculesBtnsSnsBtn/>
           </v-col>

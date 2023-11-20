@@ -73,14 +73,14 @@ export const MenuItems = [
         useAuthStore().logout();
       }
     },
-    {
-      text: "各種設定",
-      icon: Icons.LOGOUT,
-      auth: false,
-      func: () => {
-        useAuthStore().logout();
-      }
-    },
+    // {
+    //   text: "各種設定",
+    //   icon: Icons.LOGOUT,
+    //   auth: false,
+    //   func: () => {
+    //     useAuthStore().logout();
+    //   }
+    // },
   ]
 
 export const AuthMenus = [

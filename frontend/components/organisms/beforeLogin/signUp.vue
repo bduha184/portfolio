@@ -17,7 +17,7 @@
             <p>Googleで登録</p>
           </AtomsBtnsSnsBtn>
         </v-col>
-        <v-col cols="12" sm="6" class="text-center">
+        <!-- <v-col cols="12" sm="6" class="text-center">
           <AtomsBtnsSnsBtn width="250">
             <AtomsImgs
               size="contain"
@@ -28,7 +28,7 @@
             />
             <p>Lineで登録</p>
           </AtomsBtnsSnsBtn>
-        </v-col>
+        </v-col> -->
       </v-row>
     </v-container>
     <v-divider class="my-5 border-opacity-100" color="waring"></v-divider>
