@@ -49,7 +49,7 @@ class TeamController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
-    public function search_team(Request $request, Team $team)
+    public function search_team(Request $request)
     {
 
 
@@ -58,39 +58,47 @@ class TeamController extends Controller
 
         if (!empty($keywords)) {
             $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
-                $query->whereIn('name', $keywords);
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('tags.name','like','%'.$keyword.'%');
+                    }
+                });
             })->orWhereHas('areas', function ($query) use ($keywords) {
-                $query->whereIn('name', $keywords);
-            })->orWhereIn('team_name', $keywords)
-                ->with(['tags:name', 'areas:name', 'profiles'])
-                ->get();
-
-            if($tab == 'member') {
-                $ids = $teams->getTeamsByMemberCount();
-            }
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('areas.name','like','%'.$keyword.'%');
+                    }
+                });
+            })
+            ->orWhere(function ($query) use ($keywords) {
+                    foreach($keywords as $keyword){
+                        $query->orWhere('team_name','like','%'.$keyword.'%');
+                    }
+            })
+            ->get();
 
             if ($teams) {
                 return response()->json([
                     'teams' => $teams,
-                    'tab'=>$tab,
-                    'ids'=>$ids
                 ]);
             }
             return response()->json([
                 'message' => 'Teams not found'
             ], Response::HTTP_NOT_FOUND);
         }
-        $teams = Team::latest()->with(['tags:name', 'areas:name', 'profiles'])->get();
+        $teams = Team::latest()
+            ->with(['tags:name', 'areas:name', 'profiles'])
+            ->withCount('profiles')
+            ->get();
 
-        if($tab == 'member') {
+        if ($tab == 'member') {
 
-            $teams = Team::withCount('profiles')->orderBy('profiles_count','desc')->get();
+            $teams = Team::withCount('profiles')->orderBy('profiles_count', 'desc')->get();
         }
 
         return response()->json([
             'keywords' => $keywords,
             'teams' => $teams,
-            'tab'=>$tab,
         ]);
     }
 
@@ -133,10 +141,6 @@ class TeamController extends Controller
             'path_thumbnail' => $path_thumbnail,
         ]);
 
-        // return response()->json([
-        //     'tags'=>$request->tags
-        // ]);
-
     }
 
     /**
@@ -144,21 +148,34 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        $teamItem = Team::find($id);
+
+        $user_id = Team::find($id)->user_id;
+
+        $teamInfo = Team::withCount('profiles')
+        ->with([
+            'tags:name',
+            'areas:name',
+            'profiles' => function ($q) use ($user_id) {
+                $q->where('user_id', $user_id)->first();
+            }
+        ])
+        ->find($id);
+
         if (Auth::id() == $id) {
-            $teamItem = Team::where('user_id', $id)->first();
+            $teamInfo = Team::where('user_id', $id)
+            ->withCount('profiles')
+            ->with([
+            'tags:name',
+            'areas:name',
+            'profiles' => function ($q) use ($id) {
+                $q->where('user_id', $id)->first();
+            }
+        ])->first();
         }
-        $members = $teamItem->profiles()->get();
-        $rep_profile = $teamItem->profiles()->where('user_id', $teamItem->user_id)->first();
-        $tags = $teamItem->tags()->get();
-        $areas = $teamItem->areas()->get();
 
         return response()->json([
-            'teamItem' => $teamItem,
-            'profile' => $rep_profile,
-            'members' => $members,
-            'tags' => $tags,
-            'areas' => $areas,
+            'teamInfo' => $teamInfo,
+            // 'team'=>$team
         ]);
     }
 

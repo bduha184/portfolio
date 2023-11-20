@@ -10,7 +10,7 @@
       :header_img_path="item.header_img_path"
       :thumbnail_path="item.thumbnail_path"
       :team_name="item.team_name"
-      :member="item.member"
+      :member="item.profiles_count"
       :introduction="item.introduction"
       :id="item.id"
       :tags="item.tags"
