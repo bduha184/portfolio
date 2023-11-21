@@ -65,6 +65,10 @@
         :val="form.password"
         class="mb-4"
       />
+      <NuxtLink
+      class="d-block text-sm text-center"
+      :to="Url.RESETPASSWORD"
+      >パスワードを忘れた方はこちら</NuxtLink>
       <AtomsBtnsBaseBtn
         width="16rem"
         color="orange"

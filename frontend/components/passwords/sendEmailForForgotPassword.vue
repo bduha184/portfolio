@@ -9,31 +9,37 @@
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
       </div>
-      <FormEmail @setEmail="receiveEmail" :name="form.email"/>
-      <ButtonCommon
-        btnValue="メール送信"
-        place="MAIN"
-        width="16rem"
-        setColor="orange"
-        class="my-4 d-block"
-        :disabled="!checkFilledOut()"
-        @click.prevent="handleSendEmail"
+      <MoleculesInput
+        type="email"
+        label="メールアドレス"
+        @emitInput="receiveEmail"
+        :val="form.email"
+        class="mb-4"
       />
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        color="info"
+        class="my-4 d-block mx-auto"
+        :disabled="!checkFilledOut"
+        @emitClick="handleSendEmail"
+      >
+        メール送信
+      </AtomsBtnsBaseBtn>
 
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "../../stores/useAuthStore";
-import {ref} from 'vue';
+import { useAuthStore } from "~/stores/useAuthStore";
+import {ref,computed} from '#imports';
 const form = ref({
   email:'',
 })
 
 const message = ref();
 
-const checkFilledOut = () => {
+const checkFilledOut = computed(() => {
 
   const fieldArray = [
     form.value.email,
@@ -42,7 +48,7 @@ const checkFilledOut = () => {
   if(fieldArray.indexOf('') === -1){
     return true;
   }
-}
+})
 
 
 const auth = useAuthStore();
@@ -51,8 +57,9 @@ const receiveEmail = (receiveEmail) => {
 };
 async function handleSendEmail() {
 
-  const res = await auth.forgotPassword(form.value);
-    message.value = res.data.value.status;
+  const res = await auth.forgotPassword(form.value.email);
+  console.log(res);
+    // message.value = res.data.value.status;
 }
 
 </script>
