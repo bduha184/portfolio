@@ -1,7 +1,3 @@
-<template>
-    <v-select v-model="area" :items="Areas" solo />
-</template>
-
 <script setup lang="ts">
 import {ref} from "#imports";
 import {Areas} from "~/constants/areas";
@@ -9,6 +5,11 @@ import {Areas} from "~/constants/areas";
 const area = ref();
 
 </script>
+
+<template>
+  <v-select v-model="area" :items="Areas" solo />
+</template>
+
 
 <style lang="scss" scoped>
   select {

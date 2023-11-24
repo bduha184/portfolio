@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import type {Props} from "~/types";
+
+const props = defineProps<Props>();
+const dialog = ref(props.name);
+</script>
+
 <template>
   <v-dialog v-model="dialog" width="600px">
     <template v-slot:activator="{ props }">
@@ -151,15 +158,6 @@
     </v-card>
   </v-dialog>
 </template>
-
-<script setup lang="ts">
-import { ref } from "vue";
-
-const props = defineProps({
-  name: String,
-});
-const dialog = ref(props.name);
-</script>
 
 
 <style scoped lang="scss">

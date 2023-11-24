@@ -1,7 +1,5 @@
 <template>
   <v-container class="bg-white">
-    <PasswordsResetPasswordForm/>
+    <OrganismsPasswordsResetPasswordForm/>
   </v-container>
 </template>
-<script setup lang="ts">
-</script>

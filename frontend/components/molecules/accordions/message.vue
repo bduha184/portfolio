@@ -1,3 +1,34 @@
+<script setup lang="ts">
+import type { Emits,Props} from "~/types";
+
+const props = withDefaults(defineProps<Props>(),{
+  toggle:false,
+});
+
+const form = ref();
+
+const checkFilledOut = computed(() => {
+  const field = form.value;
+
+  if(!field) return false;
+
+  return true;
+
+});
+
+const emits=defineEmits<Emits>();
+
+const receiveBody=(val:string)=> {
+  form.value = val.value;
+  emits('emitInput',form.value);
+}
+
+const receiveClick=(e:Event)=> {
+  emits('emitClick',e.target as HTMLElement);
+}
+
+</script>
+
 <template>
   <div
   class="overflow-hidden"
@@ -13,7 +44,7 @@
       />
       <AtomsBtnsBaseBtn
       :disabled="!checkFilledOut"
-      :setColor="setColor"
+      :color="color"
       @emitClick="receiveClick"
       >
        {{ text }}
@@ -22,52 +53,6 @@
     </transition>
   </div>
 </template>
-
-<script setup lang="ts">
-import {ref,computed} from 'vue';
-const props = defineProps({
-  toggle: {
-    type: Boolean,
-    default: false,
-  },
-  setColor:{
-    type:String,
-    default:''
-  },
-  placeholder:{
-    type:String,
-    default:''
-  },
-  text:{
-    type:String,
-    default:''
-  },
-});
-
-const form = ref();
-
-
-const checkFilledOut = computed(() => {
-  const field = form.value;
-
-  if(!field) return false;
-
-  return true;
-
-});
-
-const emits=defineEmits();
-
-const receiveBody=(val)=> {
-  form.value = val.value;
-  emits('emitInput',form.value);
-}
-
-const receiveClick=()=> {
-  emits('emitClick');
-}
-
-</script>
 
 <style lang="scss" scoped>
 .v-container {

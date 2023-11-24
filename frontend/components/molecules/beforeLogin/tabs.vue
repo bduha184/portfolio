@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { Icons } from "~/constants/icons";
+
+const tab = ref<null>(null);
+</script>
+
+
 <template>
   <v-tabs v-model="tab" fixed-tabs class="text-center mb-4" slider-color="red">
     <MoleculesTabsBeforeLogin val="register" :icon="Icons.REGISTER">
@@ -8,12 +15,8 @@
     </MoleculesTabsBeforeLogin>
   </v-tabs>
 </template>
-<script setup>
-import { Icons } from "../../../constants/icons";
-import { ref } from "vue";
 
-const tab = ref(null);
-</script>
+
 
 <style scoped lang="scss">
 .v-tabs--density-default {

@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import {Icons} from '../../../constants/icons'
+import {ref} from 'vue';
+
+const load = ref({
+loaded:false,
+loading:false
+})
+
+
+</script>
+
 <template>
   <v-container>
     <v-row class="align-center justify-between d-sm-flex d-none">
@@ -21,18 +33,6 @@
     </v-row>
   </v-container>
 </template>
-
-<script setup lang="ts">
-import {Icons} from '../../../constants/icons'
-import {ref} from 'vue';
-
-const load = ref({
-loaded:false,
-loading:false
-})
-
-
-</script>
 
 <style lang="scss" scoped>
 .v-btn__prepend {

@@ -1,3 +1,9 @@
+
+<script setup lagn="ts">
+  import {Url} from '~/constants/url';
+
+</script>
+
 <template>
     <v-container>
         <div>
@@ -5,8 +11,3 @@
         </div>
     </v-container>
 </template>
-
-<script setup lagn="ts">
-  import {Url} from '~/constants/url';
-
-</script>

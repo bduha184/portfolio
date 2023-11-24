@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AtomsDisplayFlashMessage/>
+    <OrganismsMessagesFlashMessage/>
     <OrganismsGalleryModal/>
     <OrganismsHeaderTheHeader/>
     <v-main>

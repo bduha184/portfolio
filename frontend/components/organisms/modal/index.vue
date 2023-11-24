@@ -1,65 +1,3 @@
-<template>
-  <v-dialog
-    max-width="600px"
-    class="m-0"
-    :persistent="persistent"
-    v-model="dialog"
-    hide-overlay
-  >
-    <template v-slot:activator="{ props }">
-      <AtomsBtnsBaseBtn
-        width="16rem"
-        class="my-4 d-block mx-auto"
-        :disabled="disabled"
-        v-bind="props"
-        :color="color"
-        @emitClick="
-          receiveClick();
-          dialog = false;
-        "
-      >
-        <slot />
-      </AtomsBtnsBaseBtn>
-    </template>
-    <v-card class="py-5 px-3" v-if="checkStatus">
-      <v-card-text class="text-red">
-        {{ caution }}
-      </v-card-text>
-      <v-card-actions class="mx-auto">
-        <v-row>
-          <v-col>
-            <AtomsBtnsBaseBtn @click="dialog = false"> 戻る </AtomsBtnsBaseBtn>
-          </v-col>
-          <v-col>
-            <AtomsBtnsBaseBtn width="10rem" :color="color" @emitClick="onClick">
-              {{ btnValue }}
-            </AtomsBtnsBaseBtn>
-          </v-col>
-        </v-row>
-      </v-card-actions>
-    </v-card>
-
-    <v-card class="py-5 px-3" v-else>
-      <v-card-actions class="w-100 d-block mx-auto text-center">
-        <AtomsTextAreas
-          :placeholder="placeholder"
-          @emitInput="receiveBody"
-          :body="form"
-        />
-        <AtomsBtnsBaseBtn
-          :disabled="checkFilledOut"
-          :color="color"
-          @emitClick="sendMessage"
-          width="16rem"
-          class="my-4 d-block mx-auto"
-        >
-          {{ text }}
-        </AtomsBtnsBaseBtn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-</template>
-
 <script setup lang="ts">
 import { ref, navigateTo, useRoute, onMounted, computed } from "#imports";
 import { useAuthStore } from "../../../stores/useAuthStore";
@@ -156,3 +94,65 @@ const receiveClick = () => {
 }
 
 </script>
+
+<template>
+  <v-dialog
+    max-width="600px"
+    class="m-0"
+    :persistent="persistent"
+    v-model="dialog"
+    hide-overlay
+  >
+    <template v-slot:activator="{ props }">
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        class="my-4 d-block mx-auto"
+        :disabled="disabled"
+        v-bind="props"
+        :color="color"
+        @emitClick="
+          receiveClick();
+          dialog = false;
+        "
+      >
+        <slot />
+      </AtomsBtnsBaseBtn>
+    </template>
+    <v-card class="py-5 px-3" v-if="checkStatus">
+      <v-card-text class="text-red">
+        {{ caution }}
+      </v-card-text>
+      <v-card-actions class="mx-auto">
+        <v-row>
+          <v-col>
+            <AtomsBtnsBaseBtn @click="dialog = false"> 戻る </AtomsBtnsBaseBtn>
+          </v-col>
+          <v-col>
+            <AtomsBtnsBaseBtn width="10rem" :color="color" @emitClick="onClick">
+              {{ btnValue }}
+            </AtomsBtnsBaseBtn>
+          </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+
+    <v-card class="py-5 px-3" v-else>
+      <v-card-actions class="w-100 d-block mx-auto text-center">
+        <AtomsTextAreas
+          :placeholder="placeholder"
+          @emitInput="receiveBody"
+          :body="form"
+        />
+        <AtomsBtnsBaseBtn
+          :disabled="checkFilledOut"
+          :color="color"
+          @emitClick="sendMessage"
+          width="16rem"
+          class="my-4 d-block mx-auto"
+        >
+          {{ text }}
+        </AtomsBtnsBaseBtn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>

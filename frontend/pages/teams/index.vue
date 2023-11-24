@@ -1,25 +1,3 @@
-<template>
-  <div class="p-4 bg-white">
-    <OrganismsSearchFormKeywordsSearch />
-    <!-- <OrganismsSearchFormMultipleSearch /> -->
-    <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
-    <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
-    <OrganismsCardsRecruitCardForList
-      v-for="(item, id) in teams"
-      :key="id"
-      :header_img_path="item.header_img_path"
-      :thumbnail_path="item.thumbnail_path"
-      :team_name="item.team_name"
-      :member="item.profiles_count"
-      :introduction="item.introduction"
-      :id="item.id"
-      :tags="item.tags"
-      :profiles="item.profiles"
-      :areas="item.areas"
-      :date_time="item.active_datetime"
-    />
-  </div>
-</template>
 <script setup lang="ts">
 import { useTeamStore } from "~/stores/useTeamStore";
 import { ref, onMounted, watch } from "#imports";
@@ -45,3 +23,26 @@ onMounted(() => {
   teamStore.fetchTeams();
 });
 </script>
+
+<template>
+  <div class="p-4 bg-white">
+    <OrganismsSearchFormKeywordsSearch />
+    <!-- <OrganismsSearchFormMultipleSearch /> -->
+    <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
+    <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
+    <OrganismsCardsRecruitCardForList
+      v-for="(item, id) in teams"
+      :key="id"
+      :header_img_path="item.header_img_path"
+      :thumbnail_path="item.thumbnail_path"
+      :team_name="item.team_name"
+      :member="item.profiles_count"
+      :introduction="item.introduction"
+      :id="item.id"
+      :tags="item.tags"
+      :profiles="item.profiles"
+      :areas="item.areas"
+      :date_time="item.active_datetime"
+    />
+  </div>
+</template>

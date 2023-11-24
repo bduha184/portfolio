@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import type { Emits,Props} from "~/types";
+import { Levels } from "~/constants/teams";
+const props =defineProps<Props>();
+const items = Levels;
+
+const chips = ref<Array<string>>([]);
+
+function remove(item) {
+  chips.value.splice(chips.value.indexOf(item), 1);
+}
+
+const emits = defineEmits<Emits>();
+
+watch(()=>chips.value,()=>{
+  emits('emitTags',chips.value)
+});
+watch(()=>props.tags,()=>{
+  chips.value=props.tags;
+});
+</script>
+
 <template>
   <v-combobox
     v-model="chips"
@@ -21,35 +43,3 @@
     </template>
   </v-combobox>
 </template>
-
-<script setup>
-import { ref,watch,computed } from "#imports";
-import { Levels } from "~/constants/teams";
-const props =defineProps({
-  tags:{
-    type:Array,
-    default:[]
-  }
-})
-const items = Levels;
-
-const chips = ref([]);
-
-function remove(item) {
-  chips.value.splice(chips.value.indexOf(item), 1);
-}
-
-// interface Emits {
-//   (e: "emitTags", value: File): void;
-// }
-const emits = defineEmits();
-
-watch(()=>chips.value,()=>{
-  emits('emitTags',chips.value)
-});
-watch(()=>props.tags,()=>{
-  chips.value=props.tags;
-});
-
-
-</script>

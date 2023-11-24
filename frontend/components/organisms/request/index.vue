@@ -1,24 +1,3 @@
-<template>
-  <div>
-    参加希望
-    <v-card class="mx-auto">
-      <v-list>
-        <v-list-item
-          v-for="(message, index) in messages"
-          :prepend-avatar="
-            config.public.baseURL + '/storage/' + message.thumbnail_path
-          "
-          rounded="shaped"
-          :title="message.name"
-          :key="index"
-          :subtitle="message.comment"
-          @click="onClick(message.sender_id)"
-        />
-      </v-list>
-    </v-card>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
 import { onMounted, ref } from "vue";
@@ -41,6 +20,14 @@ onMounted(async () => {
   messages.value.push(...res.data.value.messages);
 });
 </script>
+<template>
+  <v-container>
+    <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+    <v-card-text>
+      {{ activities }}
+    </v-card-text>
+  </v-container>
+</template>
 
 <style lang="scss" scoped>
 .v-list-item {

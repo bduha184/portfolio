@@ -1,10 +1,25 @@
+<script setup lang="ts">
+import type { Emits,Props} from "~/types";
+
+const props = defineProps<Props>();
+
+const emits = defineEmits<Emits>();
+const checked = ref<boolean>(false);
+
+const receiveInput = (val:Event) => {
+  checked.value = JSON.parse(val.value) ? false : true;
+  emits("emitInput", checked.value);
+};
+</script>
+
+
 <template>
   <div>
     <div class="d-flex flex-wrap align-center justify-center">
       <AtomsInput
       type="checkbox"
       class="pr-2"
-      @emitInput="check"
+      @emitInput="receiveInput"
       :val="val"
       />
       <MoleculesRulesTerms />
@@ -14,22 +29,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from "vue";
-
-const props = defineProps({
-  val:Boolean,
-})
-
-const emits = defineEmits(["emitInput"]);
-const checked = ref(false);
-
-const check = (val) => {
-  checked.value = JSON.parse(val.value) ? false : true;
-  emits("emitInput", checked.value);
-};
-</script>
 
 <style scoped lang="scss">
   input[type="checkbox"]{

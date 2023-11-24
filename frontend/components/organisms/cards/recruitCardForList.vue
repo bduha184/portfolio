@@ -1,3 +1,70 @@
+<script setup lang="ts">
+import { useRuntimeConfig,navigateTo,computed } from "#imports";
+import { Url } from "@/constants/url";
+import {Icons} from "@/constants/icons";
+
+const props = defineProps({
+  header_img_path: {
+    type: String,
+    default: "",
+  },
+  thumbnail_path: {
+    type: String,
+    default: "",
+  },
+  team_name: {
+    type: String,
+    default: "",
+  },
+  member: {
+    type: Number,
+    default: 0,
+  },
+  introduction: {
+    type: String,
+    default: "",
+  },
+  id: {
+    type: Number,
+    default: "",
+  },
+  tags: {
+    type: Array,
+    default: [],
+  },
+  profiles: {
+    type: Array,
+    default: [],
+  },
+  date_time: {
+    type: String,
+    default: '',
+  },
+  areas: {
+    type: Array,
+    default: [],
+  },
+  auth:{
+    type:Boolean,
+    default:false
+  }
+});
+
+const config = useRuntimeConfig();
+
+const onClick = (auth) => {
+  if(auth){
+  return navigateTo(Url.AFFILIATION + "/" + props.id);
+  }
+  return navigateTo({
+    path:Url.TEAMS + "/" + props.id,
+    query:{
+      user:props.profiles.user_id
+    }
+  });
+};
+</script>
+
 <template>
   <v-card @click="onClick(auth)" min-height="300px">
     <OrganismsImgsCardProfile
@@ -88,72 +155,6 @@
   </v-card>
 </template>
 
-<script setup lang="ts">
-import { useRuntimeConfig,navigateTo,computed } from "#imports";
-import { Url } from "@/constants/url";
-import {Icons} from "@/constants/icons";
-
-const props = defineProps({
-  header_img_path: {
-    type: String,
-    default: "",
-  },
-  thumbnail_path: {
-    type: String,
-    default: "",
-  },
-  team_name: {
-    type: String,
-    default: "",
-  },
-  member: {
-    type: Number,
-    default: 0,
-  },
-  introduction: {
-    type: String,
-    default: "",
-  },
-  id: {
-    type: Number,
-    default: "",
-  },
-  tags: {
-    type: Array,
-    default: [],
-  },
-  profiles: {
-    type: Array,
-    default: [],
-  },
-  date_time: {
-    type: String,
-    default: '',
-  },
-  areas: {
-    type: Array,
-    default: [],
-  },
-  auth:{
-    type:Boolean,
-    default:false
-  }
-});
-
-const config = useRuntimeConfig();
-
-const onClick = (auth) => {
-  if(auth){
-  return navigateTo(Url.AFFILIATION + "/" + props.id);
-  }
-  return navigateTo({
-    path:Url.TEAMS + "/" + props.id,
-    query:{
-      user:props.profiles.user_id
-    }
-  });
-};
-</script>
 
 <style lang="scss" scoped>
 .v-card {

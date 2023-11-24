@@ -1,41 +1,3 @@
-<template>
-  <v-container>
-    <OrganismsCardsProfile
-      :path_header="requestItems.path_header"
-      :path_thumbnail="requestItems.path_thumbnail"
-    >
-      <div>
-        <v-card-title class="!pl-28 text-body-2">
-          <AtomsTextsHeadLine>
-            {{ requestItems.title }}
-          </AtomsTextsHeadLine>
-        </v-card-title>
-        <v-card-text> {{ requestItems.title }}さんからのコメント </v-card-text>
-        <v-card-text>
-          {{ requestItems.comment }}
-        </v-card-text>
-        <v-container>
-          {{ requestItems.title }}さんをチームに招待する
-          <AtomsTextAreas
-            placeholder="コメント"
-            :body="comment"
-            @emitInput="receivecomment"
-          />
-
-          <AtomsBtnsBaseBtn
-            width="16rem"
-            class="my-4 d-block mx-auto"
-            :disabled="!checkFilledOut"
-            @emitClick="handleLogin"
-          >
-            チームに招待する
-          </AtomsBtnsBaseBtn>
-        </v-container>
-      </div>
-    </OrganismsCardsProfile>
-  </v-container>
-</template>
-
 <script setup lang="ts">
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { ref, onMounted, computed } from "vue";
@@ -82,3 +44,12 @@ onMounted(async () => {
   }
 });
 </script>
+
+<template>
+  <v-container>
+    <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+    <v-card-text>
+      {{ activities }}
+    </v-card-text>
+  </v-container>
+</template>

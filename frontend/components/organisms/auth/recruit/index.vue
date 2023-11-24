@@ -1,101 +1,3 @@
-<template>
-  <form>
-    <OrganismsImgsCardProfile
-      @emitInput="receiveProfileImage"
-      :path_header="teamItems.url_header_img"
-      :path_thumbnail="teamItems.url_thumbnail"
-    />
-    <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextsHeadLine class="w-100">
-        <AtomsInput
-          placeholder="チーム名"
-          type="text"
-          @emitInput="receiveTeamName"
-          :val="teamItems.team_name"
-        />
-      </AtomsTextsHeadLine>
-    </v-card-title>
-    <v-card-text>
-      <AtomsTextAreas
-        placeholder="チーム紹介"
-        @emitInput="receiveTeamIntroduce"
-        :body="teamItems.introduction"
-      />
-    </v-card-text>
-    <v-container>
-      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
-      <OrganismsDrugAndDrop
-        @emitImages="receiveImage"
-        :class="gallery.getDisplayImages.length > 0 ? 'absolute opacity-0' : ''"
-      />
-      <OrganismsGallery
-        :images="gallery.getDisplayImages"
-        @emitClick="receiveClick"
-      />
-    </v-container>
-    <OrganismsAuthRecruitTeamInfo
-      @emitAgeAverage="receiveAverage"
-      @emitFromAge="receiveFromAge"
-      @emitToAge="receiveToAge"
-      @emitTags="receiveTags"
-      @emitAreas="receiveAreas"
-      @emitdetail_areas="receivedetail_areas"
-      @emitdetail_activities="receivedetail_activities"
-      @emitactive_datetime="receiveactive_datetime"
-      @emitteam_url="receiveteam_url"
-      :member_count="teamItems.member_count"
-      :average="teamItems.average"
-      :from_age="teamItems.from_age"
-      :to_age="teamItems.to_age"
-      :tags="teamItems.tags"
-      :areas="teamItems.areas"
-      :detail_activities="teamItems.detail_activities"
-      :detail_areas="teamItems.detail_areas"
-      :active_datetime="teamItems.active_datetime"
-      :team_url="teamItems.team_url"
-    />
-    <v-container>
-      <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
-      <AtomsTextAreas
-        class="mt-2"
-        placeholder="これからの活動内容を記入"
-        @emitInput="receiveTeamSchedule"
-        :body="teamItems.schedule"
-      />
-    </v-container>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      color="info"
-      class="my-4 d-block mx-auto"
-      @emitClick="handleRegister"
-      v-if="!teamItems.item_id"
-    >
-      登録
-    </AtomsBtnsBaseBtn>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      color="orange"
-      class="my-4 d-block mx-auto"
-      @click="handleUpdate"
-      :disabled="!checkFilledOut()"
-      v-if="teamItems.item_id"
-    >
-      更新
-    </AtomsBtnsBaseBtn>
-    <OrganismsModal
-      v-if="teamItems.item_id"
-      @emitModalOpen="handleCheck"
-      @emitModalBtnClick="handleDelete"
-      color="red"
-      caution="※削除すると元に戻せなくなります。削除しますか？"
-      btnValue="削除する"
-      btnType="delete"
-    >
-      削除
-    </OrganismsModal>
-  </form>
-</template>
-
 <script setup lang="ts">
 import {
   useRuntimeConfig,
@@ -412,6 +314,104 @@ const receiveImage = (val) => {
   }
 })();
 </script>
+
+<template>
+  <form>
+    <OrganismsImgsCardProfile
+      @emitInput="receiveProfileImage"
+      :path_header="teamItems.url_header_img"
+      :path_thumbnail="teamItems.url_thumbnail"
+    />
+    <v-card-title class="w-60 text-body-2 text-left ml-auto">
+      <AtomsTextsHeadLine class="w-100">
+        <AtomsInput
+          placeholder="チーム名"
+          type="text"
+          @emitInput="receiveTeamName"
+          :val="teamItems.team_name"
+        />
+      </AtomsTextsHeadLine>
+    </v-card-title>
+    <v-card-text>
+      <AtomsTextAreas
+        placeholder="チーム紹介"
+        @emitInput="receiveTeamIntroduce"
+        :body="teamItems.introduction"
+      />
+    </v-card-text>
+    <v-container>
+      <AtomsTextsHeadLine> ギャラリー </AtomsTextsHeadLine>
+      <OrganismsDrugAndDrop
+        @emitImages="receiveImage"
+        :class="gallery.getDisplayImages.length > 0 ? 'absolute opacity-0' : ''"
+      />
+      <OrganismsGallery
+        :images="gallery.getDisplayImages"
+        @emitClick="receiveClick"
+      />
+    </v-container>
+    <OrganismsAuthRecruitTeamInfo
+      @emitAgeAverage="receiveAverage"
+      @emitFromAge="receiveFromAge"
+      @emitToAge="receiveToAge"
+      @emitTags="receiveTags"
+      @emitAreas="receiveAreas"
+      @emitdetail_areas="receivedetail_areas"
+      @emitdetail_activities="receivedetail_activities"
+      @emitactive_datetime="receiveactive_datetime"
+      @emitteam_url="receiveteam_url"
+      :member_count="teamItems.member_count"
+      :average="teamItems.average"
+      :from_age="teamItems.from_age"
+      :to_age="teamItems.to_age"
+      :tags="teamItems.tags"
+      :areas="teamItems.areas"
+      :detail_activities="teamItems.detail_activities"
+      :detail_areas="teamItems.detail_areas"
+      :active_datetime="teamItems.active_datetime"
+      :team_url="teamItems.team_url"
+    />
+    <v-container>
+      <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
+      <AtomsTextAreas
+        class="mt-2"
+        placeholder="これからの活動内容を記入"
+        @emitInput="receiveTeamSchedule"
+        :body="teamItems.schedule"
+      />
+    </v-container>
+    <AtomsBtnsBaseBtn
+      width="16rem"
+      color="info"
+      class="my-4 d-block mx-auto"
+      @emitClick="handleRegister"
+      v-if="!teamItems.item_id"
+    >
+      登録
+    </AtomsBtnsBaseBtn>
+    <AtomsBtnsBaseBtn
+      width="16rem"
+      color="orange"
+      class="my-4 d-block mx-auto"
+      @click="handleUpdate"
+      :disabled="!checkFilledOut()"
+      v-if="teamItems.item_id"
+    >
+      更新
+    </AtomsBtnsBaseBtn>
+    <OrganismsModal
+      v-if="teamItems.item_id"
+      @emitModalOpen="handleCheck"
+      @emitModalBtnClick="handleDelete"
+      color="red"
+      caution="※削除すると元に戻せなくなります。削除しますか？"
+      btnValue="削除する"
+      btnType="delete"
+    >
+      削除
+    </OrganismsModal>
+  </form>
+</template>
 
 <style lang="scss" scoped>
 .v-card {

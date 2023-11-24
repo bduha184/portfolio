@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import { definePageMeta } from "#imports";
+import {Icons} from '~/constants/icons';
+import { useAuthStore } from "~/stores/useAuthStore";
+
+const auth = useAuthStore();
+
+definePageMeta({
+  middleware: ["auth"],
+});
+</script>
+
 <template>
   <div>
     <v-container class="bg-white mb-2">
@@ -21,15 +33,3 @@
     </v-card>
   </div>
 </template>
-
-<script setup lang="ts">
-import { definePageMeta } from "#imports";
-import {Icons} from '~/constants/icons';
-import { useAuthStore } from "~/stores/useAuthStore";
-
-const auth = useAuthStore();
-
-definePageMeta({
-  middleware: ["auth"],
-});
-</script>

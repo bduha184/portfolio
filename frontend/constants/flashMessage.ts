@@ -13,4 +13,6 @@ export const Message = {
   REGISTEREMAILERROR:'登録に失敗しました。入力情報を再度ご確認ください',
   SENDMESSAGE:'メッセージを送信しました',
   SENDMESSAGEERROR:'メッセージを送信しました',
+  RESETPASSWORD:'パスワードをリセットしました',
+  RESETPASSWORDERROR:'パスワードのリセットに失敗しました。再度お試しください',
 }

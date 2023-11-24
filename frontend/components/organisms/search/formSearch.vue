@@ -1,3 +1,28 @@
+<script setup lang="ts">
+import {ref} from '#imports';
+import {useTeamStore} from "~/stores/useTeamStore";
+
+const teams = useTeamStore();
+
+const keywords = ref([]);
+
+const receiveKeywords = (val:Array<string>) => {
+  keywords.value.length = 0;
+
+  if(val.value){
+    const words = val.value.split(' ');
+    words.forEach(word => {
+      keywords.value.push(word);
+    });
+  }
+
+}
+
+const onClick = ()=>{
+  teams.fetchTeams(keywords.value);
+}
+</script>
+
 <template>
   <div class="d-flex align-center">
     <AtomsInput
@@ -15,31 +40,6 @@
        </v-btn>
       </div>
 </template>
-
-<script setup lang="ts">
-import {ref} from '#imports';
-import {useTeamStore} from "~/stores/useTeamStore";
-
-const teams = useTeamStore();
-
-const keywords = ref([]);
-
-const receiveKeywords = (val) => {
-  keywords.value.length = 0;
-
-  if(val.value){
-    const words = val.value.split(' ');
-    words.forEach(word => {
-      keywords.value.push(word);
-    });
-  }
-
-}
-
-const onClick = ()=>{
-  teams.fetchTeams(keywords.value);
-}
-</script>
 
 <style lang="scss" scoped>
   input[type="text"] {

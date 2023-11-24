@@ -1,24 +1,3 @@
-<template>
-  <div>
-    質問BOX
-    <v-card class="mx-auto">
-      <v-list>
-        <v-list-item
-          v-for="(message, index) in messages"
-          :prepend-avatar="
-            config.public.baseURL + '/storage/' + message.thumbnail_path
-          "
-          rounded="shaped"
-          :title="message.name"
-          :key="index"
-          :subtitle="message.comment"
-          @click="onClick(message.sender_id)"
-        />
-      </v-list>
-    </v-card>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useRuntimeConfig } from "nuxt/app";
 import { onMounted, ref } from "vue";
@@ -41,6 +20,38 @@ onMounted(async () => {
   messages.value.push(...res.data.value.messages);
 });
 </script>
+
+<template>
+  <div>
+    <form method="POST">
+      <h2 class="text-center text-h5 mb-5">パスワード再設定</h2>
+      <p
+      class="bg-blue-100 text-center mb-5 p-2 "
+      v-show="message"
+      >{{ message }}</p>
+      <div class="text-caption">
+        <span class="text-red">※</span>は必須項目です
+      </div>
+      <MoleculesInput
+        type="email"
+        label="メールアドレス"
+        @emitInput="receiveEmail"
+        :val="form.email"
+        class="mb-4"
+      />
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        color="info"
+        class="my-4 d-block mx-auto"
+        :disabled="!checkFilledOut"
+        @emitClick="handleSendEmail"
+      >
+        メール送信
+      </AtomsBtnsBaseBtn>
+
+    </form>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .v-list-item {

@@ -1,63 +1,3 @@
-<template>
-  <v-container>
-    <AtomsTextsHeadLine> チーム情報 </AtomsTextsHeadLine>
-    <v-row>
-      <v-col cols="6">
-        ■メンバー数
-        <v-col class="text-center">
-          {{ member_count }}人
-        </v-col>
-      </v-col>
-      <v-col cols="6">
-        ■男女比
-        <v-select v-model="ageAverage" :items="Averages" />
-      </v-col>
-      <v-col cols="12">
-        ■年齢層
-        <v-row class="align-center text-center">
-          <v-col cols="5">
-            <v-select v-model="fromAge" :items="Ages" solo />
-          </v-col>
-          <v-col cols="2"> 〜 </v-col>
-          <v-col cols="5">
-            <v-select v-model="toAge" :items="Ages" />
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col cols="12">
-        ■チームの活動
-        <MoleculesTags @emitTags="receiveTags" :tags="tags" />
-      </v-col>
-      <v-col cols="12">
-        ■チームの活動(補足)
-        <AtomsTextAreas
-          @emitInput="receiveTeamActivities"
-          :body="detail_activities"
-        />
-      </v-col>
-      <v-col cols="12">
-        ■主な活動エリア
-        <v-select v-model="areas" multiple :items="Areas" />
-      </v-col>
-      <v-col cols="12">
-        ■主な活動エリア（詳細）
-        <AtomsTextAreas @emitInput="receiveTeamAreas" :body="detail_areas" />
-      </v-col>
-      <v-col cols="12">
-        ■主な活動日時
-        <AtomsTextAreas
-          @emitInput="receiveactive_datetime"
-          :body="active_datetime"
-        />
-      </v-col>
-      <v-col cols="12">
-        ■ホームページ、ブログ等URL
-        <AtomsTextAreas @emitInput="receiveteam_url" :body="team_url" />
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
-
 <script setup lang="ts">
 import { ref, watch } from "#imports";
 import { Ages, Averages, Levels } from "~/constants/teams";
@@ -199,6 +139,67 @@ watch(
   }
 );
 </script>
+
+
+<template>
+  <v-container>
+    <AtomsTextsHeadLine> チーム情報 </AtomsTextsHeadLine>
+    <v-row>
+      <v-col cols="6">
+        ■メンバー数
+        <v-col class="text-center">
+          {{ member_count }}人
+        </v-col>
+      </v-col>
+      <v-col cols="6">
+        ■男女比
+        <v-select v-model="ageAverage" :items="Averages" />
+      </v-col>
+      <v-col cols="12">
+        ■年齢層
+        <v-row class="align-center text-center">
+          <v-col cols="5">
+            <v-select v-model="fromAge" :items="Ages" solo />
+          </v-col>
+          <v-col cols="2"> 〜 </v-col>
+          <v-col cols="5">
+            <v-select v-model="toAge" :items="Ages" />
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="12">
+        ■チームの活動
+        <MoleculesTags @emitTags="receiveTags" :tags="tags" />
+      </v-col>
+      <v-col cols="12">
+        ■チームの活動(補足)
+        <AtomsTextAreas
+          @emitInput="receiveTeamActivities"
+          :body="detail_activities"
+        />
+      </v-col>
+      <v-col cols="12">
+        ■主な活動エリア
+        <v-select v-model="areas" multiple :items="Areas" />
+      </v-col>
+      <v-col cols="12">
+        ■主な活動エリア（詳細）
+        <AtomsTextAreas @emitInput="receiveTeamAreas" :body="detail_areas" />
+      </v-col>
+      <v-col cols="12">
+        ■主な活動日時
+        <AtomsTextAreas
+          @emitInput="receiveactive_datetime"
+          :body="active_datetime"
+        />
+      </v-col>
+      <v-col cols="12">
+        ■ホームページ、ブログ等URL
+        <AtomsTextAreas @emitInput="receiveteam_url" :body="team_url" />
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
 
 <style scoped>
 .v-text-field:deep(.v-input__details) {

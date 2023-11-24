@@ -1,10 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
-import vuetify from "vite-plugin-vuetify";
-
 export default defineNuxtConfig({
   ssr:false,
-  // spaLoadingTemplate: false,
   devtools: { enabled: true },
   css: ['@/assets/styles/main.scss'],
   postcss: {
@@ -27,6 +24,12 @@ export default defineNuxtConfig({
 
     }
   },
+  components: [
+    {
+      path: "@/components",
+      pathPrefix: false,
+    },
+  ],
   vite: {
     server: {
       watch: {

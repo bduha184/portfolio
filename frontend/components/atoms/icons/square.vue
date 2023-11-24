@@ -1,16 +1,15 @@
-<template>
-    <v-icon
-      :icon="name"
-      :size="size"
-    />
-</template>
-
 <script setup lang="ts">
-defineProps({
-  size:{
-    type:Number,
-    default:35
-  },
-  name: String,
-});
+import type { Props} from "~/types";
+
+const props = withDefaults(defineProps<Props>(),{
+  size:35,
+})
+
 </script>
+
+<template>
+  <v-icon
+    :icon="name"
+    :size="size"
+  />
+</template>

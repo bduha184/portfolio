@@ -1,3 +1,61 @@
+<script setup lang="ts">
+import { useAuthStore } from "~/stores/useAuthStore";
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
+import { ref, computed,useRuntimeConfig,navigateTo } from "#imports";
+import { useRouter } from "vue-router";
+import { Url } from "~/constants/url";
+import { Message } from "~/constants/flashMessage";
+
+const config = useRuntimeConfig();
+const auth = useAuthStore();
+const flashMessage = useFlashMessageStore();
+
+const router = useRouter();
+const form = ref({
+  email: "",
+  password: "",
+  errors: "",
+});
+
+const postError = ref(false);
+
+const receiveEmail = (val) => {
+  form.value.email = val.val;
+  form.value.errors = val.errors;
+};
+const receivePassword = (val) => {
+  form.value.password = val.val;
+  form.value.errors = val.errors;
+};
+const checkFilledOut = computed(() => {
+  const fieldArray = [form.value.email, form.value.password];
+
+  const errors = Object.keys(form.value.errors).length;
+
+  if (fieldArray.indexOf("") === -1 && errors == 0) {
+    return true;
+  }
+});
+
+
+const handleLogin = async () => {
+ const res =  await auth.login(form.value)
+    if (res.error.value != null) {
+      return flashMessage.setMessage(Message.LOGINERROR,'error',6000);
+    }
+    flashMessage.setMessage(Message.LOGIN);
+    return navigateTo(Url.MYPAGE);
+
+};
+
+
+const receiveClick = async(provider)=> {
+  const res = await auth.providerLogin(provider);
+        window.location.href = res.data.value.redirect_url;
+}
+
+</script>
+
 <template>
   <div>
     <v-container>
@@ -82,63 +140,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useAuthStore } from "~/stores/useAuthStore";
-import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
-import { ref, computed,useRuntimeConfig,navigateTo } from "#imports";
-import { useRouter } from "vue-router";
-import { Url } from "~/constants/url";
-import { Message } from "~/constants/flashMessage";
-
-const config = useRuntimeConfig();
-const auth = useAuthStore();
-const flashMessage = useFlashMessageStore();
-
-const router = useRouter();
-const form = ref({
-  email: "",
-  password: "",
-  errors: "",
-});
-
-const postError = ref(false);
-
-const receiveEmail = (val) => {
-  form.value.email = val.val;
-  form.value.errors = val.errors;
-};
-const receivePassword = (val) => {
-  form.value.password = val.val;
-  form.value.errors = val.errors;
-};
-const checkFilledOut = computed(() => {
-  const fieldArray = [form.value.email, form.value.password];
-
-  const errors = Object.keys(form.value.errors).length;
-
-  if (fieldArray.indexOf("") === -1 && errors == 0) {
-    return true;
-  }
-});
-
-
-const handleLogin = async () => {
- const res =  await auth.login(form.value)
-    if (res.error.value != null) {
-      return flashMessage.setMessage(Message.LOGINERROR,'error',6000);
-    }
-    flashMessage.setMessage(Message.LOGIN);
-    return navigateTo(Url.MYPAGE);
-
-};
-
-
-const receiveClick = async(provider)=> {
-  const res = await auth.providerLogin(provider);
-        window.location.href = res.data.value.redirect_url;
-}
-
-</script>
 
 <style scoped lang="scss">
 .v-btn:deep(.v-responsive){

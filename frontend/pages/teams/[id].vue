@@ -3,10 +3,6 @@
       <OrganismsCardsRecruitCardForDetail/>
   </div>
 </template>
-<script setup lang="ts">
-
-
-</script>
 
 <style lang="scss" scoped>
 .v-container {

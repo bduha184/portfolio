@@ -1,30 +1,22 @@
-<template>
-    <v-img
-    :src="path"
-    @click="onClick"
-    cover
-    >
-    <slot/>
-    </v-img>
-</template>
-
 <script setup lang="ts">
-const props= defineProps({
-  path: {
-    type:String,
-    default:''
-  },
-})
+import type { Emits,Props} from "~/types";
 
+const props= defineProps<Props>();
 
-interface Emits {
-  (e: "emitClick"): void;
-}
 const emits = defineEmits<Emits>();
 
-const onClick = ()=> {
-  emits('emitClick');
+const onClick = (e:Event)=> {
+  emits('emitClick',e.target as HTMLElement);
 }
 
-
 </script>
+
+<template>
+  <v-img
+  :src="path"
+  @click="onClick"
+  cover
+  >
+  <slot/>
+  </v-img>
+</template>

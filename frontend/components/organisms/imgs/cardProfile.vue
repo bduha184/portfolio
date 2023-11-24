@@ -1,21 +1,3 @@
-<template>
-  <div class="relative z-0 h-[100px]">
-    <MoleculesImgsSelect
-    @emitInput="receiveHeaderImg"
-    :path="path_header"
-    :disabled="disabled"
-    size="cover"
-    />
-    <v-avatar size="80" color="white">
-      <MoleculesImgsSelect
-      @emitInput="receiveThumbnail"
-      :path="path_thumbnail"
-      :disabled="disabled"
-      />
-    </v-avatar>
-  </div>
-</template>
-
 <script setup lang="ts">
 const props = defineProps({
   path_header: {
@@ -43,6 +25,24 @@ const receiveThumbnail = (val:File,target:String) => {
 };
 
 </script>
+
+<template>
+  <div class="relative z-0 h-[100px]">
+    <MoleculesImgsSelect
+    @emitInput="receiveHeaderImg"
+    :path="path_header"
+    :disabled="disabled"
+    size="cover"
+    />
+    <v-avatar size="80" color="white">
+      <MoleculesImgsSelect
+      @emitInput="receiveThumbnail"
+      :path="path_thumbnail"
+      :disabled="disabled"
+      />
+    </v-avatar>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .v-avatar {

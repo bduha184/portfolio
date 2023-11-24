@@ -1,48 +1,3 @@
-<template>
-  <div>
-    <v-btn
-        @dragover.prevent="isDragged = true"
-        @dragleave.prevent="isDragged = false"
-        @drop.prevent="onFileDropped"
-        width="100%"
-        height="100%"
-        color="info"
-        class="text-none"
-        :variant="!isDragged ? 'contained' : 'outlined'"
-        depressed
-        @click="openFileSelect"
-    >
-        <v-progress-circular
-            v-if="isSelecting"
-            class="mx-12 my-6"
-            indeterminate
-            color="white"
-        />
-        <v-row v-if="!isSelecting" class="text-center" justify="center">
-            <v-col class="mt-2 mb-n2" cols="10">
-                <v-icon size="40">
-                    {{ props.buttonIcon }}
-                </v-icon>
-            </v-col>
-            <v-col class="text-truncate mb-2 mt-n2" cols="10">
-                ファイルを選択<br>
-                or<br>
-                ドラッグ&ドロップ
-            </v-col>
-        </v-row>
-    </v-btn>
-    <input
-        ref="uploader"
-        class="d-none"
-        type="file"
-        :accept="props.accept"
-        @change="onFileSelectChange"
-        multiple
-    >
-  </div>
-
-</template>
-
 <script setup lang="ts">
 import {ref} from '#imports';
 import {mdiCloudUpload} from '@mdi/js'
@@ -95,3 +50,48 @@ const onFileSelectChange = (e: Event) => {
     // emits("emitImages", {files});
 }
 </script>
+
+<template>
+  <div>
+    <v-btn
+        @dragover.prevent="isDragged = true"
+        @dragleave.prevent="isDragged = false"
+        @drop.prevent="onFileDropped"
+        width="100%"
+        height="100%"
+        color="info"
+        class="text-none"
+        :variant="!isDragged ? 'contained' : 'outlined'"
+        depressed
+        @click="openFileSelect"
+    >
+        <v-progress-circular
+            v-if="isSelecting"
+            class="mx-12 my-6"
+            indeterminate
+            color="white"
+        />
+        <v-row v-if="!isSelecting" class="text-center" justify="center">
+            <v-col class="mt-2 mb-n2" cols="10">
+                <v-icon size="40">
+                    {{ props.buttonIcon }}
+                </v-icon>
+            </v-col>
+            <v-col class="text-truncate mb-2 mt-n2" cols="10">
+                ファイルを選択<br>
+                or<br>
+                ドラッグ&ドロップ
+            </v-col>
+        </v-row>
+    </v-btn>
+    <input
+        ref="uploader"
+        class="d-none"
+        type="file"
+        :accept="props.accept"
+        @change="onFileSelectChange"
+        multiple
+    >
+  </div>
+
+</template>

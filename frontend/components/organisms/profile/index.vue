@@ -1,21 +1,3 @@
-<template>
-  <div>
-    <OrganismsImgsCardProfile
-      @emitInput="receiveProfileImage"
-      :path_header="form.url_header_img"
-      :path_thumbnail="form.url_thumbnail"
-    />
-    <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextsHeadLine>
-        {{ form.name }}
-      </AtomsTextsHeadLine>
-    </v-card-title>
-    <v-card-text>
-      {{ form.introduction }}
-    </v-card-text>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted } from "#imports";
 import { useRuntimeConfig, navigateTo } from "nuxt/app";
@@ -59,6 +41,38 @@ onMounted(async () => {
   }
 });
 </script>
+
+<template>
+  <div>
+    <form method="POST">
+      <h2 class="text-center text-h5 mb-5">パスワード再設定</h2>
+      <p
+      class="bg-blue-100 text-center mb-5 p-2 "
+      v-show="message"
+      >{{ message }}</p>
+      <div class="text-caption">
+        <span class="text-red">※</span>は必須項目です
+      </div>
+      <MoleculesInput
+        type="email"
+        label="メールアドレス"
+        @emitInput="receiveEmail"
+        :val="form.email"
+        class="mb-4"
+      />
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        color="info"
+        class="my-4 d-block mx-auto"
+        :disabled="!checkFilledOut"
+        @emitClick="handleSendEmail"
+      >
+        メール送信
+      </AtomsBtnsBaseBtn>
+
+    </form>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .v-card {

@@ -1,34 +1,8 @@
-<template>
-  <AtomsImgs
-  :src="path"
-  @emitClick="openFileSelect"
-  >
-  <AtomsInput
-   type="file"
-   class="d-none"
-   accept="image/*"
-   :isSelecting="isSelecting"
-   :disabled="disabled"
-   @emitInput="receiveImg"
-   />
-</AtomsImgs>
-</template>
-
 <script setup lang="ts">
-import {ref} from '#imports';
-const props = defineProps({
-path: {
-  type:String,
-  default:''
-},
-disabled:{
-  type:Boolean,
-  default:false
-},
+import type { Emits,Props} from "~/types";
+const props = withDefaults(defineProps<Props>(),{
+  disabled:false,
 });
-interface Emits {
-(e: "emitInput", value: File): void;
-}
 const emits = defineEmits<Emits>();
 
 const isSelecting = ref<boolean>(false);
@@ -45,6 +19,22 @@ emits('emitInput',val)
 
 
 </script>
+
+<template>
+  <AtomsImgs
+  :src="path"
+  @emitClick="openFileSelect"
+  >
+  <AtomsInput
+   type="file"
+   class="d-none"
+   accept="image/*"
+   :isSelecting="isSelecting"
+   :disabled="disabled"
+   @emitInput="receiveImg"
+   />
+</AtomsImgs>
+</template>
 
 <style lang="scss" scoped>
 .v-avatar {

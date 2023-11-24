@@ -1,14 +1,10 @@
+<script setup lang="ts">
+import type { Props} from "~/types";
+const props  = defineProps<Props>();
+</script>
+
 <template>
   <label :for="label">
     <slot />
   </label>
 </template>
-<script setup>
-
-const props  = defineProps({
-  label:{
-    type:String,
-    default:''
-  }
-})
-</script>

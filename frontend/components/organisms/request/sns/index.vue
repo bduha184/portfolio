@@ -1,46 +1,3 @@
-<template>
-  <div class="relative">
-    <v-card class="mx-auto h-[100vh] overflow-y-auto">
-      <v-list>
-        <v-list-item
-          v-for="(message, index) in messages"
-          :key="index"
-          :prepend-avatar="
-            message.sender_id == auth.user.id
-              ? ''
-              : config.public.baseURL + '/storage/' + message.thumbnail_path
-          "
-          rounded="shaped"
-          :title="message.sender_id == auth.user.id ? '' : message.title"
-          :subtitle="message.comment"
-          class="ml-auto"
-          :class="message.sender_id == auth.user.id ? 'right' : ''"
-        />
-        <v-list-item
-          v-for="(message, index) in pusherMessages"
-          :key="index"
-          :subtitle="message"
-          class="right"
-        />
-      </v-list>
-    </v-card>
-    <v-form class="fixed p-2 bottom-0 left-0 w-100 bg-grey-lighten-3">
-      <v-row>
-        <v-col cols="10">
-          <AtomsInput
-            class="bg-white"
-            @emitInput="receiveInput"
-            :val="authMessage"
-          />
-        </v-col>
-        <v-col cols="2">
-          <AtomsBtnsArrowBtn @emitClick="receiveClick" />
-        </v-col>
-      </v-row>
-    </v-form>
-  </div>
-</template>
-
 <script setup lang="ts">
 import {
   ref,
@@ -103,6 +60,15 @@ onMounted(async () => {
   messages.value.push(...val.data);
 });
 </script>
+
+<template>
+  <v-container>
+    <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+    <v-card-text>
+      {{ activities }}
+    </v-card-text>
+  </v-container>
+</template>
 
 <style lang="scss" scoped>
 .v-list {

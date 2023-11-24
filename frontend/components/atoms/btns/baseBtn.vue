@@ -1,7 +1,23 @@
+<script setup lang="ts">
+import type { Emits,Props} from "~/types";
+
+const props = withDefaults(defineProps<Props>(),{
+  variant: 'elevated',
+  height: 40,
+})
+
+const emits = defineEmits<Emits>();
+
+const onClick = (e:Event) => {
+  emits("emitClick", e.target as HTMLElement);
+};
+</script>
+
 <template>
   <v-btn
     rounded
-    :height=height
+    density="compact"
+    :height="height"
     :to="to"
     :color="color"
     @click="onClick"
@@ -9,49 +25,6 @@
     :disabled="disabled"
     :prepend-icon="prependIcon"
   >
-  <slot/>
-</v-btn>
+    <slot />
+  </v-btn>
 </template>
-
-<script setup lang="ts">
-const props = defineProps({
-    to:{
-      type:String,
-      default:''
-  },
-  color:{
-    type:String,
-    default:''
-  },
-  variant:{
-    type:String,
-    default:'elevated'
-  },
-  height:{
-    type:Number,
-    default:40
-  },
-  disabled:{
-    type:Boolean,
-    default:false
-  },
-  prependIcon:{
-    type:String,
-    default:''
-  }
-})
-
-const emits = defineEmits(['emitClick'])
-
-const onClick = (e) => {
-emits('emitClick',e.target);
-}
-
-
-</script>
-
-<style scoped>
-.v-btn {
-  line-height: 40px;
-}
-</style>

@@ -1,58 +1,3 @@
-<template>
-  <div class="relative">
-    <v-card class="mx-auto h-[100vh] overflow-y-auto">
-      <v-list>
-        <v-list-item
-          v-for="(message, index) in messages"
-          :key="index"
-          :prepend-avatar="
-            message.sender_id == auth.user.id
-              ? ''
-              : config.public.baseURL + '/storage/' + message.thumbnail_path
-          "
-          rounded="shaped"
-          :title="message.sender_id == auth.user.id ? '' : message.title"
-          :subtitle="message.comment"
-          class="ml-auto"
-          :class="message.sender_id == auth.user.id ? 'right' : ''"
-        />
-        <v-list-item
-          v-for="(message, index) in pusherMessages"
-          :key="index"
-          :subtitle="message"
-          class="right"
-        />
-      </v-list>
-    </v-card>
-    <v-form class="fixed bottom-0 left-0 w-100">
-      <v-container>
-        <AtomsBtnsBaseBtn
-          class="mb-6 ml-2"
-          v-if="request_flg"
-          @emitClick="allowJoinTeam"
-        >
-          参加申請を許可する
-        </AtomsBtnsBaseBtn>
-        <v-row class="bg-grey-lighten-3">
-          <v-col cols="10">
-            <AtomsInput
-              class="bg-white"
-              @emitInput="receiveInput"
-              :val="authMessage"
-            />
-          </v-col>
-          <v-col cols="2">
-            <AtomsBtnsArrowBtn
-              @emitClick="receiveClick"
-              :disabled="checkFilledOut"
-            />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-  </div>
-</template>
-
 <script setup lang="ts">
 import {
   ref,
@@ -164,6 +109,61 @@ onMounted(async () => {
   });
 });
 </script>
+
+<template>
+  <div class="relative">
+    <v-card class="mx-auto h-[100vh] overflow-y-auto">
+      <v-list>
+        <v-list-item
+          v-for="(message, index) in messages"
+          :key="index"
+          :prepend-avatar="
+            message.sender_id == auth.user.id
+              ? ''
+              : config.public.baseURL + '/storage/' + message.thumbnail_path
+          "
+          rounded="shaped"
+          :title="message.sender_id == auth.user.id ? '' : message.title"
+          :subtitle="message.comment"
+          class="ml-auto"
+          :class="message.sender_id == auth.user.id ? 'right' : ''"
+        />
+        <v-list-item
+          v-for="(message, index) in pusherMessages"
+          :key="index"
+          :subtitle="message"
+          class="right"
+        />
+      </v-list>
+    </v-card>
+    <v-form class="fixed bottom-0 left-0 w-100">
+      <v-container>
+        <AtomsBtnsBaseBtn
+          class="mb-6 ml-2"
+          v-if="request_flg"
+          @emitClick="allowJoinTeam"
+        >
+          参加申請を許可する
+        </AtomsBtnsBaseBtn>
+        <v-row class="bg-grey-lighten-3">
+          <v-col cols="10">
+            <AtomsInput
+              class="bg-white"
+              @emitInput="receiveInput"
+              :val="authMessage"
+            />
+          </v-col>
+          <v-col cols="2">
+            <AtomsBtnsArrowBtn
+              @emitClick="receiveClick"
+              :disabled="checkFilledOut"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .v-list {

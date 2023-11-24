@@ -1,7 +1,3 @@
-<template>
-  <div>認証中</div>
-</template>
-
 <script setup lang="ts">
 import { onMounted,navigateTo } from "#imports";
 import { useAuthStore } from "../../stores/useAuthStore";
@@ -43,3 +39,7 @@ onMounted(() => {
   sendToken("google", route.query);
 });
 </script>
+
+<template>
+  <div>認証中</div>
+</template>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
             'user'=>$request->user()
         ]);
     });
+
 
     Route::controller(UserController::class)->group(function(){
         Route::prefix('user')->group(function () {

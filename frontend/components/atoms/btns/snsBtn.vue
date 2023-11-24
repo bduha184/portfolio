@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import type { Emits} from "~/types";
+
+const emits = defineEmits<Emits>();
+
+const onClick = (e:Event) => {
+  emits('emitClick',e.target as HTMLElement);
+}
+
+</script>
+
 <template>
   <v-btn
     variant="outlined"
@@ -7,24 +18,3 @@
     <slot/>
   </v-btn>
 </template>
-
-
-<script setup lang="ts">
-import { useAuthStore } from '../../../stores/useAuthStore';
-import {useRuntimeConfig} from 'nuxt/app';
-
-const auth = useAuthStore();
-const config = useRuntimeConfig();
-
-interface Emits {
-(e:"emitClick"):void
-}
-
-const emits = defineEmits<Emits>();
-
-const onClick = () => {
-  emits('emitClick');
-}
-
-
-</script>

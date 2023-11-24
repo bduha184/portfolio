@@ -1,13 +1,3 @@
-<template>
-  <v-snackbar
-  v-model="statusFlg"
-  :color="flashMessage.getColor"
-  location="top"
-  >
-  {{ flashMessage.getMessage }}
-  </v-snackbar>
-</template>
-
 <script setup lang="ts">
 import {ref,reactive,computed} from '#imports';
 import {useFlashMessageStore} from '~/stores/useFlashMessageStore';
@@ -21,6 +11,16 @@ const statusFlg = computed(()=>{
 })
 
 </script>
+
+<template>
+  <v-snackbar
+  v-model="statusFlg"
+  :color="flashMessage.getColor"
+  location="top"
+  >
+  {{ flashMessage.getMessage }}
+  </v-snackbar>
+</template>
 
 <style scoped>
 .v-snackbar:deep(.v-snackbar__content){

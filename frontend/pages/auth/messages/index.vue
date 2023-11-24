@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import {definePageMeta,useRouter} from '#imports';
+import {Url} from '../../../constants/url';
+import { useAuthStore } from '../../../stores/useAuthStore';
+import {Icons} from '~/constants/icons';
+
+definePageMeta({
+  middleware: ["auth"]
+})
+const router = useRouter();
+
+const auth = useAuthStore();
+
+const handleLogout = async()=> {
+  await auth.logout();
+
+}
+
+</script>
+
 <template>
   <div>
     <v-container class="bg-white mb-2">
@@ -31,22 +51,3 @@
     </v-container>
   </div>
 </template>
-<script setup lang="ts">
-import {definePageMeta,useRouter} from '#imports';
-import {Url} from '../../../constants/url';
-import { useAuthStore } from '../../../stores/useAuthStore';
-import {Icons} from '~/constants/icons';
-
-definePageMeta({
-  middleware: ["auth"]
-})
-const router = useRouter();
-
-const auth = useAuthStore();
-
-const handleLogout = async()=> {
-  await auth.logout();
-
-}
-
-</script>

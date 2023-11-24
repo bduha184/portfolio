@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import { onBeforeMount, ref } from "#imports";
+import { Icons } from "~/constants/icons";
+import { useAuthStore } from "~/stores/useAuthStore";
+const auth = useAuthStore();
+
+const teams = ref([]);
+
+onBeforeMount(async () => {
+  const res = await useApiFetch("/api/team/auth");
+  const items = res.data.value.affiliations;
+
+  teams.value.push(...items);
+});
+</script>
+
 <template>
   <div>
     <v-container class="bg-white mb-2">
@@ -33,21 +49,6 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import { onBeforeMount, ref } from "#imports";
-import { Icons } from "~/constants/icons";
-import { useAuthStore } from "~/stores/useAuthStore";
-const auth = useAuthStore();
-
-const teams = ref([]);
-
-onBeforeMount(async () => {
-  const res = await useApiFetch("/api/team/auth");
-  const items = res.data.value.affiliations;
-
-  teams.value.push(...items);
-});
-</script>
 
 <style lang="scss" scoped>
 .v-container {

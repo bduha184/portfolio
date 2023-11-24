@@ -1,13 +1,3 @@
-<template>
-  <v-container>
-    <VueGallery
-      :images="gallery.getImages"
-      :index="gallery.getTargetImage"
-      @close="index = null"
-    ></VueGallery>
-  </v-container>
-</template>
-
 <script setup>
 import VueGallery from "vue-gallery";
 import { ref,computed } from "#imports";
@@ -26,6 +16,16 @@ const gallery = useGalleryStore();
 
 console.log(gallery.getTargetImage)
 </script>
+
+<template>
+  <v-container>
+    <VueGallery
+      :images="gallery.getImages"
+      :index="gallery.getTargetImage"
+      @close="index = null"
+    ></VueGallery>
+  </v-container>
+</template>
 
 <style scoped lang="scss">
 .v-row {
