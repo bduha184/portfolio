@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {ref,reactive,computed} from '#imports';
-import {useFlashMessageStore} from '~/stores/useFlashMessageStore';
+import {useFlashMessageStore} from "~/stores/useFlashMessageStore";
 
 const flashMessage = useFlashMessageStore();
 

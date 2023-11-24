@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
-import { ref,computed } from "#imports";
-import {Url} from "~/constants/url";
-import { useRoute } from "vue-router";
-import {Message} from '~/constants/flashMessage';
-import { useFlashMessageStore } from '~/stores/useFlashMessageStore';
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
+import { Url } from "~/constants/url";
+import { Message } from "~/constants/flashMessage";
 
 const flashMessage = useFlashMessageStore();
-import { navigateTo } from "nuxt/app";
 const form = ref({
   password: "",
   password_confirmation: "",
@@ -15,21 +12,15 @@ const form = ref({
 
 const formCheck = ref({
   confirm: false,
-  errors:'',
-
-})
-
+  errors: "",
+});
 
 const route = useRoute();
 
-
 const message = ref();
 
-const checkFilledOut = computed(()=>{
-  const fieldArray = [
-  form.value.password,
-  form.value.password_confirmation,
-  ];
+const checkFilledOut = computed(() => {
+  const fieldArray = [form.value.password, form.value.password_confirmation];
 
   const errors = Object.keys(formCheck.value.errors).length;
 
@@ -39,11 +30,10 @@ const checkFilledOut = computed(()=>{
     formCheck.value.confirm = true;
   }
   if (fieldArray.indexOf("") === -1 && errors == 0) {
-    return true
-  }else{
-    return false
+    return true;
+  } else {
+    return false;
   }
-
 });
 
 const auth = useAuthStore();
@@ -60,22 +50,25 @@ async function handleSendEmail() {
   const email = route.query.email;
   const password = form.value.password;
   const password_confirmation = form.value.password_confirmation;
-  const res = await auth.resetPassword(token,email,password,password_confirmation);
+  const res = await auth.resetPassword(
+    token,
+    email,
+    password,
+    password_confirmation
+  );
 
-
-  if(res.error.value != null){
-     const errors = res.error.value.data.errors;
-     if (errors) {
-      if(errors.password) {
-        flashMessage.setMessage(Message.RESETPASSWORDERROR,'error',8000);
+  if (res.error.value != null) {
+    const errors = res.error.value.data.errors;
+    if (errors) {
+      if (errors.password) {
+        flashMessage.setMessage(Message.RESETPASSWORDERROR, "error", 8000);
         return false;
       }
-     }
-   }else{
-     flashMessage.setMessage(Message.RESETPASSWORD);
-     return navigateTo(Url.SIGNIN);
-
-   }
+    }
+  } else {
+    flashMessage.setMessage(Message.RESETPASSWORD);
+    return navigateTo(Url.SIGNIN);
+  }
 }
 </script>
 

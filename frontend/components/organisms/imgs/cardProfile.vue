@@ -1,26 +1,13 @@
 <script setup lang="ts">
-const props = defineProps({
-  path_header: {
-    type: String,
-    default: "",
-  },
-  path_thumbnail: {
-    type: String,
-    default: "",
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-});
-interface Emits {
-  (e: "emitInput", value: {val:File,target:String}): void;
-}
+import type {Emits,Props} from "~/types";
+
+const props = defineProps<Props>();
+
 const emits = defineEmits<Emits>();
-const receiveHeaderImg = (val:File,target:String) => {
+const receiveHeaderImg = (val:File,target:string) => {
   emits('emitInput',{val,target:'header'});
 };
-const receiveThumbnail = (val:File,target:String) => {
+const receiveThumbnail = (val:File,target:string) => {
   emits('emitInput',{val,target:'thumbnail'});
 };
 

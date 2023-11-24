@@ -1,29 +1,18 @@
 <script setup lang="ts">
-import {
-  useRuntimeConfig,
-  navigateTo,
-  useRoute,
-  clearNuxtData,
-} from "nuxt/app";
 import { Message } from "~/constants/flashMessage";
-import { ref, onBeforeMount, computed, watch } from "#imports";
 import { Url } from "~/constants/url";
 import { useApiFetch } from "~/composables/useApiFetch";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
-import { Form } from "vee-validate";
 import { useGalleryStore } from "~/stores/useGalleryStore";
+import { Form } from "vee-validate";
 
 
 const config = useRuntimeConfig();
 const auth = useAuthStore();
 const flashMessage = useFlashMessageStore();
 const gallery = useGalleryStore();
-const postImages = ref([]);
 const deleteCheck = ref(false);
-const handelDelete = computed(() => {
-  return (deleteCheck.value = true);
-});
 
 const teamItems = ref({
   path_header: "",
@@ -49,10 +38,6 @@ const teamItems = ref({
   url_thumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-// const receiveClick = (val) => {
-//   console.log(val);
-//   gallery.deleteImages(val);
-// };
 
 const receiveTeamName = (val) => {
   teamItems.value.team_name = val.value;

@@ -9,7 +9,7 @@ const auth = useAuthStore();
 const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();
 
-const form = ref({
+const form:Ref = ref({
   path_header: "",
   path_thumbnail: "",
   user_id: "",

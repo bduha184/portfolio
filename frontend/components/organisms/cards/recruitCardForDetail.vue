@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { ref, onBeforeMount, computed } from "#imports";
-import { useAuthStore } from "../../../stores/useAuthStore";
-import { useRoute } from "vue-router";
-import { useRuntimeConfig } from "nuxt/app";
+import { useAuthStore } from "~/stores/useAuthStore";
 import { Message } from "~/constants/flashMessage";
-import { useFlashMessageStore } from "../../../stores/useFlashMessageStore";
-import { useApiFetch } from "../../../composables/useApiFetch";
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
+import { useApiFetch } from "~/composables/useApiFetch";
 import { useGalleryStore } from "~/stores/useGalleryStore";
 
 const gallery = useGalleryStore();

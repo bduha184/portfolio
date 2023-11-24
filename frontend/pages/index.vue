@@ -1,10 +1,3 @@
-<script setup lang="ts">
-import {Url} from '../constants/url';
-import {ref} from 'vue';
-
-
-</script>
-
 <template>
   <div class="bg-white">
     <v-container>

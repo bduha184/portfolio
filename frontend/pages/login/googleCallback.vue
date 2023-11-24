@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { onMounted,navigateTo } from "#imports";
-import { useAuthStore } from "../../stores/useAuthStore";
-import { useRoute } from "vue-router";
-import {Url} from "~/constants/url";
+import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
-import { Message} from '~/constants/flashMessage';
+import {Url} from "~/constants/url";
+import { Message} from "~/constants/flashMessage";
+
 const auth = useAuthStore();
 const route = useRoute();
 const flashMessage = useFlashMessageStore();

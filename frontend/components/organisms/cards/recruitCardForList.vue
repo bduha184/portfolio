@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useRuntimeConfig,navigateTo,computed } from "#imports";
-import { Url } from "@/constants/url";
-import {Icons} from "@/constants/icons";
+import { Url } from "~/constants/url";
+import {Icons} from "~/constants/icons";
 
 const props = defineProps({
   header_img_path: {

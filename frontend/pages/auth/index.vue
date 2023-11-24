@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { ref, definePageMeta, navigateTo,onMounted,useRuntimeConfig } from "#imports";
-import { Url } from "~/constants/url";
 import { Icons } from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
-import {AuthMenus} from '~/constants/menuItems';
+import {AuthMenus} from "~/constants/menuItems";
 
 definePageMeta({
   middleware: ["auth"],
@@ -12,7 +10,6 @@ definePageMeta({
 const config = useRuntimeConfig();
 
 const auth = useAuthStore();
-const userId = auth.user.id;
 
 const items = ref({
   header_img:'',

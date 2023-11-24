@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { useAuthStore } from "../../../stores/useAuthStore";
-import {ref} from 'vue';
-import { navigateTo } from "nuxt/app";
-import {useRoute} from 'vue-router';
+import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
-import {Message} from '~/constants/flashMessage';
+import {Message} from "~/constants/flashMessage";
+
 const route = useRoute();
 const flashMessage = useFlashMessageStore();
 const form = ref({

@@ -172,7 +172,7 @@ export const useAuthStore = defineStore(
     }
     return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
   },
-  // {
-  //   persist: true,
-  // }
+  {
+    persist: true,
+  }
 );

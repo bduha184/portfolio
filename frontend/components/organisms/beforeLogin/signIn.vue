@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
-import { ref, computed,useRuntimeConfig,navigateTo } from "#imports";
-import { useRouter } from "vue-router";
 import { Url } from "~/constants/url";
 import { Message } from "~/constants/flashMessage";
 
@@ -10,14 +8,11 @@ const config = useRuntimeConfig();
 const auth = useAuthStore();
 const flashMessage = useFlashMessageStore();
 
-const router = useRouter();
 const form = ref({
   email: "",
   password: "",
   errors: "",
 });
-
-const postError = ref(false);
 
 const receiveEmail = (val) => {
   form.value.email = val.val;
@@ -123,19 +118,21 @@ const receiveClick = async(provider)=> {
         :val="form.password"
         class="mb-4"
       />
-      <NuxtLink
-      class="d-block text-sm text-center"
-      :to="Url.RESETPASSWORD"
-      >パスワードを忘れた方はこちら</NuxtLink>
       <AtomsBtnsBaseBtn
-        width="16rem"
-        color="orange"
-        class="my-4 d-block mx-auto"
-        :disabled="!checkFilledOut"
-        @emitClick="handleLogin"
+      width="16rem"
+      color="orange"
+      class="my-4 d-block mx-auto"
+      :disabled="!checkFilledOut"
+      @emitClick="handleLogin"
       >
-        ログイン
-      </AtomsBtnsBaseBtn>
+      ログイン
+    </AtomsBtnsBaseBtn>
+    <p class="text-center">パスワードをお忘れの方は
+      <NuxtLink
+      class="text-success text-decoration-underline"
+      :to="Url.RESETPASSWORD"
+      >こちら</NuxtLink>
+    </p>
     </form>
   </div>
 </template>

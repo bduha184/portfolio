@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import {ref} from '#imports';
-import {mdiCloudUpload} from '@mdi/js'
-import { useGalleryStore } from '~/stores/useGalleryStore';
+import {mdiCloudUpload} from "@mdi/js";
+import { useGalleryStore } from "~/stores/useGalleryStore";
 
 const gallery = useGalleryStore();
 

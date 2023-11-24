@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import {definePageMeta,useRouter} from '#imports';
-import { useAuthStore } from '~/stores/useAuthStore';
-import {AuthTeamMenus} from '~/constants/menuItems';
-import {Icons} from '~/constants/icons';
+import { useAuthStore } from "~/stores/useAuthStore";
+import {AuthTeamMenus} from "~/constants/menuItems";
+import {Icons} from "~/constants/icons";
 
 definePageMeta({
   middleware: ["auth"]

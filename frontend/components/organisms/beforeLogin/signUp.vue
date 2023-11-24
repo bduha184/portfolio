@@ -1,11 +1,8 @@
 <script setup>
-import {useAuthStore} from '../../../stores/useAuthStore';
-import { ref, computed } from "vue";
-import { navigateTo } from "nuxt/app";
-import {Url} from '../../../constants/url';
-import {useRuntimeConfig} from 'nuxt/app';
-import {Message} from '~/constants/flashMessage';
-import { useFlashMessageStore } from '../../../stores/useFlashMessageStore';
+import {useAuthStore} from "~/stores/useAuthStore";
+import {Url} from "~/constants/url";
+import {Message} from "~/constants/flashMessage";
+import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 
 const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();

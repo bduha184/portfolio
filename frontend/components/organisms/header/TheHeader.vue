@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref,computed } from "#imports";
 import { Url } from "~/constants/url";
 import { MenuItems } from "~/constants/menuItems";
 import { useAuthStore } from "~/stores/useAuthStore";

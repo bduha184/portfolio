@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
-import {ref,computed} from '#imports';
+
 const form = ref({
   email:'',
 })

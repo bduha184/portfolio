@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTeamStore } from "~/stores/useTeamStore";
-import { ref, onMounted, watch } from "#imports";
+
 const teamStore = useTeamStore();
 
 const tab = ref();

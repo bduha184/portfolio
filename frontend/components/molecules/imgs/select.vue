@@ -26,7 +26,7 @@ emits('emitInput',val)
   @emitClick="openFileSelect"
   >
   <AtomsInput
-   type="file"
+   type="text"
    class="d-none"
    accept="image/*"
    :isSelecting="isSelecting"

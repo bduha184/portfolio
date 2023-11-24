@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {ref} from "#imports";
 import {Areas} from "~/constants/areas";
 
 const area = ref();

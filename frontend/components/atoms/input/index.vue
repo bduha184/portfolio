@@ -10,9 +10,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emits = defineEmits<Emits>();
-
 const uploader = ref<HTMLInputElement>();
-const selectedFile = ref<File | null>(null);
+const selectedFile = ref<File | string | null>(null);
 
 watch(
   () => props.isSelecting,
@@ -24,6 +23,7 @@ watch(
 );
 
 const onChange = (e: Event) => {
+  
   const target = e.target as HTMLInputElement | File;
   if (props.type === "file") {
     const files = target.files;

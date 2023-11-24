@@ -1,6 +1,5 @@
 <script setup>
 import VueGallery from "vue-gallery";
-import { ref,computed } from "#imports";
 import { useGalleryStore } from "~/stores/useGalleryStore";
 
 const props = defineProps({

@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { useRuntimeConfig } from "nuxt/app";
-import { onMounted, ref } from "vue";
-import { Url } from "../../../constants/url";
-import { navigateTo } from "nuxt/app";
-import { useAuthStore } from "../../../stores/useAuthStore";
+import { Url } from "~/constants/url";
 
-const auth = useAuthStore();
 const config = useRuntimeConfig();
 const messages = ref([]);
 

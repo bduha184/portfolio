@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { Use } from "@/constants/use";
+import { Use } from "~/constants/use";
 </script>
 
 <template>

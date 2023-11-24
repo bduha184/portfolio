@@ -1,91 +1,39 @@
 <script setup lang="ts">
-import { ref, watch } from "#imports";
-import { Ages, Averages, Levels } from "~/constants/teams";
+import { Ages, Averages } from "~/constants/teams";
 import { Areas } from "~/constants/areas";
+import type {Emits,Props} from '~/types'
 
-const props = defineProps({
-  member_count: {
-    type: Number,
-    default: 0,
-  },
-  average: {
-    type: String,
-    default: "",
-  },
-  from_age: {
-    type: String,
-    default: "",
-  },
-  to_age: {
-    type: String,
-    default: "",
-  },
-  tags: {
-    type: Array,
-    default: [],
-  },
-  areas: {
-    type: Array,
-    default: [],
-  },
-  detail_activities: {
-    type: String,
-    default: "",
-  },
-  detail_areas: {
-    type: String,
-    default: "",
-  },
-  active_datetime: {
-    type: String,
-    default: "",
-  },
-  team_url: {
-    type: String,
-    default: "",
-  },
-});
+const props = defineProps<Props>();
 
-const ageAverage = ref("");
-const fromAge = ref("");
-const toAge = ref("");
-const tags = ref([]);
-const areas = ref([]);
-const detail_activities = ref("");
-const detail_areas = ref("");
-const active_datetime = ref("");
-const team_url = ref("");
+const ageAverage = ref<string>("");
+const fromAge = ref<string>("");
+const toAge = ref<string>("");
+const tags:Ref = ref([]);
+const areas:Ref = ref([]);
+const detail_activities = ref<string>("");
+const detail_areas = ref<string>("");
+const active_datetime = ref<string>("");
+const team_url = ref<string>("");
 
-interface Emits {
-  (e: "emitAgeAverage", value: String): void;
-  (e: "emitFromAge", value: String): void;
-  (e: "emitToAge", value: String): void;
-  (e: "emitTags", value: String): void;
-  (e: "emitAreas", value: String): void;
-  (e: "emitdetail_activities", value: String): void;
-  (e: "emitdetail_areas", value: String): void;
-  (e: "emitactive_datetime", value: String): void;
-  (e: "emitteam_url", value: String): void;
-}
 const emits = defineEmits<Emits>();
 
-const receiveTags = (val) => {
+const receiveTags = (val:string) => {
   tags.value = val;
   return false;
 };
-const receiveTeamActivities = (val) => {
+const receiveTeamActivities = (val:string) => {
   detail_activities.value = val.value;
   return false;
 };
-const receiveTeamAreas = (val) => {
+const receiveTeamAreas = (val:string) => {
   detail_areas.value = val.value;
   return false;
 };
-const receiveteam_url = (val) => {
+const receiveteam_url = (val:string) => {
   team_url.value = val.value;
   return false;
 };
-const receiveactive_datetime = (val) => {
+const receiveactive_datetime = (val:string) => {
   active_datetime.value = val.value;
   return false;
 };
@@ -108,10 +56,10 @@ watch(
     emits("emitToAge", toAge.value);
     emits("emitTags", tags.value);
     emits("emitAreas", areas.value);
-    emits("emitdetail_activities", detail_activities.value);
-    emits("emitdetail_areas", detail_areas.value);
-    emits("emitactive_datetime", active_datetime.value);
-    emits("emitteam_url", team_url.value);
+    emits("emitDetailActivities", detail_activities.value);
+    emits("emitDetailAreas", detail_areas.value);
+    emits("emitActiveDatetime", active_datetime.value);
+    emits("emitTeamUrl", team_url.value);
   }
 );
 watch(

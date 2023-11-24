@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, navigateTo, useRoute, onMounted, computed } from "#imports";
-import { useAuthStore } from "../../../stores/useAuthStore";
-import { Url } from "../../../constants/url";
+import { useAuthStore } from "~/stores/useAuthStore";
+import { Url } from "~/constants/url";
 
 const props = defineProps({
   btnType: {

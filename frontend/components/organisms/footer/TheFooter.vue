@@ -1,6 +1,6 @@
 
 <script setup lagn="ts">
-  import {Url} from '~/constants/url';
+  import {Url} from "~/constants/url";
 
 </script>
 

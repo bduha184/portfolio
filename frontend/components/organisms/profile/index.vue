@@ -1,12 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from "#imports";
-import { useRuntimeConfig, navigateTo } from "nuxt/app";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { Url } from "~/constants/url";
-import { useAuthStore } from "~/stores/useAuthStore";
-import { useRoute } from "vue-router";
 
-const auth = useAuthStore();
 const config = useRuntimeConfig();
 const router = useRoute();
 

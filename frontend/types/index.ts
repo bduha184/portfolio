@@ -1,33 +1,53 @@
 
 export interface Props {
   accept?: string | undefined;
+  active_datetime:string;
+  areas:string[];
+  average:string;
   body:string;
   classes:string;
   color: string;
   confirm:boolean;
+  detail_activities:string;
+  detail_areas:string;
   disabled?: boolean | undefined;
+  from_age:string;
   height: number;
   icon:string;
   isSelecting: boolean;
   label:string;
+  member_count: number;
   name?:string | undefined;
   padding?:string;
   path:string;
+  path_header:string;
+  path_thumbnail:string;
   placeholder?: string | undefined;
   prependIcon?: string;
   provider:string;
   size?:number;
   tags:string[];
+  team_url:string;
   text:string;
   to?: string;
+  to_age: string;
   toggle:boolean;
   type?: string | undefined;
-  val?: boolean | string | number | undefined;
+  val?: boolean | string | number | undefined | null;
   variant: NonNullable<"elevated" | "flat" | "text" | "tonal" | "outlined" | "plain"> | undefined;
 }
 
 export interface Emits {
   (e:"emitClick",value:HTMLElement):void;
-  (e:"emitInput", value: File | HTMLInputElement): void;
+  (e:"emitInput", value: File | HTMLInputElement | {val:File,target:String}): void;
   (e:"emitTags", value: HTMLInputElement): void;
+  (e:"emitAgeAverage", value: String): void;
+  (e:"emitFromAge", value: String): void;
+  (e:"emitToAge", value: String): void;
+  (e:"emitTags", value: Array<string>): void;
+  (e:"emitAreas", value: Array<string>): void;
+  (e:"emitDetailActivities", value: String): void;
+  (e:"emitDetailAreas", value: String): void;
+  (e:"emitActiveDatetime", value: String): void;
+  (e:"emitTeamUrl", value: String): void;
 }

@@ -1,17 +1,8 @@
 <script setup lang="ts">
-import {
-  useRuntimeConfig,
-  navigateTo,
-  useRoute,
-  clearNuxtData,
-} from "nuxt/app";
-import { Message } from "~/constants/flashMessage";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
+import {Icons} from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
-import {Icons} from '~/constants/icons';
-// import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();

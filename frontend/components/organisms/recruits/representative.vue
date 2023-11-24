@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { navigateTo } from "nuxt/app"
-import {Url} from "~/constants/url"
-
 
 const props = defineProps({
   user_id:{

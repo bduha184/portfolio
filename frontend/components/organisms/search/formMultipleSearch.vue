@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import {Icons} from '../../../constants/icons'
-import {ref} from 'vue';
+import {Icons} from "~/constants/icons";
 
 const load = ref({
 loaded:false,

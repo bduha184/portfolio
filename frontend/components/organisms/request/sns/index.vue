@@ -1,18 +1,7 @@
 <script setup lang="ts">
-import {
-  ref,
-  useRuntimeConfig,
-  navigateTo,
-  useRoute,
-  computed,
-  onMounted,
-  watch,
-} from "#imports";
-import { useAuthStore } from "../../../../stores/useAuthStore";
-import { Url } from "../../../../constants/url";
+import { useAuthStore } from "~/stores/useAuthStore";
 
 const auth = useAuthStore();
-const config = useRuntimeConfig();
 const router = useRoute();
 const messages = ref([]);
 const pusherMessages = ref([]);

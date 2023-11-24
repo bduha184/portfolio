@@ -1,16 +1,7 @@
 <script setup lang="ts">
-import {
-  ref,
-  useRuntimeConfig,
-  navigateTo,
-  useRoute,
-  computed,
-  onMounted,
-  watch,
-} from "#imports";
-import { useAuthStore } from "../../../../stores/useAuthStore";
-import { Url } from "../../../../constants/url";
-import { ApprovalMessage } from "../../../../constants/teams";
+import { useAuthStore } from "~/stores/useAuthStore";
+import { Url } from "~/constants/url";
+import { ApprovalMessage } from "~/constants/teams";
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();

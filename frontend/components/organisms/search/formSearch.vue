@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {ref} from '#imports';
 import {useTeamStore} from "~/stores/useTeamStore";
 
 const teams = useTeamStore();

@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { useAuthStore } from "../../../stores/useAuthStore";
-import { ref, onMounted, computed } from "vue";
-import { useRoute } from "vue-router";
-import { useRuntimeConfig } from "nuxt/app";
 
-const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
 
