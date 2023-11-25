@@ -1,29 +1,3 @@
-<script setup lang="ts">
-import { useTeamStore } from "~/stores/useTeamStore";
-
-const teamStore = useTeamStore();
-
-const tab = ref();
-
-const teams = ref(teamStore.getTeams);
-
-const receiveSelectedTab = (val) => {
-  tab.value = val;
-};
-
-watch(
-  () => tab.value,
-  () => {
-    teamStore.setTab(tab.value);
-    teamStore.fetchTeams();
-  }
-);
-
-onMounted(() => {
-  teamStore.fetchTeams();
-});
-</script>
-
 <template>
   <div class="p-4 bg-white">
     <OrganismsSearchFormKeywordsSearch />
@@ -46,3 +20,30 @@ onMounted(() => {
     />
   </div>
 </template>
+
+
+<script setup lang="ts">
+import type {Team} from "~/types";
+import { useTeamStore } from "~/stores/useTeamStore";
+
+const teamStore = useTeamStore();
+
+const tab = ref<string>();
+const teams:Team[]= ref(teamStore.getTeams);
+
+const receiveSelectedTab = (val:string) => {
+  tab.value = val;
+};
+
+watch(
+  () => tab.value,
+  () => {
+    teamStore.setTab(tab.value);
+    teamStore.fetchTeams();
+  }
+);
+
+onMounted(() => {
+  teamStore.fetchTeams();
+});
+</script>

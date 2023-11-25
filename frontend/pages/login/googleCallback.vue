@@ -1,3 +1,7 @@
+<template>
+  <div>認証中</div>
+</template>
+
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
@@ -8,7 +12,7 @@ const auth = useAuthStore();
 const route = useRoute();
 const flashMessage = useFlashMessageStore();
 
-const sendToken = async (provider, query) => {
+const sendToken = async (provider:string, query) => {
   const redirectRes = await auth.providerLoginRedirect(provider, query);
 
   console.log(redirectRes);
@@ -38,7 +42,3 @@ onMounted(() => {
   sendToken("google", route.query);
 });
 </script>
-
-<template>
-  <div>認証中</div>
-</template>

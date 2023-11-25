@@ -1,37 +1,3 @@
-<script setup lang="ts">
-import { Icons } from "~/constants/icons";
-import { useAuthStore } from "~/stores/useAuthStore";
-import {AuthMenus} from "~/constants/menuItems";
-
-definePageMeta({
-  middleware: ["auth"],
-});
-
-const config = useRuntimeConfig();
-
-const auth = useAuthStore();
-
-const items = ref({
-  header_img:'',
-  url_header_img: config.public.appURL + "/images/noimage.jpg",
-})
-
-const receiveHeaderImg = (val: File) => {
-  console.log(val);
-  //   items.value.header_img = val.val;
-  items.value.url_header_img = URL.createObjectURL(val);
-  // URL.revokeObjectURL(val);
-};
-
-// onMounted(() =>{
-//   teamItems.value.url_header_img =
-//               config.public.baseURL +
-//               "/storage/" +
-//               val.teamItem.header_img_path;
-// })
-
-</script>
-
 <template>
   <div>
 
@@ -73,3 +39,17 @@ const receiveHeaderImg = (val: File) => {
     </v-container>
   </div>
 </template>
+
+
+<script setup lang="ts">
+import { Icons } from "~/constants/icons";
+import { useAuthStore } from "~/stores/useAuthStore";
+import {AuthMenus} from "~/constants/menuItems";
+
+definePageMeta({
+  middleware: ["auth"],
+});
+
+const auth = useAuthStore();
+
+</script>

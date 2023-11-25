@@ -44,6 +44,15 @@ export const useTeamStore = defineStore({
         });
       }
     },
+    async fetchAffiliationTeams(){
+      const res = await useApiFetch("/api/team/auth");
+      const teams = res.data.value.affiliations;
+      if (res.error.value == null && teams) {
+        teams.forEach((team) => {
+          this.teams.push(team);
+        });
+      }
+    },
     setTab(tab:string){
       this.tab = tab;
     },

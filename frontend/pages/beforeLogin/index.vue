@@ -1,16 +1,3 @@
-
-<script setup lang="ts">
-
-const router = useRoute();
-const param = router.query.tab;
-
-const tab = ref(param);
-
-
-
-
-</script>
-
 <template>
   <v-container class="bg-white">
     <MoleculesBeforeLoginTabs v-model="tab"/>
@@ -25,3 +12,13 @@ const tab = ref(param);
 
   </v-container>
 </template>
+
+
+<script setup lang="ts">
+
+const router = useRoute();
+const param = router.query.tab;
+
+const tab = ref(param);
+
+</script>

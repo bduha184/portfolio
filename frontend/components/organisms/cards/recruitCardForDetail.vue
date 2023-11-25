@@ -1,3 +1,70 @@
+<template>
+  <v-card>
+    <OrganismsImgsCardProfile
+      :path_header="teamItems.url_header_img"
+      :path_thumbnail="teamItems.url_thumbnail"
+      disabled="disabled"
+    />
+    <v-card-title class="text-body-2 pl-20">
+      <AtomsTextsHeadLine>
+        {{ teamItems.team_name }}
+      </AtomsTextsHeadLine>
+    </v-card-title>
+    <v-card-text>
+      {{ teamItems.introduction }}
+    </v-card-text>
+    <OrganismsGallery :images="gallery.getImages" />
+    <OrganismsRecruitsTeamInfo
+      :member_count="teamItems.member_count"
+      :average="teamItems.average"
+      :from_age="teamItems.from_age"
+      :to_age="teamItems.to_age"
+      :tags="teamItems.tags"
+      :areas="teamItems.areas"
+      :detail_activities="teamItems.detail_activities"
+      :detail_areas="teamItems.detail_areas"
+      :active_datetime="teamItems.active_datetime"
+      :team_url="teamItems.team_url"
+    />
+    <OrganismsRecruitsActivities :activities="teamItems.activities" />
+    <v-container class="text-center">
+      <v-row>
+        <v-col>
+          <OrganismsModal
+            color="info"
+            :userId="rep.user_id"
+            placeholder="伝えたい内容、参加したい理由、等を記載してください"
+            text="メッセージを送信する"
+            :disabled="rep.user_id == auth.user?.id"
+            @emitMessages="receiveMessages"
+          >
+            このチームに参加する
+          </OrganismsModal>
+        </v-col>
+        <v-col>
+          <OrganismsModal
+            color="secondary"
+            :userId="rep.user_id"
+            placeholder="質問内容を記載してください"
+            text="質問内容を送信する"
+            :disabled="rep.user_id == auth.user?.id"
+            @emitMessages="receiveMessages"
+          >
+            このチームに質問する
+          </OrganismsModal>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <OrganismsRecruitsRepresentative
+      :user_id="rep.user_id"
+      :path_thumbnail="rep.path_thumbnail"
+      :introduction="rep.introduction"
+    />
+  </v-card>
+</template>
+
+
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
 import { Message } from "~/constants/flashMessage";
@@ -128,72 +195,6 @@ const receiveMessages = async (val) => {
 })();
 </script>
 
-
-<template>
-  <v-card>
-    <OrganismsImgsCardProfile
-      :path_header="teamItems.url_header_img"
-      :path_thumbnail="teamItems.url_thumbnail"
-      disabled="disabled"
-    />
-    <v-card-title class="text-body-2 pl-20">
-      <AtomsTextsHeadLine>
-        {{ teamItems.team_name }}
-      </AtomsTextsHeadLine>
-    </v-card-title>
-    <v-card-text>
-      {{ teamItems.introduction }}
-    </v-card-text>
-    <OrganismsGallery :images="gallery.getImages" />
-    <OrganismsRecruitsTeamInfo
-      :member_count="teamItems.member_count"
-      :average="teamItems.average"
-      :from_age="teamItems.from_age"
-      :to_age="teamItems.to_age"
-      :tags="teamItems.tags"
-      :areas="teamItems.areas"
-      :detail_activities="teamItems.detail_activities"
-      :detail_areas="teamItems.detail_areas"
-      :active_datetime="teamItems.active_datetime"
-      :team_url="teamItems.team_url"
-    />
-    <OrganismsRecruitsActivities :activities="teamItems.activities" />
-    <v-container class="text-center">
-      <v-row>
-        <v-col>
-          <OrganismsModal
-            color="info"
-            :userId="rep.user_id"
-            placeholder="伝えたい内容、参加したい理由、等を記載してください"
-            text="メッセージを送信する"
-            :disabled="rep.user_id == auth.user?.id"
-            @emitMessages="receiveMessages"
-          >
-            このチームに参加する
-          </OrganismsModal>
-        </v-col>
-        <v-col>
-          <OrganismsModal
-            color="secondary"
-            :userId="rep.user_id"
-            placeholder="質問内容を記載してください"
-            text="質問内容を送信する"
-            :disabled="rep.user_id == auth.user?.id"
-            @emitMessages="receiveMessages"
-          >
-            このチームに質問する
-          </OrganismsModal>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <OrganismsRecruitsRepresentative
-      :user_id="rep.user_id"
-      :path_thumbnail="rep.path_thumbnail"
-      :introduction="rep.introduction"
-    />
-  </v-card>
-</template>
 
 <style lang="scss" scoped>
 .v-card {

@@ -1,3 +1,19 @@
+<template>
+  <input
+    multiple
+    ref="uploader"
+    :accept="accept"
+    :disabled="disabled"
+    :name="name"
+    :placeholder="placeholder"
+    :type="type"
+    :value="val"
+    @change="onChange"
+    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+  />
+</template>
+
+
 <script setup lang="ts">
 import type { Emits,Props} from "~/types";
 import { ref, watch } from "#imports";
@@ -23,7 +39,7 @@ watch(
 );
 
 const onChange = (e: Event) => {
-  
+
   const target = e.target as HTMLInputElement | File;
   if (props.type === "file") {
     const files = target.files;
@@ -31,25 +47,11 @@ const onChange = (e: Event) => {
     selectedFile.value = file;
     emits("emitInput", file);
   } else {
+    console.log(target);
     emits("emitInput", target);
   }
 };
 </script>
-
-<template>
-  <input
-    multiple
-    ref="uploader"
-    :accept="accept"
-    :disabled="disabled"
-    :name="name"
-    :placeholder="placeholder"
-    :type="type"
-    :value="val"
-    @change="onChange"
-    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-  />
-</template>
 
 <style lang="scss" scoped>
 input[type="checkbox"] {

@@ -1,24 +1,3 @@
-<script setup lang="ts">
-import { useAuthStore } from "~/stores/useAuthStore";
-import {AuthTeamMenus} from "~/constants/menuItems";
-import {Icons} from "~/constants/icons";
-
-definePageMeta({
-  middleware: ["auth"]
-})
-
-const router = useRouter();
-
-const auth = useAuthStore();
-
-const handleLogout = async()=> {
-  await auth.logout();
-
-}
-
-</script>
-
-
 <template>
   <div>
     <v-container class="bg-white mb-2">
@@ -70,3 +49,19 @@ const handleLogout = async()=> {
     </v-container>
   </div>
 </template>
+
+
+
+<script setup lang="ts">
+import { useAuthStore } from "~/stores/useAuthStore";
+import {AuthTeamMenus} from "~/constants/menuItems";
+import {Icons} from "~/constants/icons";
+
+definePageMeta({
+  middleware: ["auth"]
+})
+
+const router = useRouter();
+const auth = useAuthStore();
+
+</script>

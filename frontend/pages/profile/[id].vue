@@ -1,9 +1,3 @@
-<script setup lang="ts">
-definePageMeta({
-  middleware: ["auth"],
-});
-</script>
-
 <template>
   <div>
     <h1 class="text-h6 font-weight-bold text-center">
@@ -14,3 +8,9 @@ definePageMeta({
     </v-card>
   </div>
 </template>
+
+<script setup>
+definePageMeta({
+  middleware: ["auth"],
+});
+</script>

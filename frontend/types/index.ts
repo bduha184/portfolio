@@ -51,3 +51,16 @@ export interface Emits {
   (e:"emitActiveDatetime", value: String): void;
   (e:"emitTeamUrl", value: String): void;
 }
+
+export interface Team {
+  id:number;
+  active_datetime:string;
+  areas:Array<string>;
+  header_img_path:string;
+  thumbnail_path:string;
+  team_name:string;
+  profiles_count:number;
+  profiles:string;
+  introduction:string;
+  tags:Array<string>;
+}
