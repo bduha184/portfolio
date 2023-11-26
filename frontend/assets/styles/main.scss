@@ -8,6 +8,7 @@ body {
   font-family: YuGothic, "游ゴシック", "Noto Sans JP", "Meiryo", "メイリオ", "ＭＳ Ｐゴシック", sans-serif;
 }
 
+
 .v-toolbar-title__placeholder {
   overflow: visible !important;
   margin-right: 50px !important;
@@ -38,11 +39,16 @@ body {
     border: 1px solid #555;
   }
 
-
   .v-container {
     padding: 8px !important;
+    max-width: 1000px !important;
   }
+
 
   .v-row{
     margin: 0 !important;
+  }
+
+  main {
+    margin-top: 1rem;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-2 px-2">
 
     <v-container class="bg-white mb-2">
       <h6 class="text-h6">
@@ -46,10 +46,10 @@ import { Icons } from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
 import {AuthMenus} from "~/constants/menuItems";
 
+const auth = useAuthStore();
 definePageMeta({
   middleware: ["auth"],
 });
 
-const auth = useAuthStore();
 
 </script>

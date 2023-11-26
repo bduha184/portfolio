@@ -15,7 +15,7 @@ const onClick = (e:Event) => {
 
 <template>
   <v-btn
-    rounded
+    rounded="xl"
     density="compact"
     :height="height"
     :to="to"

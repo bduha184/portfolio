@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container max-width="1000px">
       <OrganismsHomeSectionTitle
    title="ABOUT"
    subTitle="このアプリについて"
@@ -26,12 +26,11 @@
             class="mt-4 d-none d-sm-block"
             />
           </div>
-
         </v-col >
         <v-col cols="12" sm="6">
           <v-img
-            src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg"
             contain
+          :src="`${config.public.appURL}/_nuxt/assets/images/hero-main.webp`"
           >
           </v-img>
           <ButtonCommon
@@ -52,3 +51,8 @@
       </v-row>
     </v-container>
 </template>
+
+<script setup>
+const config = useRuntimeConfig();
+
+</script>

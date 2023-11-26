@@ -24,7 +24,7 @@ export const MenuItems = [
     {
       text: "サイクリング募集",
       icon: Icons.CYCLING,
-      auth: false,
+      auth: null,
       func: () => router.push(Url.TEAMS),
     },
     // {

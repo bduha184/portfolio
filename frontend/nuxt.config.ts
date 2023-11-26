@@ -2,6 +2,22 @@
 
 export default defineNuxtConfig({
   ssr:false,
+  app:{
+    head: {
+      htmlAttrs: { lang: 'ja' },
+      titleTemplate: '%s | Cycle Community',
+      title: 'Cycle Community',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { hid: 'description', name: 'description', content: 'あなたの防災レベルはいくつ？' }
+      ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Marck+Script' }
+      ]
+    },
+  },
   devtools: { enabled: true },
   css: ['@/assets/styles/main.scss'],
   postcss: {
@@ -24,12 +40,12 @@ export default defineNuxtConfig({
 
     }
   },
-  components: [
-    {
-      path: "@/components",
-      pathPrefix: false,
-    },
-  ],
+  // components: [
+  //   {
+  //     path: "@/components",
+  //     pathPrefix: false,
+  //   },
+  // ],
   vite: {
     server: {
       watch: {

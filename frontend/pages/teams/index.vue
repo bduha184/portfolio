@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 bg-white">
+  <v-container>
     <OrganismsSearchFormKeywordsSearch />
     <!-- <OrganismsSearchFormMultipleSearch /> -->
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
@@ -18,7 +18,7 @@
       :areas="item.areas"
       :date_time="item.active_datetime"
     />
-  </div>
+  </v-container>
 </template>
 
 

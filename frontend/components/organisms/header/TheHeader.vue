@@ -1,35 +1,14 @@
-<script setup lang="ts">
-import { Url } from "~/constants/url";
-import { MenuItems } from "~/constants/menuItems";
-import { useAuthStore } from "~/stores/useAuthStore";
-
-
-const auth = useAuthStore();
-const drawer = ref(false);
-
-const menuItems = computed(()=>{
-  if(auth.isLoggedIn) {
-    return MenuItems
-  }else {
-    const menus = MenuItems.filter((item)=> {
-      if(!item.auth) return item;
-    })
-    return menus;
-  }
-
-})
-
-const toggleMenu = () => {
-  drawer.value = !drawer.value;
-};
-</script>
-
 <template>
   <div>
-    <v-app-bar class="overflow-visible px-2"
-      ><v-container class="d-flex align-center">
+    <v-app-bar class="overflow-visible px-2">
+      <div
+      class="d-flex align-center mx-auto"
+      >
         <v-toolbar-title class="text-red font-weight-bold">
-          <NuxtLink :to="Url.TOP"> Cycle Community </NuxtLink>
+          <NuxtLink
+          :to="auth.isLoggedIn ? Url.MYPAGE : Url.TOP"
+
+          > Cycle Community </NuxtLink>
         </v-toolbar-title>
         <v-spacer />
 
@@ -45,7 +24,7 @@ const toggleMenu = () => {
           class="visible ml-4"
           @click.stop="toggleMenu"
         />
-      </v-container>
+      </div>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -78,10 +57,39 @@ const toggleMenu = () => {
   </div>
 </template>
 
+
+<script setup lang="ts">
+import { Url } from "~/constants/url";
+import { MenuItems } from "~/constants/menuItems";
+import { useAuthStore } from "~/stores/useAuthStore";
+
+
+const auth = useAuthStore();
+const drawer = ref(false);
+
+const menuItems = computed(()=>{
+  const menus = MenuItems.filter((item)=> {
+    console.log(item.auth);
+    if(item.auth == null) return item;
+    if(auth.isLoggedIn) {
+      if(item.auth) return item;
+    }else{
+      if(!item.auth) return item;
+    }
+  })
+  return menus;
+})
+
+const toggleMenu = () => {
+  drawer.value = !drawer.value;
+};
+</script>
+
+
 <style scoped lang="scss">
 .v-app-bar.v-toolbar:not(.v-toolbar--flat) {
-  box-shadow: none;
-}
+  box-shadow: 0 0 4px rgba(0,0,0,.2);
+  }
 
 .v-list {
 
