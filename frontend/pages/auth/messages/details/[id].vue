@@ -1,12 +1,11 @@
-<script setup lang="ts">
+<template>
+  <OrganismsMessagesDetail/>
+</template>
+
+<script setup>
 
 definePageMeta({
   middleware: ["auth"]
 })
 
 </script>
-
-
-<template>
-  <OrganismsMessagesDetail/>
-</template>

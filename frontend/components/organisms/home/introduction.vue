@@ -1,6 +1,9 @@
 <template>
-  <div class="bg-white">
     <v-container>
+      <OrganismsHomeSectionTitle
+   title="ABOUT"
+   subTitle="このアプリについて"
+   />
       <v-row>
         <v-col cols="12" sm="6">
           <div>
@@ -48,5 +51,4 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
 </template>

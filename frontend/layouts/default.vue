@@ -1,13 +1,13 @@
 <template>
   <v-app>
     <OrganismsMessagesFlashMessage/>
-    <OrganismsGalleryModal/>
     <OrganismsHeaderTheHeader/>
     <v-main>
-      <v-container>
+      <v-content>
         <slot />
-      </v-container>
+      </v-content>
     </v-main>
     <OrganismsFooterTheFooter />
+    <OrganismsGalleryModal/>
   </v-app>
 </template>

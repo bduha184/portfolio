@@ -1,8 +1,3 @@
-
-<script setup lang="ts">
-import {Features} from "~/constants/features";
-
-</script>
 <template>
   <v-container>
    <SectionTitle
@@ -47,3 +42,9 @@ import {Features} from "~/constants/features";
     </v-row>
   </v-container>
 </template>
+
+<script setup lang="ts">
+import {ref,computed} from 'vue';
+import {Features} from "@/constants/features";
+
+</script>
