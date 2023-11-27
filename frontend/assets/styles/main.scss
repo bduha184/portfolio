@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
 
 body {
   font-family: YuGothic, "游ゴシック", "Noto Sans JP", "Meiryo", "メイリオ", "ＭＳ Ｐゴシック", sans-serif;
@@ -49,6 +48,3 @@ body {
     margin: 0 !important;
   }
 
-  main {
-    margin-top: 1rem;
-  }

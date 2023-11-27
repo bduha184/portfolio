@@ -9,10 +9,11 @@
       color="info"
       height=auto
       class="text-h6 py-4 my-4 d-block mx-auto"
-      @emitClick="handleLogin"
+      @emitClick="receiveClick"
       >
       早速始める
     </AtomsBtnsBaseBtn>
+
   </div>
 </template>
 
@@ -21,6 +22,10 @@ import {Url} from "~/constants/url";
 import {useAuthStore} from "~/stores/useAuthStore";
 
 const auth = useAuthStore();
+
+const receiveClick = () => {
+  navigateTo(Url.SIGNUP);
+}
 
 onMounted(()=>{
   if(auth.isLoggedIn) {

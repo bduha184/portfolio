@@ -19,6 +19,7 @@ export interface Props {
   member_count: number;
   name?:string | undefined;
   padding?:string;
+  page?:string | null;
   path:string;
   path_header:string;
   path_thumbnail:string;

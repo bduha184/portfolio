@@ -65,11 +65,10 @@ import { useAuthStore } from "~/stores/useAuthStore";
 
 
 const auth = useAuthStore();
-const drawer = ref(false);
+const drawer = ref<boolean>(false);
 
 const menuItems = computed(()=>{
   const menus = MenuItems.filter((item)=> {
-    console.log(item.auth);
     if(item.auth == null) return item;
     if(auth.isLoggedIn) {
       if(item.auth) return item;

@@ -13,8 +13,8 @@ export default defineNuxtConfig({
         { hid: 'description', name: 'description', content: 'あなたの防災レベルはいくつ？' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Marck+Script' }
+        { rel: 'icon', href: '/favicon.ico' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap' }
       ]
     },
   },
