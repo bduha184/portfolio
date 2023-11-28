@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="bg-white">
     <OrganismsSearchFormKeywordsSearch />
     <!-- <OrganismsSearchFormMultipleSearch /> -->
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />

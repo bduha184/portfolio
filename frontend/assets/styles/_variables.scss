@@ -14,9 +14,8 @@ $container-max-widths: (
   'xl': 1140px,
 );
 
-
 /* PC */
-@mixin display_pc {
+@mixin display_pc($pc-min) {
   @media (min-width: $pc-min) {
     @content;
   }

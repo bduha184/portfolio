@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white pb-2"
+  <div class="pb-2"
   >
     <OrganismsHomeHero/>
     <OrganismsHomeIntroduction/>

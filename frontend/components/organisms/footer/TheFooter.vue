@@ -1,13 +1,13 @@
+<template>
+    <div class="bg-white text-center py-4 text-caption">
+      &copy;{{ year }}<NuxtLink :to="Url.TOP">Circle Community</NuxtLink>
+    </div>
+</template>
 
-<script setup lagn="ts">
-  import {Url} from "~/constants/url";
+<script setup>
+import {Url} from "~/constants/url";
+
+const date = new Date();
+const year = date.getFullYear();
 
 </script>
-
-<template>
-    <v-container>
-        <div>
-          <NuxtLink :to="Url.TOP">Cycle Community </NuxtLink>
-        </div>
-    </v-container>
-</template>

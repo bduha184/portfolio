@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar class="overflow-visible px-2">
-      <div
+      <v-container
       class="d-flex align-center mx-auto"
       >
         <v-toolbar-title class="text-red font-weight-bold">
@@ -24,7 +24,7 @@
           class="visible ml-4"
           @click.stop="toggleMenu"
         />
-      </div>
+      </v-container>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"

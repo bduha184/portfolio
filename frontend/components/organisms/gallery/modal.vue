@@ -17,7 +17,7 @@ console.log(gallery.getTargetImage)
 </script>
 
 <template>
-  <v-container>
+  <v-container class="absolute">
     <VueGallery
       :images="gallery.getImages"
       :index="gallery.getTargetImage"

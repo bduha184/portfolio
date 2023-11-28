@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import {useRoute,computed,ref} from "#imports";
 const router = useRoute();
 
 const page = ref<string | null>();
@@ -31,9 +30,26 @@ const path = computed(()=> {
 
 <style scoped lang="scss">
 .v-main{
-  margin-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 600px;
+  width: 100%;
+  margin: 1rem auto 0;
+  @include display_pc(md){
+    .v-container {
+      max-width: 200px !important;
+    }
+  }
   &.top{
     margin-top: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: initial !important;
+    @mixin display_pc{
+      // .v-container {
+      //   max-width: ;
+      // }
+    }
 
   }
 }
