@@ -11,18 +11,16 @@
           > Cycle Community </NuxtLink>
         </v-toolbar-title>
         <v-spacer />
-
-        <ButtonCommon
-          btnValue="ログイン・新規登録"
-          place="SIGNIN"
-          class="invisible sm:visible"
-        />
-        <v-app-bar-nav-icon
+        <!-- <v-app-bar-nav-icon
           variant="outlined"
           height="40"
           width="40"
           class="visible ml-4"
           @click.stop="toggleMenu"
+        /> -->
+        <AtomsToggle
+          @emitClick="toggleMenu"
+          :toggle = drawer
         />
       </v-container>
     </v-app-bar>

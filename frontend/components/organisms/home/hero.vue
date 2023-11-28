@@ -8,11 +8,40 @@
     class="hero-main"
     :src="`${config.public.appURL}/_nuxt/assets/images/hero-main.webp`"
     />
+    <div class="btn-wrap">
+    <AtomsBtnsBaseBtn
+    width="12rem"
+      color="info"
+      class="my-4 d-block mx-auto"
+      @emitClick="handleRegister"
+    >
+    はじめる
+    </AtomsBtnsBaseBtn>
+    <AtomsBtnsBaseBtn
+    width="12rem"
+      color="success"
+      class="my-4 d-block mx-auto"
+      @emitClick="handleLogin"
+    >
+    ゲストログイン
+    </AtomsBtnsBaseBtn>
+    </div>
   </section>
 </template>
 
 <script setup>
+import {Url} from "~/constants/url";
+
 const config = useRuntimeConfig();
+
+const handleRegister = () => {
+  navigateTo(Url.SIGNUP);
+}
+
+const handleLogin = () => {
+  
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -36,6 +65,12 @@ const config = useRuntimeConfig();
       max-width: 800px;
       margin: 0 auto;
       opacity: 0.5;
+    }
+
+    & .btn-wrap {
+      position: absolute;
+      bottom: 10%;
+      left: 10%;
     }
   }
 </style>
