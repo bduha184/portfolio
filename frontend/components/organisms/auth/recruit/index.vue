@@ -350,34 +350,34 @@ const receiveImage = (val) => {
 //   toggleDelete.value = !toggleDelete.value;
 // };
 
-(async () => {
+onMounted(async () => {
   const userId = auth.user.id;
 
-console.log(userId);
 
   if (userId) {
     const res = await useApiFetch(`/api/team/${userId}`);
     if (res.error.value == null) {
       const val = res.data.value;
+      console.log(val);
       if (val != null) {
-        if (val.teamItem) {
-          teamItems.value.item_id = val.teamItem.id;
+        if (val.teamInfo) {
+          teamItems.value.item_id = val.teamInfo.id;
           teamItems.value.url_header_img =
-            config.public.baseURL + "/storage/" + val.teamItem.header_img_path;
+            config.public.baseURL + "/storage/" + val.teamInfo.header_img_path;
           teamItems.value.url_thumbnail =
-            config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
-          teamItems.value.team_name = val.teamItem.team_name;
-          teamItems.value.member_count = val.teamItem.member;
-          teamItems.value.introduction = val.teamItem.introduction;
-          teamItems.value.average = val.teamItem.average;
-          teamItems.value.from_age = val.teamItem.from_age;
-          teamItems.value.to_age = val.teamItem.to_age;
-          teamItems.value.detail_areas = val.teamItem.detail_areas;
-          teamItems.value.detail_activities = val.teamItem.detail_activities;
-          teamItems.value.active_datetime = val.teamItem.active_datetime;
-          teamItems.value.team_url = val.teamItem.team_url;
-          teamItems.value.schedule = val.teamItem.schedule;
-          teamItems.value.user_id = val.teamItem.user_id;
+            config.public.baseURL + "/storage/" + val.teamInfo.thumbnail_path;
+          teamItems.value.team_name = val.teamInfo.team_name;
+          teamItems.value.member_count = val.teamInfo.member;
+          teamItems.value.introduction = val.teamInfo.introduction;
+          teamItems.value.average = val.teamInfo.average;
+          teamItems.value.from_age = val.teamInfo.from_age;
+          teamItems.value.to_age = val.teamInfo.to_age;
+          teamItems.value.detail_areas = val.teamInfo.detail_areas;
+          teamItems.value.detail_activities = val.teamInfo.detail_activities;
+          teamItems.value.active_datetime = val.teamInfo.active_datetime;
+          teamItems.value.team_url = val.teamInfo.team_url;
+          teamItems.value.schedule = val.teamInfo.schedule;
+          teamItems.value.user_id = val.teamInfo.user_id;
         }
         if (val.members) {
           teamItems.value.member_count = val.members.length;
@@ -397,7 +397,7 @@ console.log(userId);
       }
     }
   }
-})();
+});
 </script>
 
 <style lang="scss" scoped>

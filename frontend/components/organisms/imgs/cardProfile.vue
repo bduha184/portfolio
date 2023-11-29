@@ -1,18 +1,3 @@
-<script setup lang="ts">
-import type {Emits,Props} from "~/types";
-
-const props = defineProps<Props>();
-
-const emits = defineEmits<Emits>();
-const receiveHeaderImg = (val:File,target:string) => {
-  emits('emitInput',{val,target:'header'});
-};
-const receiveThumbnail = (val:File,target:string) => {
-  emits('emitInput',{val,target:'thumbnail'});
-};
-
-</script>
-
 <template>
   <div class="relative z-0 h-[100px]">
     <MoleculesImgsSelect
@@ -30,6 +15,21 @@ const receiveThumbnail = (val:File,target:string) => {
     </v-avatar>
   </div>
 </template>
+
+<script setup lang="ts">
+import type {Emits,Props} from "~/types";
+
+const props = defineProps<Props>();
+
+const emits = defineEmits<Emits>();
+const receiveHeaderImg = (val:File,target:string) => {
+  emits('emitInput',{val,target:'header'});
+};
+const receiveThumbnail = (val:File,target:string) => {
+  emits('emitInput',{val,target:'thumbnail'});
+};
+
+</script>
 
 <style lang="scss" scoped>
 .v-avatar {

@@ -1,3 +1,57 @@
+<template>
+  <form>
+    <OrganismsImgsCardProfile
+      @emitInput="receiveProfileImage"
+      :path_header="form.url_header_img"
+      :path_thumbnail="form.url_thumbnail"
+    />
+    <v-card-title class="w-60 text-body-2 text-left ml-auto">
+      <AtomsTextsHeadLine>
+        {{ auth.user.name }}
+      </AtomsTextsHeadLine>
+    </v-card-title>
+    <v-card-text>
+      <AtomsTextAreas
+        placeholder="本文"
+        @emitInput="receiveTeamIntroduce"
+        :body="form.introduction"
+      />
+    </v-card-text>
+    <AtomsBtnsBaseBtn
+      width="16rem"
+      class="my-4 d-block mx-auto"
+      @click.once="handleRegister"
+      :disabled="!checkFilledOut()"
+      color="info"
+      v-if="!form.item_id"
+    >
+      登録
+    </AtomsBtnsBaseBtn>
+    <AtomsBtnsBaseBtn
+      width="16rem"
+      color="orange"
+      class="my-4 d-block mx-auto"
+      @click.once="handleUpdate"
+      :disabled="!checkFilledOut()"
+      v-if="form.item_id"
+    >
+      更新
+    </AtomsBtnsBaseBtn>
+    <OrganismsModal
+      v-if="form.item_id"
+      @emitModalOpen="handleCheck"
+      @emitModalBtnClick="handleDelete"
+      color="red"
+      caution="※削除すると元に戻せなくなります。削除しますか？"
+      btnValue="削除する"
+      btnType="delete"
+    >
+      削除
+    </OrganismsModal>
+  </form>
+</template>
+
+
 <script setup lang="ts">
 import { useApiFetch } from "~/composables/useApiFetch";
 import { Url } from "~/constants/url";
@@ -9,7 +63,7 @@ const auth = useAuthStore();
 const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();
 
-const form:Ref = ref({
+const form = ref({
   path_header: "",
   path_thumbnail: "",
   user_id: "",
@@ -106,9 +160,11 @@ const receiveTeamIntroduce = (val) => {
   form.value.introduction = val.value;
 };
 
+console.log(auth.user.id);
+
 onMounted(async () => {
   const userId = auth.user.id;
-  if (userId != 0) {
+  if (userId) {
     const res = await useApiFetch(`/api/profile/${userId}`);
     const val = res.data.value;
     if (val.data != null) {
@@ -123,59 +179,6 @@ onMounted(async () => {
   }
 });
 </script>
-
-<template>
-  <form>
-    <OrganismsImgsCardProfile
-      @emitInput="receiveProfileImage"
-      :path_header="form.url_header_img"
-      :path_thumbnail="form.url_thumbnail"
-    />
-    <v-card-title class="w-60 text-body-2 text-left ml-auto">
-      <AtomsTextsHeadLine>
-        {{ auth.user.name }}
-      </AtomsTextsHeadLine>
-    </v-card-title>
-    <v-card-text>
-      <AtomsTextAreas
-        placeholder="本文"
-        @emitInput="receiveTeamIntroduce"
-        :body="form.introduction"
-      />
-    </v-card-text>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      class="my-4 d-block mx-auto"
-      @click.once="handleRegister"
-      :disabled="!checkFilledOut()"
-      color="info"
-      v-if="!form.item_id"
-    >
-      登録
-    </AtomsBtnsBaseBtn>
-    <AtomsBtnsBaseBtn
-      width="16rem"
-      color="orange"
-      class="my-4 d-block mx-auto"
-      @click.once="handleUpdate"
-      :disabled="!checkFilledOut()"
-      v-if="form.item_id"
-    >
-      更新
-    </AtomsBtnsBaseBtn>
-    <OrganismsModal
-      v-if="form.item_id"
-      @emitModalOpen="handleCheck"
-      @emitModalBtnClick="handleDelete"
-      color="red"
-      caution="※削除すると元に戻せなくなります。削除しますか？"
-      btnValue="削除する"
-      btnType="delete"
-    >
-      削除
-    </OrganismsModal>
-  </form>
-</template>
 
 <style lang="scss" scoped>
 .v-card {

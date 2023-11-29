@@ -1,3 +1,14 @@
+
+<template>
+  <v-container>
+    <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
+    <v-card-text>
+      {{ activities }}
+    </v-card-text>
+  </v-container>
+</template>
+
+
 <script setup lang="ts">
 
 const props = defineProps({
@@ -8,12 +19,3 @@ const props = defineProps({
 })
 
 </script>
-
-<template>
-  <v-container>
-    <AtomsTextsHeadLine> チーム活動内容 </AtomsTextsHeadLine>
-    <v-card-text>
-      {{ activities }}
-    </v-card-text>
-  </v-container>
-</template>

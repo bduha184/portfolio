@@ -15,16 +15,26 @@
 
 
 <script setup lang="ts">
-import type { Emits,Props} from "~/types";
-import { ref, watch } from "#imports";
+import type { Emits} from "~/types";
+import {watch } from "#imports";
+
+interface Props {
+  accept:string;
+  disabled:boolean;
+  name:string;
+  placeholder:string;
+  type:string;
+  val:string;
+  isSelecting:boolean;
+}
+
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
-  accept: "text",
   isSelecting: false,
   disabled: false,
 });
-
+console.log(props.isSelecting);
 const emits = defineEmits<Emits>();
 const uploader = ref<HTMLInputElement>();
 const selectedFile = ref<File | string | null>(null);

@@ -29,7 +29,10 @@ body {
   .v-list-item-subtitle {
     opacity: 1 !important;
   }
-
+  .v-card-title {
+    width: calc(100% - 6rem);
+    margin-left: auto;
+  }
   .v-overlay__scrim {
     opacity: 0.6 !important;
   }
@@ -47,4 +50,3 @@ body {
   .v-row{
     margin: 0 !important;
   }
-

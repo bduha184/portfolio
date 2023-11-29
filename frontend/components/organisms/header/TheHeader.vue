@@ -11,13 +11,6 @@
           > Cycle Community </NuxtLink>
         </v-toolbar-title>
         <v-spacer />
-        <!-- <v-app-bar-nav-icon
-          variant="outlined"
-          height="40"
-          width="40"
-          class="visible ml-4"
-          @click.stop="toggleMenu"
-        /> -->
         <AtomsToggle
           @emitClick="toggleMenu"
           :toggle = drawer

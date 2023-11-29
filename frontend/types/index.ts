@@ -1,6 +1,6 @@
 
 export interface Props {
-  accept?: string | undefined;
+  accept?: string;
   active_datetime:string;
   areas:string[];
   average:string;
@@ -10,20 +10,20 @@ export interface Props {
   confirm:boolean;
   detail_activities:string;
   detail_areas:string;
-  disabled?: boolean | undefined;
+  disabled?: boolean;
   from_age:string;
   height: number;
   icon:string;
   isSelecting: boolean;
   label:string;
   member_count: number;
-  name?:string | undefined;
+  name?:string;
   padding?:string;
   page?:string | null;
   path:string;
   path_header:string;
   path_thumbnail:string;
-  placeholder?: string | undefined;
+  placeholder?: string;
   prependIcon?: string;
   provider:string;
   size?:number;
@@ -33,8 +33,8 @@ export interface Props {
   to?: string;
   to_age: string;
   toggle:boolean;
-  type?: string | undefined;
-  val?: boolean | string | number | undefined | null;
+  type?: string;
+  val?: boolean | string | number | null;
   variant: NonNullable<"elevated" | "flat" | "text" | "tonal" | "outlined" | "plain"> | undefined;
 }
 
