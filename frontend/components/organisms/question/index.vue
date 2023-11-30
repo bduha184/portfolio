@@ -1,20 +1,3 @@
-<script setup lang="ts">
-import { Url } from "~/constants/url";
-
-const messages = ref([]);
-
-const onClick = (id) => {
-  return navigateTo(`${Url.REQUESTS}/${id}`);
-};
-
-onMounted(async () => {
-  const dist = "que";
-  const res = await useApiFetch(`/api/message/${dist}`);
-  // console.log(res);
-  messages.value.push(...res.data.value.messages);
-});
-</script>
-
 <template>
   <div>
     <form method="POST">
@@ -46,6 +29,23 @@ onMounted(async () => {
     </form>
   </div>
 </template>
+
+<script setup lang="ts">
+import { Url } from "~/constants/url";
+
+const messages = ref([]);
+
+const onClick = (id) => {
+  return navigateTo(`${Url.REQUESTS}/${id}`);
+};
+
+onMounted(async () => {
+  const dist = "que";
+  const res = await useApiFetch(`/api/message/${dist}`);
+  // console.log(res);
+  messages.value.push(...res.data.value.messages);
+});
+</script>
 
 <style lang="scss" scoped>
 .v-list-item {

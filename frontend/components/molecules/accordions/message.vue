@@ -1,3 +1,28 @@
+<template>
+  <div
+  class="overflow-hidden"
+  >
+  <transition>
+    <div
+    v-show="toggle"
+    >
+      <AtomsTextAreas
+      :placeholder="placeholder"
+      @emitInput="receiveBody"
+      :body="form"
+      />
+      <AtomsBtnsBaseBtn
+      :disabled="!checkFilledOut"
+      :color="color"
+      @emitClick="receiveClick"
+      >
+       {{ text }}
+       </AtomsBtnsBaseBtn>
+    </div>
+    </transition>
+  </div>
+</template>
+
 <script setup lang="ts">
 import type { Emits,Props} from "~/types";
 
@@ -28,31 +53,6 @@ const receiveClick=(e:Event)=> {
 }
 
 </script>
-
-<template>
-  <div
-  class="overflow-hidden"
-  >
-  <transition>
-    <div
-    v-show="toggle"
-    >
-      <AtomsTextAreas
-      :placeholder="placeholder"
-      @emitInput="receiveBody"
-      :body="form"
-      />
-      <AtomsBtnsBaseBtn
-      :disabled="!checkFilledOut"
-      :color="color"
-      @emitClick="receiveClick"
-      >
-       {{ text }}
-       </AtomsBtnsBaseBtn>
-    </div>
-    </transition>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 .v-container {

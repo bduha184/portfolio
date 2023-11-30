@@ -1,13 +1,16 @@
 <template>
-  <div class="d-flex align-center">
-    <AtomsInput
-      placeholder="検索キーワード"
-      type="text"
-      @emitInput="receiveKeywords"
-    />
-    <v-btn color="red" variant="flat" height="40" @click="onClick">
-      検索
-    </v-btn>
+  <div>
+    <div class="d-flex align-center justify-center">
+      <AtomsInput
+        placeholder="検索キーワード"
+        type="text"
+        @emitInput="receiveKeywords"
+      />
+      <v-btn color="red" variant="flat" height="40" @click="onClick">
+        検索
+      </v-btn>
+    </div>
+    <span class="text-caption">※複数単語の場合は、スペースで区切ってください</span>
   </div>
 </template>
 

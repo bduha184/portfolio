@@ -1,3 +1,13 @@
+<template>
+  <v-img
+  :src="path"
+  @click="onClick"
+  cover
+  >
+  <slot/>
+  </v-img>
+</template>
+
 <script setup lang="ts">
 import type { Emits,Props} from "~/types";
 
@@ -10,13 +20,3 @@ const onClick = (e:Event)=> {
 }
 
 </script>
-
-<template>
-  <v-img
-  :src="path"
-  @click="onClick"
-  cover
-  >
-  <slot/>
-  </v-img>
-</template>

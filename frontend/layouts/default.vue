@@ -34,7 +34,7 @@ const path = computed(()=> {
   padding-right: 1rem;
   max-width: 600px;
   width: 100%;
-  margin: 1rem auto 0;
+  margin: 1rem auto;
   @include display_pc(md){
     .v-container {
       max-width: 200px !important;

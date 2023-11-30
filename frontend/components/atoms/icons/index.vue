@@ -1,12 +1,3 @@
-<script setup lang="ts">
-import type { Props} from "~/types";
-
-const props = withDefaults(defineProps<Props>(),{
-  size:35,
-  padding:'p-1'
-})
-
-</script>
 
 <template>
   <v-icon
@@ -16,3 +7,13 @@ const props = withDefaults(defineProps<Props>(),{
     class="border-solid border-2 border-gray-300 rounded-full"
   />
 </template>
+
+<script setup lang="ts">
+import type { Props} from "~/types";
+
+const props = withDefaults(defineProps<Props>(),{
+  size:35,
+  padding:'p-1'
+})
+
+</script>

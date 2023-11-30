@@ -1,23 +1,3 @@
-<script setup lang="ts">
-import type { Emits,Props} from "~/types";
-import { useAuthStore } from "~/stores/useAuthStore";
-import { Url } from "~/constants/url";
-
-const props = defineProps<Props>();
-const auth = useAuthStore();
-const dialog = ref(false);
-
-const onClick = () => {
-  return navigateTo(Url.SIGNIN);
-};
-
-const emits = defineEmits<Emits>();
-
-const requestJoinTeam = (e:Event) => {
-  emits("emitClick",e.target as HTMLElement);
-};
-</script>
-
 <template>
   <div>
     <v-dialog
@@ -60,6 +40,26 @@ const requestJoinTeam = (e:Event) => {
     </v-dialog>
   </div>
 </template>
+
+<script setup lang="ts">
+import type { Emits,Props} from "~/types";
+import { useAuthStore } from "~/stores/useAuthStore";
+import { Url } from "~/constants/url";
+
+const props = defineProps<Props>();
+const auth = useAuthStore();
+const dialog = ref(false);
+
+const onClick = () => {
+  return navigateTo(Url.SIGNIN);
+};
+
+const emits = defineEmits<Emits>();
+
+const requestJoinTeam = (e:Event) => {
+  emits("emitClick",e.target as HTMLElement);
+};
+</script>
 
 <style lang="scss" scoped>
 ol {

@@ -1,12 +1,7 @@
-<script setup lang="ts">
-import { Use } from "~/constants/use";
-
-</script>
-
 <template>
   <v-container>
     <OrganismsHomeSectionTitle title="HOW TO USE" subTitle="使い方" />
-    <v-list class="d-flex mx-auto">
+    <v-list class="d-flex mx-auto mt-5">
       <v-list-item
         class="text-center"
         min-width="220px"
@@ -32,8 +27,15 @@ import { Use } from "~/constants/use";
   </v-container>
 </template>
 
+<script setup lang="ts">
+import { Use } from "~/constants/use";
+
+</script>
+
 <style scoped lang="scss">
 .v-list {
+
+  border-radius: 20px;
   &-item {
     width: 33%;
     position: relative;
@@ -56,6 +58,13 @@ import { Use } from "~/constants/use";
         }
 
     }
+  }
+}
+
+.v-card{
+  &-title {
+    width: 100%;
+    margin:0 auto;
   }
 }
 

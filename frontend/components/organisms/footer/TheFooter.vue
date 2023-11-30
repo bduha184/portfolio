@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {Url} from "~/constants/url";
 
 const date = new Date();

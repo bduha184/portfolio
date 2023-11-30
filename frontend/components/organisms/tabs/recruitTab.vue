@@ -1,3 +1,24 @@
+
+<template>
+  <div class="bg-white my-2">
+     <v-tabs
+       v-model="tab"
+       fixed-tabs
+       class="text-center mb-4"
+       slider-color="red"
+     >
+       <v-tab
+       v-for="(tab,index) in tabs"
+       :key="index"
+       :value="tab.value"
+       @click="onClick"
+       >
+     {{ tab.name }}
+       </v-tab>
+     </v-tabs>
+   </div>
+</template>
+
 <script setup lang="ts">
 
 const tab = ref(null);
@@ -28,22 +49,3 @@ const onClick = ()=> {
 }
 
 </script>
-<template>
-  <div class="bg-white my-2">
-     <v-tabs
-       v-model="tab"
-       fixed-tabs
-       class="text-center mb-4"
-       slider-color="red"
-     >
-       <v-tab
-       v-for="(tab,index) in tabs"
-       :key="index"
-       :value="tab.value"
-       @click="onClick"
-       >
-     {{ tab.name }}
-       </v-tab>
-     </v-tabs>
-   </div>
-</template>

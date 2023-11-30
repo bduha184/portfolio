@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {Url} from "~/constants/url";
 import {useAuthStore} from "~/stores/useAuthStore";
 

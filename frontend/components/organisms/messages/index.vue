@@ -1,28 +1,3 @@
-<script setup lang="ts">
-import { Url } from "~/constants/url";
-
-const config = useRuntimeConfig();
-const messages = ref([]);
-
-const onClick = (id, flg) => {
-  return navigateTo({
-    path: `${Url.MESSAGES}/details/${id}`,
-    query: {
-      flg: flg,
-    },
-  });
-};
-
-onMounted(async () => {
-  await useApiFetch("/api/message/").then((res) => {
-    if (res.data.value) {
-      const messageItems = res.data.value.messages;
-      messages.value.push(...messageItems);
-    }
-  });
-});
-</script>
-
 <template>
   <div>
     <v-card class="mx-auto text-left" v-if="messages.length > 0">
@@ -48,6 +23,30 @@ onMounted(async () => {
     <p class="text-red" v-else>※受信メッセージは0件です</p>
   </div>
 </template>
+<script setup lang="ts">
+import { Url } from "~/constants/url";
+
+const config = useRuntimeConfig();
+const messages = ref([]);
+
+const onClick = (id, flg) => {
+  return navigateTo({
+    path: `${Url.MESSAGES}/details/${id}`,
+    query: {
+      flg: flg,
+    },
+  });
+};
+
+onMounted(async () => {
+  await useApiFetch("/api/message/").then((res) => {
+    if (res.data.value) {
+      const messageItems = res.data.value.messages;
+      messages.value.push(...messageItems);
+    }
+  });
+});
+</script>
 
 <style lang="scss" scoped>
 .v-list-item {

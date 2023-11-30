@@ -50,3 +50,51 @@ body {
   .v-row{
     margin: 0 !important;
   }
+
+  $loadingTime: 10s;
+$color: rgb(255,0,0);
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+}
+
+@keyframes loading {
+  0% {
+    width: 0;
+  } 100% {
+    width: 100%;
+  }
+}
+
+@keyframes percentage {
+  @for $i from 1 through 100 {
+    $percentage: $i + "%";
+    #{$percentage} {
+      content: $percentage;
+    }
+  }
+}
+
+.bg {
+  background-color: $color;
+  animation: loading $loadingTime linear infinite;
+}
+
+.el{
+  color: $color;
+  width: 200px;
+  border: 1px solid $color;
+
+  &:after {
+    padding-left: 20px;
+    content: "0%";
+    display: block;
+    text-align: center;
+    font-size: 50px;
+    padding: 10px 20px;
+    color: rgb(0,255,255);
+    mix-blend-mode: difference;
+    animation: percentage $loadingTime linear infinite;
+  }
+}

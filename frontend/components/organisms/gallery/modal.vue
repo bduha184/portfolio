@@ -1,4 +1,16 @@
-<script setup>
+
+<template>
+  <v-container class="absolute">
+    <VueGallery
+      :images="gallery.getImages"
+      :index="gallery.getTargetImage"
+      @close="index = null"
+    ></VueGallery>
+  </v-container>
+</template>
+
+
+<script setup lang="ts">
 import VueGallery from "vue-gallery";
 import { useGalleryStore } from "~/stores/useGalleryStore";
 
@@ -15,17 +27,6 @@ const gallery = useGalleryStore();
 
 console.log(gallery.getTargetImage)
 </script>
-
-<template>
-  <v-container class="absolute">
-    <VueGallery
-      :images="gallery.getImages"
-      :index="gallery.getTargetImage"
-      @close="index = null"
-    ></VueGallery>
-  </v-container>
-</template>
-
 <style scoped lang="scss">
 .v-row {
   max-height: 300px;

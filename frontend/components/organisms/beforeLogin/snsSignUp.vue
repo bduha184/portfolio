@@ -1,3 +1,35 @@
+<template>
+  <div>
+    <h2>Googleアカウントで登録</h2>
+    <form>
+      <div class="text-caption">
+        <span class="text-red">※</span>は必須項目です
+      </div>
+      <MoleculesInput
+        type="text"
+        label="ユーザーネーム"
+        @emitInput="receiveName"
+        :val="form.name"
+        class="mb-4"
+      />
+      <AtomsLabelsFormLabel>
+        メールアドレス
+      </AtomsLabelsFormLabel>
+      <div>{{ form.email }}</div>
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        color="info"
+        class="my-4 d-block mx-auto"
+        :disabled="!checkFilledOut"
+        @emitClick="handleRegister"
+      >
+        登録
+      </AtomsBtnsBaseBtn>
+    </form>
+  </div>
+</template>
+
+
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
@@ -41,34 +73,3 @@ const handleRegister= async() => {
 }
 
 </script>
-
-<template>
-  <div>
-    <h2>Googleアカウントで登録</h2>
-    <form>
-      <div class="text-caption">
-        <span class="text-red">※</span>は必須項目です
-      </div>
-      <MoleculesInput
-        type="text"
-        label="ユーザーネーム"
-        @emitInput="receiveName"
-        :val="form.name"
-        class="mb-4"
-      />
-      <AtomsLabelsFormLabel>
-        メールアドレス
-      </AtomsLabelsFormLabel>
-      <div>{{ form.email }}</div>
-      <AtomsBtnsBaseBtn
-        width="16rem"
-        color="info"
-        class="my-4 d-block mx-auto"
-        :disabled="!checkFilledOut"
-        @emitClick="handleRegister"
-      >
-        登録
-      </AtomsBtnsBaseBtn>
-    </form>
-  </div>
-</template>

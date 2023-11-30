@@ -1,22 +1,18 @@
-<script setup lang="ts">
-import {Icons} from "~/constants/icons";
-
-const load = ref({
-loaded:false,
-loading:false
-})
-
-
-</script>
-
 <template>
-  <v-container>
-    <v-row class="align-center justify-between d-sm-flex d-none">
-      <OrganismsSearchFormPulldown name="エリア"/>
-      <span>×</span>
-      <OrganismsSearchFormPulldown name="日時"/>
-      <span>×</span>
-      <OrganismsSearchFormPulldown name="ライド種別"/>
+  <div>
+    <div class="align-center justify-between">
+      <OrganismsSearchFormPulldown
+      name="エリア"
+      :items="Areas"
+      />
+      <OrganismsSearchFormPulldown
+      name="エリア"
+      :items="Areas"
+      />
+      <OrganismsSearchFormPulldown
+      name="ライド種別"
+      :items="Levels"
+      />
       <v-btn
       color="red"
       variant="flat"
@@ -24,14 +20,26 @@ loading:false
       @click="onClick"
       :prepend-icon="Icons.SEARCH"
       />
-    </v-row>
-    <v-row class="align-center justify-between d-sm-none">
+    </div>
+    <!-- <v-row class="align-center justify-between d-sm-none">
       <OrganismsSearchFormPulldown name="エリア"/>
       <OrganismsSearchFormPulldown name="日時"/>
       <OrganismsSearchFormPulldown name="ライド種別"/>
-    </v-row>
-  </v-container>
+    </v-row> -->
+  </div>
 </template>
+
+<script setup lang="ts">
+import {Areas} from "~/constants/areas";
+import {Levels} from "~/constants/teams";
+import {Icons} from "~/constants/icons";
+
+const load = ref({
+loaded:false,
+loading:false
+})
+</script>
+
 
 <style lang="scss" scoped>
 .v-btn__prepend {

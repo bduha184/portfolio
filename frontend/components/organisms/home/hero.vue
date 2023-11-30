@@ -29,7 +29,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {Url} from "~/constants/url";
 
 const config = useRuntimeConfig();
@@ -39,7 +39,7 @@ const handleRegister = () => {
 }
 
 const handleLogin = () => {
-  
+
 }
 
 </script>

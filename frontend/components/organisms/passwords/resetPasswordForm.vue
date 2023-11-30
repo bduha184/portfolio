@@ -1,3 +1,37 @@
+<template>
+  <div>
+    <form method="POST">
+      <h2 class="text-center text-h5 mb-5">パスワード再設定</h2>
+      <div class="text-caption">
+        <span class="text-red">※</span>は必須項目です
+      </div>
+      <MoleculesInput
+        type="password"
+        label="パスワード"
+        @emitInput="receivePassword"
+        :val="form.password"
+        class="mb-4"
+      />
+      <MoleculesInput
+        type="password"
+        label="パスワード（確認）"
+        @emitInput="receivePasswordConfirmation"
+        :val="form.password_confirmation"
+        :confirm="form.confirm"
+        class="mb-4"
+      />
+      <AtomsBtnsBaseBtn
+        width="16rem"
+        color="info"
+        class="my-4 d-block mx-auto"
+        :disabled="!checkFilledOut"
+        @emitClick="handleSendEmail"
+      >
+        登録する
+      </AtomsBtnsBaseBtn>
+    </form>
+  </div>
+</template>
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
@@ -71,38 +105,3 @@ async function handleSendEmail() {
   }
 }
 </script>
-
-<template>
-  <div>
-    <form method="POST">
-      <h2 class="text-center text-h5 mb-5">パスワード再設定</h2>
-      <div class="text-caption">
-        <span class="text-red">※</span>は必須項目です
-      </div>
-      <MoleculesInput
-        type="password"
-        label="パスワード"
-        @emitInput="receivePassword"
-        :val="form.password"
-        class="mb-4"
-      />
-      <MoleculesInput
-        type="password"
-        label="パスワード（確認）"
-        @emitInput="receivePasswordConfirmation"
-        :val="form.password_confirmation"
-        :confirm="form.confirm"
-        class="mb-4"
-      />
-      <AtomsBtnsBaseBtn
-        width="16rem"
-        color="info"
-        class="my-4 d-block mx-auto"
-        :disabled="!checkFilledOut"
-        @emitClick="handleSendEmail"
-      >
-        登録する
-      </AtomsBtnsBaseBtn>
-    </form>
-  </div>
-</template>

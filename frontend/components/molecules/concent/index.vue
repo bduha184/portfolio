@@ -1,18 +1,3 @@
-<script setup lang="ts">
-import type { Emits,Props} from "~/types";
-
-const props = defineProps<Props>();
-
-const emits = defineEmits<Emits>();
-const checked = ref<boolean>(false);
-
-const receiveInput = (val:Event) => {
-  checked.value = JSON.parse(val.value) ? false : true;
-  emits("emitInput", checked.value);
-};
-</script>
-
-
 <template>
   <div>
     <div class="d-flex flex-wrap align-center justify-center">
@@ -29,6 +14,22 @@ const receiveInput = (val:Event) => {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import type { Emits,Props} from "~/types";
+
+const props = defineProps<Props>();
+
+const emits = defineEmits<Emits>();
+const checked = ref<boolean>(false);
+
+const receiveInput = (val:Event) => {
+  checked.value = JSON.parse(val.value) ? false : true;
+  emits("emitInput", checked.value);
+};
+</script>
+
+
 
 <style scoped lang="scss">
   input[type="checkbox"]{

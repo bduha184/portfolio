@@ -1,18 +1,3 @@
-<script setup lang="ts">
-import type { Emits,Props} from "~/types";
-
-const props = withDefaults(defineProps<Props>(),{
-  variant: 'elevated',
-  height: 40,
-})
-
-const emits = defineEmits<Emits>();
-
-const onClick = (e:Event) => {
-  emits("emitClick", e.target as HTMLElement);
-};
-</script>
-
 <template>
   <v-btn
     rounded="xl"
@@ -28,3 +13,18 @@ const onClick = (e:Event) => {
     <slot />
   </v-btn>
 </template>
+
+<script setup lang="ts">
+import type { Emits,Props} from "~/types";
+
+const props = withDefaults(defineProps<Props>(),{
+  variant: 'elevated',
+  height: 40,
+})
+
+const emits = defineEmits<Emits>();
+
+const onClick = (e:Event) => {
+  emits("emitClick", e.target as HTMLElement);
+};
+</script>

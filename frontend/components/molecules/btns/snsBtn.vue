@@ -1,11 +1,3 @@
-<script setup lang="ts">
-import type { Props} from "~/types";
-
-const config = useRuntimeConfig();
-const props = defineProps<Props>();
-
-</script>
-
 <template>
   <AtomsSnsBtn>
     <template v-slot:prepend>
@@ -19,6 +11,13 @@ const props = defineProps<Props>();
       <slot/>
   </AtomsSnsBtn>
 </template>
+<script setup lang="ts">
+import type { Props} from "~/types";
+
+const config = useRuntimeConfig();
+const props = defineProps<Props>();
+
+</script>
 
 <style scoped lang="scss">
 .v-img{

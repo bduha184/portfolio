@@ -1,13 +1,3 @@
-<script setup lang="ts">
-import {Icons} from "~/constants/icons";
-
-definePageMeta({
-  middleware: ["auth"]
-})
-const router = useRouter();
-
-</script>
-
 <template>
   <div>
     <v-container class="bg-white mb-2">
@@ -41,3 +31,13 @@ const router = useRouter();
     </v-container>
   </div>
 </template>
+
+<script setup lang="ts">
+import {Icons} from "~/constants/icons";
+
+definePageMeta({
+  middleware: ["auth"]
+})
+const router = useRouter();
+
+</script>

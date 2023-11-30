@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import type { Props } from "~/types";
-const props=defineProps<Props>();
-
-</script>
-
 <template>
   <p
   :class="classes"
@@ -11,3 +5,9 @@ const props=defineProps<Props>();
     <slot/>
   </p>
 </template>
+
+<script setup lang="ts">
+import type { Props } from "~/types";
+const props=defineProps<Props>();
+
+</script>

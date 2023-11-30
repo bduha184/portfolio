@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import type { Props} from "~/types";
-const props = defineProps<Props>();
-</script>
-
 <template>
   <div>
     <AtomsTextsHeadLine> 募集チーム： </AtomsTextsHeadLine>
@@ -10,3 +5,9 @@ const props = defineProps<Props>();
     >件
   </div>
 </template>
+
+
+<script setup lang="ts">
+import type { Props} from "~/types";
+const props = defineProps<Props>();
+</script>

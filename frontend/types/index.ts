@@ -15,9 +15,10 @@ export interface Props {
   height: number;
   icon:string;
   isSelecting: boolean;
+  items:string[];
   label:string;
   member_count: number;
-  name?:string;
+  name?:string | null;
   padding?:string;
   page?:string | null;
   path:string;

@@ -1,25 +1,3 @@
-<script setup lang="ts">
-import { Icons } from "~/constants/icons";
-import { useGalleryStore } from "~/stores/useGalleryStore";
-
-const gallery = useGalleryStore();
-
-const router = useRoute();
-
-const props = defineProps({
-  images: {
-    type: Array,
-    default: [],
-  },
-});
-
-const deleteImage = (target) => {
-  gallery.deleteImages(target);
-
-};
-
-
-</script>
 
 <template>
   <v-container>
@@ -45,6 +23,29 @@ const deleteImage = (target) => {
     </v-row>
   </v-container>
 </template>
+
+<script setup lang="ts">
+import { Icons } from "~/constants/icons";
+import { useGalleryStore } from "~/stores/useGalleryStore";
+
+const gallery = useGalleryStore();
+
+const router = useRoute();
+
+const props = defineProps({
+  images: {
+    type: Array,
+    default: [],
+  },
+});
+
+const deleteImage = (target) => {
+  gallery.deleteImages(target);
+
+};
+
+
+</script>
 
 <style scoped lang="scss">
 .v-row {

@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import type { Props} from "~/types";
-const props = defineProps<Props>();
-
-</script>
-
 <template>
   <v-tab
   :value="val"
@@ -18,6 +12,11 @@ const props = defineProps<Props>();
   </v-tab>
 </template>
 
+<script setup lang="ts">
+import type { Props} from "~/types";
+const props = defineProps<Props>();
+
+</script>
 
 <style scoped lang="scss">
 .v-btn {

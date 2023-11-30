@@ -2,6 +2,7 @@
 
 export default defineNuxtConfig({
   ssr:false,
+  spaLoadingTemplate: "./spa-loading-template.html",
   app:{
     head: {
       htmlAttrs: { lang: 'ja' },
@@ -10,7 +11,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { hid: 'description', name: 'description', content: 'あなたの防災レベルはいくつ？' }
+        { hid: 'description', name: 'description', content: 'Cycle Community' }
       ],
       link: [
         { rel: 'icon', href: '/favicon.ico' },

@@ -1,7 +1,7 @@
 <template>
   <v-container class="bg-white">
-    <OrganismsSearchFormKeywordsSearch />
-    <!-- <OrganismsSearchFormMultipleSearch /> -->
+    <OrganismsSearchFormSearch/>
+    <OrganismsSearchFormMultipleSearch />
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
     <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
     <OrganismsCardsRecruitCardForList
@@ -20,7 +20,6 @@
     />
   </v-container>
 </template>
-
 
 <script setup lang="ts">
 import type {Team} from "~/types";
