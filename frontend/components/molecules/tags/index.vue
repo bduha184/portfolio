@@ -1,10 +1,10 @@
 <template>
   <v-combobox
     v-model="chips"
-    :items="items"
+    :items="props.items"
     chips
-    label="タグを選択 or 入力"
     multiple
+    label="タグを選択 or 入力"
   >
     <template v-slot:selection="{ attrs, item, select, selected }">
       <v-chip
@@ -24,10 +24,8 @@
 
 <script setup lang="ts">
 import type { Emits,Props} from "~/types";
-import { Levels } from "~/constants/teams";
-const props =defineProps<Props>();
-const items = Levels;
 
+const props =defineProps<Props>();
 const chips = ref<Array<string>>([]);
 
 function remove(item) {

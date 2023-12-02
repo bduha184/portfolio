@@ -16,8 +16,19 @@ class TagFactory extends Factory
      */
     public function definition(): array
     {
+
+        $array = [
+            'ポタリングのみ',
+            'ポタリングメイン',
+            'ロングライド',
+            'ガチライド',
+            'トレーニング',
+            'レース出場',
+            'オールラウンド'
+        ];
+
         return [
-            //
+            'name'=>$array,
         ];
     }
 }

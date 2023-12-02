@@ -15,7 +15,8 @@ import {
   mdiCloseCircleOutline,
   mdiViewDashboard,
   mdiMessageProcessing,
-  mdiChevronLeft
+  mdiChevronLeft,
+  mdiCloudUpload
 } from "@mdi/js";
 
 
@@ -37,4 +38,5 @@ export const Icons = {
   DASHBOARD:mdiViewDashboard,
   MESSAGES:mdiMessageProcessing,
   BACK:mdiChevronLeft,
+  UPLOAD:mdiCloudUpload
 }

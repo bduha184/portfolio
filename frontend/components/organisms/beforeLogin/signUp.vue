@@ -61,7 +61,7 @@
         type="password"
         label="パスワード（確認）"
         @emitInput="receivePasswordConfirmation"
-        :val="formValue.password_confirmation"
+        :val="formValue.passwordConfirmation"
         :confirm="formCheck.confirm"
         class="mb-4"
       />
@@ -91,7 +91,7 @@ const formValue = ref({
   name: "",
   email: "",
   password: "",
-  password_confirmation: "",
+  passwordConfirmation: "",
 });
 
 const formCheck = ref({
@@ -107,12 +107,12 @@ const checkFilledOut = computed(()=>{
   formValue.value.name,
   formValue.value.email,
   formValue.value.password,
-  formValue.value.password_confirmation,
+  formValue.value.passwordConfirmation,
   ];
 
   const errors = Object.keys(formCheck.value.errors).length;
 
-  if (formValue.value.password != formValue.value.password_confirmation) {
+  if (formValue.value.password != formValue.value.passwordConfirmation) {
     formCheck.value.confirm = false;
   } else {
     formCheck.value.confirm = true;
@@ -140,7 +140,7 @@ const receivePassword = (val) => {
   formCheck.value.errors = val.errors;
 };
 const receivePasswordConfirmation = (val) => {
-  formValue.value.password_confirmation = val.val;
+  formValue.value.passwordConfirmation = val.val;
   formCheck.value.errors = val.errors;
 };
 

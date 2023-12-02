@@ -15,10 +15,15 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $teams = Team::latest()->with(['tags:name', 'areas:name', 'profiles'])->get();
+        $page = $request->page;
+        $teams = Team::latest()
+        ->with(['tags:name', 'areas:name', 'profiles'])
+        ->offset($page*10-1)
+        ->limit(10)
+        ->get();
         if ($teams) {
             return response()->json([
                 'teams' => $teams,
@@ -49,38 +54,65 @@ class TeamController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
-    public function search_team(Request $request)
+    public function search_team(Request $request,$page)
     {
 
 
         $keywords = $request->keywords;
         $tab = $request->tab;
+        $multi = $request->multi;
 
         if (!empty($keywords)) {
-            $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
-                $query->where(function($q) use ($keywords){
-                    foreach($keywords as $keyword){
-                        $q->orWhere('tags.name','like','%'.$keyword.'%');
-                    }
-                });
-            })->orWhereHas('areas', function ($query) use ($keywords) {
-                $query->where(function($q) use ($keywords){
-                    foreach($keywords as $keyword){
-                        $q->orWhere('areas.name','like','%'.$keyword.'%');
-                    }
-                });
-            })
-            ->orWhere(function ($query) use ($keywords) {
-                    foreach($keywords as $keyword){
-                        $query->orWhere('team_name','like','%'.$keyword.'%');
-                    }
-            })
-            ->withCount('profiles')
-            ->with(['tags:name','areas:name','profiles'])
-            ->get();
+            if($multi) {
+                $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
+                    $query->where(function($q) use ($keywords){
+                        foreach($keywords as $keyword){
+                            $q->orWhere('tags.name','like','%'.$keyword.'%');
+                        }
+                    });
+                })->WhereHas('areas', function ($query) use ($keywords) {
+                    $query->where(function($q) use ($keywords){
+                        foreach($keywords as $keyword){
+                            $q->orWhere('areas.name','like','%'.$keyword.'%');
+                        }
+                    });
+                })
+                ->withCount('profiles')
+                ->with(['tags:name','areas:name','profiles'])
+                ->offset($page*10-1)
+                ->limit(10)
+                ->get();
+            }else{
+                $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
+                    $query->where(function($q) use ($keywords){
+                        foreach($keywords as $keyword){
+                            $q->orWhere('tags.name','like','%'.$keyword.'%');
+                        }
+                    });
+                })->orWhereHas('areas', function ($query) use ($keywords) {
+                    $query->where(function($q) use ($keywords){
+                        foreach($keywords as $keyword){
+                            $q->orWhere('areas.name','like','%'.$keyword.'%');
+                        }
+                    });
+                })
+                ->orWhere(function ($query) use ($keywords) {
+                        foreach($keywords as $keyword){
+                            $query->orWhere('team_name','like','%'.$keyword.'%');
+                        }
+                })
+                ->withCount('profiles')
+                ->with(['tags:name','areas:name','profiles'])
+                ->offset($page*10-1)
+                ->limit(10)
+                ->get();
+
+            }
 
             if ($teams) {
                 return response()->json([
+                    'test'=>'test',
+                    'keywords'=>$keywords,
                     'teams' => $teams,
                 ]);
             }
@@ -91,11 +123,18 @@ class TeamController extends Controller
         $teams = Team::latest()
         ->withCount('profiles')
             ->with(['tags:name', 'areas:name', 'profiles'])
+            ->offset($page*10-1)
+            ->limit(10)
             ->get();
 
         if ($tab == 'member') {
 
-            $teams = Team::withCount('profiles')->orderBy('profiles_count', 'desc')->get();
+            $teams = Team::withCount('profiles')
+            ->orderBy('profiles_count', 'desc')
+            ->with(['tags:name','areas:name','profiles'])
+            ->offset($page*10-1)
+            ->limit(10)
+            ->get();
         }
 
         return response()->json([

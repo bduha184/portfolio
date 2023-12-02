@@ -57,7 +57,6 @@ const onChange = (e: Event) => {
     selectedFile.value = file;
     emits("emitInput", file);
   } else {
-    console.log(target);
     emits("emitInput", target);
   }
 };

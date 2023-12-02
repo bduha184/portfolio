@@ -19,10 +19,9 @@ import { useTeamStore } from "~/stores/useTeamStore";
 
 const teams = useTeamStore();
 
-const keywords = ref([]);
+const keywords = ref<string[]>([]);
 
 const receiveKeywords = (val: Array<string>) => {
-  console.log(val);
   keywords.value.length = 0;
 
   if (val.value) {
@@ -34,7 +33,7 @@ const receiveKeywords = (val: Array<string>) => {
 };
 
 const onClick = () => {
-  teams.fetchTeams(keywords.value);
+  teams.fetchTeams(keywords.value,false);
 };
 </script>
 
@@ -44,7 +43,7 @@ input[type="text"] {
   border-radius: 4px;
   padding: 0.5rem;
   height: 40px;
-  max-width: 300px;
+  max-width: 100%;
   width: 100%;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;

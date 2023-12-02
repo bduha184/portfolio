@@ -1,36 +1,40 @@
 <template>
   <v-container class="bg-white">
-    <OrganismsSearchFormSearch/>
+    <OrganismsSearchFormSearch />
     <OrganismsSearchFormMultipleSearch />
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
     <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
     <OrganismsCardsRecruitCardForList
-      v-for="(item, id) in teams"
-      :key="id"
-      :header_img_path="item.header_img_path"
-      :thumbnail_path="item.thumbnail_path"
-      :team_name="item.team_name"
+      v-for="(item, index) in teams"
+      :key="index"
+      :headerImgPath="item.header_img_path"
+      :thumbnailPath="item.thumbnail_path"
+      :teamName="item.team_name"
       :member="item.profiles_count"
       :introduction="item.introduction"
       :id="item.id"
       :tags="item.tags"
       :profiles="item.profiles"
       :areas="item.areas"
-      :date_time="item.active_datetime"
+      :activeDate="item.active_date"
+      :activeDateDetail="item.active_date_detail"
     />
+    <p ref="observe"></p>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import type {Team} from "~/types";
+import type { Team } from "~/types";
 import { useTeamStore } from "~/stores/useTeamStore";
 
 const teamStore = useTeamStore();
 
 const tab = ref<string>();
-const teams:Team[]= ref(teamStore.getTeams);
+const page = ref<number>(0);
+const observe = ref<Element | null>(null);
+const teams: Team[] = ref(teamStore.getTeams);
 
-const receiveSelectedTab = (val:string) => {
+const receiveSelectedTab = (val: string) => {
   tab.value = val;
 };
 
@@ -42,7 +46,17 @@ watch(
   }
 );
 
+const callback = async(entries)=>{
+  const entry = entries[0];
+  if (entry && entry.isIntersecting) {
+    console.log("画面に入りました");
+    teamStore.fetchAllTeams(page.value);
+    page.value++;
+  }
+}
+
 onMounted(() => {
-  teamStore.fetchTeams();
+  const observer = new IntersectionObserver(callback);
+  observer.observe(observe.value);
 });
 </script>

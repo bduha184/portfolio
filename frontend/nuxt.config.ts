@@ -2,6 +2,9 @@
 
 export default defineNuxtConfig({
   ssr:false,
+  optimizeDeps: {
+    exclude: ['my-lib/components/**/*.vue'],
+  },
   spaLoadingTemplate: "./spa-loading-template.html",
   app:{
     head: {
@@ -20,7 +23,9 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  css: ['@/assets/styles/main.scss'],
+  css: [
+    '@/assets/styles/main.scss',
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},

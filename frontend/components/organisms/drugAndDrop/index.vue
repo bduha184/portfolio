@@ -44,25 +44,18 @@
 </template>
 
 <script setup lang="ts">
-import {mdiCloudUpload} from "@mdi/js";
+import {Icons} from "~/constants/icons";
 import { useGalleryStore } from "~/stores/useGalleryStore";
+import type {Emits,Props} from "~/types";
 
 const gallery = useGalleryStore();
 
-interface Props {
-  buttonTitle?: string,
-  buttonIcon?: string,
-  accept?: string
-}
 const props = withDefaults(defineProps<Props>(), {
   buttonTitle: "ファイルを選択",
-  buttonIcon: mdiCloudUpload,
+  buttonIcon: Icons.UPLOAD,
   accept: "image/*"
 })
 
-interface Emits {
-  (e: "emitImages", value: File): void;
-}
 const emits = defineEmits<Emits>();
 
 const isSelecting = ref<boolean>(false)
@@ -94,4 +87,3 @@ const onFileSelectChange = (e: Event) => {
     // emits("emitImages", {files});
 }
 </script>
-

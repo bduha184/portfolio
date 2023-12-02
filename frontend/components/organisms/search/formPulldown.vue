@@ -1,33 +1,63 @@
 <template>
-  <!-- <v-select v-model="area" :items="Areas" solo /> -->
-  <div>
-    <select
-    :name="props.name"
-    id="">
-      <option
-      v-for="(item,index) in props.items"
-      :key="index"
-      :value="item"
-      >
-      {{ item }}
-      </option>
-    </select>
-  </div>
+  <v-select
+    variant="outlined"
+    density="compact"
+    v-model="item"
+    :label="label"
+    :items="props.items"
+  />
 </template>
 
 <script setup lang="ts">
-import type {Props} from "~/types";
+import type { Emits, Props } from "~/types";
 
 const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
 
+const item = ref<string>("");
+
+watch(
+  () => item.value,
+  () => {
+    emits("emitInput", item.value);
+  }
+);
 </script>
 
 <style lang="scss" scoped>
-  select {
-    border: 1px solid rgb(162, 162, 162);
-    border-radius: 4px;
-    padding: 0.5rem;
-    height: 40px;
+.v-input {
+  position: relative;
+  z-index: 0;
+  &:deep(.v-input__details) {
+    display: none !important;
+  }
+  &:deep(.v-field--appended) {
+    padding: 0 !important;
   }
 
+  &:first-of-type {
+    border-right: 0 !important;
+  }
+
+  &:deep(.v-field__outline) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  &:not(:first-of-type) {
+    &:deep(.v-field__outline) {
+      border-radius: 0 !important;
+    }
+  }
+
+  &:deep(.v-field__append-inner) {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+}
 </style>

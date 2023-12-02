@@ -2,8 +2,8 @@
   <form>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
-      :path_header="form.url_header_img"
-      :path_thumbnail="form.url_thumbnail"
+      :path_header="form.urlHeaderImg"
+      :path_thumbnail="form.urlThumbnail"
     />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine>
@@ -23,7 +23,7 @@
       @click.once="handleRegister"
       :disabled="!checkFilledOut()"
       color="info"
-      v-if="!form.item_id"
+      v-if="!form.itemId"
     >
       登録
     </AtomsBtnsBaseBtn>
@@ -33,12 +33,12 @@
       class="my-4 d-block mx-auto"
       @click.once="handleUpdate"
       :disabled="!checkFilledOut()"
-      v-if="form.item_id"
+      v-if="form.itemId"
     >
       更新
     </AtomsBtnsBaseBtn>
     <OrganismsModal
-      v-if="form.item_id"
+      v-if="form.itemId"
       @emitModalOpen="handleCheck"
       @emitModalBtnClick="handleDelete"
       color="red"
@@ -64,21 +64,21 @@ const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();
 
 const form = ref({
-  path_header: "",
-  path_thumbnail: "",
-  user_id: "",
-  header_img: "",
+  pathHeader: "",
+  pathThumbnail: "",
+  userId: "",
+  headerImg: "",
   thumbnail: "",
   introduction: "",
-  item_id: "",
-  url_header_img: config.public.appURL + "/images/noimage.jpg",
-  url_thumbnail: config.public.appURL + "/images/noimage.jpg",
+  itemId: "",
+  urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
+  urlThumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
 const handleRegister = async () => {
   const formData = new FormData();
 
-  formData.append("header_img", form.value.header_img);
+  formData.append("header_img", form.value.headerImg);
   formData.append("thumbnail", form.value.thumbnail);
   formData.append("introduction", form.value.introduction);
 
@@ -89,9 +89,9 @@ const handleRegister = async () => {
     body: formData,
   });
   if (res.error.value == null) {
-    form.value.item_id = res.data.value.item_id;
-    form.value.path_header = res.data.value.path_header;
-    form.value.path_thumbnail = res.data.value.path_thumbnail;
+    form.value.itemId = res.data.value.item_id;
+    form.value.pathHeader = res.data.value.path_header;
+    form.value.pathThumbnail = res.data.value.path_thumbnail;
     form.value.introduction = res.data.value.introduction;
     return flashMessage.setMessage(Message.REGISTER);
   }
@@ -101,7 +101,7 @@ const handleRegister = async () => {
 const handleUpdate = async () => {
   const formData = new FormData();
 
-  formData.append("header_img", form.value.header_img);
+  formData.append("header_img", form.value.headerImg);
   formData.append("thumbnail", form.value.thumbnail);
   formData.append("introduction", form.value.introduction);
 
@@ -116,15 +116,15 @@ const handleUpdate = async () => {
   });
 
   if (res.error.value == null) {
-    form.value.path_header = res.data.value.path_header;
-    form.value.path_thumbnail = res.data.value.path_thumbnail;
+    form.value.pathHeader = res.data.value.path_header;
+    form.value.pathThumbnail = res.data.value.path_thumbnail;
 
     return flashMessage.setMessage(Message.UPDATE);
   }
   return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
 };
 const handleDelete = async () => {
-  const itemId = form.value.item_id;
+  const itemId = form.value.itemId;
   await useApiFetch("/sanctum/csrf-cookie");
   const res = await useApiFetch(`/api/profile/${itemId}`, {
     method: "DELETE",
@@ -148,11 +148,11 @@ const checkFilledOut = () => {
 
 const receiveProfileImage = (val: File) => {
   if (val.target == "header") {
-    form.value.header_img = val.val;
-    form.value.url_header_img = URL.createObjectURL(val.val);
+    form.value.headerImg = val.val;
+    form.value.urlHeaderImg = URL.createObjectURL(val.val);
   } else {
     form.value.thumbnail = val.val;
-    form.value.url_thumbnail = URL.createObjectURL(val.val);
+    form.value.urlThumbnail = URL.createObjectURL(val.val);
   }
   // URL.revokeObjectURL(val.val);
 };
@@ -168,13 +168,11 @@ onMounted(async () => {
     const res = await useApiFetch(`/api/profile/${userId}`);
     const val = res.data.value;
     if (val.data != null) {
-      form.value.url_header_img =
-        config.public.baseURL + "/storage/" + val.data.header_img_path;
-      form.value.url_thumbnail =
-        config.public.baseURL + "/storage/" + val.data.thumbnail_path;
+      form.value.urlHeaderImg = config.public.baseURL + "/storage/" + val.data.header_img_path;
+      form.value.urlThumbnail =  config.public.baseURL + "/storage/" + val.data.thumbnail_path;
       form.value.introduction = val.data.introduction;
-      form.value.user_id = val.data.user_id;
-      form.value.item_id = val.data.id;
+      form.value.userId = val.data.user_id;
+      form.value.itemId = val.data.id;
     }
   }
 });

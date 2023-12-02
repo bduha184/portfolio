@@ -1,18 +1,18 @@
 <template>
   <v-card @click="onClick(auth)" min-height="300px">
     <OrganismsImgsCardProfile
-      :path_header="config.public.baseURL + '/storage/' + header_img_path"
-      :path_thumbnail="config.public.baseURL + '/storage/' + thumbnail_path"
+      :pathHeader="config.public.baseURL + '/storage/' + props.headerImgPath"
+      :pathThumbnail="config.public.baseURL + '/storage/' + props.thumbnailPath"
       :disabled="true"
     />
 
     <v-card-title class="text-body-2">
       <AtomsTextsHeadLine>
-        {{ team_name }}
+        {{ props.teamName }}
       </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
-      {{ introduction }}
+      {{ props.introduction }}
     </v-card-text>
     <v-list>
         <v-list-item
@@ -30,7 +30,7 @@
             <v-list-item-title
             class="pl-2"
             >
-             {{ member  }}人
+             {{ props.member  }}人
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -48,7 +48,7 @@
             />:
             <v-list-item-title
             class="pl-2"
-            v-for="(area,i) in areas"
+            v-for="(area,i) in props.areas"
             :key="i"
             >
           {{ area.name }},
@@ -70,7 +70,7 @@
             <v-list-item-title
             class="pl-2"
             >
-          {{ date_time }}
+          {{ props.activeDate }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -79,7 +79,7 @@
   class="px-2"
   >
     <v-chip
-    v-for="(tag, i) in tags" :key="i"
+    v-for="(tag, i) in props.tags" :key="i"
     class="text-caption"
     >
     {{ tag.name }}
@@ -92,53 +92,9 @@
 <script setup lang="ts">
 import { Url } from "~/constants/url";
 import {Icons} from "~/constants/icons";
+import type {Props} from "~/types";
 
-const props = defineProps({
-  header_img_path: {
-    type: String,
-    default: "",
-  },
-  thumbnail_path: {
-    type: String,
-    default: "",
-  },
-  team_name: {
-    type: String,
-    default: "",
-  },
-  member: {
-    type: Number,
-    default: 0,
-  },
-  introduction: {
-    type: String,
-    default: "",
-  },
-  id: {
-    type: Number,
-    default: "",
-  },
-  tags: {
-    type: Array,
-    default: [],
-  },
-  profiles: {
-    type: Array,
-    default: [],
-  },
-  date_time: {
-    type: String,
-    default: '',
-  },
-  areas: {
-    type: Array,
-    default: [],
-  },
-  auth:{
-    type:Boolean,
-    default:false
-  }
-});
+const props = defineProps<Props>();
 
 const config = useRuntimeConfig();
 
@@ -149,7 +105,7 @@ const onClick = (auth) => {
   return navigateTo({
     path:Url.TEAMS + "/" + props.id,
     query:{
-      user:props.profiles.user_id
+      user:props.profiles.userId
     }
   });
 };

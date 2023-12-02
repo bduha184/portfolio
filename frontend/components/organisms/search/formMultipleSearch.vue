@@ -1,52 +1,69 @@
 <template>
   <div>
-    <div class="align-center justify-between">
+    <div class="pt-5 d-flex align-center justify-between">
       <OrganismsSearchFormPulldown
-      name="エリア"
+      label="エリア"
       :items="Areas"
+      @emitInput="receiveInput"
       />
+      <!-- <OrganismsSearchFormPulldown
+      label="日時"
+      :items="ActiveDate"
+      @emitInput="receiveInput"
+      /> -->
       <OrganismsSearchFormPulldown
-      name="エリア"
-      :items="Areas"
-      />
-      <OrganismsSearchFormPulldown
-      name="ライド種別"
+      label="ライド種別"
       :items="Levels"
+      @emitInput="receiveInput"
       />
       <v-btn
+      height="40"
+      width="40"
       color="red"
       variant="flat"
-      height="40"
       @click="onClick"
-      :prepend-icon="Icons.SEARCH"
+      :icon="Icons.SEARCH"
       />
+
     </div>
-    <!-- <v-row class="align-center justify-between d-sm-none">
-      <OrganismsSearchFormPulldown name="エリア"/>
-      <OrganismsSearchFormPulldown name="日時"/>
-      <OrganismsSearchFormPulldown name="ライド種別"/>
-    </v-row> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import {Areas} from "~/constants/areas";
-import {Levels} from "~/constants/teams";
+import {Levels,ActiveDate} from "~/constants/teams";
 import {Icons} from "~/constants/icons";
+import { useTeamStore } from "~/stores/useTeamStore";
 
-const load = ref({
-loaded:false,
-loading:false
-})
+const teamStore = useTeamStore();
+
+const keywords = ref<string[]>([]);
+
+const receiveInput = (val:string) => {
+  keywords.value.push(val)
+}
+
+const onClick = () => {
+  teamStore.fetchTeams(keywords.value,true);
+  keywords.value.length = 0;
+}
+
+
 </script>
 
 
 <style lang="scss" scoped>
-.v-btn__prepend {
-    margin-right: 0;
+
+.v-btn{
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
-// .v-container {
-//   padding-left: 5px;
-//   padding-right: 5px;
-// }
+.v-input {
+  &:deep(.v-field__input) {
+    padding: 0.5rem !important;
+  }
+}
+
 </style>
