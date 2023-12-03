@@ -85,6 +85,6 @@ services:
     environment:
       - HOST=0.0.0.0
       - CHOKIDAR_USEPOLLING=true
-    # command: sh -c "pnpm dev"
+    # command: bash -c "yarn install"
 volumes:
   nuxt_node_modules:

@@ -26,11 +26,7 @@
               </AtomsBtnsBaseBtn>
             </v-col>
             <v-col>
-              <AtomsBtnsBaseBtn
-                width="10rem"
-                color="orange"
-                @click="onClick"
-              >
+              <AtomsBtnsBaseBtn width="10rem" color="orange" @click="onClick">
                 ログイン
               </AtomsBtnsBaseBtn>
             </v-col>
@@ -42,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { Url } from "~/constants/url";
 
@@ -56,8 +52,8 @@ const onClick = () => {
 
 const emits = defineEmits<Emits>();
 
-const requestJoinTeam = (e:Event) => {
-  emits("emitClick",e.target as HTMLElement);
+const requestJoinTeam = (e: Event) => {
+  emits("emitClick", e.target as HTMLElement);
 };
 </script>
 
@@ -70,3 +66,4 @@ ol {
   display: none;
 }
 </style>
+~/types/types ~/types/types

@@ -1,13 +1,13 @@
 <template>
   <v-card>
     <OrganismsImgsCardProfile
-      :path_header="teamItems.urlHeaderImg"
-      :path_thumbnail="teamItems.urlThumbnail"
+      :pathHeader="teamItems.pathHeader"
+      :pathThumbnail="teamItems.pathThumbnail"
       disabled="disabled"
     />
     <v-card-title class="text-body-2 pl-20">
       <AtomsTextsHeadLine>
-        {{ teamItems.team_name }}
+        {{ teamItems.teamName }}
       </AtomsTextsHeadLine>
     </v-card-title>
     <v-card-text>
@@ -58,13 +58,12 @@
     </v-container>
 
     <OrganismsRecruitsRepresentative
-      :user_id="rep.user_id"
+      :user_id="rep.userId"
       :path_thumbnail="rep.pathThumbnail"
       :introduction="rep.introduction"
     />
   </v-card>
 </template>
-
 
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
@@ -72,43 +71,47 @@ import { Message } from "~/constants/flashMessage";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { useApiFetch } from "~/composables/useApiFetch";
 import { useGalleryStore } from "~/stores/useGalleryStore";
+import { useTeamStore } from "~/stores/useTeamStore";
 
 const gallery = useGalleryStore();
 const auth = useAuthStore();
 const router = useRoute();
+const teamStore = useTeamStore();
+const itemId = router.params.id;
 const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();
 
 const teamItems = ref({
-  pathHeader: "",
-  pathThumbnail: "",
-  itemId: "",
-  userId: "",
-  headerImg: "",
-  thumbnail: "",
-  teamName: "",
-  introduction: "",
-  average: "",
-  fromAge: "",
-  toAge: "",
-  tags: [],
-  areas: [],
-  detailAreas: "",
-  memberCount: 0,
-  detailActivities: "",
-  schedule: "",
   activeDate: "",
   activeDateDetail: "",
+  areas: [],
+  average: "",
+  detailAreas: "",
+  detailActivities: "",
+  fromAge: "",
+  headerImg: "",
+  introduction: "",
+  itemId: "",
+  memberCount: 0,
+  pathHeader: "",
+  pathThumbnail: "",
+  schedule: "",
+  tags: [],
+  teamName: "",
   teamUrl: "",
+  thumbnail: "",
+  toAge: "",
   urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
   urlThumbnail: config.public.appURL + "/images/noimage.jpg",
+  userId: "",
 });
 
 const rep = ref({
-  userId: "",
-  pathThumbnail: "",
-  introduction: "",
-});
+  pathThumbnail:'',
+  introduction:'',
+  userId:''
+})
+
 const comment = ref("");
 const joinRequest = ref(false);
 
@@ -151,53 +154,41 @@ const receiveMessages = async (val) => {
   });
 };
 
-(async () => {
-  const itemId = router.params.id;
-  const userId = router.query.user;
-  gallery.fetchGalleryImages(userId);
-  if (itemId) {
-    const res = await useApiFetch(`/api/team/${itemId}`);
-    if (res.error.value == null) {
-      const val = res.data.value;
-      console.log(val);
-      if (val != null) {
-        if (val.teamInfo) {
-          console.log(val);
-          teamItems.value.itemId = val.teamInfo.id;
-          teamItems.value.urlHeaderImg =
-            config.public.baseURL + "/storage/" + val.teamInfo.header_img_path;
-          teamItems.value.urlThumbnail =
-            config.public.baseURL + "/storage/" + val.teamInfo.thumbnail_path;
-          teamItems.value.teamName = val.teamInfo.team_name;
-          teamItems.value.introduction = val.teamInfo.introduction;
-          teamItems.value.average = val.teamInfo.average;
-          teamItems.value.fromAge = val.teamInfo.from_age;
-          teamItems.value.toAge = val.teamInfo.to_age;
-          teamItems.value.detailAreas = val.teamInfo.detail_areas;
-          teamItems.value.detailActivities = val.teamInfo.detail_activities;
-          teamItems.value.activeDate = val.teamInfo.active_date;
-          teamItems.value.activeDateDetail = val.teamInfo.active_date_detail;
-          teamItems.value.teamUrl = val.teamInfo.team_url;
-          teamItems.value.schedule = val.teamInfo.schedule;
-          teamItems.value.userId = val.teamInfo.user_id;
-          teamItems.value.memberCount = val.teamInfo.profiles_count;
-          val.teamInfo.tags.forEach((tag) => {
-            teamItems.value.tags.push(tag.name);
-          });
-          val.teamInfo.areas.forEach((area) => {
-            teamItems.value.areas.push(area.name);
-          });
-          rep.value.pathThumbnail =
-            config.public.baseURL + "/storage/" + val.teamInfo.profiles[0].thumbnail_path;
-          rep.value.introduction = val.teamInfo.profiles[0].introduction;
-          rep.value.userId = val.teamInfo.profiles[0].user_id;
-        }
-      }
-    }
-  }
-})();
-</script>
+onMounted(() => {
+  const team = teamStore.getTeams.find((team) => {
+    return team.id == router.params.id;
+  });
 
+  if (team) {
+    teamItems.value.itemId = team.id;
+    teamItems.value.pathHeader = config.public.baseURL + "/storage/" + team.header_img_path;
+    teamItems.value.pathThumbnail =config.public.baseURL + "/storage/" + team.thumbnail_path;
+    teamItems.value.teamName = team.team_name;
+    teamItems.value.introduction = team.introduction;
+    teamItems.value.average = team.average;
+    teamItems.value.fromAge = team.from_age;
+    teamItems.value.toAge = team.to_age;
+    teamItems.value.detailAreas = team.detail_area;
+    teamItems.value.detailActivities = team.detail_activity;
+    teamItems.value.activeDate = team.active_date;
+    teamItems.value.activeDateDetail = team.active_date_detail;
+    teamItems.value.teamUrl = team.team_url;
+    teamItems.value.schedule = team.schedule;
+    teamItems.value.userId = team.user_id;
+    teamItems.value.memberCount = team.profiles_count;
+    team.tags.forEach((tag) => {
+      teamItems.value.tags.push(tag.name);
+    });
+    team.areas.forEach((area) => {
+      teamItems.value.areas.push(area.name);
+    });
+    rep.value.pathThumbnail = config.public.baseURL + "/storage/" +  team.profiles[0].thumbnail_path;
+    rep.value.introduction = team.profiles[0].introduction;
+    rep.value.userId = team.profiles[0].user_id;
+  }
+});
+
+</script>
 
 <style lang="scss" scoped>
 .v-card {

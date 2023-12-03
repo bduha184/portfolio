@@ -9,7 +9,7 @@ export interface Props {
   buttonIcon?:string;
   body:string;
   classes:string;
-  color: string;
+  color?: string | null;
   confirm:boolean;
   detailActivities:string;
   detailAreas:string;
@@ -17,7 +17,7 @@ export interface Props {
   fromAge:string;
   headerImgPath?:string;
   thumbnailPath?:string;
-  height: number;
+  height?: number;
   icon:string;
   id:string;
   introduction:string;
@@ -41,13 +41,14 @@ export interface Props {
   teamName:string;
   teamUrl:string;
   text:string;
-  to?: string;
+  to?: string | null;
   toAge: string;
   toggle:boolean;
   type?: string;
   userId:number;
   val?: boolean | string | number | null;
-  variant: NonNullable<"elevated" | "flat" | "text" | "tonal" | "outlined" | "plain"> | undefined;
+  variant:string;
+  // variant: NonNullable<"elevated" | "flat" | "text" | "tonal" | "outlined" | "plain"> | undefined;
 }
 
 export interface Emits {
@@ -67,14 +68,15 @@ export interface Emits {
 }
 
 export interface Team {
-  id:number;
-  activeDatetime:string;
+  active_date:string;
+  active_date_detail:string;
   areas:Array<string>;
-  headerImgPath:string;
-  thumbnailPath:string;
-  teamName:string;
-  profilesCount:number;
-  profiles:string;
+  header_img_path:string;
+  id:number;
   introduction:string;
+  profiles:string;
+  profiles_count:number;
   tags:Array<string>;
+  team_name:string;
+  thumbnail_path:string;
 }

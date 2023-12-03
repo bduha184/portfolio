@@ -170,7 +170,21 @@ export const useAuthStore = defineStore(
       await fetchUser();
       return resetPassword;
     }
-    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
+
+    async function deleteUser(user_id) {
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const deleteUser = await useApiFetch(`/api/user/${id}`,{
+        method:'DELETE',
+        body:{
+          user_id,
+        }
+      })
+
+      return deleteUser;
+    }
+
+    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword,deleteUser};
   },
   {
     persist: true,

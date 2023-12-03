@@ -15,98 +15,71 @@
       {{ props.introduction }}
     </v-card-text>
     <v-list>
-        <v-list-item
-        min-height="unset"
-        class="py-0"
-        >
-          <v-list-item-content
-          class="d-flex align-center"
-          >
-            <AtomsIcons
-            :name="Icons.CYCLING"
-            class="border-none"
-            size="25"
-            />:
-            <v-list-item-title
+      <v-list-item min-height="unset" class="py-0">
+        <v-list-item-content class="d-flex align-center">
+          <AtomsIcons :name="Icons.CYCLING" class="border-none" size="25" />:
+          <v-list-item-title class="pl-2">
+            {{ props.member }}人
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item min-height="unset" class="py-0">
+        <v-list-item-content class="d-flex align-center">
+          <AtomsIcons :name="Icons.MAP" class="border-none" size="25" />:
+          <v-list-item-title
             class="pl-2"
-            >
-             {{ props.member  }}人
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-        min-height="unset"
-        class="py-0"
-        >
-          <v-list-item-content
-          class="d-flex align-center"
-          >
-            <AtomsIcons
-            :name="Icons.MAP"
-            class="border-none"
-            size="25"
-            />:
-            <v-list-item-title
-            class="pl-2"
-            v-for="(area,i) in props.areas"
+            v-for="(area, i) in props.areas"
             :key="i"
-            >
-          {{ area.name }},
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-        min-height="unset"
-        class="py-0"
-        >
-          <v-list-item-content
-          class="d-flex align-center"
           >
-            <AtomsIcons
-            :name="Icons.SCHEDULE"
-            class="border-none"
-            size="25"
-            /> :
-            <v-list-item-title
-            class="pl-2"
-            >
-          {{ props.activeDate }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-  <v-chip-group
-  class="px-2"
-  >
-    <v-chip
-    v-for="(tag, i) in props.tags" :key="i"
-    class="text-caption"
-    >
-    {{ tag.name }}
+            {{ area.name }},
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item min-height="unset" class="py-0">
+        <v-list-item-content class="d-flex align-center">
+          <AtomsIcons :name="Icons.SCHEDULE" class="border-none" size="25" /> :
+          <v-list-item-title class="pl-2">
+            {{ props.activeDate }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+    <v-chip-group class="px-2">
+      <v-chip v-for="(tag, i) in props.tags" :key="i" class="text-caption">
+        {{ tag.name }}
       </v-chip>
     </v-chip-group>
   </v-card>
 </template>
 
-
 <script setup lang="ts">
 import { Url } from "~/constants/url";
-import {Icons} from "~/constants/icons";
-import type {Props} from "~/types";
+import { Icons } from "~/constants/icons";
+import type { Props } from "~/types";
 
 const props = defineProps<Props>();
+// const props = defineProps<{
+//   teamName: Props;
+//   introduction: Props;
+//   member: Props;
+//   areas: Props;
+//   activeDate: Props;
+//   tags: Props;
+// }>();
+
+
 
 const config = useRuntimeConfig();
 
 const onClick = (auth) => {
-  if(auth){
-  return navigateTo(Url.AFFILIATION + "/" + props.id);
+  if (auth) {
+    return navigateTo(Url.AFFILIATION + "/" + props.id);
   }
   return navigateTo({
-    path:Url.TEAMS + "/" + props.id,
-    query:{
-      user:props.profiles.userId
-    }
+    path: Url.TEAMS + "/" + props.id,
+    query: {
+      user: props.profiles.user_id,
+    },
   });
 };
 </script>
@@ -130,9 +103,10 @@ const onClick = (auth) => {
 }
 
 .v-chip {
-  min-width:fit-content;
-  &-group{
+  min-width: fit-content;
+  &-group {
     flex-wrap: nowrap;
   }
 }
 </style>
+~/types/types ~/types/types

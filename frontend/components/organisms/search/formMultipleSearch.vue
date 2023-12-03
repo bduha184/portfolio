@@ -44,6 +44,7 @@ const receiveInput = (val:string) => {
 }
 
 const onClick = () => {
+  teamStore.setPageInitialize();
   teamStore.fetchTeams(keywords.value,true);
   keywords.value.length = 0;
 }

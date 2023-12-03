@@ -35,22 +35,20 @@
 </template>
 
 <script setup lang="ts">
-import type {Team} from "~/types";
+import type { Team } from "~/types";
 import { Icons } from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
-import {useTeamStore} from "~/stores/useTeamStore";
+import { useTeamStore } from "~/stores/useTeamStore";
 const auth = useAuthStore();
 
 const teamStore = useTeamStore();
 
-const teams:Team[] = ref(teamStore.getTeams);
+const teams: Team[] = ref(teamStore.getTeams);
 
 onBeforeMount(async () => {
   teamStore.fetchAffiliationTeams();
 });
 </script>
-
-
 
 <style lang="scss" scoped>
 .v-container {
@@ -58,3 +56,4 @@ onBeforeMount(async () => {
   padding-left: 0.5rem !important;
 }
 </style>
+~/types/types ~/types/types

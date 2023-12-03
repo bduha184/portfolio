@@ -4,9 +4,7 @@
     <v-row>
       <v-col cols="6">
         ■メンバー数
-        <v-col class="text-center">
-          {{ memberCount }}人
-        </v-col>
+        <v-col class="text-center"> {{ memberCount }}人 </v-col>
       </v-col>
       <v-col cols="6">
         ■男女比
@@ -26,10 +24,7 @@
       </v-col>
       <v-col cols="12">
         ■チームの活動
-        <MoleculesTags @emitTags="receiveTags"
-        :tags="tags"
-        :items="Levels"
-        />
+        <MoleculesTags @emitTags="receiveTags" :tags="tags" :items="Levels" />
       </v-col>
       <v-col cols="12">
         ■チームの活動(補足)
@@ -40,27 +35,15 @@
       </v-col>
       <v-col cols="12">
         ■主な活動エリア
-        <v-select
-        multiple
-        chips
-        v-model="areas"
-        :items="Areas"
-         />
+        <v-select multiple chips v-model="areas" :items="Areas" />
       </v-col>
       <v-col cols="12">
         ■主な活動エリア（詳細）
-        <AtomsTextAreas
-        @emitInput="receiveTeamAreas"
-        :body="detailAreas" />
+        <AtomsTextAreas @emitInput="receiveTeamAreas" :body="detailAreas" />
       </v-col>
       <v-col cols="12">
         ■主な活動日
-        <v-select
-        multiple
-        chips
-        v-model="activeDate"
-        :items="ActiveDate"
-        />
+        <v-select multiple chips v-model="activeDate" :items="ActiveDate" />
       </v-col>
       <v-col cols="12">
         ■主な活動日時（詳細）
@@ -71,18 +54,16 @@
       </v-col>
       <v-col cols="12">
         ■ホームページ、ブログ等URL
-        <AtomsTextAreas
-        @emitInput="receiveTeamUrl"
-        :body="teamUrl" />
+        <AtomsTextAreas @emitInput="receiveTeamUrl" :body="teamUrl" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { Ages, Averages,Levels,ActiveDate } from "~/constants/teams";
+import { Ages, Averages, Levels, ActiveDate } from "~/constants/teams";
 import { Areas } from "~/constants/areas";
-import type {Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 
 const props = defineProps<Props>();
 
@@ -99,20 +80,20 @@ const teamUrl = ref<string>("");
 
 const emits = defineEmits<Emits>();
 
-const receiveTags = (val:string) => {
+const receiveTags = (val: string) => {
   tags.value = val;
 };
-const receiveTeamActivities = (val:string) => {
+const receiveTeamActivities = (val: string) => {
   detailActivities.value = val.value;
 };
-const receiveTeamAreas = (val:string) => {
+const receiveTeamAreas = (val: string) => {
   detailAreas.value = val.value;
 };
-const receiveTeamUrl = (val:string) => {
+const receiveTeamUrl = (val: string) => {
   teamUrl.value = val.value;
 };
 
-const receiveActiveDateDetail = (val:string) => {
+const receiveActiveDateDetail = (val: string) => {
   activeDateDetail.value = val.value;
 };
 
@@ -175,3 +156,4 @@ watch(
   display: none;
 }
 </style>
+~/types/types ~/types/types

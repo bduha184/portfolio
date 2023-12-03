@@ -1,34 +1,33 @@
 <template>
   <div class="relative z-0 h-[100px]">
     <MoleculesImgsSelect
-    @emitInput="receiveHeaderImg"
-    :path="pathHeader"
-    :disabled="disabled"
-    size="cover"
+      @emitInput="receiveHeaderImg"
+      :path="pathHeader"
+      :disabled="disabled"
+      size="cover"
     />
     <v-avatar size="80" color="white">
       <MoleculesImgsSelect
-      @emitInput="receiveThumbnail"
-      :path="pathThumbnail"
-      :disabled="disabled"
+        @emitInput="receiveThumbnail"
+        :path="pathThumbnail"
+        :disabled="disabled"
       />
     </v-avatar>
   </div>
 </template>
 
 <script setup lang="ts">
-import type {Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 
 const props = defineProps<Props>();
 
 const emits = defineEmits<Emits>();
-const receiveHeaderImg = (val:File,target:string) => {
-  emits('emitInput',{val,target:'header'});
+const receiveHeaderImg = (val: File, target: string) => {
+  emits("emitInput", { val, target: "header" });
 };
-const receiveThumbnail = (val:File,target:string) => {
-  emits('emitInput',{val,target:'thumbnail'});
+const receiveThumbnail = (val: File, target: string) => {
+  emits("emitInput", { val, target: "thumbnail" });
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -50,3 +49,4 @@ const receiveThumbnail = (val:File,target:string) => {
   background: red;
 }
 </style>
+~/types/types ~/types/types

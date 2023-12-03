@@ -1,8 +1,5 @@
 <template>
-  <div class="toggle"
-  @click="onClick"
-  :class="props.toggle ? 'open' : ''"
-  >
+  <div class="toggle" @click="onClick" :class="props.toggle ? 'open' : ''">
     <span></span>
     <span></span>
     <span></span>
@@ -10,14 +7,13 @@
 </template>
 
 <script setup lang="ts">
-import type {Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 
 const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
-const onClick = (e:Event) => {
-  emits("emitClick",e.target as HTMLElement);
-}
-
+const onClick = (e: Event) => {
+  emits("emitClick", e.target as HTMLElement);
+};
 </script>
 
 <style scoped lang="scss">
@@ -36,9 +32,9 @@ const onClick = (e:Event) => {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     border-radius: 100%;
-    transition: .3s;
+    transition: 0.3s;
   }
 
   & span {
@@ -49,7 +45,7 @@ const onClick = (e:Event) => {
     position: absolute;
     left: 0;
     z-index: 0;
-    transition: .3s;
+    transition: 0.3s;
     &:nth-of-type(1) {
       top: 0;
     }
@@ -69,15 +65,15 @@ const onClick = (e:Event) => {
       height: 2.5rem;
     }
     & span {
-      &:nth-of-type(1){
+      &:nth-of-type(1) {
         top: 50%;
         transform: translateY(-50%) rotate(315deg);
       }
-      &:nth-of-type(2){
+      &:nth-of-type(2) {
         opacity: 0;
         visibility: hidden;
       }
-      &:nth-of-type(3){
+      &:nth-of-type(3) {
         bottom: 50%;
         transform: translateY(50%) rotate(-315deg);
       }
@@ -85,3 +81,4 @@ const onClick = (e:Event) => {
   }
 }
 </style>
+~/types/types ~/types/types

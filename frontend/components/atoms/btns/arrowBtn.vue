@@ -12,13 +12,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 import { Icons } from "~/constants/icons";
 
-const props = defineProps<Props>();
+defineProps<Props>();
 const emits = defineEmits<Emits>();
 
-const onClick = (e:Event) => {
+const onClick = (e: Event) => {
   emits("emitClick", e.target as HTMLElement);
 };
 </script>
+~/types/types ~/types/types

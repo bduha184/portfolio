@@ -14,8 +14,7 @@
         @click="select"
         @click:close="remove(item)"
       >
-        <strong>{{ item }}</strong
-        >
+        <strong>{{ item }}</strong>
         <span>(interest)</span>
       </v-chip>
     </template>
@@ -23,9 +22,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 
-const props =defineProps<Props>();
+const props = defineProps<Props>();
 const chips = ref<Array<string>>([]);
 
 function remove(item) {
@@ -34,10 +33,17 @@ function remove(item) {
 
 const emits = defineEmits<Emits>();
 
-watch(()=>chips.value,()=>{
-  emits('emitTags',chips.value)
-});
-watch(()=>props.tags,()=>{
-  chips.value=props.tags;
-});
+watch(
+  () => chips.value,
+  () => {
+    emits("emitTags", chips.value);
+  }
+);
+watch(
+  () => props.tags,
+  () => {
+    chips.value = props.tags;
+  }
+);
 </script>
+~/types/types ~/types/types

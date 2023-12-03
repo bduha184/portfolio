@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import { useTeamStore } from "~/stores/useTeamStore";
 
-const teams = useTeamStore();
+const teamsStore = useTeamStore();
 
 const keywords = ref<string[]>([]);
 
@@ -33,7 +33,8 @@ const receiveKeywords = (val: Array<string>) => {
 };
 
 const onClick = () => {
-  teams.fetchTeams(keywords.value,false);
+  teamsStore.setPageInitialize();
+  teamsStore.fetchTeams(keywords.value,false);
 };
 </script>
 

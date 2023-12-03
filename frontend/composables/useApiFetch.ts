@@ -19,7 +19,7 @@ export function useApiFetch<T>(path: string, options: UseFetchOptions<T> = {}) {
     }
   }
 
-  return  useFetch(config.public.baseURL + path, {
+  return useFetch(config.public.baseURL + path, {
     credentials: "include",
     watch: false,
     ...options,

@@ -20,12 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 import { formSchema } from "~/constants/formSchema";
 import { useForm, useField } from "vee-validate";
 
-const props = withDefaults(defineProps<Props>(),{
-  confirm:true,
+const props = withDefaults(defineProps<Props>(), {
+  confirm: true,
 });
 
 let schema = {};
@@ -46,12 +46,13 @@ const { errors } = useForm({
 
 const { value: val, handleChange } = useField("val");
 
-const receiveInput = (value:string) => {
+const receiveInput = (value: string) => {
   val.value = value.value;
 };
 const emit = defineEmits<Emits>();
 
 const onChange = () => {
-  emit("emitInput", {val,errors,confirm});
+  emit("emitInput", { val, errors, confirm });
 };
 </script>
+~/types/types ~/types/types

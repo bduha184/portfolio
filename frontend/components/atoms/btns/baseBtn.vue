@@ -15,16 +15,17 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits,Props} from "~/types";
+import type { Emits, Props } from "~/types";
 
-const props = withDefaults(defineProps<Props>(),{
-  variant: 'elevated',
+withDefaults(defineProps<Props>(), {
+  variant: "elevated",
   height: 40,
-})
+});
 
 const emits = defineEmits<Emits>();
 
-const onClick = (e:Event) => {
+const onClick = (e: Event) => {
   emits("emitClick", e.target as HTMLElement);
 };
 </script>
+~/types/types ~/types/types

@@ -21,11 +21,12 @@ class TeamController extends Controller
         $page = $request->page;
         $teams = Team::latest()
         ->with(['tags:name', 'areas:name', 'profiles'])
-        ->offset($page*10-1)
+        ->offset($page*10)
         ->limit(10)
         ->get();
         if ($teams) {
             return response()->json([
+                'page'=>$page,
                 'teams' => $teams,
             ]);
         }
@@ -54,10 +55,9 @@ class TeamController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
-    public function search_team(Request $request,$page)
+    public function search_team(Request $request)
     {
-
-
+        $page = $request->page;
         $keywords = $request->keywords;
         $tab = $request->tab;
         $multi = $request->multi;
@@ -79,7 +79,7 @@ class TeamController extends Controller
                 })
                 ->withCount('profiles')
                 ->with(['tags:name','areas:name','profiles'])
-                ->offset($page*10-1)
+                ->offset($page*10)
                 ->limit(10)
                 ->get();
             }else{
@@ -103,7 +103,7 @@ class TeamController extends Controller
                 })
                 ->withCount('profiles')
                 ->with(['tags:name','areas:name','profiles'])
-                ->offset($page*10-1)
+                ->offset($page*10)
                 ->limit(10)
                 ->get();
 
@@ -111,7 +111,6 @@ class TeamController extends Controller
 
             if ($teams) {
                 return response()->json([
-                    'test'=>'test',
                     'keywords'=>$keywords,
                     'teams' => $teams,
                 ]);
@@ -123,7 +122,7 @@ class TeamController extends Controller
         $teams = Team::latest()
         ->withCount('profiles')
             ->with(['tags:name', 'areas:name', 'profiles'])
-            ->offset($page*10-1)
+            ->offset($page*10)
             ->limit(10)
             ->get();
 
@@ -132,7 +131,7 @@ class TeamController extends Controller
             $teams = Team::withCount('profiles')
             ->orderBy('profiles_count', 'desc')
             ->with(['tags:name','areas:name','profiles'])
-            ->offset($page*10-1)
+            ->offset($page*10)
             ->limit(10)
             ->get();
         }

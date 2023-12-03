@@ -2,9 +2,6 @@
 
 export default defineNuxtConfig({
   ssr:false,
-  optimizeDeps: {
-    exclude: ['my-lib/components/**/*.vue'],
-  },
   spaLoadingTemplate: "./spa-loading-template.html",
   app:{
     head: {
@@ -31,6 +28,9 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
+  },
+  imports: {
+    dirs: ['types/*.ts', 'store/*.ts', 'types/**/*.ts'],
   },
   modules: [
     '@pinia/nuxt',

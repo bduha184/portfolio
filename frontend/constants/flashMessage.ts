@@ -15,4 +15,6 @@ export const Message = {
   SENDMESSAGEERROR:'メッセージを送信しました',
   RESETPASSWORD:'パスワードをリセットしました',
   RESETPASSWORDERROR:'パスワードのリセットに失敗しました。再度お試しください',
+  WITHDRAW:'退会しました',
+  WITHDRAWERROR:'エラーが発生しました。再度お試しください。',
 }

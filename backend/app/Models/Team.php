@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Kyslik\ColumnSortable\Sortable;
 
 class Team extends Model
 {
-    use HasFactory,Sortable;
+    use HasFactory;
 
     protected $fillable = [
         'header_img_path',
@@ -24,11 +23,6 @@ class Team extends Model
         'active_datetime',
         'team_url',
         'schedule',
-    ];
-
-    public $sortable = [
-        'profile_id',
-        'team_id'
     ];
 
     public function profiles(): BelongsToMany

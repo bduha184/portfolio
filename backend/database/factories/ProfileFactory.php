@@ -3,11 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Profile>
  */
+
 class ProfileFactory extends Factory
 {
     /**
@@ -15,6 +17,8 @@ class ProfileFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Profile::class;
+
     public function definition(): array
     {
         $header_img = $this->faker->image(storage_path('app/public/uploaded'),600,600);

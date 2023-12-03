@@ -25,8 +25,6 @@
 <script setup lang="ts">
 import { Icons } from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
-
-
 const auth = useAuthStore();
 definePageMeta({
   middleware: ["auth"],

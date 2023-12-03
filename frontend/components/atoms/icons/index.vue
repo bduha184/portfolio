@@ -1,4 +1,3 @@
-
 <template>
   <v-icon
     :icon="name"
@@ -9,11 +8,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Props} from "~/types";
+import type { Props } from "~/types";
 
-const props = withDefaults(defineProps<Props>(),{
-  size:35,
-  padding:'p-1'
-})
-
+const props = withDefaults(defineProps<Props>(), {
+  size: 35,
+  padding: "p-1",
+});
 </script>
+~/types/types ~/types/types

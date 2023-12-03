@@ -13,21 +13,19 @@
   />
 </template>
 
-
 <script setup lang="ts">
-import type { Emits} from "~/types";
-import {watch } from "#imports";
+import type { Emits } from "~/types";
+import { watch } from "#imports";
 
 interface Props {
-  accept:string;
-  disabled:boolean;
-  name:string;
-  placeholder:string;
-  type:string;
-  val:string;
-  isSelecting:boolean;
+  accept: string;
+  disabled: boolean;
+  name: string;
+  placeholder: string;
+  type: string;
+  val: string;
+  isSelecting: boolean;
 }
-
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
@@ -49,7 +47,6 @@ watch(
 );
 
 const onChange = (e: Event) => {
-
   const target = e.target as HTMLInputElement | File;
   if (props.type === "file") {
     const files = target.files;
@@ -98,3 +95,4 @@ input[type="checkbox"] {
   }
 }
 </style>
+~/types/types ~/types/types

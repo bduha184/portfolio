@@ -76,7 +76,7 @@ export const MenuItems = [
     // {
     //   text: "各種設定",
     //   icon: Icons.LOGOUT,
-    //   auth: false,
+    //   auth: true,
     //   func: () => {
     //     useAuthStore().logout();
     //   }
@@ -104,6 +104,11 @@ export const AuthMenus = [
       icon: Icons.MESSAGES,
       url:Url.MESSAGES,
     },
+    {
+      text: "各種設定",
+      icon: Icons.MESSAGES,
+      url:Url.SETTING,
+    },
   ]
 
 export const AuthTeamMenus = [
@@ -116,5 +121,17 @@ export const AuthTeamMenus = [
       text: "所属チーム一覧",
       icon: Icons.HOME,
       url:Url.AFFILIATION,
+    },
+  ]
+export const AuthSettingMenus = [
+    {
+      flg:1,
+      text: "英語表記",
+      icon: Icons.HOME,
+    },
+    {
+      flg:0,
+      text: "退会",
+      icon: Icons.HOME,
     },
   ]
