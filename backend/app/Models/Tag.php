@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Tag extends Model
 {
@@ -14,7 +14,7 @@ class Tag extends Model
         'name',
     ];
 
-    public function teams():BelongsToMany{
-        return $this->belongsToMany(Team::class)->withTimestamps();
+    public function teams():BelongsTo{
+        return $this->belongsTo(Team::class);
     }
 }

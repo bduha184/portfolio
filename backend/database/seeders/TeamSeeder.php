@@ -14,10 +14,17 @@ class TeamSeeder extends Seeder
      */
     public function run(): void
     {
-        $tags = Tag::all();
-        $areas = Area::all();
 
-        // factory(Team::class,2)
+        $tags = Tag::all();
+        $teams = Team::all();
+
+        $teams->hasTags()->create();
+
+        $teams->each(function ($team) {
+            $team->hasTags()->create();
+        });
+
+        // Team::factory(2)
         // ->create()
         // ->each(function (Team $team) use ($tags,$areas) {
         //     $tag_rand = rand(0,6);

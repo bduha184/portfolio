@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Team extends Model
 {
@@ -29,13 +31,13 @@ class Team extends Model
     {
         return $this->belongsToMany(Profile::class)->withTimestamps();
     }
-    public function tags(): BelongsToMany
+    public function tags(): HasMany
     {
-        return $this->belongsToMany(Tag::class)->withTimestamps();
+        return $this->hasMany(Tag::class);
     }
-    public function areas(): BelongsToMany
+    public function areas(): HasMany
     {
-        return $this->belongsToMany(Area::class)->withTimestamps();
+        return $this->hasMany(Area::class);
     }
 
 

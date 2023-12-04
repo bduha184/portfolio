@@ -6,6 +6,7 @@ use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Team;
+use App\Models\Tag;
 
 class TagsSeeder extends Seeder
 {
@@ -24,10 +25,7 @@ class TagsSeeder extends Seeder
             'レース出場',
             'オールラウンド'
         ];
-        $team = Team::all();
-        $team->tags()->create([
-            'name'=>$array[random_int(0,6)]
-        ]);
+        Tag::factory()->create();
 
     }
 }

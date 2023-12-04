@@ -61,11 +61,11 @@ class User extends Authenticatable
     }
 
     public function images():HasMany{
-        return $this->hasMany(Team::class)->withTimestamps();
+        return $this->hasMany(Team::class);
     }
 
     public function provider():HasMany{
-        return $this->hasMany(Provider::class)->withTimestamps();
+        return $this->hasMany(Provider::class);
     }
 
 }
