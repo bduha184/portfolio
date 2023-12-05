@@ -77,9 +77,9 @@ const onClick = (auth) => {
   }
   return navigateTo({
     path: Url.TEAMS + "/" + props.id,
-    query: {
-      user: props.profiles.user_id,
-    },
+    // query: {
+    //   user: props.profiles.user_id,
+    // },
   });
 };
 </script>

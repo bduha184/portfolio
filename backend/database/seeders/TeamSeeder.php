@@ -15,29 +15,50 @@ class TeamSeeder extends Seeder
     public function run(): void
     {
 
-        $tags = Tag::all();
+        $array_tags = [
+            '',
+            'ポタリングのみ',
+            'ポタリングメイン',
+            'ロングライド',
+            'ガチライド',
+            'トレーニング',
+            'レース出場',
+            'オールラウンド'
+        ];
+
+        $array_areas = [
+            '',
+            '北海道',
+            '青森',
+            '秋田',
+            '岩手',
+            '大阪',
+            '京都',
+            '兵庫',
+            '奈良',
+            '滋賀',
+            '和歌山',
+        ];
+
         $teams = Team::all();
 
-        $teams->hasTags()->create();
+        $teams->each(function ($query) use ($array_areas,$array_tags) {
+                $area_nums = random_int(1,9);
+                $tag_nums = random_int(1,6);
+                for($i = 1;$i<=$area_nums;$i++){
 
-        $teams->each(function ($team) {
-            $team->hasTags()->create();
+                    $query->areas()->create([
+                        'name'=>$array_areas[$i],
+                        'team_id'=>$query->team_id
+                    ]);
+                }
+                for($j = 1;$j<=$tag_nums;$j++){
+
+                    $query->tags()->create([
+                        'name'=>$array_tags[$j],
+                        'team_id'=>$query->team_id
+                    ]);
+                }
         });
-
-        // Team::factory(2)
-        // ->create()
-        // ->each(function (Team $team) use ($tags,$areas) {
-        //     $tag_rand = rand(0,6);
-        //     $area_rand = rand(0,9);
-
-        //     $team->tags()->attach(
-        //         $tags->random($tag_rand)->pluck('id')->toArray()
-        //     );
-        //     $team->areas()->attach(
-        //         $areas->random($area_rand)->pluck('id')->toArray()
-        //     );
-
-        // });
-
     }
 }

@@ -29,7 +29,8 @@ class TagFactory extends Factory
         ];
 
         return [
-            'name'=>array_rand($array,random_int(1,6))
+            'name'=>array_rand($array,random_int(1,count($array))),
+            'team_id'=>Team::factory()
         ];
     }
 }

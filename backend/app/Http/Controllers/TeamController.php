@@ -20,13 +20,13 @@ class TeamController extends Controller
 
         $page = $request->page;
         $teams = Team::latest()
-        ->with(['tags:name', 'areas:name', 'profiles'])
+        ->with(['profiles','tags', 'areas'])
         ->offset($page*10)
         ->limit(10)
         ->get();
+
         if ($teams) {
             return response()->json([
-                'page'=>$page,
                 'teams' => $teams,
             ]);
         }
@@ -78,7 +78,7 @@ class TeamController extends Controller
                     });
                 })
                 ->withCount('profiles')
-                ->with(['tags:name','areas:name','profiles'])
+                ->with(['tags','areas','profiles'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -102,7 +102,7 @@ class TeamController extends Controller
                         }
                 })
                 ->withCount('profiles')
-                ->with(['tags:name','areas:name','profiles'])
+                ->with(['tags','areas','profiles'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -121,7 +121,7 @@ class TeamController extends Controller
         }
         $teams = Team::latest()
         ->withCount('profiles')
-            ->with(['tags:name', 'areas:name', 'profiles'])
+            ->with(['tags', 'areas', 'profiles'])
             ->offset($page*10)
             ->limit(10)
             ->get();
@@ -130,7 +130,7 @@ class TeamController extends Controller
 
             $teams = Team::withCount('profiles')
             ->orderBy('profiles_count', 'desc')
-            ->with(['tags:name','areas:name','profiles'])
+            ->with(['tags','areas','profiles'])
             ->offset($page*10)
             ->limit(10)
             ->get();

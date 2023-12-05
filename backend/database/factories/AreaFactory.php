@@ -31,7 +31,8 @@ class AreaFactory extends Factory
         ];
 
         return [
-            'name'=>$array,
+            'name'=>array_rand($array,random_int(1,count($array))),
+            'team_id'=>Team::factory()
         ];
     }
 }

@@ -150,7 +150,7 @@ const receiveCheck = (setCheck) => {
 const handleRegister= async ()=> {
 
    const res =  await auth.register(formValue.value);
-   console.log(res);
+   console.log('restest',res);
    if(res.error.value != null){
      const errors = res.error.value.data.errors;
      if (errors) {

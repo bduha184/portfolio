@@ -14,6 +14,8 @@ class ProfileSeeder extends Seeder
      */
     public function run(): void
     {
+
+
         Profile::factory(2)
         ->hasTeams()
         ->create();

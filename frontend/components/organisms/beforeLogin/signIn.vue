@@ -122,7 +122,9 @@ const checkFilledOut = computed(() => {
 
 
 const handleLogin = async () => {
+  console.log(form.value);
  const res =  await auth.login(form.value)
+ console.log(res);
     if (res.error.value != null) {
       return flashMessage.setMessage(Message.LOGINERROR,'error',6000);
     }

@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MessageController;
@@ -105,11 +103,13 @@ Route::controller(MessageController::class)->group(function(){
 });
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::prefix('login')->name('login.')->group(function() {
-    Route::post('/', [LoginController::class, 'login'])->name('login');
-    Route::post('/guestlogin', [LoginController::class, 'guestLogin'])->name('guest');
-    Route::get('/{provider}', [LoginController::class, 'redirectToProvider'])->name('{provider}');
-    Route::post('/{provider}/callback', [LoginController::class, 'handleProviderCallback'])->name('{provider}/callback');
+Route::controller(LoginController::class)->group(function(){
+    Route::prefix('login')->name('login.')->group(function() {
+        Route::post('/', 'login')->name('login');
+        Route::post('/guestlogin', 'guestLogin')->name('guest');
+        Route::get('/{provider}', 'redirectToProvider')->name('{provider}');
+        Route::post('/{provider}/callback', 'handleProviderCallback')->name('{provider}/callback');
+    });
 });
 
 Route::controller(UserController::class)->group(function(){

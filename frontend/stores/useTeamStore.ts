@@ -31,6 +31,7 @@ export const useTeamStore = defineStore({
         },
       });
       this.loading = false;
+      console.log('fetchall',data);
       const teams = data.value.teams;
       if (error.value == null && teams) {
         teams.forEach((team) => {

@@ -57,11 +57,11 @@
       </v-row>
     </v-container>
 
-    <OrganismsRecruitsRepresentative
+    <!-- <OrganismsRecruitsRepresentative
       :user_id="rep.userId"
       :path_thumbnail="rep.pathThumbnail"
       :introduction="rep.introduction"
-    />
+    /> -->
   </v-card>
 </template>
 
@@ -159,6 +159,8 @@ onMounted(() => {
     return team.id == router.params.id;
   });
 
+  console.log(team);
+
   if (team) {
     teamItems.value.itemId = team.id;
     teamItems.value.pathHeader = config.public.baseURL + "/storage/" + team.header_img_path;
@@ -182,9 +184,9 @@ onMounted(() => {
     team.areas.forEach((area) => {
       teamItems.value.areas.push(area.name);
     });
-    rep.value.pathThumbnail = config.public.baseURL + "/storage/" +  team.profiles[0].thumbnail_path;
-    rep.value.introduction = team.profiles[0].introduction;
-    rep.value.userId = team.profiles[0].user_id;
+    // rep.value.pathThumbnail = config.public.baseURL + "/storage/" +  team.profiles[0].thumbnail_path;
+    // rep.value.introduction = team.profiles[0].introduction;
+    // rep.value.userId = team.profiles[0].user_id;
   }
 });
 
