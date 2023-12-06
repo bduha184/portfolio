@@ -45,8 +45,8 @@
       </v-list-item>
     </v-list>
     <v-chip-group class="px-2">
-      <v-chip v-for="(tag, i) in props.tags" :key="i" class="text-caption">
-        {{ tag.name }}
+      <v-chip v-for="(ride, i) in props.rides" :key="i" class="text-caption">
+        {{ ride.name }}
       </v-chip>
     </v-chip-group>
   </v-card>

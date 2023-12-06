@@ -30,9 +30,9 @@ class Team extends Model
     {
         return $this->belongsTo(Profile::class);
     }
-    public function tags(): HasMany
+    public function rides(): HasMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(Ride::class);
     }
     public function areas(): HasMany
     {

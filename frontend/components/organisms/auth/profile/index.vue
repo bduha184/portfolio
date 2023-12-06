@@ -2,8 +2,8 @@
   <form>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
-      :path_header="form.urlHeaderImg"
-      :path_thumbnail="form.urlThumbnail"
+      :pathHeader="form.urlHeaderImg"
+      :pathThumbnail="form.urlThumbnail"
     />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine>

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('active_date_detail')->nullable();
             $table->string('team_url')->nullable();
             $table->string('schedule')->nullable();
-            $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@
       :average="teamItems.average"
       :fromAge="teamItems.fromAge"
       :toAge="teamItems.toAge"
-      :tags="teamItems.tags"
+      :rides="teamItems.rides"
       :areas="teamItems.areas"
       :detailActivities="teamItems.detailActivities"
       :detailAreas="teamItems.detailAreas"
@@ -96,7 +96,7 @@ const teamItems = ref({
   pathHeader: "",
   pathThumbnail: "",
   schedule: "",
-  tags: [],
+  rides: [],
   teamName: "",
   teamUrl: "",
   thumbnail: "",
@@ -178,8 +178,8 @@ onMounted(() => {
     teamItems.value.schedule = team.schedule;
     teamItems.value.userId = team.user_id;
     teamItems.value.memberCount = team.profiles_count;
-    team.tags.forEach((tag) => {
-      teamItems.value.tags.push(tag.name);
+    team.rides.forEach((ride) => {
+      teamItems.value.rides.push(ride.name);
     });
     team.areas.forEach((area) => {
       teamItems.value.areas.push(area.name);

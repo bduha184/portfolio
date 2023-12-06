@@ -37,7 +37,7 @@ export interface Props {
   profiles:string;
   provider:string;
   size?:number;
-  tags:string[];
+  rides:string[];
   teamName:string;
   teamUrl:string;
   text:string;
@@ -54,11 +54,11 @@ export interface Props {
 export interface Emits {
   (e:"emitClick",value:HTMLElement):void;
   (e:"emitInput", value: File | HTMLInputElement | {val:File,target:String} | string): void;
-  (e:"emitTags", value: HTMLInputElement): void;
   (e:"emitAgeAverage", value: String): void;
   (e:"emitFromAge", value: String): void;
   (e:"emitToAge", value: String): void;
-  (e:"emitTags", value: Array<string>): void;
+  (e:"emitRides", value: HTMLInputElement): void;
+  (e:"emitRides", value: Array<string>): void;
   (e:"emitAreas", value: Array<string>): void;
   (e:"emitDetailActivities", value: String): void;
   (e:"emitDetailAreas", value: String): void;
@@ -76,7 +76,7 @@ export interface Team {
   introduction:string;
   profiles:string;
   profiles_count:number;
-  tags:Array<string>;
+  rides:Array<string>;
   team_name:string;
   thumbnail_path:string;
 }

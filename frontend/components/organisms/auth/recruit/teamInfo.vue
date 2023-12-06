@@ -24,7 +24,7 @@
       </v-col>
       <v-col cols="12">
         ■チームの活動
-        <MoleculesTags @emitTags="receiveTags" :tags="tags" :items="Levels" />
+        <MoleculesRides @emitRides="receiveRides" :rides="rides" :items="Levels" />
       </v-col>
       <v-col cols="12">
         ■チームの活動(補足)
@@ -70,7 +70,7 @@ const props = defineProps<Props>();
 const ageAverage = ref("");
 const fromAge = ref<string>("");
 const toAge = ref<string>("");
-const tags = ref<string[]>([]);
+const rides = ref<string[]>([]);
 const areas = ref<string[]>([]);
 const detailActivities = ref<string>("");
 const detailAreas = ref<string>("");
@@ -80,8 +80,8 @@ const teamUrl = ref<string>("");
 
 const emits = defineEmits<Emits>();
 
-const receiveTags = (val: string) => {
-  tags.value = val;
+const receiveRides = (val: string) => {
+  rides.value = val;
 };
 const receiveTeamActivities = (val: string) => {
   detailActivities.value = val.value;
@@ -102,7 +102,7 @@ watch(
     ageAverage.value,
     fromAge.value,
     toAge.value,
-    tags.value,
+    rides.value,
     areas.value,
     detailActivities.value,
     detailAreas.value,
@@ -114,7 +114,7 @@ watch(
     emits("emitAgeAverage", ageAverage.value);
     emits("emitFromAge", fromAge.value);
     emits("emitToAge", toAge.value);
-    emits("emitTags", tags.value);
+    emits("emitRides", rides.value);
     emits("emitAreas", areas.value);
     emits("emitDetailActivities", detailActivities.value);
     emits("emitDetailAreas", detailAreas.value);
@@ -128,7 +128,7 @@ watch(
     props.average,
     props.fromAge,
     props.toAge,
-    props.tags,
+    props.rides,
     props.areas,
     props.detailActivities,
     props.detailAreas,
@@ -140,7 +140,7 @@ watch(
     ageAverage.value = props.average;
     fromAge.value = props.fromAge;
     toAge.value = props.toAge;
-    tags.value = props.tags;
+    rides.value = props.rides;
     areas.value = props.areas;
     detailActivities.value = props.detailActivities;
     detailAreas.value = props.detailAreas;

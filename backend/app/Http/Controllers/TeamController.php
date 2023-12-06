@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
-use App\Models\Tag;
+use App\Models\Ride;
 use App\Models\Area;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ class TeamController extends Controller
 
         $page = $request->page;
         $teams = Team::latest()
-        ->with(['profiles','tags', 'areas'])
+        ->with(['profiles','rides', 'areas'])
         ->offset($page*10)
         ->limit(10)
         ->get();
@@ -42,7 +42,7 @@ class TeamController extends Controller
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $teams = $auth_profile->teams()->with(['tags:name', 'areas:name', 'profiles'])->get();
+            $teams = $auth_profile->teams()->with(['rides:name', 'areas:name', 'profiles'])->get();
             $affiliations = $teams->filter(fn ($team) => $team->user_id != $auth_id);
             return response()->json([
                 'profile' => $auth_profile,
@@ -64,10 +64,10 @@ class TeamController extends Controller
 
         if (!empty($keywords)) {
             if($multi) {
-                $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
+                $teams =  Team::whereHas('rides', function ($query) use ($keywords) {
                     $query->where(function($q) use ($keywords){
                         foreach($keywords as $keyword){
-                            $q->orWhere('tags.name','like','%'.$keyword.'%');
+                            $q->orWhere('rides.name','like','%'.$keyword.'%');
                         }
                     });
                 })->WhereHas('areas', function ($query) use ($keywords) {
@@ -78,15 +78,15 @@ class TeamController extends Controller
                     });
                 })
                 ->withCount('profiles')
-                ->with(['tags','areas','profiles'])
+                ->with(['rides','areas','profiles'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
             }else{
-                $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
+                $teams =  Team::whereHas('rides', function ($query) use ($keywords) {
                     $query->where(function($q) use ($keywords){
                         foreach($keywords as $keyword){
-                            $q->orWhere('tags.name','like','%'.$keyword.'%');
+                            $q->orWhere('rides.name','like','%'.$keyword.'%');
                         }
                     });
                 })->orWhereHas('areas', function ($query) use ($keywords) {
@@ -102,7 +102,7 @@ class TeamController extends Controller
                         }
                 })
                 ->withCount('profiles')
-                ->with(['tags','areas','profiles'])
+                ->with(['rides','areas','profiles'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -121,7 +121,7 @@ class TeamController extends Controller
         }
         $teams = Team::latest()
         ->withCount('profiles')
-            ->with(['tags', 'areas', 'profiles'])
+            ->with(['rides', 'areas', 'profiles'])
             ->offset($page*10)
             ->limit(10)
             ->get();
@@ -130,7 +130,7 @@ class TeamController extends Controller
 
             $teams = Team::withCount('profiles')
             ->orderBy('profiles_count', 'desc')
-            ->with(['tags','areas','profiles'])
+            ->with(['rides','areas','profiles'])
             ->offset($page*10)
             ->limit(10)
             ->get();
@@ -161,9 +161,9 @@ class TeamController extends Controller
         $team->user_id = Auth::id();
         $team->save();
 
-        collect($request->tags)->each(function ($tagName) use ($team) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $team->tags()->attach($tag);
+        collect($request->rides)->each(function ($rideName) use ($team) {
+            $ride = Ride::firstOrCreate(['name' => $rideName]);
+            $team->rides()->attach($ride);
         });
 
         collect($request->areas)->each(function ($areaName) use ($team) {
@@ -193,7 +193,7 @@ class TeamController extends Controller
 
         $teamInfo = Team::withCount('profiles')
         ->with([
-            'tags:name',
+            'rides:name',
             'areas:name',
             'profiles' => function ($q) use ($user_id) {
                 $q->where('user_id', $user_id)->first();
@@ -205,7 +205,7 @@ class TeamController extends Controller
             $teamInfo = Team::where('user_id', $id)
             ->withCount('profiles')
             ->with([
-            'tags:name',
+            'rides:name',
             'areas:name',
             'profiles' => function ($q) use ($id) {
                 $q->where('user_id', $id)->first();
@@ -249,10 +249,10 @@ class TeamController extends Controller
             $team->save();
 
 
-            $team->tags()->detach();
-            collect($request->tags)->each(function ($tagName) use ($team) {
-                $tag = Tag::firstOrCreate(['name' => $tagName]);
-                $team->tags()->attach($tag);
+            $team->rides()->detach();
+            collect($request->rides)->each(function ($rideName) use ($team) {
+                $ride = Ride::firstOrCreate(['name' => $rideName]);
+                $team->rides()->attach($ride);
             });
 
             $team->areas()->detach();

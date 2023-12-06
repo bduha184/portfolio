@@ -16,7 +16,7 @@
     :member="item.profiles_count"
     :introduction="item.introduction"
     :id="item.id"
-    :tags="item.tags"
+    :rides="item.rides"
     :profiles="item.profiles"
     :areas="item.areas"
     :activeDate="item.active_date"

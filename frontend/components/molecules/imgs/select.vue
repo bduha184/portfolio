@@ -1,5 +1,5 @@
 <template>
-  <AtomsImgs :src="path" @emitClick="openFileSelect">
+  <AtomsImgs :src="props.path" @emitClick="openFileSelect">
     <AtomsInput
       type="file"
       class="d-none"

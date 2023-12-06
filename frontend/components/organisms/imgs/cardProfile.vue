@@ -2,14 +2,14 @@
   <div class="relative z-0 h-[100px]">
     <MoleculesImgsSelect
       @emitInput="receiveHeaderImg"
-      :path="pathHeader"
+      :path="props.pathHeader"
       :disabled="disabled"
       size="cover"
     />
     <v-avatar size="80" color="white">
       <MoleculesImgsSelect
         @emitInput="receiveThumbnail"
-        :path="pathThumbnail"
+        :path="props.pathThumbnail"
         :disabled="disabled"
       />
     </v-avatar>

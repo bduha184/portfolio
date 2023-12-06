@@ -25,8 +25,8 @@
           <v-col cols="4">ライド :</v-col>
           <v-col cols="8">
             <v-chip-group>
-              <v-chip v-for="(tag, i) in props.tags" :key="i">
-                {{ tag }}
+              <v-chip v-for="(ride, i) in props.rides" :key="i">
+                {{ ride }}
               </v-chip>
             </v-chip-group>
           </v-col>

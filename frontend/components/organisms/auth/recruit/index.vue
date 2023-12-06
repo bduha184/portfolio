@@ -2,8 +2,8 @@
   <form>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
-      :path_header="teamItems.urlHeaderImg"
-      :path_thumbnail="teamItems.urlThumbnail"
+      :pathHeader="teamItems.urlHeaderImg"
+      :pathThumbnail="teamItems.urlThumbnail"
     />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine class="w-100">
@@ -37,7 +37,7 @@
       @emitAgeAverage="receiveAverage"
       @emitFromAge="receiveFromAge"
       @emitToAge="receiveToAge"
-      @emitTags="receiveTags"
+      @emitRides="receiveRides"
       @emitAreas="receiveAreas"
       @emitDetailAreas="receiveDetailAreas"
       @emitDetailActivities="receiveDetailActivities"
@@ -48,7 +48,7 @@
       :average="teamItems.average"
       :fromAge="teamItems.fromAge"
       :toAge="teamItems.toAge"
-      :tags="teamItems.tags"
+      :rides="teamItems.rides"
       :areas="teamItems.areas"
       :detailActivities="teamItems.detailActivities"
       :detailAreas="teamItems.detailAreas"
@@ -87,7 +87,6 @@
     <OrganismsModal
       v-if="teamItems.itemId"
       @emitModalOpen="handleCheck"
-      @emitModalBtnClick="handleDelete"
       color="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
       btnValue="削除する"
@@ -125,7 +124,7 @@ const teamItems = ref({
   average: "",
   fromAge: "",
   toAge: "",
-  tags: [],
+  rides: [],
   areas: [],
   detailAreas: "",
   introduction: "",
@@ -172,8 +171,8 @@ const receiveFromAge = (val) => {
 const receiveToAge = (val) => {
   teamItems.value.toAge = val;
 };
-const receiveTags = (val) => {
-  teamItems.value.tags = val;
+const receiveRides= (val) => {
+  teamItems.value.rides = val;
 };
 const receiveDetailActivities = (val) => {
   teamItems.value.detailActivities = val;
@@ -207,9 +206,9 @@ const handleRegister = async () => {
   formData.append("average", teamItems.value.average);
   formData.append("from_age", teamItems.value.fromAge);
   formData.append("to_age", teamItems.value.toAge);
-  const tags = teamItems.value.tags;
-  tags.forEach((tag) => {
-    formData.append("tags[]", tag);
+  const rides = teamItems.value.rides;
+  rides.forEach((ride) => {
+    formData.append("rides[]", ride);
   });
   formData.append("detail_activity", teamItems.value.detailActivities);
   const areas = teamItems.value.areas;
@@ -262,9 +261,9 @@ const handleUpdate = async () => {
   formData.append("average", teamItems.value.average);
   formData.append("from_age", teamItems.value.fromAge);
   formData.append("to_age", teamItems.value.toAge);
-  const tags = teamItems.value.tags;
-  tags.forEach((tag) => {
-    formData.append("tags[]", tag);
+  const rides = teamItems.value.rides;
+  rides.forEach((ride) => {
+    formData.append("rides[]", ride);
   });
   formData.append("detail_activities", teamItems.value.detailActivities);
   const areas = teamItems.value.areas;
@@ -391,10 +390,10 @@ onMounted(async () => {
         if (val.members) {
           teamItems.value.memberCount = val.members.length;
         }
-        if (val.tags) {
-          console.log(val.tags);
-          val.tags.forEach((tag) => {
-            teamItems.value.tags.push(tag.name);
+        if (val.rides) {
+          console.log(val.rides);
+          val.rides.forEach((ride) => {
+            teamItems.value.rides.push(ride.name);
           });
         }
         if (val.areas) {

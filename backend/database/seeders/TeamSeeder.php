@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Team;
-use App\Models\Tag;
-use App\Models\Area;
 
 class TeamSeeder extends Seeder
 {
@@ -15,7 +13,7 @@ class TeamSeeder extends Seeder
     public function run(): void
     {
 
-        $array_tags = [
+        $array_rides = [
             '',
             'ポタリングのみ',
             'ポタリングメイン',
@@ -42,9 +40,9 @@ class TeamSeeder extends Seeder
 
         $teams = Team::all();
 
-        $teams->each(function ($query) use ($array_areas,$array_tags) {
+        $teams->each(function ($query) use ($array_areas,$array_rides) {
                 $area_nums = random_int(1,9);
-                $tag_nums = random_int(1,6);
+                $ride_nums = random_int(1,6);
                 for($i = 1;$i<=$area_nums;$i++){
 
                     $query->areas()->create([
@@ -52,10 +50,10 @@ class TeamSeeder extends Seeder
                         'team_id'=>$query->team_id
                     ]);
                 }
-                for($j = 1;$j<=$tag_nums;$j++){
+                for($j = 1;$j<=$ride_nums;$j++){
 
-                    $query->tags()->create([
-                        'name'=>$array_tags[$j],
+                    $query->rides()->create([
+                        'name'=>$array_rides[$j],
                         'team_id'=>$query->team_id
                     ]);
                 }

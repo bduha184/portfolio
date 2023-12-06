@@ -4,9 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Profile;
-use App\Models\Tag;
-use App\Models\Area;
-use App\Models\Team;
 class ProfileSeeder extends Seeder
 {
     /**
@@ -16,7 +13,7 @@ class ProfileSeeder extends Seeder
     {
 
 
-        Profile::factory(2)
+        Profile::factory(20)
         ->hasTeams()
         ->create();
 
