@@ -18,10 +18,7 @@ class Profile extends Model
         'request_flg',
     ];
 
-    public function teams():HasMany{
-        return $this->hasMany(Team::class);
-    }
-    public function user():BelongsTo{
+    public function users():BelongsTo{
         return $this->belongsTo(User::class);
     }
     public function messages():HasMany{

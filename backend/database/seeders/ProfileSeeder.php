@@ -14,7 +14,6 @@ class ProfileSeeder extends Seeder
 
 
         Profile::factory(20)
-        ->hasTeams()
         ->create();
 
     }

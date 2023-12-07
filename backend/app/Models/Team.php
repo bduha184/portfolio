@@ -26,9 +26,9 @@ class Team extends Model
         'schedule',
     ];
 
-    public function profiles(): BelongsTo
+    public function users(): BelongsTo
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(User::class);
     }
     public function rides(): HasMany
     {

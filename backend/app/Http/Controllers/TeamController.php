@@ -20,7 +20,7 @@ class TeamController extends Controller
 
         $page = $request->page;
         $teams = Team::latest()
-        ->with(['profiles','rides', 'areas'])
+        ->with(['rides', 'areas'])
         ->offset($page*10)
         ->limit(10)
         ->get();

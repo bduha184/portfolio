@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Profile;
+use App\Models\User;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -69,7 +69,7 @@ class TeamFactory extends Factory
             'active_date_detail' => $this->faker->realText(50),
             'team_url' => $this->faker->realText(50),
             'schedule' => $this->faker->realText(50),
-            'profile_id' => Profile::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }
