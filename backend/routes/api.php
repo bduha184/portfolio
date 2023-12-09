@@ -72,6 +72,7 @@ Route::controller(TeamController::class)->group(function(){
     Route::prefix('team')->name('team.')->group(function(){
         Route::get('/','index')->name('index');
         Route::get('/auth','select_team');
+        Route::get('/myteam','get_my_team');
         Route::get('/search','search_team');
         Route::get('/{id}','show')->name('show');
     });

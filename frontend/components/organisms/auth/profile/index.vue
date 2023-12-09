@@ -21,7 +21,7 @@
       width="16rem"
       class="my-4 d-block mx-auto"
       @click.once="handleRegister"
-      :disabled="!checkFilledOut()"
+      :disabled="checkFilledOut"
       color="info"
       v-if="!prof.getProf.itemId"
     >
@@ -32,7 +32,7 @@
       color="orange"
       class="my-4 d-block mx-auto"
       @click.once="handleUpdate"
-      :disabled="!checkFilledOut()"
+      :disabled="checkFilledOut"
       v-if="prof.getProf.itemId"
     >
       更新
@@ -47,6 +47,7 @@
     >
       削除
     </OrganismsModal>
+    {{ checkFilledOut }}
   </form>
 </template>
 
@@ -108,27 +109,26 @@ const handleUpdate = async () => {
   return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
 };
 const handleDelete = async () => {
-  const itemId = form.value.itemId;
+  const itemId = prof.getProf.itemId;
   await useApiFetch("/sanctum/csrf-cookie");
-  const res = await useApiFetch(`/api/profile/${itemId}`, {
+  const {error} = await useApiFetch(`/api/profile/${itemId}`, {
     method: "DELETE",
   });
-  if (res.error.value == null) {
+  if (error.value == null) {
     flashMessage.setMessage(Message.DELETE);
+    prof.deleteValue();
     return navigateTo(Url.MYPAGE);
   }
   return flashMessage.setMessage(Message.DELETEERROR, "error", 6000);
 };
 
-const checkFilledOut = () => {
-  const fieldArray = [prof.getProf];
-
-  if (fieldArray.indexOf("") === -1) {
-    return true;
+const checkFilledOut = computed(() => {
+  console.log(prof.getProf.introduction);
+  if(prof.getProf.introduction) {
+    return false;
   }
-
-  return false;
-};
+  return true;
+});
 
 
 const receiveProfileImage = (val: File) => {

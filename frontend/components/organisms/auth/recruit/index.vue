@@ -2,8 +2,8 @@
   <form>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
-      :pathHeader="teamItems.urlHeaderImg"
-      :pathThumbnail="teamItems.urlThumbnail"
+      :pathHeader="teamStore.getTeamDetail.urlHeaderImg"
+      :pathThumbnail="teamStore.getTeamDetail.urlThumbnail"
     />
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine class="w-100">
@@ -11,7 +11,7 @@
           placeholder="チーム名"
           type="text"
           @emitInput="receiveTeamName"
-          :val="teamItems.teamName"
+          :val="teamStore.getTeamDetail.teamName"
         />
       </AtomsTextsHeadLine>
     </v-card-title>
@@ -19,7 +19,7 @@
       <AtomsTextAreas
         placeholder="チーム紹介"
         @emitInput="receiveTeamIntroduce"
-        :body="teamItems.introduction"
+        :body="teamStore.getTeamDetail.introduction"
       />
     </v-card-text>
     <v-container>
@@ -45,16 +45,16 @@
       @emitActiveDateDetail="receiveActiveDateDetail"
       @emitTeamUrl="receiveTeamUrl"
       :memberCount="teamItems.memberCount"
-      :average="teamItems.average"
-      :fromAge="teamItems.fromAge"
-      :toAge="teamItems.toAge"
-      :rides="teamItems.rides"
-      :areas="teamItems.areas"
-      :detailActivities="teamItems.detailActivities"
-      :detailAreas="teamItems.detailAreas"
-      :activeDate="teamItems.activeDate"
-      :activeDateDetail="teamItems.activeDateDetail"
-      :team_url="teamItems.teamUrl"
+      :average="teamStore.getTeamDetail.average"
+      :fromAge="teamStore.getTeamDetail.fromAge"
+      :toAge="teamStore.getTeamDetail.toAge"
+      :rides="teamStore.getTeamDetail.rides"
+      :areas="teamStore.getTeamDetail.areas"
+      :detailActivities="teamStore.getTeamDetail.detailActivities"
+      :detailAreas="teamStore.getTeamDetail.detailAreas"
+      :activeDate="teamStore.getTeamDetail.activeDate"
+      :activeDateDetail="teamStore.getTeamDetail.activeDateDetail"
+      :team_url="teamStore.getTeamDetail.teamUrl"
     />
     <v-container>
       <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
@@ -62,7 +62,7 @@
         class="mt-2"
         placeholder="これからの活動内容を記入"
         @emitInput="receiveTeamSchedule"
-        :body="teamItems.schedule"
+        :body="teamStore.getTeamDetail.schedule"
       />
     </v-container>
     <AtomsBtnsBaseBtn
@@ -70,7 +70,7 @@
       color="info"
       class="my-4 d-block mx-auto"
       @emitClick="handleRegister"
-      v-if="!teamItems.itemId"
+      v-if="!teamStore.getTeamDetail.itemId"
     >
       登録
     </AtomsBtnsBaseBtn>
@@ -80,12 +80,12 @@
       class="my-4 d-block mx-auto"
       @click="handleUpdate"
       :disabled="!checkFilledOut()"
-      v-if="teamItems.itemId"
+      v-if="teamStore.getTeamDetail.itemId"
     >
       更新
     </AtomsBtnsBaseBtn>
     <OrganismsModal
-      v-if="teamItems.itemId"
+      v-if="teamStore.getTeamDetail.itemId"
       @emitModalOpen="handleCheck"
       color="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
@@ -94,6 +94,7 @@
     >
       削除
     </OrganismsModal>
+
   </form>
 </template>
 
@@ -105,10 +106,12 @@ import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { useGalleryStore } from "~/stores/useGalleryStore";
 import { Form } from "vee-validate";
+import { useTeamStore } from "~/stores/useTeamStore";
 
 
 const config = useRuntimeConfig();
 const auth = useAuthStore();
+const teamStore = useTeamStore();
 const flashMessage = useFlashMessageStore();
 const gallery = useGalleryStore();
 const deleteCheck = ref(false);
@@ -360,6 +363,7 @@ const receiveImage = (val) => {
 onMounted(async () => {
   const userId = auth.user.id;
 
+  teamStore.fetchMyTeams();
 
   if (userId) {
     const res = await useApiFetch(`/api/team/${userId}`);

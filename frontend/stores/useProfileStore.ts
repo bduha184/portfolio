@@ -25,7 +25,7 @@ export const useProfileStore = defineStore({
   actions: {
     async fetchProfile(authId) {
       const { data } = await useApiFetch(`/api/profile/${authId}`);
-
+console.log(data);
       if(data) {
         const items = data.value.profile;
         this.prof.urlHeaderImg = config.public.baseURL +'/storage/'+ items.header_img_path;
@@ -50,6 +50,19 @@ export const useProfileStore = defineStore({
         if(val.path_header) this.prof.pathHeader = val.path_header;
         if(val.path_thumbnail)this.prof.pathThumbnail = val.path_thumbnail;
         if(val.introduction)  this.prof.introduction = val.introduction;
+    },
+    deleteValue() {
+      this.prof = new Object({
+        pathHeader: "",
+        pathThumbnail: "",
+        userId: "",
+        headerImg: "",
+        thumbnail: "",
+        introduction: "",
+        itemId: "",
+        urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
+        urlThumbnail: config.public.appURL + "/images/noimage.jpg",
+      })
     }
   },
 });

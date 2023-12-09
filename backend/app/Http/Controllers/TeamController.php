@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Models\Ride;
 use App\Models\Area;
-use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -36,13 +36,30 @@ class TeamController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
+    public function get_my_team()
+    {
+        $auth_id = Auth::id();
+        $user = User::find($auth_id);
+
+        if ($user) {
+            $user_team = $user->teams()->with(['rides', 'areas'])->first();
+            return response()->json([
+                'team_info' => $user_team,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Team not found'
+        ], Response::HTTP_NOT_FOUND);
+    }
+
     public function select_team()
     {
         $auth_id = Auth::id();
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $teams = $auth_profile->teams()->with(['rides:name', 'areas:name', 'profiles'])->get();
+            $teams = $auth_profile->teams()->with(['rides:name', 'areas:name'])->get();
             $affiliations = $teams->filter(fn ($team) => $team->user_id != $auth_id);
             return response()->json([
                 'profile' => $auth_profile,

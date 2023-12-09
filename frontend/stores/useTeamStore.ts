@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import type {Props} from "~/types";
+import { useRuntimeConfig } from "#imports";
 
+const config = useRuntimeConfig();
 export const useTeamStore = defineStore({
   id: "team",
 
@@ -9,6 +11,30 @@ export const useTeamStore = defineStore({
     tab:'',
     page:0,
     loading:false,
+    details:{
+      pathHeader: "",
+      pathThumbnail: "",
+      itemId: "",
+      userId: "",
+      headerImg: "",
+      thumbnail: "",
+      teamName: "",
+      average: "",
+      fromAge: "",
+      toAge: "",
+      rides: [],
+      areas: [],
+      detailAreas: "",
+      introduction: "",
+      memberCount: 0,
+      detailActivities: "",
+      schedule: "",
+      activeDate: "",
+      activeDateDetail: "",
+      teamUrl: "",
+      urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
+      urlThumbnail: config.public.appURL + "/images/noimage.jpg",
+    }
   }),
 
   getters: {
@@ -16,8 +42,16 @@ export const useTeamStore = defineStore({
     getLoading: (state) => state.loading,
     getTeams: (state) => state.teams,
     getTeamCount: (state) => state.teams.length,
+    getTeamDetail:(state) => state.details
   },
   actions: {
+    async fetchMyTeams() {
+      const {data} = await useApiFetch("/api/team/myteam");
+
+      if(data.value != null){
+        this.setTeamValue(data.value.team_info);
+      }
+    },
     async fetchAllTeams() {
 
       this.loading = true;
@@ -78,5 +112,30 @@ export const useTeamStore = defineStore({
       this.page = 0;
       this.teams.length = 0;
     },
+    setTeamValue(val){
+      console.log(val);
+      this.details.itemId = val.id;
+      this.details.urlHeaderImg = config.public.baseURL + "/storage/" + val.header_img_path;
+      this.details.urlThumbnail = config.public.baseURL + "/storage/" + val.thumbnail_path;
+      this.details.teamName = val.team_name;
+      this.details.memberCount = val.member;
+      this.details.introduction = val.introduction;
+      this.details.average = val.average;
+      this.details.fromAge = val.from_age;
+      this.details.toAge = val.to_age;
+      this.details.detailAreas = val.detail_areas;
+      this.details.detailActivities = val.detail_activities;
+      this.details.activeDate = val.active_date;
+      this.details.activeDateDetail = val.active_date_detail;
+      this.details.teamUrl = val.team_url;
+      this.details.schedule = val.schedule;
+      this.details.userId = val.user_id;
+      val.rides.forEach((ride) => {
+        this.details.rides.push(ride.name);
+      });
+      val.areas.forEach((area) => {
+        this.details.areas.push(area.name);
+      });
+    }
   },
 });
