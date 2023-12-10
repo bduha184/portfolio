@@ -47,7 +47,6 @@
     >
       削除
     </OrganismsModal>
-    {{ checkFilledOut }}
   </form>
 </template>
 

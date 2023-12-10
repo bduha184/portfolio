@@ -1,7 +1,7 @@
 <template>
   <v-combobox
-    v-model="chips"
-    :items="props.items"
+    v-model="teamStore.details.rides"
+    :items="Levels"
     chips
     multiple
     label="タグを選択 or 入力"
@@ -22,28 +22,17 @@
 </template>
 
 <script setup lang="ts">
+import { useTeamStore } from "~/stores/useTeamStore";
 import type { Emits, Props } from "~/types";
+import {Levels} from "~/constants/teams";
 
-const props = defineProps<Props>();
+const teamStore = useTeamStore();
+
 const chips = ref<Array<string>>([]);
 
 function remove(item) {
   chips.value.splice(chips.value.indexOf(item), 1);
 }
 
-const emits = defineEmits<Emits>();
-
-watch(
-  () => chips.value,
-  () => {
-    emits("emitRides", chips.value);
-  }
-);
-watch(
-  () => props.rides,
-  () => {
-    chips.value = props.rides;
-  }
-);
 </script>
 ~/types/types ~/types/types

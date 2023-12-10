@@ -95,7 +95,7 @@ class TeamController extends Controller
                     });
                 })
                 ->withCount('profiles')
-                ->with(['rides','areas','profiles'])
+                ->with(['rides','areas'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -119,7 +119,7 @@ class TeamController extends Controller
                         }
                 })
                 ->withCount('profiles')
-                ->with(['rides','areas','profiles'])
+                ->with(['rides','areas'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -147,7 +147,7 @@ class TeamController extends Controller
 
             $teams = Team::withCount('profiles')
             ->orderBy('profiles_count', 'desc')
-            ->with(['rides','areas','profiles'])
+            ->with(['rides','areas'])
             ->offset($page*10)
             ->limit(10)
             ->get();
@@ -179,18 +179,12 @@ class TeamController extends Controller
         $team->save();
 
         collect($request->rides)->each(function ($rideName) use ($team) {
-            $ride = Ride::firstOrCreate(['name' => $rideName]);
-            $team->rides()->attach($ride);
+            $team->rides()->firstOrCreate(['name' => $rideName]);
         });
 
         collect($request->areas)->each(function ($areaName) use ($team) {
-            $area = Area::firstOrCreate(['name' => $areaName]);
-            $team->areas()->attach($area);
+            $team->areas()->firstOrCreate(['name' => $areaName]);
         });
-
-        $profile_id = Profile::where('user_id', Auth::id())->first();
-
-        $team->profiles()->attach($profile_id);
 
         return response()->json([
             'itemId' => $team->id,

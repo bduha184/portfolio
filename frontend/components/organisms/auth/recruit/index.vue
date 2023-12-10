@@ -5,6 +5,7 @@
       :pathHeader="teamStore.getTeamDetail.urlHeaderImg"
       :pathThumbnail="teamStore.getTeamDetail.urlThumbnail"
     />
+    {{ teamStore.getTeamDetail }}
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine class="w-100">
         <AtomsInput
@@ -33,29 +34,7 @@
         @emitClick="receiveClick"
       />
     </v-container>
-    <OrganismsAuthRecruitTeamInfo
-      @emitAgeAverage="receiveAverage"
-      @emitFromAge="receiveFromAge"
-      @emitToAge="receiveToAge"
-      @emitRides="receiveRides"
-      @emitAreas="receiveAreas"
-      @emitDetailAreas="receiveDetailAreas"
-      @emitDetailActivities="receiveDetailActivities"
-      @emitActiveDate="receiveActiveDate"
-      @emitActiveDateDetail="receiveActiveDateDetail"
-      @emitTeamUrl="receiveTeamUrl"
-      :memberCount="teamItems.memberCount"
-      :average="teamStore.getTeamDetail.average"
-      :fromAge="teamStore.getTeamDetail.fromAge"
-      :toAge="teamStore.getTeamDetail.toAge"
-      :rides="teamStore.getTeamDetail.rides"
-      :areas="teamStore.getTeamDetail.areas"
-      :detailActivities="teamStore.getTeamDetail.detailActivities"
-      :detailAreas="teamStore.getTeamDetail.detailAreas"
-      :activeDate="teamStore.getTeamDetail.activeDate"
-      :activeDateDetail="teamStore.getTeamDetail.activeDateDetail"
-      :team_url="teamStore.getTeamDetail.teamUrl"
-    />
+    <OrganismsAuthRecruitTeamInfo/>
     <v-container>
       <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
       <AtomsTextAreas
@@ -86,7 +65,7 @@
     </AtomsBtnsBaseBtn>
     <OrganismsModal
       v-if="teamStore.getTeamDetail.itemId"
-      @emitModalOpen="handleCheck"
+      @emitModalOpen="handleDelete"
       color="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
       btnValue="削除する"
@@ -105,124 +84,63 @@ import { useApiFetch } from "~/composables/useApiFetch";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { useGalleryStore } from "~/stores/useGalleryStore";
-import { Form } from "vee-validate";
 import { useTeamStore } from "~/stores/useTeamStore";
+import { Form } from "vee-validate";
 
-
-const config = useRuntimeConfig();
 const auth = useAuthStore();
 const teamStore = useTeamStore();
 const flashMessage = useFlashMessageStore();
 const gallery = useGalleryStore();
 const deleteCheck = ref(false);
-
-const teamItems = ref({
-  pathHeader: "",
-  pathThumbnail: "",
-  itemId: "",
-  userId: "",
-  headerImg: "",
-  thumbnail: "",
-  teamName: "",
-  average: "",
-  fromAge: "",
-  toAge: "",
-  rides: [],
-  areas: [],
-  detailAreas: "",
-  introduction: "",
-  memberCount: 0,
-  detailActivities: "",
-  schedule: "",
-  activeDate: "",
-  activeDateDetail: "",
-  teamUrl: "",
-  urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
-  urlThumbnail: config.public.appURL + "/images/noimage.jpg",
-});
-
-
 const receiveTeamName = (val) => {
-  teamItems.value.teamName = val.value;
+  teamStore.details.teamName = val.value;
 };
 
 const receiveTeamIntroduce = (val) => {
-  teamItems.value.introduction = val.value;
+  teamStore.details.introduction = val.value;
 };
 
 const receiveTeamSchedule = (val) => {
-  teamItems.value.schedule = val.value;
+  teamStore.details.schedule = val.value;
 };
 
 const receiveProfileImage = (val: File) => {
   if (val.target == "header") {
-    teamItems.value.headerImg = val.val;
-    teamItems.value.urlHeaderImg = URL.createObjectURL(val.val);
+    teamStore.details.headerImg = val.val;
+    teamStore.details.urlHeaderImg = URL.createObjectURL(val.val);
   } else {
-    teamItems.value.thumbnail = val.val;
-    teamItems.value.urlThumbnail = URL.createObjectURL(val.val);
+    teamStore.details.thumbnail = val.val;
+    teamStore.details.urlThumbnail = URL.createObjectURL(val.val);
   }
   // URL.revokeObjectURL(val.val);
 };
 
-const receiveAverage = (val) => {
-  teamItems.value.average = val;
-};
-const receiveFromAge = (val) => {
-  teamItems.value.fromAge = val;
-};
-const receiveToAge = (val) => {
-  teamItems.value.toAge = val;
-};
-const receiveRides= (val) => {
-  teamItems.value.rides = val;
-};
-const receiveDetailActivities = (val) => {
-  teamItems.value.detailActivities = val;
-};
-const receiveAreas = (val) => {
-  teamItems.value.areas = val;
-};
-const receiveDetailAreas = (val) => {
-  teamItems.value.detailAreas = val;
-};
-const receiveTeamUrl = (val) => {
-  teamItems.value.teamUrl = val;
-};
-
-const receiveActiveDate = (val) => {
-  teamItems.value.activeDate = val;
-};
-const receiveActiveDateDetail = (val) => {
-  teamItems.value.activeDateDetail = val;
-};
-
 const handleRegister = async () => {
-  teamItems.value.memberCount += 1;
+  teamStore.details.memberCount += 1;
   const formData = new FormData();
 
-  formData.append("header_img", teamItems.value.headerImg);
-  formData.append("thumbnail", teamItems.value.thumbnail);
-  formData.append("introduction", teamItems.value.introduction);
-  formData.append("team_name", teamItems.value.teamName);
-  formData.append("member", teamItems.value.memberCount);
-  formData.append("average", teamItems.value.average);
-  formData.append("from_age", teamItems.value.fromAge);
-  formData.append("to_age", teamItems.value.toAge);
-  const rides = teamItems.value.rides;
+  formData.append("header_img", teamStore.details.headerImg);
+  formData.append("thumbnail", teamStore.details.thumbnail);
+  formData.append("introduction", teamStore.details.introduction);
+  formData.append("team_name", teamStore.details.teamName);
+  formData.append("member", teamStore.details.memberCount);
+  formData.append("average", teamStore.details.average);
+  formData.append("from_age", teamStore.details.fromAge);
+  formData.append("to_age", teamStore.details.toAge);
+  const rides = teamStore.details.rides;
   rides.forEach((ride) => {
     formData.append("rides[]", ride);
   });
-  formData.append("detail_activity", teamItems.value.detailActivities);
-  const areas = teamItems.value.areas;
+  formData.append("detail_activity", teamStore.details.detailActivities);
+  const areas = teamStore.details.areas;
   areas.forEach((area) => {
     formData.append("areas[]", area);
   });
-  formData.append("detail_area", teamItems.value.detailAreas);
-  formData.append("active_date", teamItems.value.activeDate);
-  formData.append("active_date_detail", teamItems.value.activeDateDetail);
-  formData.append("team_url", teamItems.value.teamUrl);
-  formData.append("schedule", teamItems.value.schedule);
+  formData.append("detail_area", teamStore.details.detailAreas);
+  formData.append("active_date", teamStore.details.activeDate);
+  formData.append("active_date_detail", teamStore.details.activeDateDetail);
+  formData.append("team_url", teamStore.details.teamUrl);
+  formData.append("schedule", teamStore.details.schedule);
 
   const imageData = new FormData();
   gallery.getPostImages.forEach((image) => {
@@ -231,7 +149,7 @@ const handleRegister = async () => {
 
   // console.log(...formData.entries());
   // console.log(...teamData.entries());
-  console.log(...imageData.entries());
+  // console.log(...imageData.entries());
 
   await useApiFetch("/sanctum/csrf-cookie");
   await Promise.all([
@@ -248,36 +166,36 @@ const handleRegister = async () => {
     if (res[0].error.value != null && res[0].error.value != null) {
       return flashMessage.setMessage(Message.REGISTERERROR, "error", 6000);
     }
-    teamItems.value.itemId = res[0].data.value;
+    teamStore.details.itemId = res[0].data.value;
     return flashMessage.setMessage(Message.REGISTER);
   });
 };
-// console.log(teamItems.value.header_img);
+// console.log(teamStore.details.header_img);
 
 const handleUpdate = async () => {
   const formData = new FormData();
 
-  formData.append("header_img", teamItems.value.headerImg);
-  formData.append("thumbnail", teamItems.value.thumbnail);
-  formData.append("introduction", teamItems.value.introduction);
-  formData.append("team_name", teamItems.value.teamName);
-  formData.append("average", teamItems.value.average);
-  formData.append("from_age", teamItems.value.fromAge);
-  formData.append("to_age", teamItems.value.toAge);
-  const rides = teamItems.value.rides;
+  formData.append("header_img", teamStore.details.headerImg);
+  formData.append("thumbnail", teamStore.details.thumbnail);
+  formData.append("introduction", teamStore.details.introduction);
+  formData.append("team_name", teamStore.details.teamName);
+  formData.append("average", teamStore.details.average);
+  formData.append("from_age", teamStore.details.fromAge);
+  formData.append("to_age", teamStore.details.toAge);
+  const rides = teamStore.details.rides;
   rides.forEach((ride) => {
     formData.append("rides[]", ride);
   });
-  formData.append("detail_activities", teamItems.value.detailActivities);
-  const areas = teamItems.value.areas;
+  formData.append("detail_activities", teamStore.details.detailActivities);
+  const areas = teamStore.details.areas;
   areas.forEach((area) => {
     formData.append("areas[]", area);
   });
-  formData.append("detail_areas", teamItems.value.detailAreas);
-  formData.append("active_date", teamItems.value.activeDate);
-  formData.append("active_date_detail", teamItems.value.activeDateDetail);
-  formData.append("team_url", teamItems.value.teamUrl);
-  formData.append("schedule", teamItems.value.schedule);
+  formData.append("detail_areas", teamStore.details.detailAreas);
+  formData.append("active_date", teamStore.details.activeDate);
+  formData.append("active_date_detail", teamStore.details.activeDateDetail);
+  formData.append("team_url", teamStore.details.teamUrl);
+  formData.append("schedule", teamStore.details.schedule);
 
   const imageData = new FormData();
   gallery.getPostImages.forEach((image) => {
@@ -308,16 +226,16 @@ const handleUpdate = async () => {
       return flashMessage.setMessage(Message.UPDATEERROR, "error", 6000);
     }
     // gallery.revokeImages();
-    teamItems.value.itemId = res[0].data.value;
+    teamStore.details.itemId = res[0].data.value;
     return flashMessage.setMessage(Message.UPDATE);
   });
 };
 
-const handleCheck = async () => {
+const handleDelete = async () => {
   if (deleteCheck) {
     await useApiFetch("/sanctum/csrf-cookie");
     await Promise.all([
-      await useApiFetch(`/api/team/${teamItems.value.itemId}`, {
+      await useApiFetch(`/api/team/${teamStore.details.itemId}`, {
         method: "DELETE",
       }),
       await useApiFetch(`/api/image/${auth.user.id}`, {
@@ -337,7 +255,7 @@ const handleCheck = async () => {
 };
 
 const checkFilledOut = () => {
-  const fieldArray = [teamItems.value.teamName, teamItems.value.introduction];
+  const fieldArray = [teamStore.details.teamName, teamStore.details.introduction];
 
   if (fieldArray.indexOf("") === -1) {
     return true;
@@ -361,55 +279,12 @@ const receiveImage = (val) => {
 // };
 
 onMounted(async () => {
-  const userId = auth.user.id;
-
-  teamStore.fetchMyTeams();
-
-  if (userId) {
-    const res = await useApiFetch(`/api/team/${userId}`);
-    if (res.error.value == null) {
-      const val = res.data.value;
-      console.log(val);
-      if (val != null) {
-        if (val.teamInfo) {
-          teamItems.value.itemId = val.teamInfo.id;
-          teamItems.value.urlHeaderImg =
-            config.public.baseURL + "/storage/" + val.teamInfo.header_img_path;
-          teamItems.value.urlThumbnail =
-            config.public.baseURL + "/storage/" + val.teamInfo.thumbnail_path;
-          teamItems.value.teamName = val.teamInfo.team_name;
-          teamItems.value.memberCount = val.teamInfo.member;
-          teamItems.value.introduction = val.teamInfo.introduction;
-          teamItems.value.average = val.teamInfo.average;
-          teamItems.value.fromAge = val.teamInfo.from_age;
-          teamItems.value.toAge = val.teamInfo.to_age;
-          teamItems.value.detailAreas = val.teamInfo.detail_areas;
-          teamItems.value.detailActivities = val.teamInfo.detail_activities;
-          teamItems.value.activeDate = val.teamInfo.active_date;
-          teamItems.value.activeDateDetail = val.teamInfo.active_date_detail;
-          teamItems.value.teamUrl = val.teamInfo.team_url;
-          teamItems.value.schedule = val.teamInfo.schedule;
-          teamItems.value.userId = val.teamInfo.user_id;
-        }
-        if (val.members) {
-          teamItems.value.memberCount = val.members.length;
-        }
-        if (val.rides) {
-          console.log(val.rides);
-          val.rides.forEach((ride) => {
-            teamItems.value.rides.push(ride.name);
-          });
-        }
-        if (val.areas) {
-          console.log(val.areas);
-          val.areas.forEach((area) => {
-            teamItems.value.areas.push(area.name);
-          });
-        }
-      }
-    }
+    if(teamStore.getTeamDetail.itemId == ''){
+    teamStore.fetchMyTeams();
   }
-});
+  });
+
+
 </script>
 
 <style lang="scss" scoped>

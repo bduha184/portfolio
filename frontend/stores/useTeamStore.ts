@@ -29,7 +29,7 @@ export const useTeamStore = defineStore({
       memberCount: 0,
       detailActivities: "",
       schedule: "",
-      activeDate: "",
+      activeDate: [],
       activeDateDetail: "",
       teamUrl: "",
       urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
@@ -47,7 +47,7 @@ export const useTeamStore = defineStore({
   actions: {
     async fetchMyTeams() {
       const {data} = await useApiFetch("/api/team/myteam");
-
+console.log(data);
       if(data.value != null){
         this.setTeamValue(data.value.team_info);
       }
@@ -65,7 +65,6 @@ export const useTeamStore = defineStore({
         },
       });
       this.loading = false;
-      console.log('fetchall',data);
       const teams = data.value.teams;
       if (error.value == null && teams) {
         teams.forEach((team) => {
@@ -123,8 +122,8 @@ export const useTeamStore = defineStore({
       this.details.average = val.average;
       this.details.fromAge = val.from_age;
       this.details.toAge = val.to_age;
-      this.details.detailAreas = val.detail_areas;
-      this.details.detailActivities = val.detail_activities;
+      this.details.detailAreas = val.detail_area;
+      this.details.detailActivities = val.detail_activity;
       this.details.activeDate = val.active_date;
       this.details.activeDateDetail = val.active_date_detail;
       this.details.teamUrl = val.team_url;
@@ -136,6 +135,36 @@ export const useTeamStore = defineStore({
       val.areas.forEach((area) => {
         this.details.areas.push(area.name);
       });
-    }
+      val.active_date.forEach((date) => {
+        this.details.activeDate.push(date.name);
+      });
+    },
+    deleteTeamValue(){
+      this.details = new Object({
+        pathHeader: "",
+        pathThumbnail: "",
+        itemId: "",
+        userId: "",
+        headerImg: "",
+        thumbnail: "",
+        teamName: "",
+        average: "",
+        fromAge: "",
+        toAge: "",
+        rides: [],
+        areas: [],
+        detailAreas: "",
+        introduction: "",
+        memberCount: 0,
+        detailActivities: "",
+        schedule: "",
+        activeDate: [],
+        activeDateDetail: "",
+        teamUrl: "",
+        urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
+        urlThumbnail: config.public.appURL + "/images/noimage.jpg",
+      })
+    },
+    persist: true,
   },
 });
