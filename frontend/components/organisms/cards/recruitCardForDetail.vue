@@ -21,10 +21,10 @@
       :toAge="teamItems.toAge"
       :rides="teamItems.rides"
       :areas="teamItems.areas"
+      :days="teamItems.days"
       :detailActivities="teamItems.detailActivities"
       :detailAreas="teamItems.detailAreas"
-      :activeDate="teamItems.activeDate"
-      :activeDateDetail="teamItems.activeDateDetail"
+      :detailDays="teamItems.detailDays"
       :teamUrl="teamItems.teamUrl"
     />
     <OrganismsRecruitsActivities :activities="teamItems.activities" />
@@ -82,8 +82,8 @@ const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();
 
 const teamItems = ref({
-  activeDate: "",
-  activeDateDetail: "",
+  days: [],
+  detailDays: "",
   areas: [],
   average: "",
   detailAreas: "",
@@ -107,10 +107,10 @@ const teamItems = ref({
 });
 
 const rep = ref({
-  pathThumbnail:'',
-  introduction:'',
-  userId:''
-})
+  pathThumbnail: "",
+  introduction: "",
+  userId: "",
+});
 
 const comment = ref("");
 const joinRequest = ref(false);
@@ -159,12 +159,12 @@ onMounted(() => {
     return team.id == router.params.id;
   });
 
-  console.log(team);
-
   if (team) {
     teamItems.value.itemId = team.id;
-    teamItems.value.pathHeader = config.public.baseURL + "/storage/" + team.header_img_path;
-    teamItems.value.pathThumbnail =config.public.baseURL + "/storage/" + team.thumbnail_path;
+    teamItems.value.pathHeader =
+      config.public.baseURL + "/storage/" + team.header_img_path;
+    teamItems.value.pathThumbnail =
+      config.public.baseURL + "/storage/" + team.thumbnail_path;
     teamItems.value.teamName = team.team_name;
     teamItems.value.introduction = team.introduction;
     teamItems.value.average = team.average;
@@ -172,8 +172,7 @@ onMounted(() => {
     teamItems.value.toAge = team.to_age;
     teamItems.value.detailAreas = team.detail_area;
     teamItems.value.detailActivities = team.detail_activity;
-    teamItems.value.activeDate = team.active_date;
-    teamItems.value.activeDateDetail = team.active_date_detail;
+    teamItems.value.detailDays = team.detail_day;
     teamItems.value.teamUrl = team.team_url;
     teamItems.value.schedule = team.schedule;
     teamItems.value.userId = team.user_id;
@@ -184,12 +183,14 @@ onMounted(() => {
     team.areas.forEach((area) => {
       teamItems.value.areas.push(area.name);
     });
+    team.days.forEach((day) => {
+      teamItems.value.days.push(day.name);
+    });
     // rep.value.pathThumbnail = config.public.baseURL + "/storage/" +  team.profiles[0].thumbnail_path;
     // rep.value.introduction = team.profiles[0].introduction;
     // rep.value.userId = team.profiles[0].user_id;
   }
 });
-
 </script>
 
 <style lang="scss" scoped>

@@ -14,7 +14,6 @@ class TeamSeeder extends Seeder
     {
 
         $array_rides = [
-            '',
             'ポタリングのみ',
             'ポタリングメイン',
             'ロングライド',
@@ -25,7 +24,6 @@ class TeamSeeder extends Seeder
         ];
 
         $array_areas = [
-            '',
             '北海道',
             '青森',
             '秋田',
@@ -38,22 +36,37 @@ class TeamSeeder extends Seeder
             '和歌山',
         ];
 
+        $array_days = [
+            '平日',
+            '土日',
+            '土日祝',
+        ];
+
+
         $teams = Team::all();
 
-        $teams->each(function ($query) use ($array_areas,$array_rides) {
-                $area_nums = random_int(1,9);
-                $ride_nums = random_int(1,6);
-                for($i = 1;$i<=$area_nums;$i++){
+        $teams->each(function ($query) use ($array_areas,$array_rides,$array_days) {
+                $area_nums = random_int(0,count($array_areas));
+                $ride_nums = random_int(0,count($array_rides));
+                $day_nums = random_int(0,count($array_days));
+                for($i = 0;$i<$area_nums;$i++){
 
                     $query->areas()->create([
                         'name'=>$array_areas[$i],
                         'team_id'=>$query->team_id
                     ]);
                 }
-                for($j = 1;$j<=$ride_nums;$j++){
+                for($j = 0;$j<$ride_nums;$j++){
 
                     $query->rides()->create([
                         'name'=>$array_rides[$j],
+                        'team_id'=>$query->team_id
+                    ]);
+                }
+                for($k = 0;$k<$day_nums;$k++){
+
+                    $query->days()->create([
+                        'name'=>$array_days[$k],
                         'team_id'=>$query->team_id
                     ]);
                 }

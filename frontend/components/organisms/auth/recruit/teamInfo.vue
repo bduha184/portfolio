@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="6">
         ■メンバー数
-        <v-col class="text-center">人 </v-col>
+        <v-col class="text-center">{{teamStore.details.memberCount}}人 </v-col>
       </v-col>
       <v-col cols="6">
         ■男女比
@@ -24,65 +24,76 @@
       </v-col>
       <v-col cols="12">
         ■チームの活動
-        <MoleculesRides/>
+        <MoleculesRides />
       </v-col>
       <v-col cols="12">
         ■チームの活動(補足)
         <AtomsTextAreas
           @emitInput="receiveDetailActivities"
           :body="teamStore.details.detailActivities"
-          />
-        </v-col>
-        <v-col cols="12">
-          ■主な活動エリア
-          <v-select multiple chips v-model="teamStore.details.areas" :items="Areas" />
-        </v-col>
-        <v-col cols="12">
+        />
+      </v-col>
+      <v-col cols="12">
+        ■主な活動エリア
+        <v-select
+          multiple
+          chips
+          v-model="teamStore.details.areas"
+          :items="Areas"
+        />
+      </v-col>
+      <v-col cols="12">
         ■主な活動エリア（詳細）
         <AtomsTextAreas
-        @emitInput="receiveDetailAreas"
-        :body="teamStore.details.detailAreas" />
+          @emitInput="receiveDetailAreas"
+          :body="teamStore.details.detailAreas"
+        />
       </v-col>
       <v-col cols="12">
         ■主な活動日
-        <v-select multiple chips v-model="teamStore.details.activeDate" :items="ActiveDate" />
+        <v-select
+          multiple
+          chips
+          v-model="teamStore.details.days"
+          :items="days"
+        />
       </v-col>
       <v-col cols="12">
         ■主な活動日時（詳細）
         <AtomsTextAreas
-        @emitInput="receiveActiveDateDetail"
-        :body="teamStore.details.activeDateDetail"
+          @emitInput="receiveActiveDateDetail"
+          :body="teamStore.details.detailDays"
         />
       </v-col>
       <v-col cols="12">
         ■ホームページ、ブログ等URL
         <AtomsTextAreas
-        @emitInput="receiveTeamUrl"
-        :body="teamStore.details.teamUrl" />
+          @emitInput="receiveTeamUrl"
+          :body="teamStore.details.teamUrl"
+        />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { Ages, Averages, ActiveDate } from "~/constants/teams";
+import { Ages, Averages, days } from "~/constants/teams";
 import { Areas } from "~/constants/areas";
 import { useTeamStore } from "~/stores/useTeamStore";
 const teamStore = useTeamStore();
 
-const receiveDetailActivities = (val) =>{
-  teamStore.details.detailActivities= val.value;
-}
-const receiveDetailAreas = (val) =>{
-  teamStore.details.detailAreas= val.value;
-}
-const receiveActiveDateDetail = (val) =>{
-  teamStore.details.activeDateDetail= val.value;
-}
-const receiveTeamUrl = (val) =>{
-  teamStore.details.teamUrl= val.value;
-}
-
+const receiveDetailActivities = (val) => {
+  teamStore.details.detailActivities = val.value;
+};
+const receiveDetailAreas = (val) => {
+  teamStore.details.detailAreas = val.value;
+};
+const receiveActiveDateDetail = (val) => {
+  teamStore.details.detailDays = val.value;
+};
+const receiveTeamUrl = (val) => {
+  teamStore.details.teamUrl = val.value;
+};
 </script>
 
 <style scoped>

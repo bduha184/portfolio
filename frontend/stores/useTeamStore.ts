@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type {Props} from "~/types";
+import type { Props } from "~/types";
 import { useRuntimeConfig } from "#imports";
 
 const config = useRuntimeConfig();
@@ -8,10 +8,10 @@ export const useTeamStore = defineStore({
 
   state: () => ({
     teams: [],
-    tab:'',
-    page:0,
-    loading:false,
-    details:{
+    tab: "",
+    page: 0,
+    loading: false,
+    details: {
       pathHeader: "",
       pathThumbnail: "",
       itemId: "",
@@ -29,12 +29,12 @@ export const useTeamStore = defineStore({
       memberCount: 0,
       detailActivities: "",
       schedule: "",
-      activeDate: [],
-      activeDateDetail: "",
+      days: [],
+      detailDays: "",
       teamUrl: "",
       urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
       urlThumbnail: config.public.appURL + "/images/noimage.jpg",
-    }
+    },
   }),
 
   getters: {
@@ -42,20 +42,19 @@ export const useTeamStore = defineStore({
     getLoading: (state) => state.loading,
     getTeams: (state) => state.teams,
     getTeamCount: (state) => state.teams.length,
-    getTeamDetail:(state) => state.details
+    getTeamDetail: (state) => state.details,
   },
   actions: {
     async fetchMyTeams() {
-      const {data} = await useApiFetch("/api/team/myteam");
-console.log(data);
-      if(data.value != null){
+      const { data } = await useApiFetch("/api/team/myteam");
+      console.log(data);
+      if (data.value != null) {
         this.setTeamValue(data.value.team_info);
       }
     },
     async fetchAllTeams() {
-
       this.loading = true;
-      const {data,error} = await useApiFetch("/api/team",{
+      const { data, error } = await useApiFetch("/api/team", {
         method: "POST",
         body: {
           page: this.page,
@@ -73,14 +72,14 @@ console.log(data);
       }
       this.page++;
     },
-    async fetchTeams(keywords: Array<string | number>,multi:boolean) {
+    async fetchTeams(keywords: Array<string | number>, multi: boolean) {
       const res = await useApiFetch("/api/team/search", {
         method: "POST",
         body: {
           keywords: keywords,
-          tab:this.tab,
-          multi:multi,
-          page:this.page
+          tab: this.tab,
+          multi: multi,
+          page: this.page,
         },
         headers: {
           "X-HTTP-Method-Override": "GET",
@@ -93,9 +92,9 @@ console.log(data);
           this.teams.push(team);
         });
       }
-       this.page++;
+      this.page++;
     },
-    async fetchAffiliationTeams(){
+    async fetchAffiliationTeams() {
       const res = await useApiFetch("/api/team/auth");
       const teams = res.data.value.affiliations;
       if (res.error.value == null && teams) {
@@ -104,18 +103,20 @@ console.log(data);
         });
       }
     },
-    setTab(tab:string){
+    setTab(tab: string) {
       this.tab = tab;
     },
-     setPageInitialize(){
+    setPageInitialize() {
       this.page = 0;
       this.teams.length = 0;
     },
-    setTeamValue(val){
+    setTeamValue(val) {
       console.log(val);
       this.details.itemId = val.id;
-      this.details.urlHeaderImg = config.public.baseURL + "/storage/" + val.header_img_path;
-      this.details.urlThumbnail = config.public.baseURL + "/storage/" + val.thumbnail_path;
+      this.details.urlHeaderImg =
+        config.public.baseURL + "/storage/" + val.header_img_path;
+      this.details.urlThumbnail =
+        config.public.baseURL + "/storage/" + val.thumbnail_path;
       this.details.teamName = val.team_name;
       this.details.memberCount = val.member;
       this.details.introduction = val.introduction;
@@ -124,8 +125,7 @@ console.log(data);
       this.details.toAge = val.to_age;
       this.details.detailAreas = val.detail_area;
       this.details.detailActivities = val.detail_activity;
-      this.details.activeDate = val.active_date;
-      this.details.activeDateDetail = val.active_date_detail;
+      this.details.detailDays = val.detail_day;
       this.details.teamUrl = val.team_url;
       this.details.schedule = val.schedule;
       this.details.userId = val.user_id;
@@ -135,11 +135,11 @@ console.log(data);
       val.areas.forEach((area) => {
         this.details.areas.push(area.name);
       });
-      val.active_date.forEach((date) => {
-        this.details.activeDate.push(date.name);
+      val.days.forEach((day) => {
+        this.details.days.push(day.name);
       });
     },
-    deleteTeamValue(){
+    deleteTeamValue() {
       this.details = new Object({
         pathHeader: "",
         pathThumbnail: "",
@@ -158,12 +158,12 @@ console.log(data);
         memberCount: 0,
         detailActivities: "",
         schedule: "",
-        activeDate: [],
-        activeDateDetail: "",
+        days: [],
+        detailDays: "",
         teamUrl: "",
         urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
         urlThumbnail: config.public.appURL + "/images/noimage.jpg",
-      })
+      });
     },
     persist: true,
   },

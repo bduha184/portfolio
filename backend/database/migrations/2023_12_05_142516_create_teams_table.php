@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('to_age')->nullable();
             $table->string('detail_activity')->nullable();
             $table->string('detail_area')->nullable();
-            $table->string('active_date')->nullable();
-            $table->string('active_date_detail')->nullable();
+            $table->string('day')->nullable();
+            $table->string('detail_day')->nullable();
             $table->string('team_url')->nullable();
             $table->string('schedule')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

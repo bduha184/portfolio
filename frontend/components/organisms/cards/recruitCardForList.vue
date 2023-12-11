@@ -31,15 +31,21 @@
             v-for="(area, i) in props.areas"
             :key="i"
           >
-            {{ area.name }},
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item min-height="unset" class="py-0">
-        <v-list-item-content class="d-flex align-center">
-          <AtomsIcons :name="Icons.SCHEDULE" class="border-none" size="25" /> :
-          <v-list-item-title class="pl-2">
-            {{ props.activeDate }}
+          <span  v-if="i >0">,</span>
+          {{ area.name }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item min-height="unset" class="py-0">
+      <v-list-item-content class="d-flex align-center">
+        <AtomsIcons :name="Icons.SCHEDULE" class="border-none" size="25" /> :
+        <v-list-item-title
+        class="pl-2"
+        v-for="(day,i) in props.days"
+        :key="i"
+        >
+        <span  v-if="i >0">,</span>
+            {{ day.name }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -58,16 +64,6 @@ import { Icons } from "~/constants/icons";
 import type { Props } from "~/types";
 
 const props = defineProps<Props>();
-// const props = defineProps<{
-//   teamName: Props;
-//   introduction: Props;
-//   member: Props;
-//   areas: Props;
-//   activeDate: Props;
-//   tags: Props;
-// }>();
-
-
 
 const config = useRuntimeConfig();
 
@@ -77,9 +73,6 @@ const onClick = (auth) => {
   }
   return navigateTo({
     path: Url.TEAMS + "/" + props.id,
-    // query: {
-    //   user: props.profiles.user_id,
-    // },
   });
 };
 </script>
@@ -109,4 +102,3 @@ const onClick = (auth) => {
   }
 }
 </style>
-~/types/types ~/types/types

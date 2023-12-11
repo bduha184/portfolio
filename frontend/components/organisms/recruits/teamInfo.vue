@@ -59,7 +59,17 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">日時 :</v-col>
-          <v-col>{{ props.activeDateDetail }}</v-col>
+          <v-chip-group>
+              <v-chip v-for="(day, i) in props.days" :key="i">
+                {{ day }}
+              </v-chip>
+            </v-chip-group>
+        </v-row>
+      </v-list-item>
+      <v-list-item>
+        <v-row>
+          <v-col cols="4">日時詳細 :</v-col>
+          <v-col>{{ props.detailDays }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
@@ -72,9 +82,8 @@
   </v-container>
 </template>
 
-
 <script setup lang="ts">
-import type {Props } from "~/types";
+import type { Props } from "~/types";
 const props = defineProps<Props>();
 </script>
 

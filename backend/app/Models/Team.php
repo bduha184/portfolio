@@ -21,7 +21,7 @@ class Team extends Model
         'to_age',
         'detail_activity',
         'detail_area',
-        'active_datetime',
+        'daytime',
         'team_url',
         'schedule',
     ];
@@ -38,6 +38,8 @@ class Team extends Model
     {
         return $this->hasMany(Area::class);
     }
-
-
+    public function days(): HasMany
+    {
+        return $this->hasMany(Day::class);
+    }
 }

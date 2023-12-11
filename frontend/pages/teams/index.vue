@@ -4,29 +4,25 @@
     <OrganismsSearchFormMultipleSearch />
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
     <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
-    <div
-    class="item-wrapper bg-white"
-    >
-    <OrganismsCardsRecruitCardForList
-    v-for="(item, index) in teams"
-    :key="index"
-    :headerImgPath="item.header_img_path"
-    :thumbnailPath="item.thumbnail_path"
-    :teamName="item.team_name"
-    :member="item.profiles_count"
-    :introduction="item.introduction"
-    :id="item.id"
-    :rides="item.rides"
-    :profiles="item.profiles"
-    :areas="item.areas"
-    :activeDate="item.active_date"
-    :activeDateDetail="item.active_date_detail"
-    />
-    <AtomsLoading
-    v-show="teamStore.getLoading"
-    />
-  </div>
-  <p ref="observe"></p>
+    <div class="item-wrapper bg-white">
+      <OrganismsCardsRecruitCardForList
+        v-for="(item, index) in teams"
+        :key="index"
+        :headerImgPath="item.header_img_path"
+        :thumbnailPath="item.thumbnail_path"
+        :teamName="item.team_name"
+        :member="item.member"
+        :introduction="item.introduction"
+        :id="item.id"
+        :rides="item.rides"
+        :profiles="item.profiles"
+        :areas="item.areas"
+        :days="item.days"
+        :detailDays="item.detail_day"
+      />
+      <AtomsLoading v-show="teamStore.getLoading" />
+    </div>
+    <p ref="observe"></p>
   </v-container>
 </template>
 
@@ -54,24 +50,21 @@ watch(
 const callback = async (entries) => {
   const entry = entries[0];
   if (entry && entry.isIntersecting) {
-  teamStore.fetchAllTeams();
+    teamStore.fetchAllTeams();
   }
 };
 
 onMounted(() => {
   teamStore.getLoading;
   teamStore.fetchAllTeams();
-    const observer = new IntersectionObserver(callback);
-    observer.observe(observe.value);
+  const observer = new IntersectionObserver(callback);
+  observer.observe(observe.value);
 });
-
 </script>
 
 <style scoped lang="scss">
-
 .item-wrapper {
   min-height: 1000px;
   width: 100%;
-
 }
 </style>

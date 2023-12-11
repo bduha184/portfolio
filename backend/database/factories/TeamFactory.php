@@ -48,25 +48,17 @@ class TeamFactory extends Factory
             '9:1',
         ];
 
-        $activeDate = [
-            '平日',
-            '土日',
-            '土日祝',
-        ];
-
-
         return [
             'header_img_path' => 'uploaded/' . $header_img_path,
             'thumbnail_path' => 'uploaded/' . $thumbnail_path,
             'team_name' => $this->faker->realText(10),
             'introduction' => $this->faker->realText(50),
-            'average'=> $averages[random_int(0,8)],
-            'from_age'=> $ages[random_int(0,6)],
-            'to_age'=> $ages[random_int(0,6)],
+            'average' => $averages[random_int(0, 8)],
+            'from_age' => $ages[random_int(0, 6)],
+            'to_age' => $ages[random_int(0, 6)],
             'detail_activity' => $this->faker->realText(50),
             'detail_area' => $this->faker->realText(50),
-            'active_date' => $this->faker->realText(10),
-            'active_date_detail' => $this->faker->realText(50),
+            'detail_day' => $this->faker->realText(50),
             'team_url' => $this->faker->realText(50),
             'schedule' => $this->faker->realText(50),
             'user_id' => User::factory(),

@@ -5,7 +5,6 @@
       :pathHeader="teamStore.getTeamDetail.urlHeaderImg"
       :pathThumbnail="teamStore.getTeamDetail.urlThumbnail"
     />
-    {{ teamStore.getTeamDetail }}
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine class="w-100">
         <AtomsInput
@@ -34,7 +33,7 @@
         @emitClick="receiveClick"
       />
     </v-container>
-    <OrganismsAuthRecruitTeamInfo/>
+    <OrganismsAuthRecruitTeamInfo />
     <v-container>
       <AtomsTextsHeadLine> これからの活動予定 </AtomsTextsHeadLine>
       <AtomsTextAreas
@@ -73,7 +72,6 @@
     >
       削除
     </OrganismsModal>
-
   </form>
 </template>
 
@@ -137,8 +135,11 @@ const handleRegister = async () => {
     formData.append("areas[]", area);
   });
   formData.append("detail_area", teamStore.details.detailAreas);
-  formData.append("active_date", teamStore.details.activeDate);
-  formData.append("active_date_detail", teamStore.details.activeDateDetail);
+  const days = teamStore.details.days;
+  days.forEach((day) => {
+    formData.append("days[]", day);
+  });
+  formData.append("detail_day", teamStore.details.detailDays);
   formData.append("team_url", teamStore.details.teamUrl);
   formData.append("schedule", teamStore.details.schedule);
 
@@ -192,8 +193,11 @@ const handleUpdate = async () => {
     formData.append("areas[]", area);
   });
   formData.append("detail_areas", teamStore.details.detailAreas);
-  formData.append("active_date", teamStore.details.activeDate);
-  formData.append("active_date_detail", teamStore.details.activeDateDetail);
+  const days = teamStore.details.days;
+  days.forEach((day) => {
+    formData.append("days[]", day);
+  });
+  formData.append("detail_day", teamStore.details.detailDays);
   formData.append("team_url", teamStore.details.teamUrl);
   formData.append("schedule", teamStore.details.schedule);
 
@@ -255,7 +259,10 @@ const handleDelete = async () => {
 };
 
 const checkFilledOut = () => {
-  const fieldArray = [teamStore.details.teamName, teamStore.details.introduction];
+  const fieldArray = [
+    teamStore.details.teamName,
+    teamStore.details.introduction,
+  ];
 
   if (fieldArray.indexOf("") === -1) {
     return true;
@@ -279,12 +286,10 @@ const receiveImage = (val) => {
 // };
 
 onMounted(async () => {
-    if(teamStore.getTeamDetail.itemId == ''){
+  if (teamStore.getTeamDetail.itemId == "") {
     teamStore.fetchMyTeams();
   }
-  });
-
-
+});
 </script>
 
 <style lang="scss" scoped>

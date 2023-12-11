@@ -20,7 +20,7 @@ class TeamController extends Controller
 
         $page = $request->page;
         $teams = Team::latest()
-        ->with(['rides', 'areas'])
+        ->with(['rides', 'areas','days'])
         ->offset($page*10)
         ->limit(10)
         ->get();
@@ -42,7 +42,7 @@ class TeamController extends Controller
         $user = User::find($auth_id);
 
         if ($user) {
-            $user_team = $user->teams()->with(['rides', 'areas'])->first();
+            $user_team = $user->teams()->with(['rides', 'areas','days'])->first();
             return response()->json([
                 'team_info' => $user_team,
             ]);
@@ -59,7 +59,7 @@ class TeamController extends Controller
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $teams = $auth_profile->teams()->with(['rides:name', 'areas:name'])->get();
+            $teams = $auth_profile->teams()->with(['rides', 'areas','days'])->get();
             $affiliations = $teams->filter(fn ($team) => $team->user_id != $auth_id);
             return response()->json([
                 'profile' => $auth_profile,
@@ -87,15 +87,23 @@ class TeamController extends Controller
                             $q->orWhere('rides.name','like','%'.$keyword.'%');
                         }
                     });
-                })->WhereHas('areas', function ($query) use ($keywords) {
+                })
+                ->WhereHas('areas', function ($query) use ($keywords) {
                     $query->where(function($q) use ($keywords){
                         foreach($keywords as $keyword){
                             $q->orWhere('areas.name','like','%'.$keyword.'%');
                         }
                     });
                 })
+                ->WhereHas('days', function ($query) use ($keywords) {
+                    $query->where(function($q) use ($keywords){
+                        foreach($keywords as $keyword){
+                            $q->orWhere('days.name','like','%'.$keyword.'%');
+                        }
+                    });
+                })
                 ->withCount('profiles')
-                ->with(['rides','areas'])
+                ->with(['rides','areas','days'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -106,10 +114,18 @@ class TeamController extends Controller
                             $q->orWhere('rides.name','like','%'.$keyword.'%');
                         }
                     });
-                })->orWhereHas('areas', function ($query) use ($keywords) {
+                })
+                ->orWhereHas('areas', function ($query) use ($keywords) {
                     $query->where(function($q) use ($keywords){
                         foreach($keywords as $keyword){
                             $q->orWhere('areas.name','like','%'.$keyword.'%');
+                        }
+                    });
+                })
+                ->orWhereHas('days', function ($query) use ($keywords) {
+                    $query->where(function($q) use ($keywords){
+                        foreach($keywords as $keyword){
+                            $q->orWhere('days.name','like','%'.$keyword.'%');
                         }
                     });
                 })
@@ -119,7 +135,7 @@ class TeamController extends Controller
                         }
                 })
                 ->withCount('profiles')
-                ->with(['rides','areas'])
+                ->with(['rides','areas','days'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -138,7 +154,7 @@ class TeamController extends Controller
         }
         $teams = Team::latest()
         ->withCount('profiles')
-            ->with(['rides', 'areas', 'profiles'])
+            ->with(['rides', 'areas','days'])
             ->offset($page*10)
             ->limit(10)
             ->get();
@@ -147,7 +163,7 @@ class TeamController extends Controller
 
             $teams = Team::withCount('profiles')
             ->orderBy('profiles_count', 'desc')
-            ->with(['rides','areas'])
+            ->with(['rides','areas','days'])
             ->offset($page*10)
             ->limit(10)
             ->get();
@@ -186,6 +202,10 @@ class TeamController extends Controller
             $team->areas()->firstOrCreate(['name' => $areaName]);
         });
 
+        collect($request->days)->each(function ($dayName) use ($team) {
+            $team->days()->firstOrCreate(['name' => $dayName]);
+        });
+
         return response()->json([
             'itemId' => $team->id,
             'path_header' => $path_header,
@@ -206,6 +226,7 @@ class TeamController extends Controller
         ->with([
             'rides:name',
             'areas:name',
+            'days:name',
             'profiles' => function ($q) use ($user_id) {
                 $q->where('user_id', $user_id)->first();
             }
@@ -218,6 +239,7 @@ class TeamController extends Controller
             ->with([
             'rides:name',
             'areas:name',
+            'days:name',
             'profiles' => function ($q) use ($id) {
                 $q->where('user_id', $id)->first();
             }
@@ -270,6 +292,12 @@ class TeamController extends Controller
             collect($request->areas)->each(function ($areaName) use ($team) {
                 $area = Area::firstOrCreate(['name' => $areaName]);
                 $team->areas()->attach($area);
+            });
+
+            $team->days()->detach();
+            collect($request->areas)->each(function ($dayName) use ($team) {
+                $day = Day::firstOrCreate(['name' => $dayName]);
+                $team->areas()->attach($day);
             });
 
             return response()->json([

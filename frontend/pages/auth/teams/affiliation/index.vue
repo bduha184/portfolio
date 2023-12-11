@@ -27,7 +27,7 @@
         :id="item.id"
         :profiles="item.profiles"
         :areas="item.areas"
-        :date_time="item.active_datetime"
+        :date_time="item.daytime"
         :auth="true"
       />
     </div>
