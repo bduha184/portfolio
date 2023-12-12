@@ -22,18 +22,16 @@
           {{ flashMessage }}
         </AtomsDisplayFlashMessage>
         <OrganismsImgsCardProfile
-          @emitInput="receiveProfileImage"
-          :path_header="teamItems.url_header_img"
-          :path_thumbnail="teamItems.url_thumbnail"
-          disabled="true"
-        />
+      :pathHeader="teamStore.getTeamDetail.urlHeaderImg"
+      :pathThumbnail="teamStore.getTeamDetail.urlThumbnail"
+    />
         <v-card-title class="w-60 text-body-2 text-left ml-auto">
           <AtomsTextsHeadLine class="w-100">
-            {{ teamItems.team_name }}
+            {{ teamStore.getTeamDetail.teamName }}
           </AtomsTextsHeadLine>
         </v-card-title>
         <v-card-text>
-          {{ teamItems.introduction }}
+          {{ teamStore.getTeamDetail.introduction }}
         </v-card-text>
         <AtomsBtnsBaseBtn
           width="16rem"
@@ -68,7 +66,7 @@
           <AtomsTextsHeadLine class="w-100"> 今後の予定 </AtomsTextsHeadLine>
           <AtomsTextAreas
           class="mt-2"
-          v-if="auth.user.id == teamItems.user_id"
+          v-if="auth.user.id == teamStore.getTeamDetail.userId"
           />
           <v-card-text>
 
@@ -82,13 +80,14 @@
 
 
 <script setup lang="ts">
-import { useApiFetch } from "~/composables/useApiFetch";
 import { Url } from "~/constants/url";
 import {Icons} from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
+import {useTeamStore} from "~/stores/useTeamStore";
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();
+const teamStore = useTeamStore();
 
 const postImages = ref<string[]>([]);
 const displayImages = ref<string[]>([]);
@@ -96,70 +95,14 @@ const isShow = ref<boolean>(false);
 const flashMessage = ref<string | null>("");
 const members = ref<string[]>([]);
 
-const teamItems = ref({
-  id: "",
-  items: [],
-  item: "",
-  itemCount: 0,
-  path_header: "",
-  path_thumbnail: "",
-  user_id: "",
-  header_img: "",
-  thumbnail: "",
-  team_name: "",
-  introduction: "",
-  activities: "",
-  url_header_img: config.public.appURL + "/images/noimage.jpg",
-  url_thumbnail: config.public.appURL + "/images/noimage.jpg",
-});
-
 const receiveClick = () => {
   return navigateTo(Url.TEAMMESSAGES+teamItems.value.id);
 }
 
 
-onBeforeMount(async () => {
-  const userId = auth.user.id;
-  if (userId) {
-    await Promise.all([
-      useApiFetch(`/api/team/${userId}`),
-      useApiFetch(`/api/image/${userId}`),
-    ]).then((responses) => {
-      responses.forEach((res) => {
-        const val = res.data.value;
-        console.log(val);
-        if (val != null) {
-          if (val.teamItem) {
-            teamItems.value.id = val.teamItem.id;
-            teamItems.value.user_id = val.teamItem.user_id;
-            teamItems.value.url_header_img =
-              config.public.baseURL +
-              "/storage/" +
-              val.teamItem.header_img_path;
-            teamItems.value.url_thumbnail =
-              config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
-            teamItems.value.introduction = val.teamItem.introduction;
-            teamItems.value.team_name = val.teamItem.team_name;
-            teamItems.value.activities = val.teamItem.activities;
-            teamItems.value.user_id = val.teamItem.user_id;
-          }
+onMounted(async () => {
+  teamStore.fetchMyTeams();
 
-          if (val.members) {
-            members.value.push(...val.members);
-          }
-
-          if (val.images) {
-            val.images.forEach((image) => {
-              postImages.value.push(image);
-              displayImages.value.push(
-                config.public.baseURL + "/storage/" + image
-              );
-            });
-          }
-        }
-      });
-    });
-  }
 });
 </script>
 

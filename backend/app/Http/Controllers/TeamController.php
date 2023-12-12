@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Models\Ride;
 use App\Models\Area;
+use App\Models\Day;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,8 +20,11 @@ class TeamController extends Controller
     {
 
         $page = $request->page;
-        $teams = Team::latest()
-        ->with(['rides', 'areas','days'])
+        $teams = Team::with(['rides', 'areas','days','user'
+        =>function($query){
+            $query->with('profile')->get();
+        }
+        ])
         ->offset($page*10)
         ->limit(10)
         ->get();

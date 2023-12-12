@@ -15,7 +15,7 @@ class Images extends Model
     ];
 
 
-    public function users():BelongsTo{
+    public function user():BelongsTo{
         return $this->BelongsTo(User::class);
     }
 }

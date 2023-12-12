@@ -27,7 +27,7 @@
       :detailDays="teamItems.detailDays"
       :teamUrl="teamItems.teamUrl"
     />
-    <OrganismsRecruitsActivities :activities="teamItems.activities" />
+    <OrganismsRecruitsActivities :activities="teamItems.detailActivities" />
     <v-container class="text-center">
       <v-row>
         <v-col>
@@ -57,11 +57,12 @@
       </v-row>
     </v-container>
 
-    <!-- <OrganismsRecruitsRepresentative
-      :user_id="rep.userId"
-      :path_thumbnail="rep.pathThumbnail"
+    <OrganismsRecruitsRepresentative
+      :userId="rep.userId"
+      :name="rep.name"
+      :pathThumbnail="rep.pathThumbnail"
       :introduction="rep.introduction"
-    /> -->
+    />
   </v-card>
 </template>
 
@@ -107,9 +108,10 @@ const teamItems = ref({
 });
 
 const rep = ref({
+  userId: "",
+  name: "",
   pathThumbnail: "",
   introduction: "",
-  userId: "",
 });
 
 const comment = ref("");
@@ -159,6 +161,8 @@ onMounted(() => {
     return team.id == router.params.id;
   });
 
+  console.log('teamtest',team);
+
   if (team) {
     teamItems.value.itemId = team.id;
     teamItems.value.pathHeader =
@@ -186,9 +190,10 @@ onMounted(() => {
     team.days.forEach((day) => {
       teamItems.value.days.push(day.name);
     });
-    // rep.value.pathThumbnail = config.public.baseURL + "/storage/" +  team.profiles[0].thumbnail_path;
-    // rep.value.introduction = team.profiles[0].introduction;
-    // rep.value.userId = team.profiles[0].user_id;
+    rep.value.pathThumbnail = config.public.baseURL + "/storage/" +  team.user.profile.thumbnail_path;
+    rep.value.introduction = team.user.profile.introduction;
+    rep.value.userId = team.user.id;
+    rep.value.name = team.user.name;
   }
 });
 </script>

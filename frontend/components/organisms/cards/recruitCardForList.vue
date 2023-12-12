@@ -23,7 +23,7 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item min-height="unset" class="py-0">
+      <v-list-item min-height="unset" class="py-0 overflow-x-scroll">
         <v-list-item-content class="d-flex align-center">
           <AtomsIcons :name="Icons.MAP" class="border-none" size="25" />:
           <v-list-item-title

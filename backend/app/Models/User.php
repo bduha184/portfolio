@@ -59,7 +59,7 @@ class User extends Authenticatable
     public function teams():HasMany{
         return $this->hasMany(Team::class);
     }
-    public function profiles():HasOne{
+    public function profile():HasOne{
         return $this->hasOne(Profile::class);
     }
 

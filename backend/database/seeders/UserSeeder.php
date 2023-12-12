@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
 
         for($i=1;$i<=2;$i++){
             User::factory()
-            ->hasProfiles()
+            ->hasProfile()
             ->hasTeams()
             ->create([
                 'name' => 'test'.$i,
