@@ -22,7 +22,7 @@ export const Levels = [
   "オールラウンド",
 ];
 
-export const days = ["平日", "土日", "土日祝"];
+export const Days = ["平日", "土日", "土日祝"];
 
 export const ApprovalMessage =
   "参加申請を承諾しましたので、マイページの参加チームをご確認ください";

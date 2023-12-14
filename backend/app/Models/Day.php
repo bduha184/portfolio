@@ -11,7 +11,8 @@ class Day extends Model
     use HasFactory;
 
     protected $fillable =[
-        'name'
+        'name',
+        'team_id'
     ];
 
     public function days():BelongsTo{

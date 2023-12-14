@@ -20,11 +20,13 @@ class TeamController extends Controller
     {
 
         $page = $request->page;
-        $teams = Team::with(['rides', 'areas','days','user'
-        =>function($query){
-            $query->with('profile')->get();
-        }
+
+        $teams = Team::with([
+            'rides', 'areas','days','user'=>function($query){
+                $query->with('profile')->get();
+            }
         ])
+        ->withCount('profiles')
         ->offset($page*10)
         ->limit(10)
         ->get();
@@ -46,7 +48,10 @@ class TeamController extends Controller
         $user = User::find($auth_id);
 
         if ($user) {
-            $user_team = $user->teams()->with(['rides', 'areas','days'])->first();
+            $user_team = $user->teams()
+                            ->with(['rides', 'areas','days'])
+                            ->withCount('profiles')
+                            ->first();
             return response()->json([
                 'team_info' => $user_team,
             ]);
@@ -285,23 +290,19 @@ class TeamController extends Controller
             $team->user_id = Auth::id();
             $team->save();
 
-
-            $team->rides()->detach();
+            $team->rides()->delete();
             collect($request->rides)->each(function ($rideName) use ($team) {
-                $ride = Ride::firstOrCreate(['name' => $rideName]);
-                $team->rides()->attach($ride);
+                Ride::updateOrCreate(['name' => $rideName,'team_id'=>$team->id]);
             });
 
-            $team->areas()->detach();
+            $team->areas()->delete();
             collect($request->areas)->each(function ($areaName) use ($team) {
-                $area = Area::firstOrCreate(['name' => $areaName]);
-                $team->areas()->attach($area);
+                Area::updateOrCreate(['name' => $areaName,'team_id'=>$team->id]);
             });
 
-            $team->days()->detach();
-            collect($request->areas)->each(function ($dayName) use ($team) {
-                $day = Day::firstOrCreate(['name' => $dayName]);
-                $team->areas()->attach($day);
+            $team->days()->delete();
+            collect($request->days)->each(function ($dayName) use ($team) {
+                Day::updateOrCreate(['name' => $dayName,'team_id'=>$team->id]);
             });
 
             return response()->json([

@@ -12,6 +12,7 @@ class Area extends Model
 
     protected $fillable=[
         'name',
+        'team_id'
     ];
 
     public function teams():BelongsTo{

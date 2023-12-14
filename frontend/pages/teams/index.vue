@@ -11,7 +11,7 @@
         :headerImgPath="item.header_img_path"
         :thumbnailPath="item.thumbnail_path"
         :teamName="item.team_name"
-        :member="item.member"
+        :member="item.profiles_count != 0 ? item.profiles_count  : 1"
         :introduction="item.introduction"
         :id="item.id"
         :rides="item.rides"

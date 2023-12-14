@@ -5,7 +5,6 @@
       :pathThumbnail="config.public.baseURL + '/storage/' + props.thumbnailPath"
       :disabled="true"
     />
-
     <v-card-title class="text-body-2">
       <AtomsTextsHeadLine>
         {{ props.teamName }}

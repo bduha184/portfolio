@@ -26,7 +26,7 @@ export const useTeamStore = defineStore({
       areas: [],
       detailAreas: "",
       introduction: "",
-      memberCount: 0,
+      memberCount: 1,
       detailActivities: "",
       schedule: "",
       days: [],
@@ -47,8 +47,7 @@ export const useTeamStore = defineStore({
   actions: {
     async fetchMyTeams() {
       const { data } = await useApiFetch("/api/team/myteam");
-      console.log(data);
-      if (data.value != null) {
+      if (data.value.team_info != null) {
         this.setTeamValue(data.value.team_info);
       }
     },
@@ -64,6 +63,7 @@ export const useTeamStore = defineStore({
         },
       });
       this.loading = false;
+      console.log(data);
       const teams = data.value.teams;
       if (error.value == null && teams) {
         teams.forEach((team) => {
@@ -111,14 +111,14 @@ export const useTeamStore = defineStore({
       this.teams.length = 0;
     },
     setTeamValue(val) {
-      console.log(val);
+      console.log('testval',val);
       this.details.itemId = val.id;
       this.details.urlHeaderImg =
         config.public.baseURL + "/storage/" + val.header_img_path;
       this.details.urlThumbnail =
         config.public.baseURL + "/storage/" + val.thumbnail_path;
       this.details.teamName = val.team_name;
-      this.details.memberCount = val.member;
+      this.details.memberCount = val.profiles_count;
       this.details.introduction = val.introduction;
       this.details.average = val.average;
       this.details.fromAge = val.from_age;

@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { Areas } from "~/constants/areas";
-import { Levels, days } from "~/constants/teams";
+import { Levels, Days } from "~/constants/teams";
 import { Icons } from "~/constants/icons";
 import { useTeamStore } from "~/stores/useTeamStore";
 

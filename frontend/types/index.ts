@@ -77,7 +77,7 @@ export interface Team {
   id: number;
   introduction: string;
   profiles: string;
-  member: number;
+  profiles_count: number;
   rides: Array<string>;
   team_name: string;
   thumbnail_path: string;

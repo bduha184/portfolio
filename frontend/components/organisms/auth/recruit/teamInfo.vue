@@ -55,7 +55,7 @@
           multiple
           chips
           v-model="teamStore.details.days"
-          :items="days"
+          :items="Days"
         />
       </v-col>
       <v-col cols="12">
@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { Ages, Averages, days } from "~/constants/teams";
+import { Ages, Averages, Days } from "~/constants/teams";
 import { Areas } from "~/constants/areas";
 import { useTeamStore } from "~/stores/useTeamStore";
 const teamStore = useTeamStore();
