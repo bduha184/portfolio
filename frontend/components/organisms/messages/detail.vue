@@ -4,19 +4,19 @@
     <v-card class="mx-auto h-[100vh] overflow-y-auto">
       <v-list>
         <v-list-item
-          v-for="(message, index) in messages"
-          :key="index"
-          :prepend-avatar="
+        v-for="(message, index) in messages"
+        :key="index"
+        :prepend-avatar="
             message.sender_id == auth.user.id
-              ? ''
-              : config.public.baseURL + '/storage/' + message.thumbnail_path
-          "
+            ? ''
+            : config.public.baseURL + '/storage/' + message.thumbnail_path
+            "
           rounded="shaped"
-          :title="message.sender_id == auth.user.id ? '' : message.title"
+          :title="message.sender_id == auth.user.id ? '' : message.name"
           :subtitle="message.comment"
           class="ml-auto"
           :class="message.sender_id == auth.user.id ? 'right' : ''"
-        />
+          />
         <v-list-item
           v-for="(message, index) in pusherMessages"
           :key="index"
@@ -58,10 +58,12 @@
 import { useAuthStore } from "~/stores/useAuthStore";
 import { Url } from "~/constants/url";
 import { ApprovalMessage } from "~/constants/teams";
+import { useTeamStore } from "~/stores/useTeamStore";
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();
 const router = useRoute();
+const teamStore = useTeamStore();
 const messages = ref([]);
 const request_flg = ref(false);
 const pusherMessages = ref([]);
@@ -83,6 +85,7 @@ watch(pusherMessages.value, async () => {
     comment: pusherMessages.value[0],
     sender_id: authId,
     receiver_id: sender_id,
+    team_id: teamStore.getTeamDetail.itemId,
   };
   if (pusherMessages.value.length > 0) {
     await useApiFetch("/sanctum/csrf-cookie");

@@ -2,9 +2,10 @@
   <div>
     <OrganismsImgsCardProfile
       @emitInput="receiveProfileImage"
-      :path_header="form.url_header_img"
-      :path_thumbnail="form.url_thumbnail"
+      :pathHeader="form.urlHeaderImg"
+      :pathThumbnail="form.urlThumbnail"
     />
+    <!-- {{ teamStore.getTeams }} -->
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine>
         {{ form.name }}
@@ -16,39 +17,44 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { useApiFetch } from "~/composables/useApiFetch";
+import { useTeamStore } from "~/stores/useTeamStore";
+
+const teamStore = useTeamStore();
 
 const config = useRuntimeConfig();
 const router = useRoute();
 
+const userId = router.params.id;
+
 const form = ref({
-  path_header: "",
-  path_thumbnail: "",
-  name: '',
-  header_img: "",
-  thumbnail: "",
+  name: "",
   introduction: "",
-  url_header_img: config.public.appURL + "/images/noimage.jpg",
-  url_thumbnail: config.public.appURL + "/images/noimage.jpg",
+  urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
+  urlThumbnail: config.public.appURL + "/images/noimage.jpg",
 });
 
-
 onMounted(async () => {
-  const userId = router.params.id;
-  if (userId) {
+  const teamInfo = teamStore.getTeams.find((team) => {
+    return team.user.profile.id == userId;
+  });
+  if (teamInfo != null) {
+    console.log(teamInfo)
+    const profile = teamInfo.user.profile;
+    form.value.urlHeaderImg = config.public.baseURL + "/storage/" + profile.header_img_path;
+    form.value.urlThumbnail = config.public.baseURL + "/storage/" + profile.thumbnail_path;
+    form.value.name = profile.name;
+    form.value.introduction =profile.introduction;
+  } else {
     const res = await useApiFetch(`/api/profile/${userId}`);
     const val = res.data.value;
-    console.log(val);
-    if(val.data != null){
-      form.value.url_header_img =
+    if (val.data != null) {
+      form.value.urlHeaderImg =
         config.public.baseURL + "/storage/" + val.data.header_img_path;
-      form.value.url_thumbnail =
+      form.value.urlThumbnail =
         config.public.baseURL + "/storage/" + val.data.thumbnail_path;
       form.value.introduction = val.data.introduction;
-      form.value.name = val.data.name;
-      form.value.item_id = val.data.id;
       form.value.name = val.data.user.name;
     }
   }

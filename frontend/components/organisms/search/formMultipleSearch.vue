@@ -6,11 +6,11 @@
         :items="Areas"
         @emitInput="receiveInput"
       />
-      <!-- <OrganismsSearchFormPulldown
+      <OrganismsSearchFormPulldown
       label="日時"
-      :items="days"
+      :items="Days"
       @emitInput="receiveInput"
-      /> -->
+      />
       <OrganismsSearchFormPulldown
         label="ライド種別"
         :items="Levels"
@@ -25,6 +25,7 @@
         :icon="Icons.SEARCH"
       />
     </div>
+    {{ keywords }}
   </div>
 </template>
 

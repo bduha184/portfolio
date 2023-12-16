@@ -3,7 +3,8 @@
     <OrganismsSearchFormSearch />
     <OrganismsSearchFormMultipleSearch />
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
-    <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
+    <OrganismsTabsRecruitTab />
+    <!-- <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" /> -->
     <div class="item-wrapper bg-white">
       <OrganismsCardsRecruitCardForList
         v-for="(item, index) in teams"
@@ -31,32 +32,19 @@ import type { Team } from "~/types";
 import { useTeamStore } from "~/stores/useTeamStore";
 
 const teamStore = useTeamStore();
-const tab = ref<string>();
 const observe = ref<Element | null>(null);
 const teams: Team[] = ref(teamStore.getTeams);
-
-const receiveSelectedTab = (val: string) => {
-  tab.value = val;
-};
-
-watch(
-  () => tab.value,
-  () => {
-    teamStore.setTab(tab.value);
-    teamStore.fetchTeams();
-  }
-);
 
 const callback = async (entries) => {
   const entry = entries[0];
   if (entry && entry.isIntersecting) {
-    teamStore.fetchAllTeams();
+    // teamStore.fetchAllTeams();
   }
 };
 
 onMounted(() => {
   teamStore.getLoading;
-  teamStore.fetchAllTeams();
+  // teamStore.fetchAllTeams();
   const observer = new IntersectionObserver(callback);
   observer.observe(observe.value);
 });

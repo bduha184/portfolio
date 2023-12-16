@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-        for($i=1;$i<=2;$i++){
+        for($i=1;$i<=20;$i++){
             User::factory()
             ->hasProfile()
             ->hasTeams()

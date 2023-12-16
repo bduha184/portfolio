@@ -2,6 +2,9 @@
 
 export default defineNuxtConfig({
   ssr:false,
+  typescript: {
+    typeCheck: true
+  },
   spaLoadingTemplate: "./spa-loading-template.html",
   app:{
     head: {

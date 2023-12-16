@@ -16,10 +16,9 @@ class ProfileSeeder extends Seeder
         $profiles = Profile::all();
         $teams = Team::all();
 
-        $i = 0;
+        $i = count($teams)-1;
         $profiles->each(function ($query) use ($i,$teams) {
-            $query->teams()->attach($teams[$i]->id);
-            $i++;
+            $query->teams()->attach($teams[random_int(0,$i)]->id);
         });
     }
 }

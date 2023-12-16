@@ -120,7 +120,7 @@ const receiveClick = () => {
 }
 
 
-onBeforeMount(async () => {
+onMounted(async () => {
   const itemId = router.params.id;
   if (itemId) {
     await Promise.all([

@@ -78,7 +78,6 @@ const gallery = useGalleryStore();
 const auth = useAuthStore();
 const router = useRoute();
 const teamStore = useTeamStore();
-const itemId = router.params.id;
 const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();
 
@@ -125,6 +124,7 @@ const receiveMessages = async (val) => {
     comment: comment.value,
     receiver_id: teamItems.value.userId,
     sender_id: auth.user?.id,
+    team_id: router.params.id,
   };
 
   const profileData = {
@@ -161,7 +161,6 @@ onMounted(() => {
     return team.id == router.params.id;
   });
 
-  console.log('teamtest',team);
 
   if (team) {
     teamItems.value.itemId = team.id;

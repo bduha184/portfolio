@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\SnsMessages;
-use App\Http\Requests\StoreMessageRequest;
-use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
 use App\Models\User;
-use App\Models\Profile;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -55,23 +53,27 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message,$id)
+    public function show(Message $message,$sender_id)
     {
 
         $auth_id = Auth::id();
-        $profile = Profile::where('user_id',$auth_id)->first();
-        $team = $profile->teams()->find($id);
-        if($team == null){
-            $messages = $message->getSnsMessageById($id,$auth_id);
-        }else{
-            if($id == $team->id) {
-                $messages = $message->getSnsMessageByTeamId($id);
-            }
+        $sender = User::find($sender_id);
+        if(!empty($sender)){
+            $messages = $message->getSnsMessageById($sender_id,$auth_id);
+        }
+
+        $team = Team::find($auth_id);
+        $is_belongs_to = $team->profiles()->find($sender_id);
+        if(!empty($team) && !empty($is_belongs_to)){
+            $messages = $message->getSnsMessageByTeamId($team->id);
         }
         return response()->json([
+            'team'=>$team,
+            'is_belongs_to'=>$is_belongs_to,
             'data'=>$messages,
         ]);
     }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -87,8 +89,6 @@ class MessageController extends Controller
     {
         $message = $message->where('sender_id',$id)->first();
         $message->fill($request->all())->save();
-
-
         return response()->json([
             'message'=>$message,
         ]);

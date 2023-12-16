@@ -12,6 +12,7 @@ export const useTeamStore = defineStore({
     page: 0,
     loading: false,
     details: {
+      profiles:[],
       pathHeader: "",
       pathThumbnail: "",
       itemId: "",
@@ -47,6 +48,7 @@ export const useTeamStore = defineStore({
   actions: {
     async fetchMyTeams() {
       const { data } = await useApiFetch("/api/team/myteam");
+      console.log('myteamdata',data);
       if (data.value.team_info != null) {
         this.setTeamValue(data.value.team_info);
       }
@@ -63,7 +65,7 @@ export const useTeamStore = defineStore({
         },
       });
       this.loading = false;
-      console.log(data);
+      console.log('receivedata',data);
       const teams = data.value.teams;
       if (error.value == null && teams) {
         teams.forEach((team) => {
@@ -111,7 +113,7 @@ export const useTeamStore = defineStore({
       this.teams.length = 0;
     },
     setTeamValue(val) {
-      console.log('testval',val);
+
       this.details.itemId = val.id;
       this.details.urlHeaderImg =
         config.public.baseURL + "/storage/" + val.header_img_path;
@@ -138,9 +140,14 @@ export const useTeamStore = defineStore({
       val.days.forEach((day) => {
         this.details.days.push(day.name);
       });
+      val.profiles.forEach((profile) => {
+        this.details.profiles.push(profile);
+      });
     },
     deleteTeamValue() {
+      this.teams = [];
       this.details = new Object({
+        profiles:[],
         pathHeader: "",
         pathThumbnail: "",
         itemId: "",

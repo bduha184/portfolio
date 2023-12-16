@@ -49,7 +49,7 @@ class TeamController extends Controller
 
         if ($user) {
             $user_team = $user->teams()
-                            ->with(['rides', 'areas','days'])
+                            ->with(['rides', 'areas','days','profiles'])
                             ->withCount('profiles')
                             ->first();
             return response()->json([
@@ -68,7 +68,7 @@ class TeamController extends Controller
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $teams = $auth_profile->teams()->with(['rides', 'areas','days'])->get();
+            $teams = $auth_profile->teams()->with(['rides', 'areas','days','profiles'])->get();
             $affiliations = $teams->filter(fn ($team) => $team->user_id != $auth_id);
             return response()->json([
                 'profile' => $auth_profile,
@@ -112,7 +112,7 @@ class TeamController extends Controller
                     });
                 })
                 ->withCount('profiles')
-                ->with(['rides','areas','days'])
+                ->with(['rides','areas','days','profiles'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -144,7 +144,7 @@ class TeamController extends Controller
                         }
                 })
                 ->withCount('profiles')
-                ->with(['rides','areas','days'])
+                ->with(['rides','areas','days','profiles'])
                 ->offset($page*10)
                 ->limit(10)
                 ->get();
@@ -153,6 +153,7 @@ class TeamController extends Controller
 
             if ($teams) {
                 return response()->json([
+                    'tab'=>$tab,
                     'keywords'=>$keywords,
                     'teams' => $teams,
                 ]);
@@ -160,25 +161,28 @@ class TeamController extends Controller
             return response()->json([
                 'message' => 'Teams not found'
             ], Response::HTTP_NOT_FOUND);
+        }else{
+
+            $teams = Team::latest()
+            ->withCount('profiles')
+                ->with(['rides', 'areas','days','profiles'])
+                ->offset($page*10)
+                ->limit(10)
+                ->get();
         }
-        $teams = Team::latest()
-        ->withCount('profiles')
-            ->with(['rides', 'areas','days'])
-            ->offset($page*10)
-            ->limit(10)
-            ->get();
 
         if ($tab == 'member') {
 
             $teams = Team::withCount('profiles')
             ->orderBy('profiles_count', 'desc')
-            ->with(['rides','areas','days'])
+            ->with(['rides','areas','days','profiles'])
             ->offset($page*10)
             ->limit(10)
             ->get();
         }
 
         return response()->json([
+            'tab'=>$tab,
             'keywords' => $keywords,
             'teams' => $teams,
         ]);

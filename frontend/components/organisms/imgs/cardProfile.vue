@@ -1,5 +1,5 @@
 <template>
-  <div class="relative z-0 h-[100px]">
+  <div class="relative z-0 h-[120px]">
     <MoleculesImgsSelect
       @emitInput="receiveHeaderImg"
       :path="props.pathHeader"

@@ -20,14 +20,16 @@
       <OrganismsCardsRecruitCardForList
         v-for="(item, id) in teams"
         :key="id"
-        :header_img_path="item.header_img_path"
-        :thumbnail_path="item.thumbnail_path"
+        :headerImgPath="item.header_img_path"
+        :thumbnailPath="item.thumbnail_path"
         :introduction="item.introduction"
-        :team_name="item.team_name"
+        :teamName="item.team_name"
+        :member="item.profiles_count"
         :id="item.id"
         :profiles="item.profiles"
         :areas="item.areas"
-        :date_time="item.daytime"
+        :days="item.days"
+        :rides="item.rides"
         :auth="true"
       />
     </div>
@@ -45,7 +47,7 @@ const teamStore = useTeamStore();
 
 const teams: Team[] = ref(teamStore.getTeams);
 
-onBeforeMount(async () => {
+onMounted(async () => {
   teamStore.fetchAffiliationTeams();
 });
 </script>

@@ -46,10 +46,10 @@
           <AtomsTextsHeadLine class="w-100"> チームメンバー </AtomsTextsHeadLine>
           <v-row>
             <v-col cols="3"
-            v-for="(member, i) in members"
+            v-for="(member, i) in teamStore.getTeamDetail.profiles"
             :key="i">
             <NuxtLink
-            :to="Url.PROFILE+'/'+member.user_id"
+            :to="Url.PROFILE+'/'+member.id"
             >
               <v-avatar
               class="w-100 h-100"
@@ -89,21 +89,18 @@ const auth = useAuthStore();
 const config = useRuntimeConfig();
 const teamStore = useTeamStore();
 
-const postImages = ref<string[]>([]);
-const displayImages = ref<string[]>([]);
 const isShow = ref<boolean>(false);
 const flashMessage = ref<string | null>("");
-const members = ref<string[]>([]);
 
 const receiveClick = () => {
   return navigateTo(Url.TEAMMESSAGES+teamItems.value.id);
 }
 
-
-onMounted(async () => {
+onMounted(()=>{
+  teamStore.deleteTeamValue();
   teamStore.fetchMyTeams();
+})
 
-});
 </script>
 
 
