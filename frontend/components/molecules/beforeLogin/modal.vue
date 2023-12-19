@@ -38,7 +38,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 import { useAuthStore } from "~/stores/useAuthStore";
 import { Url } from "~/constants/url";
 
@@ -66,4 +67,3 @@ ol {
   display: none;
 }
 </style>
-~/types/types ~/types/types

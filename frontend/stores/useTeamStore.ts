@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import type { Props } from "~/types";
 import { useRuntimeConfig } from "#imports";
 
 const config = useRuntimeConfig();
@@ -65,7 +64,6 @@ export const useTeamStore = defineStore({
         },
       });
       this.loading = false;
-      console.log('receivedata',data);
       const teams = data.value.teams;
       if (error.value == null && teams) {
         teams.forEach((team) => {
@@ -87,7 +85,7 @@ export const useTeamStore = defineStore({
           "X-HTTP-Method-Override": "GET",
         },
       });
-      console.log(res);
+      console.log('testtesttest',res);
       const teams = res.data.value.teams;
       if (res.error.value == null && teams) {
         teams.forEach((team) => {
@@ -98,6 +96,7 @@ export const useTeamStore = defineStore({
     },
     async fetchAffiliationTeams() {
       const res = await useApiFetch("/api/team/auth");
+      console.log('affiliations',res);
       const teams = res.data.value.affiliations;
       if (res.error.value == null && teams) {
         teams.forEach((team) => {
@@ -105,14 +104,14 @@ export const useTeamStore = defineStore({
         });
       }
     },
-    setTab(tab: string) {
+    async setTab(tab: string) {
       this.tab = tab;
     },
-    setPageInitialize() {
+    async setPageInitialize() {
       this.page = 0;
       this.teams.length = 0;
     },
-    setTeamValue(val) {
+   async setTeamValue(val) {
 
       this.details.itemId = val.id;
       this.details.urlHeaderImg =
@@ -144,7 +143,7 @@ export const useTeamStore = defineStore({
         this.details.profiles.push(profile);
       });
     },
-    deleteTeamValue() {
+    async deleteTeamValue() {
       this.teams = [];
       this.details = new Object({
         profiles:[],
@@ -172,6 +171,6 @@ export const useTeamStore = defineStore({
         urlThumbnail: config.public.appURL + "/images/noimage.jpg",
       });
     },
-    persist: true,
+    // persist: true,
   },
 });

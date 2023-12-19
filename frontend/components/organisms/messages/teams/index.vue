@@ -48,8 +48,6 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
-import { Url } from "~/constants/url";
-import { ApprovalMessage } from "~/constants/teams";
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();

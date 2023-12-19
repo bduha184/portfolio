@@ -7,10 +7,11 @@
       slider-color="red"
     >
       <v-tab
+        class="w-50"
         v-for="(tab, index) in tabs"
         :key="index"
         :value="tab.value"
-        @click="onClick"
+        @click="onClick(tab)"
       >
         {{ tab.name }}
       </v-tab>
@@ -39,11 +40,10 @@ const tabs = [
   // },
 ];
 
-watch(
-  ()=>tab.value,
-  ()=>{
-    teamStore.setTab(tab.value);
-    teamStore.fetchTeams();
-  }
-)
+const onClick = (val) => {
+  // teamStore.deleteTeamValue();
+  teamStore.setTab(val.value);
+  teamStore.fetchTeams();
+}
+
 </script>

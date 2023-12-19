@@ -1,5 +1,5 @@
 <template>
-  <v-card @click="onClick(auth)" min-height="300px">
+  <v-card @click="onClick" min-height="300px">
     <OrganismsImgsCardProfile
       :pathHeader="config.public.baseURL + '/storage/' + props.headerImgPath"
       :pathThumbnail="config.public.baseURL + '/storage/' + props.thumbnailPath"
@@ -22,8 +22,8 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item min-height="unset" class="py-0 overflow-x-scroll">
-        <v-list-item-content class="d-flex align-center">
+      <v-list-item min-height="unset" class="py-0">
+        <v-list-item-content class="d-flex align-center overflow-x-scroll">
           <AtomsIcons :name="Icons.MAP" class="border-none" size="25" />:
           <v-list-item-title
             class="pl-2"
@@ -60,14 +60,14 @@
 <script setup lang="ts">
 import { Url } from "~/constants/url";
 import { Icons } from "~/constants/icons";
-import type { Props } from "~/types";
+import type { Props } from "~/types/props";
 
 const props = defineProps<Props>();
 
 const config = useRuntimeConfig();
 
-const onClick = (auth) => {
-  if (auth) {
+const onClick = () => {
+  if (props.auth) {
     return navigateTo(Url.AFFILIATION + "/" + props.id);
   }
   return navigateTo({
@@ -94,6 +94,12 @@ const onClick = (auth) => {
   position: unset !important;
 }
 
+.v-list{
+  &:deep(.v-list-item__content ){
+    overflow:unset !important;
+
+  }
+}
 .v-chip {
   min-width: fit-content;
   &-group {
@@ -101,3 +107,4 @@ const onClick = (auth) => {
   }
 }
 </style>
+~/types/props

@@ -7,11 +7,9 @@
 
 
 <script setup lang="ts">
+import type { Props } from "~/types/props";
 
-const props = defineProps({
-  title:String,
-  subTitle:String
-})
+const props = defineProps<Props>();
 
 </script>
 

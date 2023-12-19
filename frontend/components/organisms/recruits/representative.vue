@@ -32,9 +32,10 @@
 <script setup lang="ts">
 import {Url} from "~/constants/url"
 
-import type {Props} from "~/types";
+import type { Props } from "~/types/props";
 const props = defineProps<Props>();
 
 
 
 </script>
+~/types/props

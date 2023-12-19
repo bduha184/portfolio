@@ -4,17 +4,17 @@
       <OrganismsSearchFormPulldown
         label="エリア"
         :items="Areas"
-        @emitInput="receiveInput"
+        @emitInput="(val)=> {area=val}"
       />
       <OrganismsSearchFormPulldown
       label="日時"
       :items="Days"
-      @emitInput="receiveInput"
+      @emitInput="(val)=> {day=val}"
       />
       <OrganismsSearchFormPulldown
         label="ライド種別"
         :items="Levels"
-        @emitInput="receiveInput"
+        @emitInput="(val)=> {ride=val}"
       />
       <v-btn
         height="40"
@@ -25,7 +25,6 @@
         :icon="Icons.SEARCH"
       />
     </div>
-    {{ keywords }}
   </div>
 </template>
 
@@ -37,16 +36,13 @@ import { useTeamStore } from "~/stores/useTeamStore";
 
 const teamStore = useTeamStore();
 
-const keywords = ref<string[]>([]);
-
-const receiveInput = (val: string) => {
-  keywords.value.push(val);
-};
+const area = ref<string>();
+const day = ref<string>();
+const ride = ref<string>();
 
 const onClick = () => {
   teamStore.setPageInitialize();
-  teamStore.fetchTeams(keywords.value, true);
-  keywords.value.length = 0;
+  teamStore.fetchTeams([area.value,day.value,ride.value], true);
 };
 </script>
 

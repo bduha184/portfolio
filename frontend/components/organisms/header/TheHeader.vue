@@ -8,7 +8,12 @@
           <NuxtLink
           :to="auth.isLoggedIn ? Url.MYPAGE : Url.TOP"
 
-          > Cycle Community </NuxtLink>
+          >
+        <AtomsImgs
+        max-width="100px"
+        :path="`${config.public.appURL}/_nuxt/assets/images/logo.png`"
+        />
+        </NuxtLink>
         </v-toolbar-title>
         <v-spacer />
         <AtomsToggle
@@ -53,9 +58,11 @@
 import { Url } from "~/constants/url";
 import { MenuItems } from "~/constants/menuItems";
 import { useAuthStore } from "~/stores/useAuthStore";
+import { useRuntimeConfig } from "nuxt/app";
 
 
 const auth = useAuthStore();
+const config = useRuntimeConfig();
 const drawer = ref<boolean>(false);
 
 const menuItems = computed(()=>{

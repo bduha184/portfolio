@@ -12,7 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
@@ -43,4 +44,3 @@ const receiveImg = (val: File) => {
   z-index: 10;
 }
 </style>
-~/types/types ~/types/types

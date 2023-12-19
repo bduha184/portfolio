@@ -97,8 +97,10 @@ const receiveClick = () => {
 }
 
 onMounted(()=>{
-  teamStore.deleteTeamValue();
-  teamStore.fetchMyTeams();
+
+  if(teamStore.getTeamDetail.itemId == ''){
+    teamStore.fetchMyTeams();
+  }
 })
 
 </script>

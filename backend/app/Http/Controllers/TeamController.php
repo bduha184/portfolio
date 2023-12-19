@@ -7,6 +7,7 @@ use App\Models\Ride;
 use App\Models\Area;
 use App\Models\Day;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +69,12 @@ class TeamController extends Controller
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $teams = $auth_profile->teams()->with(['rides', 'areas','days','profiles'])->get();
+            $teams = $auth_profile->teams()
+            ->withCount('profiles')
+            ->with(['rides', 'areas','days','profiles','user'=>function($query){
+                $query->with('profile')->get();
+            }])
+            ->get();
             $affiliations = $teams->filter(fn ($team) => $team->user_id != $auth_id);
             return response()->json([
                 'profile' => $auth_profile,
@@ -174,10 +180,10 @@ class TeamController extends Controller
         if ($tab == 'member') {
 
             $teams = Team::withCount('profiles')
-            ->orderBy('profiles_count', 'desc')
             ->with(['rides','areas','days','profiles'])
             ->offset($page*10)
             ->limit(10)
+            ->orderBy('profiles_count', 'desc')
             ->get();
         }
 

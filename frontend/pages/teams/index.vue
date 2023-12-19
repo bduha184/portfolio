@@ -4,10 +4,9 @@
     <OrganismsSearchFormMultipleSearch />
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
     <OrganismsTabsRecruitTab />
-    <!-- <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" /> -->
     <div class="item-wrapper bg-white">
       <OrganismsCardsRecruitCardForList
-        v-for="(item, index) in teams"
+        v-for="(item, index) in teamStore.getTeams"
         :key="index"
         :headerImgPath="item.header_img_path"
         :thumbnailPath="item.thumbnail_path"
@@ -21,30 +20,27 @@
         :days="item.days"
         :detailDays="item.detail_day"
       />
+      <p ref="observe"></p>
       <AtomsLoading v-show="teamStore.getLoading" />
     </div>
-    <p ref="observe"></p>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import type { Team } from "~/types";
 import { useTeamStore } from "~/stores/useTeamStore";
 
 const teamStore = useTeamStore();
 const observe = ref<Element | null>(null);
-const teams: Team[] = ref(teamStore.getTeams);
 
 const callback = async (entries) => {
   const entry = entries[0];
   if (entry && entry.isIntersecting) {
-    // teamStore.fetchAllTeams();
+    teamStore.fetchAllTeams();
   }
 };
 
 onMounted(() => {
   teamStore.getLoading;
-  // teamStore.fetchAllTeams();
   const observer = new IntersectionObserver(callback);
   observer.observe(observe.value);
 });
@@ -56,3 +52,4 @@ onMounted(() => {
   width: 100%;
 }
 </style>
+~/types/props

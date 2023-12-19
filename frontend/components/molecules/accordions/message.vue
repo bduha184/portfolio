@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 
 const props = withDefaults(defineProps<Props>(), {
   toggle: false,
@@ -69,4 +70,3 @@ const receiveClick = (e: Event) => {
   transform: translateY(0px);
 }
 </style>
-~/types/types ~/types/types

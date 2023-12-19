@@ -1,7 +1,6 @@
 <template>
   <div>
     <OrganismsImgsCardProfile
-      @emitInput="receiveProfileImage"
       :pathHeader="form.urlHeaderImg"
       :pathThumbnail="form.urlThumbnail"
     />
@@ -37,10 +36,16 @@ const form = ref({
 
 onMounted(async () => {
   const teamInfo = teamStore.getTeams.find((team) => {
-    return team.user.profile.id == userId;
+    if(team.user.profile.id == userId) {
+      return team;
+    }else {
+      team.profiles.find(profile => {
+      return  profile.user_id == userId;
+      });
+    }
   });
-  if (teamInfo != null) {
-    console.log(teamInfo)
+  console.log(teamInfo)
+  if (teamInfo) {
     const profile = teamInfo.user.profile;
     form.value.urlHeaderImg = config.public.baseURL + "/storage/" + profile.header_img_path;
     form.value.urlThumbnail = config.public.baseURL + "/storage/" + profile.thumbnail_path;

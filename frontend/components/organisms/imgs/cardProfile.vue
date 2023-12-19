@@ -17,7 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 
 const props = defineProps<Props>();
 
@@ -49,4 +50,3 @@ const receiveThumbnail = (val: File, target: string) => {
   background: red;
 }
 </style>
-~/types/types ~/types/types

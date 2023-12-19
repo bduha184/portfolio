@@ -16,9 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 const emits = defineEmits<Emits>();
 const checked = ref<boolean>(false);
@@ -35,4 +36,3 @@ input[type="checkbox"] {
   margin-right: 0.5rem;
 }
 </style>
-~/types/types ~/types/types

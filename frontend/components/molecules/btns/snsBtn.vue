@@ -12,10 +12,10 @@
   </AtomsSnsBtn>
 </template>
 <script setup lang="ts">
-import type { Props } from "~/types";
+import type { Props } from "~/types/props";
 
 const config = useRuntimeConfig();
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <style scoped lang="scss">
@@ -25,4 +25,3 @@ const props = defineProps<Props>();
   }
 }
 </style>
-~/types/types ~/types/types

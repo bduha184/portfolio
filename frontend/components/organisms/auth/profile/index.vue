@@ -60,7 +60,6 @@ import { useProfileStore } from "~/stores/useProfileStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 const auth = useAuthStore();
 const prof  = useProfileStore();
-const config = useRuntimeConfig();
 const flashMessage = useFlashMessageStore();
 
 const handleRegister = async () => {

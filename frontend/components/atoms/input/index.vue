@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits } from "~/types";
+import type { Emits } from "~/types/emits";
 import { watch } from "#imports";
 
 interface Props {
@@ -95,4 +95,3 @@ input[type="checkbox"] {
   }
 }
 </style>
-~/types/types ~/types/types

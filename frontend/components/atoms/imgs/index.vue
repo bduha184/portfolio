@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 
 const props = defineProps<Props>();
 
@@ -15,4 +16,3 @@ const onClick = (e: Event) => {
   emits("emitClick", e.target as HTMLElement);
 };
 </script>
-~/types/types ~/types/types

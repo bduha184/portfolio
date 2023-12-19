@@ -160,7 +160,7 @@ onMounted(() => {
   const team = teamStore.getTeams.find((team) => {
     return team.id == router.params.id;
   });
-
+console.log(team);
 
   if (team) {
     teamItems.value.itemId = team.id;

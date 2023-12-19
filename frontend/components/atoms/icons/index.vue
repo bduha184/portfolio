@@ -8,11 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Props } from "~/types";
+import type { Props } from "~/types/props";
 
 const props = withDefaults(defineProps<Props>(), {
   size: 35,
   padding: "p-1",
 });
 </script>
-~/types/types ~/types/types

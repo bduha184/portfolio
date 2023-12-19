@@ -45,7 +45,8 @@
 <script setup lang="ts">
 import { Icons } from "~/constants/icons";
 import { useGalleryStore } from "~/stores/useGalleryStore";
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 
 const gallery = useGalleryStore();
 
@@ -90,4 +91,3 @@ const onFileDropped = (e: DragEvent) => {
   // emits("emitImages", {files});
 };
 </script>
-~/types/types ~/types/types

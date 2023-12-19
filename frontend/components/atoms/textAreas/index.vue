@@ -10,13 +10,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 
-const props = defineProps<Props>();
+defineProps<Props>();
 const emits = defineEmits<Emits>();
 
 const submit = (e: Event) => {
   emits("emitInput", e.target as HTMLInputElement);
 };
 </script>
-~/types/types ~/types/types

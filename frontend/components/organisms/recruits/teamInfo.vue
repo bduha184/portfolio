@@ -83,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Props } from "~/types";
+import type { Props } from "~/types/props";
 const props = defineProps<Props>();
 </script>
 
@@ -127,3 +127,4 @@ const props = defineProps<Props>();
   padding: 3px;
 }
 </style>
+~/types/props

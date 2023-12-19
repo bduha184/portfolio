@@ -23,7 +23,6 @@
 
 <script setup lang="ts">
 import { useTeamStore } from "~/stores/useTeamStore";
-import type { Emits, Props } from "~/types";
 import {Levels} from "~/constants/teams";
 
 const teamStore = useTeamStore();
@@ -35,4 +34,3 @@ function remove(item) {
 }
 
 </script>
-~/types/types ~/types/types

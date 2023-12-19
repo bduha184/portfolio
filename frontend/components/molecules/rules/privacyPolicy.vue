@@ -184,7 +184,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Props } from "~/types";
+import type { Props } from "~/types/props";
 
 const props = defineProps<Props>();
 const dialog = ref(props.name);
@@ -202,4 +202,3 @@ ol {
   }
 }
 </style>
-~/types/types ~/types/types

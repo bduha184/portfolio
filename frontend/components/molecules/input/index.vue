@@ -20,7 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Emits, Props } from "~/types";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 import { formSchema } from "~/constants/formSchema";
 import { useForm, useField } from "vee-validate";
 
@@ -55,4 +56,3 @@ const onChange = () => {
   emit("emitInput", { val, errors, confirm });
 };
 </script>
-~/types/types ~/types/types
