@@ -1,5 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-
 export default defineNuxtConfig({
   ssr:false,
   spaLoadingTemplate: './app/spa-loading-template.html',
