@@ -2,11 +2,11 @@
   <section class="hero">
     <img
     class="hero-bg"
-    :src="`${config.public.appURL}/_nuxt/assets/images/mainvisual.jpg`"
+    :src="`${config.public.appURL}/images/mainvisual.jpg`"
     />
     <img
     class="hero-main"
-    :src="`${config.public.appURL}/_nuxt/assets/images/hero-main.webp`"
+    :src="`${config.public.appURL}/images/hero-main.webp`"
     />
     <div class="btn-wrap">
     <AtomsBtnsBaseBtn

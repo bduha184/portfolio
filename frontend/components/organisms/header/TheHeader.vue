@@ -11,7 +11,7 @@
           >
         <AtomsImgs
         max-width="100px"
-        :path="`${config.public.appURL}/_nuxt/assets/images/logo.png`"
+        :path="`${config.public.appURL}/images/logo.png`"
         />
         </NuxtLink>
         </v-toolbar-title>

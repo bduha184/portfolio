@@ -11,7 +11,7 @@
             >
               <AtomsImgs
                 size="contain"
-                :src="`${config.public.appURL}/_nuxt/assets/images/google.png`"
+                :src="`${config.public.appURL}/images/google.png`"
                 width="20"
                 height="20"
                 class="absolute left-2"
@@ -30,7 +30,7 @@
             >
               <AtomsImgs
                 size="contain"
-                :src="`${config.public.appURL}/_nuxt/assets/images/twitter.png`"
+                :src="`${config.public.appURL}/images/twitter.png`"
                 width="20"
                 height="20"
                 class="absolute left-2"

@@ -3,7 +3,7 @@
     <template v-slot:prepend>
       <AtomsImgs
         size="contain"
-        :src="`${config.public.appURL}/_nuxt/assets/images/${provider}.png`"
+        :src="`${config.public.appURL}/images/${provider}.png`"
         width="20"
         height="20"
       />

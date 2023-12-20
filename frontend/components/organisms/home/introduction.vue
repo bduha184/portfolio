@@ -30,7 +30,7 @@
         <v-col cols="12" sm="6">
           <v-img
             contain
-          :src="`${config.public.appURL}/_nuxt/assets/images/hero-main.webp`"
+          :src="`${config.public.appURL}/images/hero-main.webp`"
           >
           </v-img>
           <ButtonCommon
