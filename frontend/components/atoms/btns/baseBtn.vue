@@ -2,13 +2,13 @@
   <v-btn
     rounded="xl"
     density="compact"
-    :height="height"
-    :to="to"
-    :color="color"
+    :height="props.height"
+    :to="props.to"
+    :color="props.color"
     @click="onClick"
-    :variant="variant"
-    :disabled="disabled"
-    :prepend-icon="prependIcon"
+    :variant="props.variant"
+    :disabled="props.disabled"
+    :prepend-icon="props.prependIcon"
   >
     <slot />
   </v-btn>
@@ -18,7 +18,7 @@
 import type { Props } from "~/types/props";
 import type { Emits } from "~/types/emits";
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   variant: "elevated",
   height: 40,
 });

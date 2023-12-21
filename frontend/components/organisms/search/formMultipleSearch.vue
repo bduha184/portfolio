@@ -2,20 +2,13 @@
   <div>
     <div class="pt-5 d-flex align-center justify-between">
       <OrganismsSearchFormPulldown
-        label="エリア"
-        :items="Areas"
-        @emitInput="(val)=> {area=val}"
+      v-for="(item,i) in items"
+      :key="i"
+      :label="labels[i]"
+      :items=item
+      @emitInput="(val)=>(refs[i] = val)"
       />
-      <OrganismsSearchFormPulldown
-      label="日時"
-      :items="Days"
-      @emitInput="(val)=> {day=val}"
-      />
-      <OrganismsSearchFormPulldown
-        label="ライド種別"
-        :items="Levels"
-        @emitInput="(val)=> {ride=val}"
-      />
+
       <v-btn
         height="40"
         width="40"
@@ -36,13 +29,14 @@ import { useTeamStore } from "~/stores/useTeamStore";
 
 const teamStore = useTeamStore();
 
-const area = ref<string>();
-const day = ref<string>();
-const ride = ref<string>();
+const items = [Areas,Days,Levels];
+const labels = ['エリア','日時','ライド種別'];
+const refs = ref(['','','']);
 
 const onClick = () => {
   teamStore.setPageInitialize();
-  teamStore.fetchTeams([area.value,day.value,ride.value], true);
+  teamStore.fetchTeams(refs.value, true);
+  console.log(refs.value);
 };
 </script>
 

@@ -1,11 +1,11 @@
 <template>
   <div>
     <AtomsLabelsFormLabel class="block text-gray-700 text-sm font-bold pb-1">
-      {{ label }}<span class="text-red text-caption">※</span>
+      {{ props.label }}<span class="text-red text-caption">※</span>
     </AtomsLabelsFormLabel>
     <AtomsInput
-      :type="type"
-      :val="val"
+      :type="props.type"
+      :val="props.val"
       @emitInput="receiveInput"
       @blur="handleChange"
       @change="onChange"

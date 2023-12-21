@@ -4,8 +4,8 @@
       type="file"
       class="d-none"
       accept="image/*"
-      :isSelecting="isSelecting"
-      :disabled="disabled"
+      :isSelecting="props.isSelecting"
+      :disabled="props.disabled"
       @emitInput="receiveImg"
     />
   </AtomsImgs>

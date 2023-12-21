@@ -5,7 +5,7 @@
         type="checkbox"
         class="pr-2"
         @emitInput="receiveInput"
-        :val="val"
+        :val="props.val"
       />
       <MoleculesRulesTerms />
       <span>・</span>
@@ -19,7 +19,7 @@
 import type { Props } from "~/types/props";
 import type { Emits } from "~/types/emits";
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emits = defineEmits<Emits>();
 const checked = ref<boolean>(false);

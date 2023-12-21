@@ -1,5 +1,5 @@
 <template>
-  <v-icon :icon="name" :size="size" />
+  <v-icon :icon="props.name" :size="props.size" />
 </template>
 
 <script setup lang="ts">

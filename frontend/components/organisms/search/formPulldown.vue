@@ -3,7 +3,7 @@
     variant="outlined"
     density="compact"
     v-model="item"
-    :label="label"
+    :label="props.label"
     :items="props.items"
   />
 </template>

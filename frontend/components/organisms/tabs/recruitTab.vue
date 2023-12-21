@@ -8,14 +8,14 @@
     >
       <v-tab
         class="w-50"
-        v-for="(tab, index) in tabs"
+        v-for="(val, index) in tabs"
         :key="index"
-        :value="tab.value"
-        @click="onClick(tab)"
+        :value="val.value"
       >
-        {{ tab.name }}
+        {{ val.name }}
       </v-tab>
     </v-tabs>
+    {{ tab }}
   </div>
 </template>
 
@@ -23,7 +23,7 @@
 import { useTeamStore } from '~/stores/useTeamStore';
 
 const teamStore = useTeamStore();
-const tab = ref(null);
+const tab = ref('latest');
 
 const tabs = [
   {
@@ -40,10 +40,15 @@ const tabs = [
   // },
 ];
 
-const onClick = (val) => {
-  // teamStore.deleteTeamValue();
-  teamStore.setTab(val.value);
-  teamStore.fetchTeams();
-}
+watch(
+  ()=>tab.value,
+  ()=>{
+    teamStore.deleteTeamValue();
+    teamStore.setTab(tab.value);
+    teamStore.fetchTeams();
+
+  }
+)
+
 
 </script>

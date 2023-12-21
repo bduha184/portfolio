@@ -9,7 +9,7 @@
         <AtomsBtnsBaseBtn
           v-bind="props"
           @click="requestJoinTeam"
-          :color="color"
+          :color="props.color"
         >
           <slot />
         </AtomsBtnsBaseBtn>

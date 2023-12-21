@@ -7,7 +7,7 @@ export const useTeamStore = defineStore({
 
   state: () => ({
     teams: [],
-    tab: "",
+    tab: "latest",
     page: 0,
     loading: false,
     details: {
@@ -52,11 +52,13 @@ export const useTeamStore = defineStore({
         this.setTeamValue(data.value.team_info);
       }
     },
-    async fetchAllTeams() {
+    async fetchTeams(keywords?: Array<string | number>) {
       this.loading = true;
       const { data, error } = await useApiFetch("/api/team", {
         method: "POST",
         body: {
+          keywords: keywords,
+          tab: this.tab,
           page: this.page,
         },
         headers: {
@@ -64,30 +66,9 @@ export const useTeamStore = defineStore({
         },
       });
       this.loading = false;
+
       const teams = data.value.teams;
       if (error.value == null && teams) {
-        teams.forEach((team) => {
-          this.teams.push(team);
-        });
-      }
-      this.page++;
-    },
-    async fetchTeams(keywords: Array<string | number>, multi: boolean) {
-      const res = await useApiFetch("/api/team/search", {
-        method: "POST",
-        body: {
-          keywords: keywords,
-          tab: this.tab,
-          multi: multi,
-          page: this.page,
-        },
-        headers: {
-          "X-HTTP-Method-Override": "GET",
-        },
-      });
-      console.log('testtesttest',res);
-      const teams = res.data.value.teams;
-      if (res.error.value == null && teams) {
         teams.forEach((team) => {
           this.teams.push(team);
         });

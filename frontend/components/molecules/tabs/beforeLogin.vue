@@ -1,13 +1,13 @@
 <template>
-  <v-tab :value="val">
-    <AtomsIcons class="d-block mx-auto" :name="icon" size="50" padding="p-2" />
+  <v-tab :value="props.val">
+    <AtomsIcons class="d-block mx-auto" :name="props.icon" size="50" padding="p-2" />
     <slot />
   </v-tab>
 </template>
 
 <script setup lang="ts">
 import type { Props } from "~/types/props";
-defineProps<Props>();
+const props = defineProps<Props>();
 </script>
 
 <style scoped lang="scss">

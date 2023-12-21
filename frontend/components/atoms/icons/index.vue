@@ -1,8 +1,8 @@
 <template>
   <v-icon
-    :icon="name"
-    :size="size"
-    :class="padding"
+    :icon="props.name"
+    :size="props.size"
+    :class="props.padding"
     class="border-solid border-2 border-gray-300 rounded-full"
   />
 </template>

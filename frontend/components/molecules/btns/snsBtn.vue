@@ -3,7 +3,7 @@
     <template v-slot:prepend>
       <AtomsImgs
         size="contain"
-        :src="`${config.public.appURL}/images/${provider}.png`"
+        :src="`${config.public.appURL}/images/${props.provider}.png`"
         width="20"
         height="20"
       />
@@ -15,7 +15,7 @@
 import type { Props } from "~/types/props";
 
 const config = useRuntimeConfig();
-defineProps<Props>();
+const props = defineProps<Props>();
 </script>
 
 <style scoped lang="scss">

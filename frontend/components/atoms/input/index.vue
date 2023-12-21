@@ -2,37 +2,27 @@
   <input
     multiple
     ref="uploader"
-    :accept="accept"
-    :disabled="disabled"
-    :name="name"
-    :placeholder="placeholder"
-    :type="type"
-    :value="val"
+    :accept="props.accept"
+    :disabled="props.disabled"
+    :name="props.name"
+    :placeholder="props.placeholder"
+    :type="props.type"
+    :value="props.val"
     @change="onChange"
     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
   />
 </template>
 
 <script setup lang="ts">
+import type { Props } from "~/types/props";
 import type { Emits } from "~/types/emits";
 import { watch } from "#imports";
-
-interface Props {
-  accept: string;
-  disabled: boolean;
-  name: string;
-  placeholder: string;
-  type: string;
-  val: string;
-  isSelecting: boolean;
-}
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
   isSelecting: false,
   disabled: false,
 });
-console.log(props.isSelecting);
 const emits = defineEmits<Emits>();
 const uploader = ref<HTMLInputElement>();
 const selectedFile = ref<File | string | null>(null);

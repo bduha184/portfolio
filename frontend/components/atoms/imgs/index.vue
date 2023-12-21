@@ -1,5 +1,5 @@
 <template>
-  <v-img :src="path" @click="onClick" cover>
+  <v-img :src="props.path" @click="onClick" cover>
     <slot />
   </v-img>
 </template>

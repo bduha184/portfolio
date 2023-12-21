@@ -3,13 +3,13 @@
     <transition>
       <div v-show="toggle">
         <AtomsTextAreas
-          :placeholder="placeholder"
+          :placeholder="props.placeholder"
           @emitInput="receiveBody"
           :body="form"
         />
         <AtomsBtnsBaseBtn
           :disabled="!checkFilledOut"
-          :color="color"
+          :color="props.color"
           @emitClick="receiveClick"
         >
           {{ text }}

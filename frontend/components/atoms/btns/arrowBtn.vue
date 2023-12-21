@@ -4,10 +4,10 @@
     :icon="Icons.NAVI"
     height="40"
     width="40"
-    :color="color"
+    :color="props.color"
     class="text-h4 text-decoration-none rotate-90"
     @click="onClick"
-    :disabled="disabled"
+    :disabled="props.disabled"
   />
 </template>
 
@@ -16,7 +16,7 @@ import type { Props } from "~/types/props";
 import type { Emits } from "~/types/emits";
 import { Icons } from "~/constants/icons";
 
-defineProps<Props>();
+const props = defineProps<Props>();
 const emits = defineEmits<Emits>();
 
 const onClick = (e: Event) => {
