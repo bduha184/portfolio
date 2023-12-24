@@ -10,6 +10,7 @@ export const useTeamStore = defineStore({
     tab: "latest",
     page: 0,
     loading: false,
+    keywords:'',
     details: {
       profiles:[],
       pathHeader: "",
@@ -39,6 +40,7 @@ export const useTeamStore = defineStore({
 
   getters: {
     getPage: (state) => state.page,
+    getKeywords: (state) => state.keywords,
     getLoading: (state) => state.loading,
     getTeams: (state) => state.teams,
     getTeamCount: (state) => state.teams.length,
@@ -52,12 +54,12 @@ export const useTeamStore = defineStore({
         this.setTeamValue(data.value.team_info);
       }
     },
-    async fetchTeams(keywords?: Array<string | number>) {
+    async fetchTeams() {
       this.loading = true;
       const { data, error } = await useApiFetch("/api/team", {
         method: "POST",
         body: {
-          keywords: keywords,
+          keywords: this.keywords,
           tab: this.tab,
           page: this.page,
         },
@@ -66,6 +68,7 @@ export const useTeamStore = defineStore({
         },
       });
       this.loading = false;
+      console.log(data);
 
       const teams = data.value.teams;
       if (error.value == null && teams) {
@@ -85,14 +88,17 @@ export const useTeamStore = defineStore({
         });
       }
     },
-    async setTab(tab: string) {
+    setTab(tab: string) {
       this.tab = tab;
     },
-    async setPageInitialize() {
+  setPageInitialize() {
       this.page = 0;
       this.teams.length = 0;
     },
-   async setTeamValue(val) {
+    setKeywords(keywords:Array<string>) {
+      this.keywords = keywords;
+    },
+   setTeamValue(val) {
 
       this.details.itemId = val.id;
       this.details.urlHeaderImg =
@@ -124,8 +130,8 @@ export const useTeamStore = defineStore({
         this.details.profiles.push(profile);
       });
     },
-    async deleteTeamValue() {
-      this.teams = [];
+    deleteTeamValue() {
+      this.page=0;
       this.details = new Object({
         profiles:[],
         pathHeader: "",

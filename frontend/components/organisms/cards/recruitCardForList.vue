@@ -15,16 +15,16 @@
     </v-card-text>
     <v-list>
       <v-list-item min-height="unset" class="py-0">
-        <v-list-item-content class="d-flex align-center">
-          <AtomsIcons :name="Icons.CYCLING" class="border-none" size="25" />:
+        <div class="d-flex align-center">
+          <AtomsIcons :name="Icons.CYCLING" class="border-none" :size=25 />:
           <v-list-item-title class="pl-2">
             {{ props.member }}人
           </v-list-item-title>
-        </v-list-item-content>
+        </div>
       </v-list-item>
       <v-list-item min-height="unset" class="py-0">
-        <v-list-item-content class="d-flex align-center overflow-x-scroll">
-          <AtomsIcons :name="Icons.MAP" class="border-none" size="25" />:
+        <div class="d-flex align-center overflow-x-scroll">
+          <AtomsIcons :name="Icons.MAP" class="border-none" :size=25 />:
           <v-list-item-title
             class="pl-2"
             v-for="(area, i) in props.areas"
@@ -33,11 +33,11 @@
           <span  v-if="i >0">,</span>
           {{ area.name }}
         </v-list-item-title>
-      </v-list-item-content>
+      </div>
     </v-list-item>
     <v-list-item min-height="unset" class="py-0">
-      <v-list-item-content class="d-flex align-center">
-        <AtomsIcons :name="Icons.SCHEDULE" class="border-none" size="25" /> :
+      <div class="d-flex align-center">
+        <AtomsIcons :name="Icons.SCHEDULE" class="border-none" :size=25 /> :
         <v-list-item-title
         class="pl-2"
         v-for="(day,i) in props.days"
@@ -46,7 +46,7 @@
         <span  v-if="i >0">,</span>
             {{ day.name }}
           </v-list-item-title>
-        </v-list-item-content>
+        </div>
       </v-list-item>
     </v-list>
     <v-chip-group class="px-2">

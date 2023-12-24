@@ -7,9 +7,7 @@
     <v-main
     :class="`${path}` == '/' ? 'top' : ''"
     >
-      <v-content>
         <slot />
-      </v-content>
     </v-main>
     <OrganismsFooterTheFooter />
     <OrganismsGalleryModal/>

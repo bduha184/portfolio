@@ -7,7 +7,7 @@
     :name="props.name"
     :placeholder="props.placeholder"
     :type="props.type"
-    :value="props.val"
+    :value="props.type == 'file' ? '' : props.val"
     @change="onChange"
     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
   />
@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 const emits = defineEmits<Emits>();
-const uploader = ref<HTMLInputElement>();
+const uploader = ref<HTMLInputElement | File>();
 const selectedFile = ref<File | string | null>(null);
 
 watch(

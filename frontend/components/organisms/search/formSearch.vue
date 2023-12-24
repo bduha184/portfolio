@@ -5,6 +5,7 @@
         placeholder="検索キーワード"
         type="text"
         @emitInput="receiveKeywords"
+        :val="keywords"
       />
       <v-btn color="red" variant="flat" height="40" @click="onClick">
         検索
@@ -25,7 +26,8 @@ const receiveKeywords = (val: Array<string>) => {
   keywords.value.length = 0;
 
   if (val.value) {
-    const words = val.value.split(" ");
+    const replaceBlank = val.value.replace(/　/g," ");
+    const words = replaceBlank.split(" ");
     words.forEach((word) => {
       keywords.value.push(word);
     });
@@ -34,7 +36,8 @@ const receiveKeywords = (val: Array<string>) => {
 
 const onClick = () => {
   teamsStore.setPageInitialize();
-  teamsStore.fetchTeams(keywords.value,false);
+teamsStore.setKeywords(keywords.value);
+teamsStore.fetchTeams();
 };
 </script>
 

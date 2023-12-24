@@ -15,7 +15,6 @@
         {{ val.name }}
       </v-tab>
     </v-tabs>
-    {{ tab }}
   </div>
 </template>
 
@@ -45,7 +44,6 @@ watch(
   ()=>{
     teamStore.deleteTeamValue();
     teamStore.setTab(tab.value);
-    teamStore.fetchTeams();
 
   }
 )

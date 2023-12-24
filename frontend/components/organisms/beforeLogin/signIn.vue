@@ -12,8 +12,8 @@
               <AtomsImgs
                 size="contain"
                 :src="`${config.public.appURL}/images/google.png`"
-                width="20"
-                height="20"
+                :width=20
+                :height=20
                 class="absolute left-2"
                 />
                 <p>

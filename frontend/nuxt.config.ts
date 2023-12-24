@@ -1,6 +1,10 @@
 export default defineNuxtConfig({
   ssr:false,
   spaLoadingTemplate: './app/spa-loading-template.html',
+  typescript: {
+    strict: true,
+    typeCheck: false
+  },
   app:{
     head: {
       htmlAttrs: { lang: 'ja' },
@@ -35,13 +39,27 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  components: {
+    global: true,
+    dirs: ['~/components']
+  },
   modules: [
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@vee-validate/nuxt',
     '@vueuse/nuxt',
+    // 'vuetify-nuxt-module'
     "@invictus.codes/nuxt-vuetify",
   ],
+  vuetify: {
+    moduleOptions: {
+      treeshaking: true,
+      useIconCDN: true,
+      styles: true,
+      autoImport: true,
+      useVuetifyLabs: true,
+    }
+  },
   runtimeConfig:{
     public:{
       baseURL:process.env.BASE_URL,

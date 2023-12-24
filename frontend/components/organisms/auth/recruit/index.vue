@@ -67,8 +67,8 @@
       @emitModalOpen="handleDelete"
       color="red"
       caution="※削除すると元に戻せなくなります。削除しますか？"
-      btnValue="削除する"
-      btnType="delete"
+      buttonValue="削除する"
+      buttonType="delete"
     >
       削除
     </OrganismsModal>

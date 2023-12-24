@@ -19,7 +19,7 @@
           <v-list-item-title
           v-text="props.name"
           />
-          <v-list-item-content
+          <div
           v-text="props.introduction"
           />
         </v-list-item>

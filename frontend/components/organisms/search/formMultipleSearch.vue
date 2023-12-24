@@ -14,8 +14,8 @@
         width="40"
         color="red"
         variant="flat"
-        @click="onClick"
         :icon="Icons.SEARCH"
+        @click="onClick"
       />
     </div>
   </div>
@@ -35,8 +35,8 @@ const refs = ref(['','','']);
 
 const onClick = () => {
   teamStore.setPageInitialize();
-  teamStore.fetchTeams(refs.value, true);
-  console.log(refs.value);
+  teamStore.setKeywords(refs.value);
+  teamStore.fetchTeams();
 };
 </script>
 

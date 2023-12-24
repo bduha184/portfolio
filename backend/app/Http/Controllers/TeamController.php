@@ -28,29 +28,34 @@ class TeamController extends Controller
 
         if (!empty($keywords)) {
 
-            $teams =  Team::whereHas('rides', function ($query) use ($keywords) {
-                $query->where(function ($q) use ($keywords) {
-                    foreach ($keywords as $keyword) {
-                        $q->orWhere('rides.name', 'like', '%' . $keyword . '%');
-                    }
-                });
-            })
-                ->WhereHas('areas', function ($query) use ($keywords) {
-                    $query->where(function ($q) use ($keywords) {
-                        foreach ($keywords as $keyword) {
-                            $q->orWhere('areas.name', 'like', '%' . $keyword . '%');
-                        }
-                    });
+            $teams = Team::withCount('profiles')
+                ->with(['rides', 'areas', 'days',  'user' => function ($query) {
+                    $query->with('profile')->get();
+                }])
+                ->where(function ($query) use ($keywords) {
+                    $query
+                        ->whereHas('areas', function ($areaQuery) use ($keywords) {
+                            $areaQuery->where(function ($areaNameQuery) use ($keywords) {
+                                foreach ($keywords as $keyword) {
+                                    $areaNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
+                                }
+                            });
+                        })
+                        ->whereHas('days', function ($dayQuery) use ($keywords) {
+                            $dayQuery->where(function ($dayNameQuery) use ($keywords) {
+                                foreach ($keywords as $keyword) {
+                                    $dayNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
+                                }
+                            });
+                        })
+                        ->whereHas('rides', function ($rideQuery) use ($keywords) {
+                            $rideQuery->where(function ($rideNameQuery) use ($keywords) {
+                                foreach ($keywords as $keyword) {
+                                    $rideNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
+                                }
+                            });
+                        });
                 })
-                ->WhereHas('days', function ($query) use ($keywords) {
-                    $query->where(function ($q) use ($keywords) {
-                        foreach ($keywords as $keyword) {
-                            $q->orWhere('days.name', 'like', '%' . $keyword . '%');
-                        }
-                    });
-                })
-                ->withCount('profiles')
-                ->with(['rides', 'areas', 'days', 'profiles'])
                 ->offset($page * 10)
                 ->limit(10)
                 ->orderBy($target, 'desc')
@@ -68,17 +73,21 @@ class TeamController extends Controller
                 'message' => 'Teams not found'
             ], Response::HTTP_NOT_FOUND);
         } else {
-            $teams = Team::with(['rides', 'areas', 'days', 'profiles'])
-                ->withCount('profiles')
+            $teams = Team::withCount('profiles')
+                ->with([
+                    'rides', 'areas', 'days', 'user' => function ($query) {
+                        $query->with('profile')->get();
+                    }
+                ])
+                ->orderBy($target, 'desc')
                 ->offset($page * 10)
                 ->limit(10)
-                ->orderBy($target, 'desc')
                 ->get();
 
             if ($teams) {
                 return response()->json([
+                    'target' => $target,
                     'tab' => $tab,
-                    'keywords' => $keywords,
                     'teams' => $teams,
                 ]);
             }

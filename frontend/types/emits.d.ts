@@ -17,4 +17,7 @@ export interface Emits {
   (e: "emitActiveDateDetail", value: String): void;
   (e: "emitActiveDate", value: String): void;
   (e: "emitTeamUrl", value: String): void;
+  (e: "emitModalBtnClick"): void;
+  (e: "emitModalOpen"): void;
+  (e: "emitMessages",value:String): void;
 }

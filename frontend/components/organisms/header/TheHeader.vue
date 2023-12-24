@@ -38,7 +38,6 @@
             <AtomsIcons
             :name="item.icon"
             />
-          <v-list-item-content>
             <v-list-item-title
             class="pl-2"
             >
@@ -46,7 +45,6 @@
                 {{ item.text }}
               </AtomsTextsHeadLine>
             </v-list-item-title>
-          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>

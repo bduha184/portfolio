@@ -96,13 +96,6 @@ const receiveClick = () => {
   return navigateTo(Url.TEAMMESSAGES+teamItems.value.id);
 }
 
-onMounted(()=>{
-
-  if(teamStore.getTeamDetail.itemId == ''){
-    teamStore.fetchMyTeams();
-  }
-})
-
 </script>
 
 

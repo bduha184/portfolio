@@ -2,6 +2,7 @@
   <v-container class="bg-white">
     <OrganismsSearchFormSearch />
     <OrganismsSearchFormMultipleSearch />
+    {{ teamStore.getKeywords }}
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
     <OrganismsTabsRecruitTab />
     <div class="item-wrapper bg-white">

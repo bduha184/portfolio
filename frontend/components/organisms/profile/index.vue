@@ -4,7 +4,6 @@
       :pathHeader="form.urlHeaderImg"
       :pathThumbnail="form.urlThumbnail"
     />
-    <!-- {{ teamStore.getTeams }} -->
     <v-card-title class="w-60 text-body-2 text-left ml-auto">
       <AtomsTextsHeadLine>
         {{ form.name }}
@@ -36,33 +35,31 @@ const form = ref({
 
 onMounted(async () => {
   const teamInfo = teamStore.getTeams.find((team) => {
-    if(team.user.profile.id == userId) {
-      return team;
-    }else {
-      team.profiles.find(profile => {
-      return  profile.user_id == userId;
-      });
-    }
+    return team.user.profile.id == userId;
   });
-  console.log(teamInfo)
+
+  const profile = teamStore.getTeamDetail.profiles.find(profile=>{
+    return profile.id == router.params.id;
+  })
+
+
+  console.log(teamStore.getTeams)
   if (teamInfo) {
     const profile = teamInfo.user.profile;
     form.value.urlHeaderImg = config.public.baseURL + "/storage/" + profile.header_img_path;
     form.value.urlThumbnail = config.public.baseURL + "/storage/" + profile.thumbnail_path;
     form.value.name = profile.name;
     form.value.introduction =profile.introduction;
-  } else {
-    const res = await useApiFetch(`/api/profile/${userId}`);
-    const val = res.data.value;
-    if (val.data != null) {
-      form.value.urlHeaderImg =
-        config.public.baseURL + "/storage/" + val.data.header_img_path;
-      form.value.urlThumbnail =
-        config.public.baseURL + "/storage/" + val.data.thumbnail_path;
-      form.value.introduction = val.data.introduction;
-      form.value.name = val.data.user.name;
+  }else{
+    if(profile){
+      form.value.urlHeaderImg = config.public.baseURL + "/storage/" + profile.header_img_path;
+      form.value.urlThumbnail = config.public.baseURL + "/storage/" + profile.thumbnail_path;
+      form.value.name = profile.name;
+      form.value.introduction =profile.introduction;
+
     }
   }
+
 });
 </script>
 <style lang="scss" scoped>

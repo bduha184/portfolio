@@ -1,5 +1,5 @@
 <template>
-  <v-btn variant="outlined" rounded="0" @click="onClick">
+  <v-btn variant="outlined" :rounded=0 @click="onClick">
     <slot />
   </v-btn>
 </template>

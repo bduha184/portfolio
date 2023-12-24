@@ -189,6 +189,7 @@ console.log(team);
     team.days.forEach((day) => {
       teamItems.value.days.push(day.name);
     });
+    console.log(team);
     rep.value.pathThumbnail = config.public.baseURL + "/storage/" +  team.user.profile.thumbnail_path;
     rep.value.introduction = team.user.profile.introduction;
     rep.value.userId = team.user.id;

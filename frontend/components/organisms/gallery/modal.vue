@@ -25,7 +25,6 @@ const images = ref([]);
 
 const gallery = useGalleryStore();
 
-console.log(gallery.getTargetImage)
 </script>
 <style scoped lang="scss">
 .v-row {
