@@ -24,7 +24,7 @@
         />
       </v-list>
     </v-card>
-    <v-form class="fixed bottom-0 left-0 w-100">
+    <v-form class="message fixed bottom-0 left-0 w-100">
       <v-container>
         <v-row class="bg-grey-lighten-3">
           <v-col cols="10">
@@ -38,6 +38,7 @@
             <AtomsBtnsArrowBtn
               @emitClick="receiveClick"
               :disabled="checkFilledOut"
+              color="info"
             />
           </v-col>
         </v-row>
@@ -83,7 +84,6 @@ const receiveClick = async () => {
 
   // window.Pusher.logToConsole = true;
 
-  console.log(res);
   // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
@@ -91,22 +91,30 @@ window.Echo.channel(`cycle-community`).listen(
   ".new-message-event",
   async (e) => {
     console.log(e);
-    messages.value.push(e.message.comment);
+    pusherMessages.value.push(e.message.comment);
   }
 );
 
 onMounted(async () => {
   const teamId = router.params.id;
-  await useApiFetch(`/api/message/${teamId}`).then((res) => {
-    console.log(res);
+  await useApiFetch(`/api/message/teams/${teamId}`).then((res) => {
+    // console.log(res);
     if (res.data != null) {
-      messages.value.push(...res.data.value.data);
+      messages.value.push(...res.data.value.messages);
     }
   });
 });
 </script>
 
 <style lang="scss" scoped>
+
+
+.message {
+    &:deep(.v-container) {
+    max-width: 500px !important;
+    padding: 0 1rem !important;
+  }
+}
 .v-list {
   &:deep(.v-list-item) {
     // width: calc(100% - 30px) !important;

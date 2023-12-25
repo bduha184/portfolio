@@ -130,6 +130,10 @@ export const useTeamStore = defineStore({
         this.details.profiles.push(profile);
       });
     },
+    deleteTeams(){
+      this.page=0;
+      this.teams = [];
+    },
     deleteTeamValue() {
       this.page=0;
       this.details = new Object({

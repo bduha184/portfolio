@@ -22,4 +22,6 @@ const emits = defineEmits<Emits>();
 const onClick = (e: Event) => {
   emits("emitClick", e.target as HTMLElement);
 };
+
+console.log(props.color);
 </script>

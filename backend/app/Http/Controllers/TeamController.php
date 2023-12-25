@@ -104,7 +104,9 @@ class TeamController extends Controller
 
         if ($user) {
             $user_team = $user->teams()
-                ->with(['rides', 'areas', 'days', 'profiles'])
+                ->with(['rides', 'areas', 'days', 'profiles'=> function ($query) {
+                    $query->with('user')->get();
+                }])
                 ->withCount('profiles')
                 ->first();
             return response()->json([

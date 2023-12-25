@@ -44,6 +44,10 @@ class Team extends Model
     {
         return $this->hasMany(Day::class);
     }
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
     public function profiles(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class)->withTimestamps();

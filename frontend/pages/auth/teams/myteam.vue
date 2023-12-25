@@ -93,8 +93,16 @@ const isShow = ref<boolean>(false);
 const flashMessage = ref<string | null>("");
 
 const receiveClick = () => {
-  return navigateTo(Url.TEAMMESSAGES+teamItems.value.id);
+  return navigateTo(Url.TEAMMESSAGES+teamStore.getTeamDetail.itemId);
 }
+
+onMounted(()=>{
+
+  if(auth.user.id != teamStore.getTeamDetail.userId){
+    teamStore.deleteTeamValue();
+      teamStore.fetchMyTeams();
+  }
+})
 
 </script>
 

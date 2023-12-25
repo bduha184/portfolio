@@ -2,12 +2,12 @@
   <section class="hero">
     <img
     class="hero-bg"
-    :src="`${config.public.appURL}/images/mainvisual.jpg`"
+    :src="`${config.public.appURL}/images/mainvisual2.jpg`"
     />
-    <img
+    <!-- <img
     class="hero-main"
     :src="`${config.public.appURL}/images/hero-main.webp`"
-    />
+    /> -->
     <div class="btn-wrap">
     <AtomsBtnsBaseBtn
     width="12rem"
@@ -48,9 +48,9 @@ const handleLogin = () => {
   .hero {
     position:relative;
     z-index:0;
-    padding: 5%;
+    // padding: 5%;
     &-bg{
-      position:absolute;
+      // position:absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;

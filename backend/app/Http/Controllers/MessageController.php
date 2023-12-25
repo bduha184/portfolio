@@ -27,14 +27,6 @@ class MessageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request,Message $message)
@@ -62,24 +54,29 @@ class MessageController extends Controller
             $messages = $message->getSnsMessageById($sender_id,$auth_id);
         }
 
-        $team = Team::find($auth_id);
-        $is_belongs_to = $team->profiles()->find($sender_id);
-        if(!empty($team) && !empty($is_belongs_to)){
+        // $team = Team::find($auth_id);
+        // $is_belongs_to = $team->profiles()->find($sender_id);
+        // if(!empty($team) && !empty($is_belongs_to)){
+        //     $messages = $message->getSnsMessageByTeamId($team->id);
+        // }
+        return response()->json([
+            // 'team'=>$team,
+            // 'is_belongs_to'=>$is_belongs_to,
+            'messages'=>$messages,
+        ]);
+    }
+
+    public function get_team_messages(Message $message,$team_id)
+    {
+
+        $team = Team::find($team_id);
+        if(!empty($team)){
             $messages = $message->getSnsMessageByTeamId($team->id);
         }
         return response()->json([
             'team'=>$team,
-            'is_belongs_to'=>$is_belongs_to,
-            'data'=>$messages,
+            'messages'=>$messages,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Message $message)
-    {
-        //
     }
 
     /**
@@ -94,11 +91,4 @@ class MessageController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Message $message)
-    {
-        //
-    }
 }

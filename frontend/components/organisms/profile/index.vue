@@ -38,12 +38,9 @@ onMounted(async () => {
     return team.user.profile.id == userId;
   });
 
-  const profile = teamStore.getTeamDetail.profiles.find(profile=>{
+  const profileInfo = teamStore.getTeamDetail.profiles.find(profile=>{
     return profile.id == router.params.id;
   })
-
-
-  console.log(teamStore.getTeams)
   if (teamInfo) {
     const profile = teamInfo.user.profile;
     form.value.urlHeaderImg = config.public.baseURL + "/storage/" + profile.header_img_path;
@@ -51,11 +48,11 @@ onMounted(async () => {
     form.value.name = profile.name;
     form.value.introduction =profile.introduction;
   }else{
-    if(profile){
-      form.value.urlHeaderImg = config.public.baseURL + "/storage/" + profile.header_img_path;
-      form.value.urlThumbnail = config.public.baseURL + "/storage/" + profile.thumbnail_path;
-      form.value.name = profile.name;
-      form.value.introduction =profile.introduction;
+    if(profileInfo){
+      form.value.urlHeaderImg = config.public.baseURL + "/storage/" + profileInfo.header_img_path;
+      form.value.urlThumbnail = config.public.baseURL + "/storage/" + profileInfo.thumbnail_path;
+      form.value.name = profileInfo.user.name;
+      form.value.introduction =profileInfo.introduction;
 
     }
   }

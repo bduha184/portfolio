@@ -42,7 +42,7 @@ const tabs = [
 watch(
   ()=>tab.value,
   ()=>{
-    teamStore.deleteTeamValue();
+    teamStore.deleteTeams();
     teamStore.setTab(tab.value);
 
   }

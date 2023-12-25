@@ -30,13 +30,6 @@ class ProfileController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -95,7 +88,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         $profile  = Profile::where('user_id', $id)->first();
-
+        $auth_id = Auth::id();
         if ($profile) {
             $file_header = $request->file('header_img');
             if ($file_header) {
@@ -117,7 +110,13 @@ class ProfileController extends Controller
             }
 
             $profile->request_flg = $request->request_flg;
+
             $profile->save();
+
+            if($id != $auth_id) {
+                $teams = Team::where('user_id',$auth_id)->first();
+                $profile->teams()->attach($teams->id);
+            }
 
             return response()->json([
                 'message' => 'register successfully'

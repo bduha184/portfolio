@@ -25,7 +25,7 @@
         />
       </v-list>
     </v-card>
-    <v-form class="fixed bottom-0 left-0 w-100">
+    <v-form class="message fixed bottom-0 left-0 w-100">
       <v-container>
         <AtomsBtnsBaseBtn
           class="mb-6 ml-2"
@@ -46,7 +46,9 @@
             <AtomsBtnsArrowBtn
               @emitClick="receiveClick"
               :disabled="checkFilledOut"
+              color="info"
             />
+
           </v-col>
         </v-row>
       </v-container>
@@ -79,7 +81,9 @@ const checkFilledOut = computed(() => {
 const authId = auth.user.id;
 const sender_id = router.params.id;
 
-watch(pusherMessages.value, async () => {
+watch(
+  ()=>pusherMessages.value,
+  async () => {
   const pusherData = {
     comment: pusherMessages.value[0],
     sender_id: authId,
@@ -118,7 +122,7 @@ const allowJoinTeam = async () => {
 };
 
 const receiveClick = async () => {
-  messages.value.push(authMessage.value);
+  pusherMessages.value.push(authMessage.value);
   const data = {
     comment: authMessage.value,
     sender_id: sender_id,
@@ -141,7 +145,7 @@ window.Echo.channel(`cycle-community`).listen(
   ".new-message-event",
   async (e) => {
     console.log(e);
-    messages.value.push(e.message.comment);
+    pusherMessages.value.push(e.message.comment);
   }
 );
 
@@ -153,13 +157,18 @@ onMounted(async () => {
   await useApiFetch(`/api/message/${senderId}`).then((res) => {
     console.log(res);
     if (res.data) {
-      messages.value.push(...res.data.value.data);
+      messages.value.push(...res.data.value.messages);
     }
   });
 });
 </script>
 
 <style lang="scss" scoped>
+.message {
+    &:deep(.v-container) {
+    max-width: 500px !important;
+  }
+}
 .v-list {
   &:deep(.v-list-item) {
     width: calc(100% - 30px) !important;
