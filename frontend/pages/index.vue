@@ -11,7 +11,7 @@
       class="text-h6 py-4 my-4 d-block mx-auto"
       @emitClick="receiveClick"
       >
-      早速始める
+      無料で始める
     </AtomsBtnsBaseBtn>
 
   </div>

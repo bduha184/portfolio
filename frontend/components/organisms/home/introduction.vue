@@ -3,6 +3,7 @@
       <OrganismsHomeSectionTitle
    title="ABOUT"
    subTitle="このアプリについて"
+   class="pt-4"
    />
       <v-row>
         <v-col cols="12" sm="6">

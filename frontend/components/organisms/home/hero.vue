@@ -4,27 +4,7 @@
     class="hero-bg"
     :src="`${config.public.appURL}/images/mainvisual2.jpg`"
     />
-    <!-- <img
-    class="hero-main"
-    :src="`${config.public.appURL}/images/hero-main.webp`"
-    /> -->
     <div class="btn-wrap">
-    <AtomsBtnsBaseBtn
-    width="12rem"
-      color="info"
-      class="my-4 d-block mx-auto"
-      @emitClick="handleRegister"
-    >
-    はじめる
-    </AtomsBtnsBaseBtn>
-    <AtomsBtnsBaseBtn
-    width="12rem"
-      color="success"
-      class="my-4 d-block mx-auto"
-      @emitClick="handleLogin"
-    >
-    ゲストログイン
-    </AtomsBtnsBaseBtn>
     </div>
   </section>
 </template>

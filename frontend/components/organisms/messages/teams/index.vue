@@ -49,15 +49,17 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
+import { useTeamStore } from "~/stores/useTeamStore";
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();
 const router = useRoute();
+const teamStore = useTeamStore();
 const messages = ref([]);
 const pusherMessages = ref([]);
 const authMessage = ref("");
-const team_id = router.params.id;
-const sender_id = auth.user.id;
+const teamId = router.params.id;
+const senderId = auth.user.id;
 
 const receiveInput = (val) => {
   authMessage.value = val.value;
@@ -72,8 +74,8 @@ const receiveClick = async () => {
   pusherMessages.value.push(authMessage.value);
   const data = {
     comment: authMessage.value,
-    team_id: team_id,
-    sender_id: sender_id,
+    team_id: teamId,
+    sender_id: senderId,
   };
 
   await useApiFetch("/sanctum/csrf-cookie");
@@ -82,23 +84,19 @@ const receiveClick = async () => {
     body: data,
   });
 
-  // window.Pusher.logToConsole = true;
-
-  // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
 window.Echo.channel(`cycle-community`).listen(
   ".new-message-event",
   async (e) => {
     console.log(e);
-    pusherMessages.value.push(e.message.comment);
+    if(senderId != e.user.id) pusherMessages.value.push(e.message.comment);
   }
 );
 
 onMounted(async () => {
   const teamId = router.params.id;
   await useApiFetch(`/api/message/teams/${teamId}`).then((res) => {
-    // console.log(res);
     if (res.data != null) {
       messages.value.push(...res.data.value.messages);
     }

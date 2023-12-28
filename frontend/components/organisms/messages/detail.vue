@@ -7,15 +7,15 @@
         v-for="(message, index) in messages"
         :key="index"
         :prepend-avatar="
-            message.sender_id == auth.user.id
+            message.senderId == auth.user.id
             ? ''
             : config.public.baseURL + '/storage/' + message.thumbnail_path
             "
           rounded="shaped"
-          :title="message.sender_id == auth.user.id ? '' : message.name"
+          :title="message.senderId == auth.user.id ? '' : message.name"
           :subtitle="message.comment"
           class="ml-auto"
-          :class="message.sender_id == auth.user.id ? 'right' : ''"
+          :class="message.senderId == auth.user.id ? 'right' : ''"
           />
         <v-list-item
           v-for="(message, index) in pusherMessages"
@@ -79,15 +79,15 @@ const checkFilledOut = computed(() => {
 });
 
 const authId = auth.user.id;
-const sender_id = router.params.id;
+const senderId = router.params.id;
 
 watch(
   ()=>pusherMessages.value,
   async () => {
   const pusherData = {
     comment: pusherMessages.value[0],
-    sender_id: authId,
-    receiver_id: sender_id,
+    senderId: authId,
+    receiver_id: senderId,
     team_id: teamStore.getTeamDetail.itemId,
   };
   if (pusherMessages.value.length > 0) {
@@ -106,7 +106,7 @@ const allowJoinTeam = async () => {
   request_flg.value = false;
 
   await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch(`/api/profile/${sender_id}`, {
+  await useApiFetch(`/api/profile/${senderId}`, {
     method: "POST",
     body: {
       request_flg: request_flg.value,
@@ -125,7 +125,7 @@ const receiveClick = async () => {
   pusherMessages.value.push(authMessage.value);
   const data = {
     comment: authMessage.value,
-    sender_id: sender_id,
+    senderId: senderId,
     receiver_id: authId,
   };
 
@@ -135,17 +135,13 @@ const receiveClick = async () => {
     body: data,
   });
 
-  // window.Pusher.logToConsole = true;
-
-  console.log(res);
-  // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
 window.Echo.channel(`cycle-community`).listen(
   ".new-message-event",
   async (e) => {
-    console.log(e);
-    pusherMessages.value.push(e.message.comment);
+    // console.log(e);
+    if(authId != senderId) pusherMessages.value.push(e.message.comment);
   }
 );
 

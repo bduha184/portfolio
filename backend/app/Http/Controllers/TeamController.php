@@ -25,6 +25,7 @@ class TeamController extends Controller
         $tab = $request->tab;
         $target = 'updated_at';
         if ($tab == 'member') $target = 'profiles_count';
+        $tables = ['areas','days','rides'];
 
         if (!empty($keywords)) {
 
@@ -32,35 +33,23 @@ class TeamController extends Controller
                 ->with(['rides', 'areas', 'days',  'user' => function ($query) {
                     $query->with('profile')->get();
                 }])
-                ->where(function ($query) use ($keywords) {
-                    $query
-                        ->whereHas('areas', function ($areaQuery) use ($keywords) {
-                            $areaQuery->where(function ($areaNameQuery) use ($keywords) {
+                ->where(function ($query) use ($keywords,$tables) {
+                    foreach($tables as $table){
+                        $query
+                        ->whereHas($table, function ($tableQuery) use ($keywords) {
+                            $tableQuery->where(function ($tableNameQuery) use ($keywords) {
                                 foreach ($keywords as $keyword) {
-                                    $areaNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
-                                }
-                            });
-                        })
-                        ->whereHas('days', function ($dayQuery) use ($keywords) {
-                            $dayQuery->where(function ($dayNameQuery) use ($keywords) {
-                                foreach ($keywords as $keyword) {
-                                    $dayNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
-                                }
-                            });
-                        })
-                        ->whereHas('rides', function ($rideQuery) use ($keywords) {
-                            $rideQuery->where(function ($rideNameQuery) use ($keywords) {
-                                foreach ($keywords as $keyword) {
-                                    $rideNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
+                                    if(empty($keyword)) continue;
+                                    $tableNameQuery->orWhereNotNull('name', 'like', '%' . $keyword . '%');
                                 }
                             });
                         });
+                    }
                 })
                 ->offset($page * 10)
                 ->limit(10)
                 ->orderBy($target, 'desc')
                 ->get();
-
 
             if ($teams) {
                 return response()->json([

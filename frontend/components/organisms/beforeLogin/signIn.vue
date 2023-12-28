@@ -68,7 +68,7 @@
       <AtomsBtnsBaseBtn
       width="16rem"
       color="orange"
-      class="my-4 d-block mx-auto"
+      class="my-4 d-block mx-auto login"
       :disabled="!checkFilledOut"
       @emitClick="handleLogin"
       >
@@ -76,7 +76,7 @@
     </AtomsBtnsBaseBtn>
     <p class="text-center">パスワードをお忘れの方は
       <NuxtLink
-      class="text-success text-decoration-underline"
+      class="text-info text-decoration-underline"
       :to="Url.RESETPASSWORD"
       >こちら</NuxtLink>
     </p>
@@ -143,8 +143,14 @@ const receiveClick = async(provider)=> {
 
 
 <style scoped lang="scss">
-.v-btn:deep(.v-responsive){
-  position: absolute !important;
+.v-btn{
+  &:deep(.v-responsive){
+    position: absolute !important;
+  }
+  &.login{
+
+    color: #fff !important;
+  }
 }
 
 </style>

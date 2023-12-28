@@ -125,7 +125,7 @@ const teamItems = ref({
 
 
 const receiveClick = () => {
-  return navigateTo(Url.TEAMMESSAGES+teamItems.value.id);
+  return navigateTo(Url.TEAMMESSAGES+teamItems.value.itemId);
 }
 
 

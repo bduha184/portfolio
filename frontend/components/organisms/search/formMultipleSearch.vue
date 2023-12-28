@@ -36,8 +36,8 @@ const refs = ref(['','','']);
 const onClick = () => {
   teamStore.setPageInitialize();
   teamStore.setKeywords(refs.value);
-  teamStore.fetchTeams();
 };
+
 </script>
 
 <style lang="scss" scoped>
