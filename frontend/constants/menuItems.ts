@@ -1,7 +1,6 @@
 import {Url} from './url';
 import {Icons} from './icons';
 import { useAuthStore } from '~/stores/useAuthStore';
-import {useRouter} from '#imports';
 import {Message} from './flashMessage';
 import { useFlashMessageStore } from '~/stores/useFlashMessageStore';
 

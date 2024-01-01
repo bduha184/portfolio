@@ -18,4 +18,13 @@ class Ride extends Model
     public function teams():BelongsTo{
         return $this->belongsTo(Team::class);
     }
+    public function scopeSearch($query,$keywords){
+        foreach ($keywords as $keyword) {
+            $query->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return $query;
+    }
 }

@@ -7,28 +7,30 @@
           width="250"
           @emitClick="receiveClick('google')"
           >
+          <AtomsImgs
+          size="contain"
+          :src="`${config.public.appURL}/images/google.png`"
+          :width=20
+          :height=20
+          class="absolute left-2"
+          />
+          <p>Googleで登録</p>
+        </AtomsBtnsSnsBtn>
+      </v-col>
+      <v-col cols="12" sm="6" class="text-center">
+        <AtomsBtnsSnsBtn width="250"
+        @emitClick="receiveClick('line')"
+        >
             <AtomsImgs
               size="contain"
-              :src="`${config.public.appURL}/images/google.png`"
-              width="20"
-              height="20"
-              class="absolute left-2"
-            />
-            <p>Googleで登録</p>
-          </AtomsBtnsSnsBtn>
-        </v-col>
-        <!-- <v-col cols="12" sm="6" class="text-center">
-          <AtomsBtnsSnsBtn width="250">
-            <AtomsImgs
-              size="contain"
-              :src="`${config.public.appURL}/images/twitter.png`"
-              width="20"
-              height="20"
+              :src="`${config.public.appURL}/images/line.png`"
+              :width=25
+              :height=25
               class="absolute left-2"
             />
             <p>Lineで登録</p>
           </AtomsBtnsSnsBtn>
-        </v-col> -->
+        </v-col>
       </v-row>
     </v-container>
     <v-divider class="my-5 border-opacity-100" color="waring"></v-divider>

@@ -17,7 +17,7 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,Team $team,Area $area)
     {
 
         $page = $request->page;
@@ -28,24 +28,46 @@ class TeamController extends Controller
         $tables = ['areas','days','rides'];
 
         if (!empty($keywords)) {
-
-            $teams = Team::withCount('profiles')
+            $teams =  Team::whereHas('areas', function ($query) use ($keywords) {
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('name','like','%'.$keyword.'%');
+                    }
+                });
+            })->whereHas('days', function ($query) use ($keywords) {
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('name','like','%'.$keyword.'%');
+                    }
+                });
+            })->whereHas('rides', function ($query) use ($keywords) {
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('name','like','%'.$keyword.'%');
+                    }
+                });
+            })
+            ->orWhere(function ($query) use ($keywords) {
+                    foreach($keywords as $keyword){
+                        $query->orWhere('team_name','like','%'.$keyword.'%');
+                    }
+            })
+            // $teams = Team::where(function ($query) use ($keywords,$tables) {
+            //         foreach($tables as $table){
+            //             $query
+            //             ->whereHas($table, function ($tableQuery) use ($keywords) {
+            //                 $tableQuery->where(function ($tableNameQuery) use ($keywords) {
+            //                     foreach ($keywords as $keyword) {
+            //                         $tableNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
+            //                     }
+            //                 });
+            //             });
+            //         }
+            //     })
+                ->withCount('profiles')
                 ->with(['rides', 'areas', 'days',  'user' => function ($query) {
                     $query->with('profile')->get();
                 }])
-                ->where(function ($query) use ($keywords,$tables) {
-                    foreach($tables as $table){
-                        $query
-                        ->whereHas($table, function ($tableQuery) use ($keywords) {
-                            $tableQuery->where(function ($tableNameQuery) use ($keywords) {
-                                foreach ($keywords as $keyword) {
-                                    if(empty($keyword)) continue;
-                                    $tableNameQuery->orWhereNotNull('name', 'like', '%' . $keyword . '%');
-                                }
-                            });
-                        });
-                    }
-                })
                 ->offset($page * 10)
                 ->limit(10)
                 ->orderBy($target, 'desc')

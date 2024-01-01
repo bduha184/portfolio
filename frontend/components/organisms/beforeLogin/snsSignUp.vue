@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Googleアカウントで登録</h2>
+    <h2 class="pb-2 text-h6 font-bold text-center">{{form.provider}}アカウントで登録</h2>
     <form>
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
@@ -63,6 +63,7 @@ const receiveName= (receiveName) => {
 const handleRegister= async() => {
 
   const res = await auth.providerRegister(form.value);
+  console.log(res);
   if(res.error.value == null){
     flashMessage.setMessage(Message.REGISTER);
     navigateTo('/auth');

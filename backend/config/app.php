@@ -165,7 +165,8 @@ return [
         /*
          * Application Service Providers...
          */
-        Laravel\Socialite\SocialiteServiceProvider::class,
+        // Laravel\Socialite\SocialiteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,

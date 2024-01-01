@@ -37,7 +37,6 @@ const receiveKeywords = (val: Array<string>) => {
 const onClick = () => {
   teamsStore.setPageInitialize();
 teamsStore.setKeywords(keywords.value);
-teamsStore.fetchTeams();
 };
 </script>
 

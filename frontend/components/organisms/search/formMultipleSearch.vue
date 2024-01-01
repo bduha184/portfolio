@@ -31,11 +31,12 @@ const teamStore = useTeamStore();
 
 const items = [Areas,Days,Levels];
 const labels = ['エリア','日時','ライド種別'];
-const refs = ref(['','','']);
+const refs = ref([]);
 
 const onClick = () => {
   teamStore.setPageInitialize();
   teamStore.setKeywords(refs.value);
+  teamStore.getTeams();
 };
 
 </script>

@@ -9,37 +9,38 @@
             width="250"
             @emitClick="receiveClick('google')"
             >
-              <AtomsImgs
-                size="contain"
-                :src="`${config.public.appURL}/images/google.png`"
-                :width=20
-                :height=20
-                class="absolute left-2"
-                />
-                <p>
-                  Googleでログイン
-                </p>
-            </AtomsBtnsSnsBtn>
-          </v-col>
-          <!-- <v-col cols="12" sm="6"
-           class="text-center"
-          >
+            <AtomsImgs
+            size="contain"
+            :src="`${config.public.appURL}/images/google.png`"
+            :width=20
+            :height=20
+            class="absolute left-2"
+            />
+            <p>
+              Googleでログイン
+            </p>
+          </AtomsBtnsSnsBtn>
+        </v-col>
+        <v-col cols="12" sm="6"
+        class="text-center"
+        >
 
-            <AtomsBtnsSnsBtn
-            width="250"
+        <AtomsBtnsSnsBtn
+        width="250"
+        @emitClick="receiveClick('line')"
             >
               <AtomsImgs
                 size="contain"
-                :src="`${config.public.appURL}/images/twitter.png`"
-                width="20"
-                height="20"
+                :src="`${config.public.appURL}/images/line.png`"
+                :width=25
+            :height=25
                 class="absolute left-2"
                 />
                 <p>
                   Lineでログイン
                 </p>
             </AtomsBtnsSnsBtn>
-          </v-col> -->
+          </v-col>
           <v-col>
             <MoleculesBtnsSnsBtn/>
           </v-col>
@@ -92,6 +93,7 @@ import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
 import { Url } from "~/constants/url";
 import { Message } from "~/constants/flashMessage";
 
+
 const config = useRuntimeConfig();
 const auth = useAuthStore();
 const flashMessage = useFlashMessageStore();
@@ -134,9 +136,10 @@ const handleLogin = async () => {
 };
 
 
-const receiveClick = async(provider)=> {
+const receiveClick = async(provider:string)=> {
   const res = await auth.providerLogin(provider);
-        window.location.href = res.data.value.redirect_url;
+  console.log(res);
+  window.location.href = res.data.value.redirect_url;
 }
 
 </script>

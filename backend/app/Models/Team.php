@@ -53,4 +53,14 @@ class Team extends Model
         return $this->belongsToMany(Profile::class)->withTimestamps();
     }
 
+
+    public function scopeSearch($query,$keywords){
+        foreach ($keywords as $keyword) {
+            $query->where(function ($query) use ($keyword) {
+                $query->where('team_name', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return $query;
+    }
 }

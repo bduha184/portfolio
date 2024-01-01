@@ -98,7 +98,7 @@ const onClick = () => {
       },
     });
   } else {
-    if (props.btnType == "delete") {
+    if (props.buttonType == "delete") {
       emits("emitModalBtnClick");
     }
   }
