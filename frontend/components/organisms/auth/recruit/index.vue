@@ -103,6 +103,7 @@ const receiveTeamSchedule = (val) => {
 };
 
 const receiveProfileImage = (val: File) => {
+  console.log(val);
   if (val.target == "header") {
     teamStore.details.headerImg = val.val;
     teamStore.details.urlHeaderImg = URL.createObjectURL(val.val);

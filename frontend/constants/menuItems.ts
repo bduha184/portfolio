@@ -83,20 +83,20 @@ export const MenuItems = [
   ]
 
 export const AuthMenus = [
+  {
+    text: "プロフィール",
+    icon: Icons.ACCOUNT,
+    url:Url.AUTHPROFILE,
+  },
+  {
+    text: "メンバー募集",
+    icon: Icons.RECRUIT,
+    url:Url.AUTHRECRUIT,
+  },
     {
       text: "チーム",
-      icon: Icons.HOME,
+      icon: Icons.TEAMS,
       url:Url.AUTHTEAMS,
-    },
-    {
-      text: "メンバー募集",
-      icon: Icons.HOME,
-      url:Url.AUTHRECRUIT,
-    },
-    {
-      text: "プロフィール",
-      icon: Icons.ACCOUNT,
-      url:Url.AUTHPROFILE,
     },
     {
       text: "メッセージ",
@@ -105,7 +105,7 @@ export const AuthMenus = [
     },
     {
       text: "各種設定",
-      icon: Icons.MESSAGES,
+      icon: Icons.SETTING,
       url:Url.SETTING,
     },
   ]
@@ -113,12 +113,12 @@ export const AuthMenus = [
 export const AuthTeamMenus = [
     {
       text: "マイチーム",
-      icon: Icons.HOME,
+      icon: Icons.MYTEAM,
       url:Url.MYTEAM,
     },
     {
       text: "所属チーム一覧",
-      icon: Icons.HOME,
+      icon: Icons.AFFILIATION,
       url:Url.AFFILIATION,
     },
   ]

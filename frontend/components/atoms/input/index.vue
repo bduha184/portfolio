@@ -16,7 +16,6 @@
 <script setup lang="ts">
 import type { Props } from "~/types/props";
 import type { Emits } from "~/types/emits";
-import { watch } from "#imports";
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
@@ -31,6 +30,7 @@ watch(
   () => props.isSelecting,
   () => {
     if (props.isSelecting) {
+      console.log(props.isSelecting);
       uploader.value?.click();
     }
   }

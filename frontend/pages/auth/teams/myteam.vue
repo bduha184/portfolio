@@ -3,7 +3,7 @@
     <v-container class="bg-white mb-2">
       <h6 class="text-h6">
           <AtomsIconsSquare
-          :name="Icons.DASHBOARD"
+          :name="Icons.MYTEAM"
           color="white"
           class="bg-red p-3 rounded"
           size="50"

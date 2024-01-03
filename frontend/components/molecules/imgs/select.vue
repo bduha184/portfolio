@@ -15,6 +15,7 @@
 import type { Props } from "~/types/props";
 import type { Emits } from "~/types/emits";
 const props = withDefaults(defineProps<Props>(), {
+  isSelecting: false,
   disabled: false,
 });
 const emits = defineEmits<Emits>();

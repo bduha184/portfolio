@@ -3,14 +3,14 @@
     <MoleculesImgsSelect
       @emitInput="receiveHeaderImg"
       :path="props.pathHeader"
-      :disabled="disabled"
+      :disabled="props.disabled"
       size="cover"
     />
     <v-avatar :size=80 color="white">
       <MoleculesImgsSelect
         @emitInput="receiveThumbnail"
         :path="props.pathThumbnail"
-        :disabled="disabled"
+        :disabled="props.disabled"
       />
     </v-avatar>
   </div>
@@ -20,15 +20,19 @@
 import type { Props } from "~/types/props";
 import type { Emits } from "~/types/emits";
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
+});
 
 const emits = defineEmits<Emits>();
 const receiveHeaderImg = (val: File, target: string) => {
   emits("emitInput", { val, target: "header" });
 };
+
 const receiveThumbnail = (val: File, target: string) => {
   emits("emitInput", { val, target: "thumbnail" });
 };
+
 </script>
 
 <style lang="scss" scoped>
