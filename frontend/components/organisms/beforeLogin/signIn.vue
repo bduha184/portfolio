@@ -9,37 +9,38 @@
             width="250"
             @emitClick="receiveClick('google')"
             >
-              <AtomsImgs
-                size="contain"
-                :src="`${config.public.appURL}/_nuxt/assets/images/google.png`"
-                width="20"
-                height="20"
-                class="absolute left-2"
-                />
-                <p>
-                  Googleでログイン
-                </p>
-            </AtomsBtnsSnsBtn>
-          </v-col>
-          <!-- <v-col cols="12" sm="6"
-           class="text-center"
-          >
+            <AtomsImgs
+            size="contain"
+            :src="`${config.public.appURL}/images/google.png`"
+            :width=20
+            :height=20
+            class="absolute left-2"
+            />
+            <p>
+              Googleでログイン
+            </p>
+          </AtomsBtnsSnsBtn>
+        </v-col>
+        <v-col cols="12" sm="6"
+        class="text-center"
+        >
 
-            <AtomsBtnsSnsBtn
-            width="250"
+        <AtomsBtnsSnsBtn
+        width="250"
+        @emitClick="receiveClick('line')"
             >
               <AtomsImgs
                 size="contain"
-                :src="`${config.public.appURL}/_nuxt/assets/images/twitter.png`"
-                width="20"
-                height="20"
+                :src="`${config.public.appURL}/images/line.png`"
+                :width=25
+            :height=25
                 class="absolute left-2"
                 />
                 <p>
                   Lineでログイン
                 </p>
             </AtomsBtnsSnsBtn>
-          </v-col> -->
+          </v-col>
           <v-col>
             <MoleculesBtnsSnsBtn/>
           </v-col>
@@ -66,38 +67,42 @@
         class="mb-4"
       />
       <AtomsBtnsBaseBtn
-        width="16rem"
-        color="orange"
-        class="my-4 d-block mx-auto"
-        :disabled="!checkFilledOut"
-        @emitClick="handleLogin"
+      width="16rem"
+      color="orange"
+      class="my-4 d-block mx-auto login"
+      :disabled="!checkFilledOut"
+      @emitClick="handleLogin"
       >
-        ログイン
-      </AtomsBtnsBaseBtn>
+      ログイン
+    </AtomsBtnsBaseBtn>
+    <p class="text-center">パスワードをお忘れの方は
+      <NuxtLink
+      class="text-info text-decoration-underline"
+      :to="Url.RESETPASSWORD"
+      >こちら</NuxtLink>
+    </p>
     </form>
   </div>
 </template>
 
+
+
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
-import { ref, computed,useRuntimeConfig,navigateTo } from "#imports";
-import { useRouter } from "vue-router";
 import { Url } from "~/constants/url";
 import { Message } from "~/constants/flashMessage";
+
 
 const config = useRuntimeConfig();
 const auth = useAuthStore();
 const flashMessage = useFlashMessageStore();
 
-const router = useRouter();
 const form = ref({
   email: "",
   password: "",
   errors: "",
 });
-
-const postError = ref(false);
 
 const receiveEmail = (val) => {
   form.value.email = val.val;
@@ -119,7 +124,9 @@ const checkFilledOut = computed(() => {
 
 
 const handleLogin = async () => {
+  console.log(form.value);
  const res =  await auth.login(form.value)
+ console.log(res);
     if (res.error.value != null) {
       return flashMessage.setMessage(Message.LOGINERROR,'error',6000);
     }
@@ -129,16 +136,24 @@ const handleLogin = async () => {
 };
 
 
-const receiveClick = async(provider)=> {
+const receiveClick = async(provider:string)=> {
   const res = await auth.providerLogin(provider);
-        window.location.href = res.data.value.redirect_url;
+  console.log(res);
+  window.location.href = res.data.value.redirect_url;
 }
 
 </script>
 
+
 <style scoped lang="scss">
-.v-btn:deep(.v-responsive){
-  position: absolute !important;
+.v-btn{
+  &:deep(.v-responsive){
+    position: absolute !important;
+  }
+  &.login{
+
+    color: #fff !important;
+  }
 }
 
 </style>

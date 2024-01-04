@@ -1,7 +1,6 @@
 import {Url} from './url';
 import {Icons} from './icons';
 import { useAuthStore } from '~/stores/useAuthStore';
-import {useRouter} from '#imports';
 import {Message} from './flashMessage';
 import { useFlashMessageStore } from '~/stores/useFlashMessageStore';
 
@@ -24,7 +23,7 @@ export const MenuItems = [
     {
       text: "サイクリング募集",
       icon: Icons.CYCLING,
-      auth: false,
+      auth: null,
       func: () => router.push(Url.TEAMS),
     },
     // {
@@ -76,7 +75,7 @@ export const MenuItems = [
     // {
     //   text: "各種設定",
     //   icon: Icons.LOGOUT,
-    //   auth: false,
+    //   auth: true,
     //   func: () => {
     //     useAuthStore().logout();
     //   }
@@ -84,37 +83,54 @@ export const MenuItems = [
   ]
 
 export const AuthMenus = [
+  {
+    text: "プロフィール",
+    icon: Icons.ACCOUNT,
+    url:Url.AUTHPROFILE,
+  },
+  {
+    text: "メンバー募集",
+    icon: Icons.RECRUIT,
+    url:Url.AUTHRECRUIT,
+  },
     {
       text: "チーム",
-      icon: Icons.HOME,
+      icon: Icons.TEAMS,
       url:Url.AUTHTEAMS,
-    },
-    {
-      text: "メンバー募集",
-      icon: Icons.HOME,
-      url:Url.AUTHRECRUIT,
-    },
-    {
-      text: "プロフィール",
-      icon: Icons.ACCOUNT,
-      url:Url.AUTHPROFILE,
     },
     {
       text: "メッセージ",
       icon: Icons.MESSAGES,
       url:Url.MESSAGES,
     },
+    {
+      text: "各種設定",
+      icon: Icons.SETTING,
+      url:Url.SETTING,
+    },
   ]
 
 export const AuthTeamMenus = [
     {
       text: "マイチーム",
-      icon: Icons.HOME,
+      icon: Icons.MYTEAM,
       url:Url.MYTEAM,
     },
     {
       text: "所属チーム一覧",
-      icon: Icons.HOME,
+      icon: Icons.AFFILIATION,
       url:Url.AFFILIATION,
+    },
+  ]
+export const AuthSettingMenus = [
+    {
+      flg:1,
+      text: "英語表記",
+      icon: Icons.HOME,
+    },
+    {
+      flg:0,
+      text: "退会",
+      icon: Icons.HOME,
     },
   ]

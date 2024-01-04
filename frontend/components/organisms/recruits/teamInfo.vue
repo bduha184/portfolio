@@ -5,19 +5,19 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">メンバー:</v-col>
-          <v-col>{{ member_count }}人</v-col>
+          <v-col>{{ props.memberCount }}人</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
           <v-col cols="4">男女比:</v-col>
-          <v-col>{{ average }}</v-col>
+          <v-col>{{ props.average }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
           <v-col cols="4">年齢層 :</v-col>
-          <v-col> {{ from_age }}〜{{ to_age }}</v-col>
+          <v-col> {{ props.fromAge }}〜{{ props.toAge }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
@@ -25,8 +25,8 @@
           <v-col cols="4">ライド :</v-col>
           <v-col cols="8">
             <v-chip-group>
-              <v-chip v-for="(tag, i) in tags" :key="i">
-                {{ tag }}
+              <v-chip v-for="(ride, i) in props.rides" :key="i">
+                {{ ride }}
               </v-chip>
             </v-chip-group>
           </v-col>
@@ -35,7 +35,7 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">ライド詳細 :</v-col>
-          <v-col>{{ detail_activities }}</v-col>
+          <v-col>{{ props.detailActivities }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
@@ -43,7 +43,7 @@
           <v-col cols="4">エリア :</v-col>
           <v-col>
             <v-chip-group>
-              <v-chip v-for="(area, i) in areas" :key="i">
+              <v-chip v-for="(area, i) in props.areas" :key="i">
                 {{ area }}
               </v-chip>
             </v-chip-group>
@@ -53,19 +53,29 @@
       <v-list-item>
         <v-row>
           <v-col cols="4">エリア詳細 :</v-col>
-          <v-col>{{ detail_areas }}</v-col>
+          <v-col>{{ props.detailAreas }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
           <v-col cols="4">日時 :</v-col>
-          <v-col>{{ active_datetime }}</v-col>
+          <v-chip-group>
+              <v-chip v-for="(day, i) in props.days" :key="i">
+                {{ day }}
+              </v-chip>
+            </v-chip-group>
+        </v-row>
+      </v-list-item>
+      <v-list-item>
+        <v-row>
+          <v-col cols="4">日時詳細 :</v-col>
+          <v-col>{{ props.detailDays }}</v-col>
         </v-row>
       </v-list-item>
       <v-list-item>
         <v-row>
           <v-col cols="4">ホームページ :</v-col>
-          <v-col>{{ team_url }}</v-col>
+          <v-col>{{ props.teamUrl }}</v-col>
         </v-row>
       </v-list-item>
     </v-list>
@@ -73,48 +83,8 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  member_count: {
-    type: Number,
-    default: 0,
-  },
-  average: {
-    type: String,
-    default: "",
-  },
-  from_age: {
-    type: String,
-    default: "",
-  },
-  to_age: {
-    type: String,
-    default: "",
-  },
-  tags: {
-    type: Array,
-    default: [],
-  },
-  areas: {
-    type: Array,
-    default: [],
-  },
-  detail_activities: {
-    type: String,
-    default: "",
-  },
-  detail_areas: {
-    type: String,
-    default: "",
-  },
-  active_datetime: {
-    type: String,
-    default: "",
-  },
-  team_url: {
-    type: String,
-    default: "",
-  },
-});
+import type { Props } from "~/types/props";
+const props = defineProps<Props>();
 </script>
 
 <style scoped lang="scss">
@@ -157,3 +127,4 @@ const props = defineProps({
   padding: 3px;
 }
 </style>
+~/types/props

@@ -1,45 +1,56 @@
 <template>
-  <v-container>
-    <v-row class="align-center justify-between d-sm-flex d-none">
-      <OrganismsSearchFormPulldown name="エリア"/>
-      <span>×</span>
-      <OrganismsSearchFormPulldown name="日時"/>
-      <span>×</span>
-      <OrganismsSearchFormPulldown name="ライド種別"/>
-      <v-btn
-      color="red"
-      variant="flat"
-      height="40"
-      @click="onClick"
-      :prepend-icon="Icons.SEARCH"
+  <div>
+    <div class="pt-5 d-flex align-center justify-between">
+      <OrganismsSearchFormPulldown
+      v-for="(item,i) in items"
+      :key="i"
+      :label="labels[i]"
+      :items=item
+      @emitInput="(val)=>(refs[i] = val)"
       />
-    </v-row>
-    <v-row class="align-center justify-between d-sm-none">
-      <OrganismsSearchFormPulldown name="エリア"/>
-      <OrganismsSearchFormPulldown name="日時"/>
-      <OrganismsSearchFormPulldown name="ライド種別"/>
-    </v-row>
-  </v-container>
+
+      <v-btn
+        height="40"
+        width="40"
+        color="red"
+        variant="flat"
+        :icon="Icons.SEARCH"
+        @click="onClick"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {Icons} from '../../../constants/icons'
-import {ref} from 'vue';
+import { Areas } from "~/constants/areas";
+import { Levels, Days } from "~/constants/teams";
+import { Icons } from "~/constants/icons";
+import { useTeamStore } from "~/stores/useTeamStore";
 
-const load = ref({
-loaded:false,
-loading:false
-})
+const teamStore = useTeamStore();
 
+const items = [Areas,Days,Levels];
+const labels = ['エリア','日時','ライド種別'];
+const refs = ref([]);
+
+const onClick = () => {
+  teamStore.setPageInitialize();
+  teamStore.setKeywords(refs.value);
+  teamStore.getTeams();
+};
 
 </script>
 
 <style lang="scss" scoped>
-.v-btn__prepend {
-    margin-right: 0;
+.v-btn {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
-// .v-container {
-//   padding-left: 5px;
-//   padding-right: 5px;
-// }
+.v-input {
+  &:deep(.v-field__input) {
+    padding: 0.5rem !important;
+  }
+}
 </style>

@@ -1,21 +1,22 @@
+
 <template>
   <div class="relative">
     <v-card class="mx-auto h-[100vh] overflow-y-auto">
       <v-list>
         <v-list-item
-          v-for="(message, index) in messages"
-          :key="index"
-          :prepend-avatar="
-            message.sender_id == auth.user.id
-              ? ''
-              : config.public.baseURL + '/storage/' + message.thumbnail_path
-          "
+        v-for="(message, index) in messages"
+        :key="index"
+        :prepend-avatar="
+            message.senderId == auth.user.id
+            ? ''
+            : config.public.baseURL + '/storage/' + message.thumbnail_path
+            "
           rounded="shaped"
-          :title="message.sender_id == auth.user.id ? '' : message.title"
+          :title="message.senderId == auth.user.id ? '' : message.name"
           :subtitle="message.comment"
           class="ml-auto"
-          :class="message.sender_id == auth.user.id ? 'right' : ''"
-        />
+          :class="message.senderId == auth.user.id ? 'right' : ''"
+          />
         <v-list-item
           v-for="(message, index) in pusherMessages"
           :key="index"
@@ -24,7 +25,7 @@
         />
       </v-list>
     </v-card>
-    <v-form class="fixed bottom-0 left-0 w-100">
+    <v-form class="message fixed bottom-0 left-0 w-100">
       <v-container>
         <AtomsBtnsBaseBtn
           class="mb-6 ml-2"
@@ -45,7 +46,9 @@
             <AtomsBtnsArrowBtn
               @emitClick="receiveClick"
               :disabled="checkFilledOut"
+              color="info"
             />
+
           </v-col>
         </v-row>
       </v-container>
@@ -54,22 +57,14 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  useRuntimeConfig,
-  navigateTo,
-  useRoute,
-  computed,
-  onMounted,
-  watch,
-} from "#imports";
-import { useAuthStore } from "../../../stores/useAuthStore";
-import { Url } from "../../../constants/url";
-import { ApprovalMessage } from "../../../constants/teams";
+import { useAuthStore } from "~/stores/useAuthStore";
+import { ApprovalMessage } from "~/constants/teams";
+import { useTeamStore } from "~/stores/useTeamStore";
 
 const auth = useAuthStore();
 const config = useRuntimeConfig();
 const router = useRoute();
+const teamStore = useTeamStore();
 const messages = ref([]);
 const request_flg = ref(false);
 const pusherMessages = ref([]);
@@ -84,13 +79,16 @@ const checkFilledOut = computed(() => {
 });
 
 const authId = auth.user.id;
-const sender_id = router.params.id;
+const senderId = router.params.id;
 
-watch(pusherMessages.value, async () => {
+watch(
+  ()=>pusherMessages.value,
+  async () => {
   const pusherData = {
     comment: pusherMessages.value[0],
-    sender_id: authId,
-    receiver_id: sender_id,
+    senderId: authId,
+    receiver_id: senderId,
+    team_id: teamStore.getTeamDetail.itemId,
   };
   if (pusherMessages.value.length > 0) {
     await useApiFetch("/sanctum/csrf-cookie");
@@ -108,7 +106,7 @@ const allowJoinTeam = async () => {
   request_flg.value = false;
 
   await useApiFetch("/sanctum/csrf-cookie");
-  await useApiFetch(`/api/profile/${sender_id}`, {
+  await useApiFetch(`/api/profile/${senderId}`, {
     method: "POST",
     body: {
       request_flg: request_flg.value,
@@ -124,10 +122,10 @@ const allowJoinTeam = async () => {
 };
 
 const receiveClick = async () => {
-  messages.value.push(authMessage.value);
+  pusherMessages.value.push(authMessage.value);
   const data = {
     comment: authMessage.value,
-    sender_id: sender_id,
+    senderId: senderId,
     receiver_id: authId,
   };
 
@@ -137,17 +135,13 @@ const receiveClick = async () => {
     body: data,
   });
 
-  // window.Pusher.logToConsole = true;
-
-  console.log(res);
-  // return navigateTo(Url.REQUESTS + `/${router.params.id}`);
 };
 
 window.Echo.channel(`cycle-community`).listen(
   ".new-message-event",
   async (e) => {
-    console.log(e);
-    messages.value.push(e.message.comment);
+    // console.log(e);
+    if(authId != senderId) pusherMessages.value.push(e.message.comment);
   }
 );
 
@@ -159,13 +153,18 @@ onMounted(async () => {
   await useApiFetch(`/api/message/${senderId}`).then((res) => {
     console.log(res);
     if (res.data) {
-      messages.value.push(...res.data.value.data);
+      messages.value.push(...res.data.value.messages);
     }
   });
 });
 </script>
 
 <style lang="scss" scoped>
+.message {
+    &:deep(.v-container) {
+    max-width: 500px !important;
+  }
+}
 .v-list {
   &:deep(.v-list-item) {
     width: calc(100% - 30px) !important;

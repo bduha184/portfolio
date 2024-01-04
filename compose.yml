@@ -31,7 +31,7 @@ services:
 
   db:
     container_name: db
-    platform: linux/arm64
+    # platform: linux/arm64
     image: mysql:8
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -85,6 +85,6 @@ services:
     environment:
       - HOST=0.0.0.0
       - CHOKIDAR_USEPOLLING=true
-    # command: sh -c "pnpm dev"
+    # command: bash -c "yarn install"
 volumes:
   nuxt_node_modules:

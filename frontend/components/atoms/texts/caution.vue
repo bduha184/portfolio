@@ -1,17 +1,10 @@
 <template>
-  <p
-  :class="classes"
-  >
-    <slot/>
+  <p :class="props.classes">
+    <slot />
   </p>
 </template>
 
 <script setup lang="ts">
-const props=defineProps({
-  classes:{
-    type:String,
-    default:''
-  },
-})
-
+import type { Props } from "~/types/props";
+const props = defineProps<Props>();
 </script>

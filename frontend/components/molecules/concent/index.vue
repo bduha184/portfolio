@@ -2,39 +2,37 @@
   <div>
     <div class="d-flex flex-wrap align-center justify-center">
       <AtomsInput
-      type="checkbox"
-      class="pr-2"
-      @emitInput="check"
-      :val="val"
+        type="checkbox"
+        class="pr-2"
+        @emitInput="receiveInput"
+        :val="props.val"
       />
       <MoleculesRulesTerms />
       <span>・</span>
       <MoleculesRulesPrivacyPolicy />
-        を確認し、同意しました<span class="text-red text-caption">※</span>
+      を確認し、同意しました<span class="text-red text-caption">※</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
 
-const props = defineProps({
-  val:Boolean,
-})
+const props = defineProps<Props>();
 
-const emits = defineEmits(["emitInput"]);
-const checked = ref(false);
+const emits = defineEmits<Emits>();
+const checked = ref<boolean>(false);
 
-const check = (val) => {
+const receiveInput = (val: Event) => {
   checked.value = JSON.parse(val.value) ? false : true;
   emits("emitInput", checked.value);
 };
 </script>
 
 <style scoped lang="scss">
-  input[type="checkbox"]{
-    width: auto !important;
-    margin-right: 0.5rem;
-  }
-
+input[type="checkbox"] {
+  width: auto !important;
+  margin-right: 0.5rem;
+}
 </style>

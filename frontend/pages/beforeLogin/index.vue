@@ -12,15 +12,13 @@
 
   </v-container>
 </template>
+
+
 <script setup lang="ts">
-import { ref,useRoute } from "#imports";
 
 const router = useRoute();
 const param = router.query.tab;
 
 const tab = ref(param);
-
-
-
 
 </script>

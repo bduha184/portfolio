@@ -31,22 +31,16 @@
     </v-container>
   </div>
 </template>
+
 <script setup lang="ts">
-import {definePageMeta,useRouter} from '#imports';
-import {Url} from '../../../constants/url';
-import { useAuthStore } from '../../../stores/useAuthStore';
-import {Icons} from '~/constants/icons';
+import {Icons} from "~/constants/icons";
+import { useAuthStore} from "~/stores/useAuthStore";
+
+const auth = useAuthStore();
 
 definePageMeta({
   middleware: ["auth"]
 })
 const router = useRouter();
-
-const auth = useAuthStore();
-
-const handleLogout = async()=> {
-  await auth.logout();
-
-}
 
 </script>

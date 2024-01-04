@@ -25,6 +25,8 @@ export const Url = {
   AFFILIATION: getFrontUrl('/auth/teams/affiliation'),
   /** マイページ（愛車紹介）（ */
   MYBICYCLE: getFrontUrl('/auth/mybicycle'),
+  /** マイページ（各種設定）（ */
+  SETTING: getFrontUrl('/auth/setting'),
 
   /**----------------------**/
   /**------BeforeLogin-----**/

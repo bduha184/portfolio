@@ -1,15 +1,17 @@
+const config = useRuntimeConfig();
+
 
 export const Use=[
   {
     text:'まずはアカウント作成',
-    img:'https://cdn.vuetifyjs.com/images/parallax/material2.jpg'
+    img:config.public.appURL + '/images/mockup.webp'
   },
   {
     text:'プロフィール登録',
-    img:'https://cdn.vuetifyjs.com/images/parallax/material2.jpg'
+    img:config.public.appURL + '/images/mockup.webp'
   },
   {
     text:'愛車紹介やチーム募集など',
-    img:'https://cdn.vuetifyjs.com/images/parallax/material2.jpg'
+    img:config.public.appURL + '/images/mockup.webp'
   },
 ]

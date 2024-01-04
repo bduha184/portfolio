@@ -9,7 +9,7 @@
         <AtomsBtnsBaseBtn
           v-bind="props"
           @click="requestJoinTeam"
-          :setColor="setColor"
+          :color="props.color"
         >
           <slot />
         </AtomsBtnsBaseBtn>
@@ -26,11 +26,7 @@
               </AtomsBtnsBaseBtn>
             </v-col>
             <v-col>
-              <AtomsBtnsBaseBtn
-                width="10rem"
-                setColor="orange"
-                @click="onClick"
-              >
+              <AtomsBtnsBaseBtn width="10rem" color="orange" @click="onClick">
                 ログイン
               </AtomsBtnsBaseBtn>
             </v-col>
@@ -42,17 +38,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useAuthStore } from "../../../stores/useAuthStore";
-import { navigateTo } from "nuxt/app";
-import { Url } from "../../../constants/url";
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
+import { useAuthStore } from "~/stores/useAuthStore";
+import { Url } from "~/constants/url";
 
-const props = defineProps({
-  setColor: {
-    type: String,
-    default: "",
-  },
-});
+const props = defineProps<Props>();
 const auth = useAuthStore();
 const dialog = ref(false);
 
@@ -60,10 +51,10 @@ const onClick = () => {
   return navigateTo(Url.SIGNIN);
 };
 
-const emits = defineEmits(["emitClick"]);
+const emits = defineEmits<Emits>();
 
-const requestJoinTeam = () => {
-  emits("emitClick");
+const requestJoinTeam = (e: Event) => {
+  emits("emitClick", e.target as HTMLElement);
 };
 </script>
 

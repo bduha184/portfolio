@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Kyslik\ColumnSortable\Sortable;
 
 class Team extends Model
 {
-    use HasFactory,Sortable;
+    use HasFactory;
 
     protected $fillable = [
         'header_img_path',
@@ -21,28 +22,45 @@ class Team extends Model
         'to_age',
         'detail_activity',
         'detail_area',
-        'active_datetime',
+        'daytime',
         'team_url',
         'schedule',
+        'user_id'
     ];
 
-    public $sortable = [
-        'profile_id',
-        'team_id'
-    ];
-
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function rides(): HasMany
+    {
+        return $this->hasMany(Ride::class);
+    }
+    public function areas(): HasMany
+    {
+        return $this->hasMany(Area::class);
+    }
+    public function days(): HasMany
+    {
+        return $this->hasMany(Day::class);
+    }
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
     public function profiles(): BelongsToMany
     {
         return $this->belongsToMany(Profile::class)->withTimestamps();
     }
-    public function tags(): BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class)->withTimestamps();
-    }
-    public function areas(): BelongsToMany
-    {
-        return $this->belongsToMany(Area::class)->withTimestamps();
-    }
 
 
+    public function scopeSearch($query,$keywords){
+        foreach ($keywords as $keyword) {
+            $query->where(function ($query) use ($keyword) {
+                $query->where('team_name', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return $query;
+    }
 }

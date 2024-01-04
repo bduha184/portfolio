@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 
+body {
+  font-family: YuGothic, "游ゴシック", "Noto Sans JP", "Meiryo", "メイリオ", "ＭＳ Ｐゴシック", sans-serif;
+}
+
 
 .v-toolbar-title__placeholder {
   overflow: visible !important;
@@ -17,10 +21,6 @@
   position:unset !important;
 }
 
-.v-card-title {
-  width: calc(100% - 6rem);
-  margin-left: auto;
-}
 .v-list-item-title {
   font-size: 0.8rem !important;
   overflow: visible;
@@ -29,7 +29,10 @@
   .v-list-item-subtitle {
     opacity: 1 !important;
   }
-
+  .v-card-title {
+    width: calc(100% - 6rem);
+    margin-left: auto;
+  }
   .v-overlay__scrim {
     opacity: 0.6 !important;
   }
@@ -38,11 +41,60 @@
     border: 1px solid #555;
   }
 
-
   .v-container {
     padding: 8px !important;
+    // max-width: 1000px !important;
   }
+
 
   .v-row{
     margin: 0 !important;
   }
+
+  $loadingTime: 10s;
+$color: rgb(255,0,0);
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+}
+
+@keyframes loading {
+  0% {
+    width: 0;
+  } 100% {
+    width: 100%;
+  }
+}
+
+@keyframes percentage {
+  @for $i from 1 through 100 {
+    $percentage: $i + "%";
+    #{$percentage} {
+      content: $percentage;
+    }
+  }
+}
+
+.bg {
+  background-color: $color;
+  animation: loading $loadingTime linear infinite;
+}
+
+.el{
+  color: $color;
+  width: 200px;
+  border: 1px solid $color;
+
+  &:after {
+    padding-left: 20px;
+    content: "0%";
+    display: block;
+    text-align: center;
+    font-size: 50px;
+    padding: 10px 20px;
+    color: rgb(0,255,255);
+    mix-blend-mode: difference;
+    animation: percentage $loadingTime linear infinite;
+  }
+}

@@ -23,8 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta } from "#imports";
-import {Icons} from '~/constants/icons';
+import {Icons} from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
 
 const auth = useAuthStore();

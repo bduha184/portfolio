@@ -1,14 +1,10 @@
 <template>
-  <label :for="label">
+  <label :for="props.label">
     <slot />
   </label>
 </template>
-<script setup>
 
-const props  = defineProps({
-  label:{
-    type:String,
-    default:''
-  }
-})
+<script setup lang="ts">
+import type { Props } from "~/types/props";
+const props = defineProps<Props>();
 </script>

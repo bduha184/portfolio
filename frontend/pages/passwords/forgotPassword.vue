@@ -1,7 +1,6 @@
 <template>
   <v-container class="bg-white">
-    <PasswordsSendEmailForForgotPassword/>
+    <OrganismsPasswordsSendEmailForForgotPassword/>
   </v-container>
 </template>
-<script setup lang="ts">
-</script>
+

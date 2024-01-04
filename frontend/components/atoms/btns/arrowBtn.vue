@@ -1,47 +1,27 @@
 <template>
   <v-btn
-  variant="text"
-  :icon="Icons.NAVI"
+    variant="text"
+    :icon="Icons.NAVI"
     height="40"
     width="40"
-    color="info"
-    class="text-decoration-none rotate-90"
-    :to="to"
+    :color="props.color"
+    class="text-h4 text-decoration-none rotate-90"
     @click="onClick"
-    :disabled="disabled"
+    :disabled="props.disabled"
   />
 </template>
 
 <script setup lang="ts">
-import {Icons} from '../../../constants/icons';
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
+import { Icons } from "~/constants/icons";
 
-  const props = defineProps({
-    to:{
-      type:String,
-      default:''
-  },
-  setColor:{
-    type:String,
-    default:''
-  },
-  disabled:{
-    type:Boolean,
-    default:false
-  }
-})
+const props = defineProps<Props>();
+const emits = defineEmits<Emits>();
 
-const emits = defineEmits(['emitClick'])
+const onClick = (e: Event) => {
+  emits("emitClick", e.target as HTMLElement);
+};
 
-const onClick = (e) => {
-emits('emitClick',e.target);
-}
-
-
+console.log(props.color);
 </script>
-
-<style scoped>
-.v-btn {
-  line-height: 1;
-  font-size: 25px;
-}
-</style>

@@ -1,45 +1,36 @@
 <template>
   <div class="relative z-0 h-[100px]">
     <MoleculesImgsSelect
-    @emitInput="receiveHeaderImg"
-    :path="path_header"
-    :disabled="disabled"
-    size="cover"
+      @emitInput="receiveHeaderImg"
+      :path="props.pathHeader"
+      :disabled="props.disabled"
+      size="cover"
     />
-    <v-avatar size="80" color="white">
+    <v-avatar :size=80 color="white">
       <MoleculesImgsSelect
-      @emitInput="receiveThumbnail"
-      :path="path_thumbnail"
-      :disabled="disabled"
+        @emitInput="receiveThumbnail"
+        :path="props.pathThumbnail"
+        :disabled="props.disabled"
       />
     </v-avatar>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  path_header: {
-    type: String,
-    default: "",
-  },
-  path_thumbnail: {
-    type: String,
-    default: "",
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
+
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
 });
-interface Emits {
-  (e: "emitInput", value: {val:File,target:String}): void;
-}
+
 const emits = defineEmits<Emits>();
-const receiveHeaderImg = (val:File,target:String) => {
-  emits('emitInput',{val,target:'header'});
+const receiveHeaderImg = (val: File, target: string) => {
+  emits("emitInput", { val, target: "header" });
 };
-const receiveThumbnail = (val:File,target:String) => {
-  emits('emitInput',{val,target:'thumbnail'});
+
+const receiveThumbnail = (val: File, target: string) => {
+  emits("emitInput", { val, target: "thumbnail" });
 };
 
 </script>

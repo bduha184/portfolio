@@ -8,12 +8,15 @@
     </MoleculesTabsBeforeLogin>
   </v-tabs>
 </template>
-<script setup>
-import { Icons } from "../../../constants/icons";
-import { ref } from "vue";
 
-const tab = ref(null);
+<script setup lang="ts">
+import { Icons } from "~/constants/icons";
+
+const tab = ref<null>(null);
 </script>
+
+
+
 
 <style scoped lang="scss">
 .v-tabs--density-default {

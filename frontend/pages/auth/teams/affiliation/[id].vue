@@ -22,14 +22,13 @@
           {{ flashMessage }}
         </AtomsDisplayFlashMessage>
         <OrganismsImgsCardProfile
-          @emitInput="receiveProfileImage"
-          :path_header="teamItems.url_header_img"
-          :path_thumbnail="teamItems.url_thumbnail"
+          :pathHeader="teamItems.pathHeader"
+          :pathThumbnail="teamItems.pathThumbnail"
           disabled="true"
         />
         <v-card-title class="w-60 text-body-2 text-left ml-auto">
           <AtomsTextsHeadLine class="w-100">
-            {{ teamItems.team_name }}
+            {{ teamItems.teamName }}
           </AtomsTextsHeadLine>
         </v-card-title>
         <v-card-text>
@@ -54,7 +53,7 @@
             :to="Url.PROFILE+'/'+member.user_id"
             >
               <v-avatar
-              size="80"
+              :size=80
               >
               <AtomsImgs
               :src="config.public.baseURL +'/storage/'+ member.thumbnail_path"
@@ -79,94 +78,73 @@
   </div>
 </template>
 
+
+
 <script setup lang="ts">
-import {
-  useRuntimeConfig,
-  navigateTo,
-  useRoute,
-  clearNuxtData,
-} from "nuxt/app";
-import { Message } from "~/constants/flashMessage";
 import { useApiFetch } from "~/composables/useApiFetch";
-import { ref, onBeforeMount, computed } from "#imports";
 import { Url } from "~/constants/url";
+import {Icons} from "~/constants/icons";
+import { useTeamStore } from "~/stores/useTeamStore";
 import { useAuthStore } from "~/stores/useAuthStore";
-import {Icons} from '~/constants/icons';
-// import { useRoute } from "vue-router";
 
 const auth = useAuthStore();
 const router = useRoute();
 const config = useRuntimeConfig();
+const teamStore = useTeamStore();
 
-const postImages = ref([]);
-const displayImages = ref([]);
-const isShow = ref(false);
-const flashMessage = ref("");
-const members = ref([]);
+const postImages = ref<string[]>([]);
+const displayImages = ref<string[]>([]);
+const isShow = ref<boolean>(false);
+const flashMessage = ref<string | null>("");
+const members = ref<string[]>([]);
 
 const teamItems = ref({
-  id: "",
-  items: [],
-  item: "",
-  itemCount: 0,
-  path_header: "",
-  path_thumbnail: "",
-  user_id: "",
-  header_img: "",
-  thumbnail: "",
-  team_name: "",
+  days: [],
+  detailDays: "",
+  areas: [],
+  average: "",
+  detailAreas: "",
+  detailActivities: "",
+  fromAge: "",
+  headerImg: "",
   introduction: "",
-  activities: "",
-  url_header_img: config.public.appURL + "/images/noimage.jpg",
-  url_thumbnail: config.public.appURL + "/images/noimage.jpg",
+  itemId: "",
+  memberCount: 0,
+  pathHeader: "",
+  pathThumbnail: "",
+  schedule: "",
+  rides: [],
+  teamName: "",
+  teamUrl: "",
+  thumbnail: "",
+  toAge: "",
+  urlHeaderImg: config.public.appURL + "/images/noimage.jpg",
+  urlThumbnail: config.public.appURL + "/images/noimage.jpg",
+  userId: "",
 });
 
 
 const receiveClick = () => {
-  return navigateTo(Url.TEAMMESSAGES+teamItems.value.id);
+  return navigateTo(Url.TEAMMESSAGES+teamItems.value.itemId);
 }
 
 
-onBeforeMount(async () => {
-  const itemId = router.params.id;
-  if (itemId) {
-    await Promise.all([
-      useApiFetch(`/api/team/${itemId}`),
-      useApiFetch(`/api/image/${itemId}`),
-    ]).then((responses) => {
-      responses.forEach((res) => {
-        const val = res.data.value;
-        console.log(val);
-        if (val != null) {
-          if (val.teamItem) {
-            teamItems.value.id = val.teamItem.id;
-            teamItems.value.user_id = val.teamItem.user_id;
-            teamItems.value.url_header_img =
-              config.public.baseURL +
-              "/storage/" +
-              val.teamItem.header_img_path;
-            teamItems.value.url_thumbnail =
-              config.public.baseURL + "/storage/" + val.teamItem.thumbnail_path;
-            teamItems.value.introduction = val.teamItem.introduction;
-            teamItems.value.team_name = val.teamItem.team_name;
-            teamItems.value.activities = val.teamItem.activities;
-            teamItems.value.user_id = val.teamItem.user_id;
-          }
+onMounted(async () => {
+  const team = teamStore.getTeams.find((team) => {
+    return team.id == router.params.id;
+  });
+  console.log(teamStore.getTeams);
+  if (team) {
+    teamItems.value.itemId = team.id;
+    teamItems.value.pathHeader =
+      config.public.baseURL + "/storage/" + team.header_img_path;
+    teamItems.value.pathThumbnail =
+      config.public.baseURL + "/storage/" + team.thumbnail_path;
+    teamItems.value.teamName = team.team_name;
+    teamItems.value.introduction = team.introduction;
 
-          if (val.members) {
-            members.value.push(...val.members);
-          }
-
-          if (val.images) {
-            val.images.forEach((image) => {
-              postImages.value.push(image);
-              displayImages.value.push(
-                config.public.baseURL + "/storage/" + image
-              );
-            });
-          }
-        }
-      });
+    team.profiles.forEach(proifile => {
+      members.value.push(proifile);
     });
   }
 });

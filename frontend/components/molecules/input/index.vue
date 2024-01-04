@@ -1,14 +1,14 @@
 <template>
   <div>
     <AtomsLabelsFormLabel class="block text-gray-700 text-sm font-bold pb-1">
-      {{ label }}<span class="text-red text-caption">※</span>
+      {{ props.label }}<span class="text-red text-caption">※</span>
     </AtomsLabelsFormLabel>
     <AtomsInput
-      :type="type"
-      :val="val"
-      @emitInput="receive"
+      :type="props.type"
+      :val="props.val"
+      @emitInput="receiveInput"
       @blur="handleChange"
-      @change="submit"
+      @change="onChange"
     />
     <p v-if="errors.val" class="text-red">{{ errors.val }}</p>
     <p v-else class="text-caption">
@@ -18,27 +18,15 @@
     <p v-show="!confirm" class="text-red">パスワードが異なります</p>
   </div>
 </template>
-<script setup lang="ts">
-import { useForm, useField } from "vee-validate";
-import { formSchema } from "../../../constants/formSchema";
 
-const props = defineProps({
-  label: {
-    type: String,
-    default: "",
-  },
-  type: {
-    type: String,
-    default: "",
-  },
-  val: {
-    type: String,
-    default: "",
-  },
-  confirm: {
-    type: Boolean,
-    default: true,
-  },
+<script setup lang="ts">
+import type { Props } from "~/types/props";
+import type { Emits } from "~/types/emits";
+import { formSchema } from "~/constants/formSchema";
+import { useForm, useField } from "vee-validate";
+
+const props = withDefaults(defineProps<Props>(), {
+  confirm: true,
 });
 
 let schema = {};
@@ -59,12 +47,12 @@ const { errors } = useForm({
 
 const { value: val, handleChange } = useField("val");
 
-const receive = (receiveVal) => {
-  val.value = receiveVal.value;
+const receiveInput = (value: string) => {
+  val.value = value.value;
 };
-const emit = defineEmits(["emitInput"]);
+const emit = defineEmits<Emits>();
 
-const submit = () => {
-  emit("emitInput", {val,errors,confirm});
+const onChange = () => {
+  emit("emitInput", { val, errors, confirm });
 };
 </script>

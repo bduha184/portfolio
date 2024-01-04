@@ -56,16 +56,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function teams():HasMany{
+        return $this->hasMany(Team::class);
+    }
     public function profile():HasOne{
         return $this->hasOne(Profile::class);
     }
 
     public function images():HasMany{
-        return $this->hasMany(Team::class)->withTimestamps();
+        return $this->hasMany(Team::class);
     }
 
     public function provider():HasMany{
-        return $this->hasMany(Provider::class)->withTimestamps();
+        return $this->hasMany(Provider::class);
     }
 
 }

@@ -1,47 +1,56 @@
 <template>
-  <div class="p-4 bg-white">
-    <OrganismsSearchFormKeywordsSearch />
-    <!-- <OrganismsSearchFormMultipleSearch /> -->
+  <v-container class="bg-white">
+    <OrganismsSearchFormSearch />
+    <OrganismsSearchFormMultipleSearch />
+    {{ teamStore.getKeywords }}
     <MoleculesCountsTeamCount class="mt-4" :val="teamStore.getTeamCount" />
-    <OrganismsTabsRecruitTab @emitSelectedTab="receiveSelectedTab" />
-    <OrganismsCardsRecruitCardForList
-      v-for="(item, id) in teams"
-      :key="id"
-      :header_img_path="item.header_img_path"
-      :thumbnail_path="item.thumbnail_path"
-      :team_name="item.team_name"
-      :member="item.profiles_count"
-      :introduction="item.introduction"
-      :id="item.id"
-      :tags="item.tags"
-      :profiles="item.profiles"
-      :areas="item.areas"
-      :date_time="item.active_datetime"
-    />
-  </div>
+    <OrganismsTabsRecruitTab />
+    <div class="item-wrapper bg-white">
+      <OrganismsCardsRecruitCardForList
+        v-for="(item, index) in teamStore.getTeams"
+        :key="index"
+        :headerImgPath="item.header_img_path"
+        :thumbnailPath="item.thumbnail_path"
+        :teamName="item.team_name"
+        :member="item.profiles_count != 0 ? item.profiles_count  : 1"
+        :introduction="item.introduction"
+        :id="item.id"
+        :rides="item.rides"
+        :profiles="item.profiles"
+        :areas="item.areas"
+        :days="item.days"
+        :detailDays="item.detail_day"
+      />
+      <p ref="observe"></p>
+      <AtomsLoading v-show="teamStore.getLoading" />
+    </div>
+  </v-container>
 </template>
+
 <script setup lang="ts">
 import { useTeamStore } from "~/stores/useTeamStore";
-import { ref, onMounted, watch } from "#imports";
+
 const teamStore = useTeamStore();
+const observe = ref<Element | null>(null);
 
-const tab = ref();
-
-const teams = ref(teamStore.getTeams);
-
-const receiveSelectedTab = (val) => {
-  tab.value = val;
-};
-
-watch(
-  () => tab.value,
-  () => {
-    teamStore.setTab(tab.value);
+const callback = async (entries) => {
+  const entry = entries[0];
+  if (entry && entry.isIntersecting) {
     teamStore.fetchTeams();
   }
-);
+};
 
 onMounted(() => {
-  teamStore.fetchTeams();
+  teamStore.getLoading;
+  const observer = new IntersectionObserver(callback);
+  observer.observe(observe.value);
 });
 </script>
+
+<style scoped lang="scss">
+.item-wrapper {
+  min-height: 1000px;
+  width: 100%;
+}
+</style>
+~/types/props

@@ -32,7 +32,7 @@
           </v-col>
           <v-col>
             <AtomsBtnsBaseBtn width="10rem" :color="color" @emitClick="onClick">
-              {{ btnValue }}
+              {{ buttonValue }}
             </AtomsBtnsBaseBtn>
           </v-col>
         </v-row>
@@ -61,58 +61,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, navigateTo, useRoute, onMounted, computed } from "#imports";
-import { useAuthStore } from "../../../stores/useAuthStore";
-import { Url } from "../../../constants/url";
+import { useAuthStore } from "~/stores/useAuthStore";
+import { Url } from "~/constants/url";
+import type {Props} from "~/types/props";
+import type {Emits} from "~/types/emits";
 
-const props = defineProps({
-  btnType: {
-    type: String,
-    default: "",
-  },
-  color: {
-    type: String,
-    default: "",
-  },
-  btnValue: {
-    type: String,
-    default: "ログイン",
-  },
-  caution: {
-    type: String,
-    default: "※こちらの機能はログイン後にご利用いただけます。",
-  },
-  userId: {
-    type: Number,
-    default: "",
-  },
-  persistent: {
-    type: String,
-    default: false,
-  },
-  placeholder: {
-    type: String,
-    default: "",
-  },
-  text: {
-    type: String,
-    default: "",
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-});
+
+const props = withDefaults(defineProps<Props>(),{
+  caution:'※こちらの機能はログイン後にご利用いただけます。',
+  buttonType:'ログイン',
+  persistent:false,
+  disabled:false
+})
 
 const dialog = ref(false);
 const auth = useAuthStore();
 const router = useRoute();
 const messages = ref();
-interface Emits {
-  (e: "emitModalBtnClick"): void;
-  (e: "emitModalOpen"): void;
-  (e: "emitMessages",value:String): void;
-}
 const emits = defineEmits<Emits>();
 
 const form = ref();
@@ -133,7 +98,7 @@ const onClick = () => {
       },
     });
   } else {
-    if (props.btnType == "delete") {
+    if (props.buttonType == "delete") {
       emits("emitModalBtnClick");
     }
   }

@@ -60,7 +60,7 @@ export const useAuthStore = defineStore(
       const res = await useApiFetch("/api/user");
       console.log(res);
       if(res.error.value == null){
-        user.value = res.data.value.user as User;
+        user.value = res.data.value?.user as User;
       }
 
       return user.value;
@@ -96,7 +96,7 @@ export const useAuthStore = defineStore(
         body: credentials,
       });
       console.log(login);
-      user.value = login.data.value.user;
+      user.value = login.data.value?.user;
 
       // await fetchUser();
 
@@ -120,10 +120,10 @@ export const useAuthStore = defineStore(
       return providerLogin;
     }
 
-    async function providerLoginRedirect(provider:Provider,params:RedirectParams){
+    async function providerLoginRedirect(params:RedirectParams){
       await useApiFetch("/sanctum/csrf-cookie");
 
-      const providerLoginRedirect = await useApiFetch(`/api/login/${provider}/callback`,{
+      const providerLoginRedirect = await useApiFetch(`/api/login/${params.provider}/callback`,{
         method:'POST',
         body:params
       });
@@ -145,13 +145,11 @@ export const useAuthStore = defineStore(
 
     async function forgotPassword(email:Email){
       await useApiFetch("/sanctum/csrf-cookie");
-
       const forgotPassword = await useApiFetch('/forgot-password',{
         method:'POST',
-        body:email
+        body:{email:email}
       })
 
-      await fetchUser();
       return forgotPassword;
     }
 
@@ -172,9 +170,25 @@ export const useAuthStore = defineStore(
       await fetchUser();
       return resetPassword;
     }
-    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword};
+
+    async function deleteUser() {
+      await useApiFetch("/sanctum/csrf-cookie");
+
+      const userId = user.value?.id;
+      const deleteUser = await useApiFetch(`/api/user/${userId}`,{
+        method:'DELETE',
+        body:{
+          userId,
+        },
+      })
+      user.value = null;
+
+      return deleteUser;
+    }
+
+    return { user,guestLogin, login, logout, isLoggedIn, fetchUser, register ,providerLogin,providerRegister,providerLoginRedirect,forgotPassword,resetPassword,deleteUser};
   },
-  // {
-  //   persist: true,
-  // }
+  {
+    persist: true,
+  }
 );

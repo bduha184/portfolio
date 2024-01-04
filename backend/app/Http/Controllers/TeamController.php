@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
-use App\Models\Tag;
+use App\Models\Ride;
 use App\Models\Area;
+use App\Models\Day;
+use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,18 +17,116 @@ class TeamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request,Team $team,Area $area)
     {
 
-        $teams = Team::latest()->with(['tags:name', 'areas:name', 'profiles'])->get();
-        if ($teams) {
+        $page = $request->page;
+        $keywords = $request->keywords;
+        $tab = $request->tab;
+        $target = 'updated_at';
+        if ($tab == 'member') $target = 'profiles_count';
+        $tables = ['areas','days','rides'];
+
+        if (!empty($keywords)) {
+            $teams =  Team::whereHas('areas', function ($query) use ($keywords) {
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('name','like','%'.$keyword.'%');
+                    }
+                });
+            })->whereHas('days', function ($query) use ($keywords) {
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('name','like','%'.$keyword.'%');
+                    }
+                });
+            })->whereHas('rides', function ($query) use ($keywords) {
+                $query->where(function($q) use ($keywords){
+                    foreach($keywords as $keyword){
+                        $q->orWhere('name','like','%'.$keyword.'%');
+                    }
+                });
+            })
+            ->orWhere(function ($query) use ($keywords) {
+                    foreach($keywords as $keyword){
+                        $query->orWhere('team_name','like','%'.$keyword.'%');
+                    }
+            })
+            // $teams = Team::where(function ($query) use ($keywords,$tables) {
+            //         foreach($tables as $table){
+            //             $query
+            //             ->whereHas($table, function ($tableQuery) use ($keywords) {
+            //                 $tableQuery->where(function ($tableNameQuery) use ($keywords) {
+            //                     foreach ($keywords as $keyword) {
+            //                         $tableNameQuery->orWhere('name', 'like', '%' . $keyword . '%');
+            //                     }
+            //                 });
+            //             });
+            //         }
+            //     })
+                ->withCount('profiles')
+                ->with(['rides', 'areas', 'days',  'user' => function ($query) {
+                    $query->with('profile')->get();
+                }])
+                ->offset($page * 10)
+                ->limit(10)
+                ->orderBy($target, 'desc')
+                ->get();
+
+            if ($teams) {
+                return response()->json([
+                    'tab' => $tab,
+                    'keywords' => $keywords,
+                    'teams' => $teams,
+                ]);
+            }
             return response()->json([
-                'teams' => $teams,
+                'message' => 'Teams not found'
+            ], Response::HTTP_NOT_FOUND);
+        } else {
+            $teams = Team::withCount('profiles')
+                ->with([
+                    'rides', 'areas', 'days', 'user' => function ($query) {
+                        $query->with('profile')->get();
+                    }
+                ])
+                ->orderBy($target, 'desc')
+                ->offset($page * 10)
+                ->limit(10)
+                ->get();
+
+            if ($teams) {
+                return response()->json([
+                    'target' => $target,
+                    'tab' => $tab,
+                    'teams' => $teams,
+                ]);
+            }
+            return response()->json([
+                'message' => 'Teams not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function get_my_team()
+    {
+        $auth_id = Auth::id();
+        $user = User::find($auth_id);
+
+        if ($user) {
+            $user_team = $user->teams()
+                ->with(['rides', 'areas', 'days', 'profiles'=> function ($query) {
+                    $query->with('user')->get();
+                }])
+                ->withCount('profiles')
+                ->first();
+            return response()->json([
+                'team_info' => $user_team,
             ]);
         }
 
         return response()->json([
-            'message' => 'Teams not found'
+            'message' => 'Team not found'
         ], Response::HTTP_NOT_FOUND);
     }
 
@@ -36,7 +136,12 @@ class TeamController extends Controller
         $auth_profile = Profile::where('user_id', $auth_id)->first();
 
         if ($auth_profile) {
-            $teams = $auth_profile->teams()->with(['tags:name', 'areas:name', 'profiles'])->get();
+            $teams = $auth_profile->teams()
+                ->withCount('profiles')
+                ->with(['rides', 'areas', 'days', 'profiles', 'user' => function ($query) {
+                    $query->with('profile')->get();
+                }])
+                ->get();
             $affiliations = $teams->filter(fn ($team) => $team->user_id != $auth_id);
             return response()->json([
                 'profile' => $auth_profile,
@@ -49,60 +154,7 @@ class TeamController extends Controller
         ], Response::HTTP_NOT_FOUND);
     }
 
-    public function search_team(Request $request)
-    {
 
-
-        $keywords = $request->keywords;
-        $tab = $request->tab;
-
-        if (!empty($keywords)) {
-            $teams =  Team::whereHas('tags', function ($query) use ($keywords) {
-                $query->where(function($q) use ($keywords){
-                    foreach($keywords as $keyword){
-                        $q->orWhere('tags.name','like','%'.$keyword.'%');
-                    }
-                });
-            })->orWhereHas('areas', function ($query) use ($keywords) {
-                $query->where(function($q) use ($keywords){
-                    foreach($keywords as $keyword){
-                        $q->orWhere('areas.name','like','%'.$keyword.'%');
-                    }
-                });
-            })
-            ->orWhere(function ($query) use ($keywords) {
-                    foreach($keywords as $keyword){
-                        $query->orWhere('team_name','like','%'.$keyword.'%');
-                    }
-            })
-            ->withCount('profiles')
-            ->with(['tags:name','areas:name','profiles'])
-            ->get();
-
-            if ($teams) {
-                return response()->json([
-                    'teams' => $teams,
-                ]);
-            }
-            return response()->json([
-                'message' => 'Teams not found'
-            ], Response::HTTP_NOT_FOUND);
-        }
-        $teams = Team::latest()
-        ->withCount('profiles')
-            ->with(['tags:name', 'areas:name', 'profiles'])
-            ->get();
-
-        if ($tab == 'member') {
-
-            $teams = Team::withCount('profiles')->orderBy('profiles_count', 'desc')->get();
-        }
-
-        return response()->json([
-            'keywords' => $keywords,
-            'teams' => $teams,
-        ]);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -123,26 +175,23 @@ class TeamController extends Controller
         $team->user_id = Auth::id();
         $team->save();
 
-        collect($request->tags)->each(function ($tagName) use ($team) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $team->tags()->attach($tag);
+        collect($request->rides)->each(function ($rideName) use ($team) {
+            $team->rides()->firstOrCreate(['name' => $rideName]);
         });
 
         collect($request->areas)->each(function ($areaName) use ($team) {
-            $area = Area::firstOrCreate(['name' => $areaName]);
-            $team->areas()->attach($area);
+            $team->areas()->firstOrCreate(['name' => $areaName]);
         });
 
-        $profile_id = Profile::where('user_id', Auth::id())->first();
-
-        $team->profiles()->attach($profile_id);
+        collect($request->days)->each(function ($dayName) use ($team) {
+            $team->days()->firstOrCreate(['name' => $dayName]);
+        });
 
         return response()->json([
             'itemId' => $team->id,
             'path_header' => $path_header,
             'path_thumbnail' => $path_thumbnail,
         ]);
-
     }
 
     /**
@@ -154,25 +203,27 @@ class TeamController extends Controller
         $user_id = Team::find($id)->user_id;
 
         $teamInfo = Team::withCount('profiles')
-        ->with([
-            'tags:name',
-            'areas:name',
-            'profiles' => function ($q) use ($user_id) {
-                $q->where('user_id', $user_id)->first();
-            }
-        ])
-        ->find($id);
+            ->with([
+                'rides:name',
+                'areas:name',
+                'days:name',
+                'profiles' => function ($q) use ($user_id) {
+                    $q->where('user_id', $user_id)->first();
+                }
+            ])
+            ->find($id);
 
         if (Auth::id() == $id) {
             $teamInfo = Team::where('user_id', $id)
-            ->withCount('profiles')
-            ->with([
-            'tags:name',
-            'areas:name',
-            'profiles' => function ($q) use ($id) {
-                $q->where('user_id', $id)->first();
-            }
-        ])->first();
+                ->withCount('profiles')
+                ->with([
+                    'rides:name',
+                    'areas:name',
+                    'days:name',
+                    'profiles' => function ($q) use ($id) {
+                        $q->where('user_id', $id)->first();
+                    }
+                ])->first();
         }
 
         return response()->json([
@@ -210,17 +261,19 @@ class TeamController extends Controller
             $team->user_id = Auth::id();
             $team->save();
 
-
-            $team->tags()->detach();
-            collect($request->tags)->each(function ($tagName) use ($team) {
-                $tag = Tag::firstOrCreate(['name' => $tagName]);
-                $team->tags()->attach($tag);
+            $team->rides()->delete();
+            collect($request->rides)->each(function ($rideName) use ($team) {
+                Ride::updateOrCreate(['name' => $rideName, 'team_id' => $team->id]);
             });
 
-            $team->areas()->detach();
+            $team->areas()->delete();
             collect($request->areas)->each(function ($areaName) use ($team) {
-                $area = Area::firstOrCreate(['name' => $areaName]);
-                $team->areas()->attach($area);
+                Area::updateOrCreate(['name' => $areaName, 'team_id' => $team->id]);
+            });
+
+            $team->days()->delete();
+            collect($request->days)->each(function ($dayName) use ($team) {
+                Day::updateOrCreate(['name' => $dayName, 'team_id' => $team->id]);
             });
 
             return response()->json([

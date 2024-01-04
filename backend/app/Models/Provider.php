@@ -17,6 +17,6 @@ class Provider extends Model
     ];
 
     public function user():BelongsTo{
-        return $this->belongsTo(User::class)->withTimestamps();
+        return $this->belongsTo(User::class);
     }
 }

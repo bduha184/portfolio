@@ -1,3 +1,4 @@
+
 <template>
   <v-container>
     <v-row>
@@ -26,7 +27,7 @@
 <script setup lang="ts">
 import { Icons } from "~/constants/icons";
 import { useGalleryStore } from "~/stores/useGalleryStore";
-import {useRoute} from '#imports';
+
 const gallery = useGalleryStore();
 
 const router = useRoute();

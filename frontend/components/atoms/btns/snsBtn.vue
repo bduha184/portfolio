@@ -1,30 +1,15 @@
 <template>
-  <v-btn
-    variant="outlined"
-    rounded="0"
-    @click="onClick"
-  >
-    <slot/>
+  <v-btn variant="outlined" :rounded=0 @click="onClick">
+    <slot />
   </v-btn>
 </template>
 
-
 <script setup lang="ts">
-import { useAuthStore } from '../../../stores/useAuthStore';
-import {useRuntimeConfig} from 'nuxt/app';
-
-const auth = useAuthStore();
-const config = useRuntimeConfig();
-
-interface Emits {
-(e:"emitClick"):void
-}
+import type { Emits } from "~/types/emits";
 
 const emits = defineEmits<Emits>();
 
-const onClick = () => {
-  emits('emitClick');
-}
-
-
+const onClick = (e: Event) => {
+  emits("emitClick", e.target as HTMLElement);
+};
 </script>

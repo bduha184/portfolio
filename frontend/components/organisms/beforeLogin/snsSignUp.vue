@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Googleアカウントで登録</h2>
+    <h2 class="pb-2 text-h6 font-bold text-center">{{form.provider}}アカウントで登録</h2>
     <form>
       <div class="text-caption">
         <span class="text-red">※</span>は必須項目です
@@ -29,13 +29,12 @@
   </div>
 </template>
 
+
 <script setup lang="ts">
-import { useAuthStore } from "../../../stores/useAuthStore";
-import {ref} from 'vue';
-import { navigateTo } from "nuxt/app";
-import {useRoute} from 'vue-router';
+import { useAuthStore } from "~/stores/useAuthStore";
 import { useFlashMessageStore } from "~/stores/useFlashMessageStore";
-import {Message} from '~/constants/flashMessage';
+import {Message} from "~/constants/flashMessage";
+
 const route = useRoute();
 const flashMessage = useFlashMessageStore();
 const form = ref({
@@ -64,6 +63,7 @@ const receiveName= (receiveName) => {
 const handleRegister= async() => {
 
   const res = await auth.providerRegister(form.value);
+  console.log(res);
   if(res.error.value == null){
     flashMessage.setMessage(Message.REGISTER);
     navigateTo('/auth');
@@ -74,5 +74,3 @@ const handleRegister= async() => {
 }
 
 </script>
-
-<style scoped lang="scss"></style>

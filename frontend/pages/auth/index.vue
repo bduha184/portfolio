@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-2 px-2">
 
     <v-container class="bg-white mb-2">
       <h6 class="text-h6">
@@ -39,39 +39,17 @@
     </v-container>
   </div>
 </template>
+
+
 <script setup lang="ts">
-import { ref, definePageMeta, navigateTo,onMounted,useRuntimeConfig } from "#imports";
-import { Url } from "~/constants/url";
 import { Icons } from "~/constants/icons";
 import { useAuthStore } from "~/stores/useAuthStore";
-import {AuthMenus} from '~/constants/menuItems';
+import {AuthMenus} from "~/constants/menuItems";
 
+const auth = useAuthStore();
 definePageMeta({
   middleware: ["auth"],
 });
 
-const config = useRuntimeConfig();
-
-const auth = useAuthStore();
-const userId = auth.user.id;
-
-const items = ref({
-  header_img:'',
-  url_header_img: config.public.appURL + "/images/noimage.jpg",
-})
-
-const receiveHeaderImg = (val: File) => {
-  console.log(val);
-  //   items.value.header_img = val.val;
-  items.value.url_header_img = URL.createObjectURL(val);
-  // URL.revokeObjectURL(val);
-};
-
-// onMounted(() =>{
-//   teamItems.value.url_header_img =
-//               config.public.baseURL +
-//               "/storage/" +
-//               val.teamItem.header_img_path;
-// })
 
 </script>

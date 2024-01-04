@@ -3,7 +3,7 @@
     <v-container class="bg-white mb-2">
       <h6 class="text-h6">
           <AtomsIconsSquare
-          :name="Icons.DASHBOARD"
+          :name="Icons.TEAMS"
           color="white"
           class="bg-red p-3 rounded"
           size="50"
@@ -49,23 +49,19 @@
     </v-container>
   </div>
 </template>
+
+
+
 <script setup lang="ts">
-import {definePageMeta,useRouter} from '#imports';
-import { useAuthStore } from '~/stores/useAuthStore';
-import {AuthTeamMenus} from '~/constants/menuItems';
-import {Icons} from '~/constants/icons';
+import { useAuthStore } from "~/stores/useAuthStore";
+import {AuthTeamMenus} from "~/constants/menuItems";
+import {Icons} from "~/constants/icons";
 
 definePageMeta({
   middleware: ["auth"]
 })
 
 const router = useRouter();
-
 const auth = useAuthStore();
-
-const handleLogout = async()=> {
-  await auth.logout();
-
-}
 
 </script>
